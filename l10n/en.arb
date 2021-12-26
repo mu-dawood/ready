@@ -1,0 +1,15 @@
+{
+  "@@locale": "en",
+  "edit": "Edit",
+  "delete":"Delete",
+  "show":"Show",
+  "lock":"Lock",
+  "unlock":"Unlock",
+  "loadFailed":"Loading failed",
+  "noMoreItems":"No more items",
+  "loadMore":"Load more",
+  "emptyList":"No items",
+  "reload":"Reload",
+  "loading":"Loading ...",
+  "search":"Search"
+}

@@ -1,0 +1,8 @@
+arb-dir: l10n
+template-arb-file: en.arb
+output-class: RListLocalizations
+output-localization-file: r_list_localizations.dart
+output-dir: lib/src/l10n
+synthetic-package: false
+nullable-getter: true
+gen-inputs-and-outputs-list: lib/src/l10n
