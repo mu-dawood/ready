@@ -423,12 +423,9 @@ class _ReadyListState<T, TController extends ReadyListController<T>> extends Sta
     } else {
       child = widget._buildItem!(items.elementAt(index), index);
     }
-    return AnimatedItemConfig(
-      index: index,
-      child: ShimmerLoading(
-        isLoading: loading,
-        child: child,
-      ),
+    return ShimmerLoading(
+      isLoading: loading,
+      child: child,
     );
   }
 }

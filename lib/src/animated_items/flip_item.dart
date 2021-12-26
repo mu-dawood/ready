@@ -13,36 +13,13 @@ class FlipItem extends StatelessWidget {
     this.alignment,
   }) : super(key: key);
   static const double degrees2Radians = pi / 180;
-  static Widget index({
-    Key? key,
-    Duration duration = const Duration(milliseconds: 400),
-    required Widget child,
-    required int index,
-    Curve curve = Curves.easeInCubic,
-    FractionalOffset? alignment,
-    bool? firstBuild,
-  }) =>
-      Builder(
-        builder: (BuildContext context) {
-          return AnimatedItemConfig(
-            index: index,
-            child: FlipItem(
-              key: key,
-              alignment: alignment,
-              curve: curve,
-              duration: duration,
-              child: child,
-            ),
-          );
-        },
-      );
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return _AnimatedItem(
           scope: AnimatedItemsScope.of(context),
-          index: AnimatedItemConfig.of(context)?.index,
           duration: duration,
           curve: curve,
           builder: (t) {

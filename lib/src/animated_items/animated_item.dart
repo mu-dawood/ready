@@ -17,14 +17,12 @@ class _AnimatedItem extends StatefulWidget {
   final Duration duration;
   final Curve curve;
   final _AnimatedItemsScopeState? scope;
-  final int? index;
   const _AnimatedItem({
     Key? key,
     required this.builder,
     required this.duration,
     required this.curve,
     required this.scope,
-    required this.index,
   }) : super(key: key);
   @override
   __AnimatedItemState createState() => __AnimatedItemState();
@@ -66,24 +64,6 @@ class __AnimatedItemState extends State<_AnimatedItem> with SingleTickerProvider
         builder: (context, snapshot) {
           return widget.builder(_animation.value);
         });
-  }
-}
-
-class AnimatedItemConfig extends InheritedWidget {
-  final int index;
-  const AnimatedItemConfig({
-    Key? key,
-    required Widget child,
-    required this.index,
-  }) : super(key: key, child: child);
-
-  static AnimatedItemConfig? of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<AnimatedItemConfig>();
-  }
-
-  @override
-  bool updateShouldNotify(AnimatedItemConfig oldWidget) {
-    return index != index;
   }
 }
 
@@ -146,7 +126,7 @@ class _AnimatedItemsScopeState extends State<AnimatedItemsScope> {
   void _remove(AnimationController controller) {
     var index = _current.indexOf(controller);
     if (_current.remove(controller)) {
-      if (_current[index].isDismissed) {
+      if (_current.length > index && _current[index].isDismissed) {
         _current[index].forward();
       }
     }

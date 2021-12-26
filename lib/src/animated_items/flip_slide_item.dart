@@ -15,32 +15,8 @@ class FlipSlideItem extends StatelessWidget {
     this.offset,
     this.alignment,
   }) : super(key: key);
-  static const double degrees2Radians = pi / 180;
-  static Widget index({
-    Key? key,
-    Duration duration = const Duration(milliseconds: 400),
-    required Widget child,
-    required int index,
-    final Curve curve = Curves.easeInCubic,
-    FractionalOffset? alignment,
-    Offset Function(BoxConstraints constraints)? offset,
-    bool? firstBuild,
-  }) =>
-      Builder(
-        builder: (BuildContext context) {
-          return AnimatedItemConfig(
-            index: index,
-            child: FlipSlideItem(
-              key: key,
-              curve: curve,
-              alignment: alignment,
-              duration: duration,
-              offset: offset,
-              child: child,
-            ),
-          );
-        },
-      );
+  double get degrees2Radians => pi / 180;
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -51,7 +27,6 @@ class FlipSlideItem extends StatelessWidget {
 
         return _AnimatedItem(
           scope: AnimatedItemsScope.of(context),
-          index: AnimatedItemConfig.of(context)?.index,
           duration: duration,
           curve: curve,
           builder: (t) {

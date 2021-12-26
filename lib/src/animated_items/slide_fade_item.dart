@@ -13,29 +13,7 @@ class SlideFadeItem extends StatelessWidget {
     this.offset,
     this.curve = Curves.easeInCubic,
   }) : super(key: key);
-  static Widget index({
-    Key? key,
-    Duration duration = const Duration(milliseconds: 400),
-    required Widget child,
-    required int index,
-    Curve curve = Curves.easeInCubic,
-    Offset Function(BoxConstraints constraints)? offset,
-    bool? firstBuild,
-  }) =>
-      Builder(
-        builder: (BuildContext context) {
-          return AnimatedItemConfig(
-            index: index,
-            child: SlideFadeItem(
-              key: key,
-              curve: curve,
-              duration: duration,
-              offset: offset,
-              child: child,
-            ),
-          );
-        },
-      );
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -45,7 +23,6 @@ class SlideFadeItem extends StatelessWidget {
         var _offset = offset == null ? Offset(width, 0) : offset!(constraints);
         return _AnimatedItem(
           scope: AnimatedItemsScope.of(context),
-          index: AnimatedItemConfig.of(context)?.index,
           duration: duration,
           curve: curve,
           builder: (t) {

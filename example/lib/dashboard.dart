@@ -1,3 +1,4 @@
+import 'package:example/animated_items.dart';
 import 'package:example/ready_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:ready/ready.dart';
@@ -6,7 +7,9 @@ import 'ready_list.dart';
 import 'responsive.dart';
 
 class DashBoardExample extends StatelessWidget {
-  const DashBoardExample({Key? key}) : super(key: key);
+  final ThemeMode mode;
+  final ValueChanged<ThemeMode> onModeChanged;
+  const DashBoardExample({Key? key, required this.mode, required this.onModeChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +29,39 @@ class DashBoardExample extends StatelessWidget {
         IconButton(
           onPressed: () {},
           icon: const Icon(Icons.notification_add),
+        ),
+        const SizedBox(width: 20),
+        ToggleButtons(
+          children: const [
+            Icon(Icons.light),
+            Icon(Icons.nightlight),
+          ],
+          onPressed: (index) {
+            onModeChanged(index == 0 ? ThemeMode.light : ThemeMode.dark);
+          },
+          isSelected: [
+            mode == ThemeMode.light,
+            mode == ThemeMode.dark,
+          ],
         )
       ],
       items: [
+        DashboardItem(
+          builder: () {
+            return const AnimatedItemsExample();
+          },
+          icon: const Icon(Icons.animation),
+          id: 'animated',
+          label: 'Animated items',
+        ),
+        DashboardItem(
+          builder: () {
+            return const AnimatedScopeItemsExample();
+          },
+          icon: const Icon(Icons.animation_rounded),
+          id: 'animated2',
+          label: 'Animated scope items',
+        ),
         DashboardItem(
           actions: [
             IconButton(
@@ -37,11 +70,26 @@ class DashBoardExample extends StatelessWidget {
             )
           ],
           builder: () {
-            return Container();
+            return const Text('App bar actions');
           },
-          icon: const Icon(Icons.dashboard),
-          id: 'main',
-          label: 'Main',
+          icon: const Icon(Icons.attractions),
+          id: 'actions',
+          label: 'App bar actions',
+        ),
+        DashboardItem(
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.message),
+            )
+          ],
+          builder: () {
+            return const Text('Override app bar actions');
+          },
+          icon: const Icon(Icons.attractions),
+          id: 'actions2',
+          overrideActions: true,
+          label: 'Override app bar actions',
         ),
         DashboardItem(
           builder: () {
@@ -105,14 +153,5 @@ class DashBoardExample extends StatelessWidget {
         ),
       ],
     );
-  }
-}
-
-class Page1 extends StatelessWidget {
-  const Page1({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }
