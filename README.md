@@ -69,8 +69,10 @@
  - Show shimmer effect on a widget
  - drawing the shimmer on the whole scope the shimmer is in so the full page may has one scope and will paint the shimmer gradient on all [Shimmer] childs in its tree
  -like this
+
 ![LoadingShimmer](https://user-images.githubusercontent.com/31937782/147537961-2076ab13-9105-4251-83dc-62a2ae8d21fc.gif)
-see how the effect works its not related to card
+
+- see how the effect works its not related to card
  
 
 ## Packages
@@ -79,7 +81,7 @@ Thare is related packges that related  to  ready and you can use it
 
 | Plugin | README |
 | ------ | ------ |
-| ReadMe | [packges/README.md][PlDb] |
+| Packge | [packges/README.md] |
 
 ## How to contribute
 - To make package smaller and cleaner as possible we will not add a lot of features to it
