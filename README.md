@@ -77,7 +77,7 @@
 
 ## Packages
 
-Thare is related packges that related  to  ready and you can use it
+Here are the related packges that related  to  ready and you can use it
 
 | Plugin | README |
 | ------ | ------ |
