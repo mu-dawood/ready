@@ -73,9 +73,7 @@ class _DrawerIcon extends StatelessWidget {
       },
       icon: AnimatedIcon(
         icon: AnimatedIcons.menu_arrow,
-        progress:
-            Tween(begin: hasDrawer ? 1.0 : 0.0, end: hasDrawer ? 0.0 : 1.0)
-                .animate(expansion),
+        progress: Tween(begin: hasDrawer ? 1.0 : 0.0, end: hasDrawer ? 0.0 : 1.0).animate(expansion),
       ),
     );
   }
@@ -99,14 +97,10 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
   }
 
   List<DashboardItem> expaded(List<DashboardItem> items) {
-    return items
-        .expand((element) =>
-            element.subItems.isEmpty ? [element] : expaded(element.subItems))
-        .toList();
+    return items.expand((element) => element.subItems.isEmpty ? [element] : expaded(element.subItems)).toList();
   }
 
-  Widget buildTile(BuildContext context, DashboardItem item,
-      DashboardItem selected, List<DashboardItem> expanded) {
+  Widget buildTile(BuildContext context, DashboardItem item, DashboardItem selected, List<DashboardItem> expanded) {
     if (item.builder != null) {
       var child = ListTile(
         onTap: () {
@@ -119,8 +113,7 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
         },
         selected: item == selected,
         title: Text(item.label),
-        leading:
-            selected == item ? (item.selectedIcon ?? item.icon) : item.icon,
+        leading: selected == item ? (item.selectedIcon ?? item.icon) : item.icon,
       );
       return child;
     } else {
@@ -131,15 +124,13 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
         initiallyExpanded: inner.any((element) => element == selected),
         leading: item.icon,
         children: [
-          for (var sub in item.subItems)
-            buildTile(context, sub, selected, expanded),
+          for (var sub in item.subItems) buildTile(context, sub, selected, expanded),
         ],
       );
     }
   }
 
-  Widget _tilelistView(
-      BuildContext context, List<DashboardItem> items, DrawerOptions options) {
+  Widget _tilelistView(BuildContext context, List<DashboardItem> items, DrawerOptions options) {
     var expanded = expaded(items);
     return TabControllerLisner(
       builder: (int index) {
@@ -166,8 +157,7 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
                 SliverList(
                     delegate: SliverChildListDelegate([
                   ...options.headers,
-                  for (var item in items)
-                    buildTile(context, item, selectedItem, expanded),
+                  for (var item in items) buildTile(context, item, selectedItem, expanded),
                 ])),
                 if (options.footer != null)
                   SliverFillRemaining(
@@ -201,8 +191,7 @@ class _DrawerHeader extends SliverPersistentHeaderDelegate {
     required this.statusBar,
   });
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return SafeArea(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
