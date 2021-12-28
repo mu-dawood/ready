@@ -75,19 +75,22 @@ extension ReadyListRemoteControllerExt<T> on ReadyListController<T> {
   void _checkDublicateLoading() {
     state.whenOrNull(
       intialLoading: (cancelToken) {
-        if (cancelToken != null)
+        if (cancelToken != null) {
           throw Exception(
               "You can not make multible load you shoald cancel running one first");
+        }
       },
       loadingNext: (items, total, cancelToken) {
-        if (cancelToken != null)
+        if (cancelToken != null) {
           throw Exception(
               "You can not make multible load you shoald cancel running one first");
+        }
       },
       refreshing: (items, total, cancelToken) {
-        if (cancelToken != null)
+        if (cancelToken != null) {
           throw Exception(
               "You can not make multible load you shoald cancel running one first");
+        }
       },
     );
   }
