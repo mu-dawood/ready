@@ -33,7 +33,7 @@
  > Here will explain each feature
  > Click on the feature name to see how to use it
  
- [x] [ReadyDashboard](https://pub.dev/packages/ready)
+ [x] [ReadyDashboard](https://github.com/mo-ah-dawood/ready/wiki/ReadyDashboard)
  - Admin panal layout ineasy way
  - [responsive] it can work in any device except watch ofcourse😄😄
  - ability to groub drawer iems
@@ -42,7 +42,7 @@
  - ability to add search input field in the top app bar
  
 
- [x] [ReadyList](https://pub.dev/packages/ready)
+ [x] [ReadyList](https://github.com/mo-ah-dawood/ready/wiki/ReadyList)
  - Pull to refresh
  - Infinite scroll
  - headers and footers
@@ -50,7 +50,7 @@
  - can be grid or list or your own builder
  - contains ready grid delegates to make it simple
  
-  [x] [ResponsiveDataTable](https://pub.dev/packages/ready)
+  [x] [ResponsiveDataTable](https://github.com/mo-ah-dawood/ready/wiki/ResponsiveDataTable)
  - Responsive widget that show datatable in large devices and list or grid in smaller one
  - 6 layouts
  - can be configured to use list or datatable
@@ -58,14 +58,14 @@
  - can add filters , actions or actions for each row
  - work with the same controller [ReadyList] 
  
- [x] [Animated](https://pub.dev/packages/ready)
+ [x] [Animated](https://github.com/mo-ah-dawood/ready/wiki/Animated)
  - Fancy animations
  - able to merge between (flip , scale , fade, translate)
  - scoped  animated runs animations one after one
  - non scoped run all animations in parallel
  - ReadyList contains ascope so you dont need to add it
  
- [x] [Shimmer](https://pub.dev/packages/ready)
+ [x] [Shimmer](https://github.com/mo-ah-dawood/ready/wiki/Shimmer)
  - Show shimmer effect on a widget
  - drawing the shimmer on the whole scope the shimmer is in so the full page may has one scope and will paint the shimmer gradient on all [Shimmer] childs in its tree
  -like this
