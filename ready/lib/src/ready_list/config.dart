@@ -1,8 +1,7 @@
 part of ready_list;
 
 typedef ShrinkWrapCallback = bool Function(ReadyListState controller);
-typedef ReadyListWidgetBuilder<T> = List<Widget> Function(
-    ReadyListState<T> state);
+typedef ReadyListWidgetBuilder<T> = List<Widget> Function(ReadyListState<T> state);
 typedef GridDelegateCallback = SliverStaggeredGridDelegate Function({
   required double width,
   required int? length,
@@ -65,22 +64,47 @@ abstract class ReadyListConfigOptions {
   /// whether to allow infinite scroll or not
   bool? get allowLoadNext;
 
+  /// The text to displayed when no more items
   String? get noMoreText;
+
+  /// The text to display when  items loaded but not fill the screen
   String? get loadMoreText;
+
+  /// padding of the list
   EdgeInsetsGeometry? get padding;
+
+  /// whether to reverse the list or not
   bool? get reverse;
+
+  /// gradient of shimmer scope
   GradientGetterCallback? get shimmerScopeGradient;
+
+  /// if this is true the the item that passed to builder item may be null
+  /// useful to display shimmer
   bool? get allowFakeItems;
+
+  /// whether to shrink-wrap or not
   ShrinkWrapCallback? get shrinkWrap;
+
+  /// axis of the list
   Axis? get axis;
+
+  /// physics of the list
   ScrollPhysics? get physics;
+
+  /// The first items in the list
+  /// This can be configured globally
   List<Widget>? get topLevelFooterSlivers;
+
+  /// The last items in the list
+  /// This can be configured globally
   List<Widget>? get topLevelHeaderSlivers;
+
+  /// page size to be passed to controller loadData
   int? get pageSize;
 }
 
-class ReadyListConfig extends InheritedWidget
-    implements ReadyListConfigOptions {
+class ReadyListConfig extends InheritedWidget implements ReadyListConfigOptions {
   @override
   final PlaceholdersConfig? placeholdersConfig;
   @override
@@ -212,18 +236,13 @@ class _ReadyListConfigOptionsDefauls implements ReadyListConfigOptions {
     required this.allowFakeItems,
   });
 
-  static _ReadyListConfigOptionsDefauls effective(
-      ReadyListConfigOptions? options, BuildContext context) {
+  static _ReadyListConfigOptionsDefauls effective(ReadyListConfigOptions? options, BuildContext context) {
     var tr = Ready.localization(context);
     var cofig = ReadyListConfig.of(context);
     return _ReadyListConfigOptionsDefauls(
-      placeholdersConfig: options?.placeholdersConfig ??
-          cofig?.placeholdersConfig ??
-          PlaceholdersConfig(),
-      topLevelFooterSlivers:
-          options?.topLevelFooterSlivers ?? cofig?.topLevelFooterSlivers,
-      topLevelHeaderSlivers:
-          options?.topLevelHeaderSlivers ?? cofig?.topLevelHeaderSlivers,
+      placeholdersConfig: options?.placeholdersConfig ?? cofig?.placeholdersConfig ?? PlaceholdersConfig(),
+      topLevelFooterSlivers: options?.topLevelFooterSlivers ?? cofig?.topLevelFooterSlivers,
+      topLevelHeaderSlivers: options?.topLevelHeaderSlivers ?? cofig?.topLevelHeaderSlivers,
       showNoMoreText: options?.showNoMoreText ?? cofig?.showNoMoreText ?? true,
       allowRefresh: options?.allowRefresh ?? cofig?.allowRefresh ?? true,
       allowLoadNext: options?.allowLoadNext ?? cofig?.allowLoadNext ?? true,
@@ -231,8 +250,7 @@ class _ReadyListConfigOptionsDefauls implements ReadyListConfigOptions {
       loadMoreText: options?.loadMoreText ?? cofig?.loadMoreText ?? tr.loadMore,
       padding: options?.padding ?? cofig?.padding,
       reverse: options?.reverse ?? cofig?.reverse ?? false,
-      shimmerScopeGradient:
-          options?.shimmerScopeGradient ?? cofig?.shimmerScopeGradient,
+      shimmerScopeGradient: options?.shimmerScopeGradient ?? cofig?.shimmerScopeGradient,
       shrinkWrap: options?.shrinkWrap ?? cofig?.shrinkWrap ?? (_) => false,
       axis: options?.axis ?? cofig?.axis ?? Axis.vertical,
       physics: options?.physics ?? cofig?.physics,
