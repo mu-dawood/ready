@@ -332,8 +332,9 @@ class __ResponsiveDataTableState<T, TController extends ReadyListController<T>>
         .toList();
 
     /// check builder method
-    if (listOptions._builder != null)
+    if (listOptions._builder != null) {
       return listOptions._builder!(item, index, layout, actions);
+    }
 
     /// build default
     var tableOptions = widget.options.dataTable!;
