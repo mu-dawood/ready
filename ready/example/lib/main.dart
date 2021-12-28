@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:ready/ready.dart';
 
 import 'dashboard.dart';
 
@@ -21,6 +23,10 @@ class _MyAppState extends State<MyApp> {
       title: 'Flutter Demo',
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
+      localizationsDelegates: [
+        ...GlobalMaterialLocalizations.delegates,
+        Ready.delegate,
+      ],
       themeMode: _mode,
       home: DashBoardExample(
         onModeChanged: (value) {
