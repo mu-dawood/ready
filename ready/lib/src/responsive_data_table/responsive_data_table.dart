@@ -248,7 +248,6 @@ class __ResponsiveDataTableState<T, TController extends ReadyListController<T>>
                     .copyWith(dividerColor: Colors.transparent),
                 child: ReadyList<T, TController>.grid(
                   scrollController: listOptions.scrollController,
-                  innerHeaderSlivers: listOptions.innerHeaderSlivers,
                   footerSlivers: listOptions.footerSlivers,
                   innerFooterSlivers: listOptions.innerFooterSlivers,
                   placeholdersConfig: listOptions.placeholdersConfig,

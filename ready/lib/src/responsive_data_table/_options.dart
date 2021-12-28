@@ -109,9 +109,6 @@ class ListOptions<T> implements ReadyListConfigOptions {
   /// [ReadyList.headerSlivers]
   final ReadyListWidgetBuilder<T>? headerSlivers;
 
-  /// [ReadyList.innerHeaderSlivers]
-  final ReadyListWidgetBuilder<T>? innerHeaderSlivers;
-
   /// [ReadyList.footerSlivers]
   final ReadyListWidgetBuilder<T>? footerSlivers;
 
@@ -157,7 +154,6 @@ class ListOptions<T> implements ReadyListConfigOptions {
     this.trailing,
     this.scrollController,
     this.headerSlivers,
-    this.innerHeaderSlivers,
     this.footerSlivers,
     this.innerFooterSlivers,
     this.placeholdersConfig,
@@ -185,7 +181,6 @@ class ListOptions<T> implements ReadyListConfigOptions {
     required ListItemBuilder<T> builder,
     this.scrollController,
     this.headerSlivers,
-    this.innerHeaderSlivers,
     this.footerSlivers,
     this.innerFooterSlivers,
     this.placeholdersConfig,

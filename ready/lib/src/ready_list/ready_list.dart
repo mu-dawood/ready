@@ -22,7 +22,6 @@ part 'refresh_indecators.dart';
 class ReadyList<T, TController extends ReadyListController<T>>
     extends StatefulWidget implements ReadyListConfigOptions {
   final ScrollController? scrollController;
-  final ReadyListWidgetBuilder<T>? innerHeaderSlivers;
   final ReadyListWidgetBuilder<T>? headerSlivers;
   final ReadyListWidgetBuilder<T>? footerSlivers;
   final ReadyListWidgetBuilder<T>? innerFooterSlivers;
@@ -71,7 +70,6 @@ class ReadyList<T, TController extends ReadyListController<T>>
     this.scrollController,
     this.headerSlivers,
     this.innerFooterSlivers,
-    this.innerHeaderSlivers,
     this.footerSlivers,
     required ReadyListWidgetBuilder<T> slivers,
     required this.controller,
@@ -104,7 +102,6 @@ class ReadyList<T, TController extends ReadyListController<T>>
     this.scrollController,
     this.headerSlivers,
     this.innerFooterSlivers,
-    this.innerHeaderSlivers,
     this.footerSlivers,
     required ReadyListItemBuilder<T> buildItem,
     ReorderOptions? reorderOptions,
@@ -141,7 +138,6 @@ class ReadyList<T, TController extends ReadyListController<T>>
     this.scrollController,
     this.headerSlivers,
     this.innerFooterSlivers,
-    this.innerHeaderSlivers,
     this.footerSlivers,
     required ReadyListItemBuilder<T> buildItem,
     GridDelegateCallback gridDelegate = Grids.columns_2,
@@ -306,8 +302,6 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
             if (widget.topLevelHeaderSlivers != null)
               ...widget.topLevelHeaderSlivers!,
             if (widget.headerSlivers != null) ...widget.headerSlivers!(state),
-            if (widget.innerHeaderSlivers != null)
-              ...widget.innerHeaderSlivers!(state),
             if (widget._slivers != null)
               ...state.when(
                 empty: () => [
