@@ -45,19 +45,51 @@ class AnimatedItemsExample extends StatelessWidget {
       crossAxisCount: 5,
       children: [
         for (var type in FlipType.values)
-          Animated(transforms: [FlipAnimation(type)], child: const Card()),
+          Animated(
+            transforms: [FlipAnimation(type)],
+            child: const Card(),
+            duration: const Duration(seconds: 5),
+          ),
         Animated(
-            transforms: const [ScaleAnimation.scale()], child: const Card()),
-        Animated(transforms: const [ScaleAnimation.y()], child: const Card()),
-        Animated(transforms: const [ScaleAnimation.x()], child: const Card()),
-        Animated(transforms: const [ScaleAnimation.z()], child: const Card()),
+          transforms: const [ScaleAnimation.scale()],
+          child: const Card(),
+          duration: const Duration(seconds: 5),
+        ),
         Animated(
-            transforms: const [TranslateAnimation.y(300)], child: const Card()),
+          transforms: const [ScaleAnimation.y()],
+          child: const Card(),
+          duration: const Duration(seconds: 5),
+        ),
         Animated(
-            transforms: const [TranslateAnimation.x(300)], child: const Card()),
+          transforms: const [ScaleAnimation.x()],
+          child: const Card(),
+          duration: const Duration(seconds: 5),
+        ),
         Animated(
-            transforms: const [TranslateAnimation.z(300)], child: const Card()),
-        Animated(fade: const FadeAnimation(), child: const Card()),
+          transforms: const [ScaleAnimation.z()],
+          child: const Card(),
+          duration: const Duration(seconds: 5),
+        ),
+        Animated(
+          transforms: const [TranslateAnimation.y(300)],
+          child: const Card(),
+          duration: const Duration(seconds: 5),
+        ),
+        Animated(
+          transforms: const [TranslateAnimation.x(300)],
+          child: const Card(),
+          duration: const Duration(seconds: 5),
+        ),
+        Animated(
+          transforms: const [TranslateAnimation.z(300)],
+          child: const Card(),
+          duration: const Duration(seconds: 5),
+        ),
+        Animated(
+          fade: const FadeAnimation(),
+          child: const Card(),
+          duration: const Duration(seconds: 5),
+        ),
       ],
     );
   }

@@ -72,9 +72,9 @@ class _DrawerIcon extends StatelessWidget {
         }
       },
       icon: AnimatedIcon(
-        icon: AnimatedIcons.menu_arrow,
+        icon: AnimatedIcons.close_menu,
         progress:
-            Tween(begin: hasDrawer ? 1.0 : 0.0, end: hasDrawer ? 0.0 : 1.0)
+            Tween(begin: !hasDrawer ? 1.0 : 0.0, end: !hasDrawer ? 0.0 : 1.0)
                 .animate(expansion),
       ),
     );

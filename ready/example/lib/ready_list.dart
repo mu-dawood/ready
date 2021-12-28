@@ -16,7 +16,7 @@ class ReadyListExample extends StatelessWidget {
       key: Key(DateTime.now().toIso8601String()),
       pageSize: 40,
       padding: const EdgeInsets.all(20),
-      allowFakeItems: true,
+      allowFakeItems: shimmer,
       buildItem: (FakeItem? item, int index) {
         return _buildItem(item, index);
       },
@@ -38,7 +38,7 @@ class ReadyListExample extends StatelessWidget {
           ],
           builder: (value) {
             return Shimmer(
-              enabled: item == null || value < 0.5,
+              enabled: item == null,
               child: Card(
                 child: ListTile(
                   title: Text(item?.name ?? '...'),

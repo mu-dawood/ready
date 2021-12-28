@@ -1,7 +1,8 @@
 part of ready_list;
 
 typedef ShrinkWrapCallback = bool Function(ReadyListState controller);
-typedef ReadyListWidgetBuilder<T> = List<Widget> Function(ReadyListState<T> state);
+typedef ReadyListWidgetBuilder<T> = List<Widget> Function(
+    ReadyListState<T> state);
 typedef GridDelegateCallback = SliverStaggeredGridDelegate Function({
   required double width,
   required int? length,
@@ -104,7 +105,8 @@ abstract class ReadyListConfigOptions {
   int? get pageSize;
 }
 
-class ReadyListConfig extends InheritedWidget implements ReadyListConfigOptions {
+class ReadyListConfig extends InheritedWidget
+    implements ReadyListConfigOptions {
   @override
   final PlaceholdersConfig? placeholdersConfig;
   @override
@@ -236,13 +238,18 @@ class _ReadyListConfigOptionsDefauls implements ReadyListConfigOptions {
     required this.allowFakeItems,
   });
 
-  static _ReadyListConfigOptionsDefauls effective(ReadyListConfigOptions? options, BuildContext context) {
+  static _ReadyListConfigOptionsDefauls effective(
+      ReadyListConfigOptions? options, BuildContext context) {
     var tr = Ready.localization(context);
     var cofig = ReadyListConfig.of(context);
     return _ReadyListConfigOptionsDefauls(
-      placeholdersConfig: options?.placeholdersConfig ?? cofig?.placeholdersConfig ?? PlaceholdersConfig(),
-      topLevelFooterSlivers: options?.topLevelFooterSlivers ?? cofig?.topLevelFooterSlivers,
-      topLevelHeaderSlivers: options?.topLevelHeaderSlivers ?? cofig?.topLevelHeaderSlivers,
+      placeholdersConfig: options?.placeholdersConfig ??
+          cofig?.placeholdersConfig ??
+          PlaceholdersConfig(),
+      topLevelFooterSlivers:
+          options?.topLevelFooterSlivers ?? cofig?.topLevelFooterSlivers,
+      topLevelHeaderSlivers:
+          options?.topLevelHeaderSlivers ?? cofig?.topLevelHeaderSlivers,
       showNoMoreText: options?.showNoMoreText ?? cofig?.showNoMoreText ?? true,
       allowRefresh: options?.allowRefresh ?? cofig?.allowRefresh ?? true,
       allowLoadNext: options?.allowLoadNext ?? cofig?.allowLoadNext ?? true,
@@ -250,7 +257,8 @@ class _ReadyListConfigOptionsDefauls implements ReadyListConfigOptions {
       loadMoreText: options?.loadMoreText ?? cofig?.loadMoreText ?? tr.loadMore,
       padding: options?.padding ?? cofig?.padding,
       reverse: options?.reverse ?? cofig?.reverse ?? false,
-      shimmerScopeGradient: options?.shimmerScopeGradient ?? cofig?.shimmerScopeGradient,
+      shimmerScopeGradient:
+          options?.shimmerScopeGradient ?? cofig?.shimmerScopeGradient,
       shrinkWrap: options?.shrinkWrap ?? cofig?.shrinkWrap ?? (_) => false,
       axis: options?.axis ?? cofig?.axis ?? Axis.vertical,
       physics: options?.physics ?? cofig?.physics,
