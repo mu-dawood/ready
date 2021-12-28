@@ -131,7 +131,7 @@ class IconAction<T, TController extends ReadyListController<T>>
   }
 
   /// action for lock
-  factory IconAction.lock({
+  factory IconAction.deactivate({
     required DataTableActionCallBack<T, TController> action,
     DataTableActionProperty<T, bool>? enabled,
     DataTableActionProperty<T, IconData>? icon,
@@ -149,7 +149,7 @@ class IconAction<T, TController extends ReadyListController<T>>
   }
 
   /// action for unlock
-  factory IconAction.unLock({
+  factory IconAction.activate({
     required DataTableActionCallBack<T, TController> action,
     DataTableActionProperty<T, bool>? enabled,
     DataTableActionProperty<T, IconData>? icon,

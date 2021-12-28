@@ -144,7 +144,7 @@ class __ResponsiveDataTableState<T, TController extends ReadyListController<T>>
     var _preferedRows = ((widget.constraints.maxHeight - 170) ~/ 48);
     var availableRowsPerPage =
         options.dataTable!.availableRowsCount(_preferedRows);
-    var rowsPerPage = options.dataTable!.intialRowsPerPage(_preferedRows);
+    var rowsPerPage = options.dataTable!.initialRowsPerPage(_preferedRows);
     if (!availableRowsPerPage.contains(rowsPerPage)) {
       rowsPerPage = availableRowsPerPage[0];
     }

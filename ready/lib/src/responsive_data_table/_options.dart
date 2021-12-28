@@ -72,7 +72,7 @@ class DataTableOptions<T> {
 
   /// the intial rows per page
   /// it must be in  [availableRowsCount]
-  final int Function(int prefered) intialRowsPerPage;
+  final int Function(int prefered) initialRowsPerPage;
 
   /// whether to show refreh icon or not
   final Widget Function({
@@ -90,7 +90,7 @@ class DataTableOptions<T> {
     this.padding = const EdgeInsets.symmetric(horizontal: 20),
     this.refreshButton = _DefaultRefreshButton.get,
     this.availableRowsCount = _availableRowsCount,
-    this.intialRowsPerPage = _intialRowsPerPage,
+    this.initialRowsPerPage = _intialRowsPerPage,
   });
 }
 
