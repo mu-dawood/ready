@@ -1,0 +1,20 @@
+{
+  "@@locale": "ar",
+  "edit": "تعديل",
+  "delete": "حذف",
+  "show": "عرض",
+  "activate": "تنشيط",
+  "deactivate": "إيقاف",
+  "noMoreItems": "نهاية القائمة",
+  "loadMore": "تحميل المزيد",
+  "emptyList": "لا بوجد عناصر",
+  "reload": "تحديث",
+  "loading": "جاري التحميل...",
+  "search": "بحث...",
+  "active": "نشط",
+  "notActive": "غير نشط",
+  "state": "الحالة",
+  "all": "الكل",
+  "time": "الوقت",
+  "date": "التاريخ"
+}

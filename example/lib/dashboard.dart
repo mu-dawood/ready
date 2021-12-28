@@ -7,15 +7,34 @@ import 'ready_list.dart';
 import 'responsive.dart';
 
 class DashBoardExample extends StatelessWidget {
-  final ThemeMode mode;
   final ValueChanged<ThemeMode> onModeChanged;
-  const DashBoardExample({Key? key, required this.mode, required this.onModeChanged}) : super(key: key);
+  const DashBoardExample({Key? key, required this.onModeChanged})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ReadyDashboard(
       drawerOptions: DrawerOptions(
-        header: const DrawerHeader(child: CircleAvatar()),
+        headers: [
+          const DrawerHeader(child: CircleAvatar()),
+          Builder(builder: (context) {
+            var isDark = Theme.of(context).brightness == Brightness.dark;
+            return CheckboxListTile(
+              title: const Text('الوضع الليلي'),
+              onChanged: (bool? value) {
+                onModeChanged(isDark ? ThemeMode.light : ThemeMode.dark);
+              },
+              value: isDark,
+            );
+          }),
+          const Divider()
+        ],
+        footer: const Align(
+          alignment: AlignmentDirectional.bottomStart,
+          child: ListTile(
+            title: Text('© Mohamed dawood @ 2021'),
+          ),
+        ),
         logo: Row(
           children: const [
             SizedBox(width: 10),
@@ -30,20 +49,6 @@ class DashBoardExample extends StatelessWidget {
           onPressed: () {},
           icon: const Icon(Icons.notification_add),
         ),
-        const SizedBox(width: 20),
-        ToggleButtons(
-          children: const [
-            Icon(Icons.light),
-            Icon(Icons.nightlight),
-          ],
-          onPressed: (index) {
-            onModeChanged(index == 0 ? ThemeMode.light : ThemeMode.dark);
-          },
-          isSelected: [
-            mode == ThemeMode.light,
-            mode == ThemeMode.dark,
-          ],
-        )
       ],
       items: [
         DashboardItem(
@@ -93,12 +98,23 @@ class DashBoardExample extends StatelessWidget {
         ),
         DashboardItem(
           builder: () {
-            return const ReadyListExample();
+            return const ReadyListExample(
+              shimmer: false,
+            );
           },
           search: (value) {},
           icon: const Icon(Icons.list),
           id: 'list1',
           label: 'List',
+        ),
+        DashboardItem(
+          builder: () {
+            return const ReadyListExample(shimmer: true);
+          },
+          search: (value) {},
+          icon: const Icon(Icons.list),
+          id: 'list2',
+          label: 'List with shimmer',
         ),
         DashboardItem.items(
           icon: const Icon(Icons.category),
@@ -142,14 +158,29 @@ class DashBoardExample extends StatelessWidget {
             ),
           ],
         ),
-        DashboardItem(
-          builder: () {
-            return const ResponsiveList();
-          },
-          search: (value) {},
+        DashboardItem.items(
           icon: const Icon(Icons.table_chart),
-          id: 'responsive',
           label: 'Responsive',
+          subItems: [
+            DashboardItem(
+              builder: () {
+                return ResponsiveList();
+              },
+              search: (value) {},
+              icon: const Icon(Icons.table_chart),
+              id: 'responsive',
+              label: 'Data table',
+            ),
+            DashboardItem(
+              builder: () {
+                return const ReadyGridExample(gridDelegate: Grids.responsive);
+              },
+              search: (value) {},
+              icon: const Icon(Icons.local_cafe),
+              id: 'grid responsive',
+              label: 'Responsive grid',
+            ),
+          ],
         ),
       ],
     );

@@ -33,8 +33,9 @@ class FakeRepo {
     return FakeItem('$n', _names[n], rnd.nextInt(5));
   }
 
-  static Future<List<FakeItem>> asyncList(int count) async {
-    await Future.delayed(const Duration(seconds: 2));
+  static Future<List<FakeItem>> asyncList(int count,
+      [Duration duration = const Duration(seconds: 1)]) async {
+    await Future.delayed(duration);
     return List.generate(count, (index) {
       Random rnd = Random();
       var n = rnd.nextInt(_names.length - 1);

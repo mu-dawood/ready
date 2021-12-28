@@ -4,7 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ready/ready.dart';
 
 class ResponsiveList extends StatelessWidget {
-  const ResponsiveList({
+  final controller = ReadyListCubit();
+  ResponsiveList({
     Key? key,
   }) : super(key: key);
 
@@ -13,7 +14,7 @@ class ResponsiveList extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: ResponsiveDataTable(
-        controller: ReadyListCubit(),
+        controller: controller,
         dataTable: DataTableOptions(
           buildItem: (int index, FakeItem item) {
             return [
@@ -24,28 +25,64 @@ class ResponsiveList extends StatelessWidget {
           },
           headers: ['#', "Name", "Rate"].toDataColumns(),
         ),
-        type: ResponsiveDataTableType.list,
         list: ListOptions(
           title: (FakeItem item) => Text(item.name),
         ),
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+        ],
+        filters: [
+          SearchFilter(
+            decoration: const InputDecoration(hintText: 'Search here'),
+            onChange: (String? value) {
+              controller.loadIntial(16);
+            },
+          ),
+        ],
+        selectionButton: (type, selected) {
+          return IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.delete),
+          );
+        },
+        rowActions: [
+          IconAction.view(
+            action: (BuildContext context, ReadyListCubit controller,
+                FakeItem item) {
+              return showDialog(
+                context: context,
+                builder: (_) {
+                  return AlertDialog(
+                    title: Text(item.id),
+                    content: ListTile(
+                      title: Text(item.name),
+                      trailing: Text(item.rate.toString()),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+          IconAction.delete(action: (BuildContext context,
+              ReadyListCubit controller, FakeItem item) async {
+            await Future.delayed(const Duration(seconds: 1));
+            controller.removeItem(item);
+          }),
+        ],
       ),
     );
   }
 }
 
-class CancelTokenImpl implements ICancelToken {
-  @override
-  void cancel([reason]) {
-    // fake dont do any thing
-  }
-}
-
-class ReadyListCubit extends Cubit<ReadyListState<FakeItem>> implements ReadyListController<FakeItem> {
-  ReadyListCubit() : super(ReadyListState.needIntialLoading());
+class ReadyListCubit extends Cubit<ReadyListState<FakeItem>>
+    implements ReadyListController<FakeItem> {
+  ReadyListCubit() : super(ReadyListState());
 
   @override
   Future<ReadylistResponse<FakeItem>> loadData(
-      {ICancelToken? cancelToken, required int skip, required int pageSize}) async {
+      {ICancelToken? cancelToken,
+      required int skip,
+      required int pageSize}) async {
     var list = await FakeRepo.asyncList(pageSize);
     return ReadylistResponse.success(items: list, total: 100);
   }

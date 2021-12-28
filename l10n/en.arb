@@ -3,13 +3,18 @@
   "edit": "Edit",
   "delete":"Delete",
   "show":"Show",
-  "lock":"Lock",
-  "unlock":"Unlock",
-  "loadFailed":"Loading failed",
+  "activate":"Activate",
+  "deactivate":"Deactivate",
   "noMoreItems":"No more items",
   "loadMore":"Load more",
   "emptyList":"No items",
   "reload":"Reload",
   "loading":"Loading ...",
-  "search":"Search"
+  "search":"Search ...",
+  "active":"Active",
+  "notActive":"Not active",
+  "state":"State",
+  "all":"All",
+  "time":"Time",
+  "date":"Date"
 }

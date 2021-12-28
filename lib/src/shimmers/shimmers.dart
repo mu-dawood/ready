@@ -1,77 +1,75 @@
 library shimmers;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 part 'default_shimmer.dart';
 part 'shimmer_loading.dart';
 
-class _Shimmer extends StatefulWidget {
-  static _ShimmerState? of(BuildContext context) {
-    return context.findAncestorStateOfType<_ShimmerState>();
+typedef GradientGetterCallback = Gradient Function(GradientTransform transform);
+
+class _ShimmerScope extends StatefulWidget {
+  static _ShimmerScopeState? of(BuildContext context) {
+    return context.findAncestorStateOfType<_ShimmerScopeState>();
   }
 
-  const _Shimmer({
+  const _ShimmerScope({
     Key? key,
-    required this.linearGradient,
+    required this.gradient,
     this.child,
   }) : super(key: key);
 
-  final LinearGradient linearGradient;
+  final GradientGetterCallback gradient;
   final Widget? child;
 
   @override
-  _ShimmerState createState() => _ShimmerState();
+  _ShimmerScopeState createState() => _ShimmerScopeState();
 }
 
-class _ShimmerState extends State<_Shimmer> with SingleTickerProviderStateMixin {
-  late AnimationController _shimmerController;
+class _ShimmerScopeState extends State<_ShimmerScope>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _shimmerScopeController;
+  Size? _size;
+  Size get size => _size!;
 
   @override
   void initState() {
     super.initState();
-
-    _shimmerController = AnimationController.unbounded(vsync: this)
+    _shimmerScopeController = AnimationController.unbounded(vsync: this)
       ..repeat(min: -0.5, max: 1.5, period: const Duration(milliseconds: 1000));
+
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
+      var box = context.findRenderObject();
+      if (box != null && box is RenderBox) {
+        if (_size != box.size) {
+          setState(() {
+            _size = box.size;
+          });
+        }
+      }
+    });
   }
 
   @override
   void dispose() {
-    _shimmerController.dispose();
+    _shimmerScopeController.dispose();
     super.dispose();
   }
 
-  LinearGradient get gradient => LinearGradient(
-        colors: widget.linearGradient.colors,
-        stops: widget.linearGradient.stops,
-        begin: widget.linearGradient.begin,
-        end: widget.linearGradient.end,
-        transform: _SlidingGradientTransform(slidePercent: _shimmerController.value),
-      );
+  Gradient get gradient => widget.gradient(
+      _SlidingGradientTransform(slidePercent: _shimmerScopeController.value));
 
-  bool get isSized {
-    var box = context.findRenderObject();
-    if (box != null && box is RenderBox) return box.hasSize;
-    return false;
-  }
-
-  Size? get size {
-    var box = context.findRenderObject();
-    if (box != null && box is RenderBox) return box.size;
-    return null;
-  }
-
-  Offset getDescendantOffset({
-    required RenderBox descendant,
-    Offset offset = Offset.zero,
-  }) {
+  Offset getDescendantOffset(
+      {required RenderBox descendant, Offset offset = Offset.zero}) {
     final shimmerBox = context.findRenderObject();
     return descendant.localToGlobal(offset, ancestor: shimmerBox);
   }
 
-  Listenable get shimmerChanges => _shimmerController;
+  Listenable get shimmerChanges => _shimmerScopeController;
 
   @override
   Widget build(BuildContext context) {
+    if (_size == null) return const SizedBox();
     return widget.child ?? const SizedBox();
   }
 }

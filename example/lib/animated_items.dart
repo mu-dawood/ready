@@ -11,14 +11,24 @@ class AnimatedScopeItemsExample extends StatelessWidget {
       child: GridView.count(
         crossAxisCount: 5,
         padding: const EdgeInsets.all(20),
-        children: const [
-          FlipItem(child: Card()),
-          FlipSlideFadeItem(child: Card()),
-          FlipSlideItem(child: Card()),
-          ScaleItem(child: Card()),
-          SlideFadeItem(child: Card()),
-          SlideItem(child: Card()),
-          FadeItem(child: Card()),
+        children: [
+          for (var type in FlipType.values)
+            Animated(transforms: [FlipAnimation(type)], child: const Card()),
+          Animated(
+              transforms: const [ScaleAnimation.scale()], child: const Card()),
+          Animated(transforms: const [ScaleAnimation.y()], child: const Card()),
+          Animated(transforms: const [ScaleAnimation.x()], child: const Card()),
+          Animated(transforms: const [ScaleAnimation.z()], child: const Card()),
+          Animated(
+              transforms: const [TranslateAnimation.y(300)],
+              child: const Card()),
+          Animated(
+              transforms: const [TranslateAnimation.x(300)],
+              child: const Card()),
+          Animated(
+              transforms: const [TranslateAnimation.z(300)],
+              child: const Card()),
+          Animated(fade: const FadeAnimation(), child: const Card()),
         ],
       ),
     );
@@ -33,14 +43,21 @@ class AnimatedItemsExample extends StatelessWidget {
     return GridView.count(
       padding: const EdgeInsets.all(20),
       crossAxisCount: 5,
-      children: const [
-        FlipItem(child: Card()),
-        FlipSlideFadeItem(child: Card()),
-        FlipSlideItem(child: Card()),
-        ScaleItem(child: Card()),
-        SlideFadeItem(child: Card()),
-        SlideItem(child: Card()),
-        FadeItem(child: Card()),
+      children: [
+        for (var type in FlipType.values)
+          Animated(transforms: [FlipAnimation(type)], child: const Card()),
+        Animated(
+            transforms: const [ScaleAnimation.scale()], child: const Card()),
+        Animated(transforms: const [ScaleAnimation.y()], child: const Card()),
+        Animated(transforms: const [ScaleAnimation.x()], child: const Card()),
+        Animated(transforms: const [ScaleAnimation.z()], child: const Card()),
+        Animated(
+            transforms: const [TranslateAnimation.y(300)], child: const Card()),
+        Animated(
+            transforms: const [TranslateAnimation.x(300)], child: const Card()),
+        Animated(
+            transforms: const [TranslateAnimation.z(300)], child: const Card()),
+        Animated(fade: const FadeAnimation(), child: const Card()),
       ],
     );
   }

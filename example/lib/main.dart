@@ -23,7 +23,6 @@ class _MyAppState extends State<MyApp> {
       darkTheme: ThemeData.dark(),
       themeMode: _mode,
       home: DashBoardExample(
-        mode: _mode,
         onModeChanged: (value) {
           setState(() {
             _mode = value;

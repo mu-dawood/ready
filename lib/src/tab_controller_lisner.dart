@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// This will listen to [controller] and call [builder] every time index changed
+/// If [controller] is null then it will listen to nearest [DefaultTabController]
 class TabControllerLisner extends StatefulWidget {
   final TabController? controller;
   final Widget Function(int index) builder;

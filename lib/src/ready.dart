@@ -3,21 +3,23 @@ library ready;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import 'l10n/r_list_localizations.dart';
-import 'l10n/r_list_localizations_en.dart';
+import 'l10n/ready_localizations.dart';
+import 'l10n/ready_localizations_en.dart';
 
 class Ready {
-  /// get localization delegates
-  /// This must be added to your material app
-  static LocalizationsDelegate<RListLocalizations> get delegate => RListLocalizations.delegate;
+  /// get [RListLocalizations] localization delegates
+  /// This must be added to your [MaterialApp]
+  static LocalizationsDelegate<ReadyListLocalizations> get delegate =>
+      ReadyListLocalizations.delegate;
 
-  /// A list of this localizations delegate's supported locales.
-  static List<Locale> get supportedLocales => RListLocalizations.supportedLocales;
+  /// list of  supported locales by this package
+  static List<Locale> get supportedLocales =>
+      ReadyListLocalizations.supportedLocales;
 
   /// get localization  from [context] or english if no localizations found
-  static RListLocalizations localization(BuildContext context) {
-    var localizations = RListLocalizations.of(context);
-    if (localizations == null) return RListLocalizationsEn();
+  static ReadyListLocalizations localization(BuildContext context) {
+    var localizations = ReadyListLocalizations.of(context);
+    if (localizations == null) return ReadyListLocalizationsEn();
     return localizations;
   }
 
@@ -27,7 +29,8 @@ class Ready {
     double alignment = 0.0,
     Duration duration = Duration.zero,
     Curve curve = Curves.ease,
-    ScrollPositionAlignmentPolicy alignmentPolicy = ScrollPositionAlignmentPolicy.explicit,
+    ScrollPositionAlignmentPolicy alignmentPolicy =
+        ScrollPositionAlignmentPolicy.explicit,
   }) {
     ScrollableState? scrollable = Scrollable.of(context);
     while (scrollable != null) {
@@ -50,10 +53,18 @@ class Ready {
     double alignment = 0.0,
   }) {
     assert(object.attached);
-    final RenderAbstractViewport viewport = RenderAbstractViewport.of(object)!;
-    num target =
-        viewport.getOffsetToReveal(object, alignment).offset.clamp(position.minScrollExtent, position.maxScrollExtent);
+    try {
+      final RenderAbstractViewport viewport =
+          RenderAbstractViewport.of(object)!;
+      num target = viewport
+          .getOffsetToReveal(object, alignment)
+          .offset
+          .clamp(position.minScrollExtent, position.maxScrollExtent);
 
-    return (target >= position.minScrollExtent && target <= position.maxScrollExtent);
+      return (target >= position.minScrollExtent &&
+          target <= position.maxScrollExtent);
+    } catch (e) {
+      return false;
+    }
   }
 }

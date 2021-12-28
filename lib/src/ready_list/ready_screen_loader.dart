@@ -43,7 +43,8 @@ class _ReadyScreenLoader extends StatelessWidget {
               SizedBox(height: config.spaceBetweenIconAndText),
               Text(message),
               SizedBox(height: config.spaceBetweenTextAndButton),
-              if (onReload != null && !loading) _getTextButton(context, loading, onReload!, config),
+              if (onReload != null && !loading)
+                _getTextButton(context, loading, onReload!, config),
             ],
           ),
         ),
@@ -51,7 +52,8 @@ class _ReadyScreenLoader extends StatelessWidget {
     );
   }
 
-  TextButton _getTextButton(BuildContext context, bool loading, VoidCallback action, PlaceholdersConfig _config) {
+  TextButton _getTextButton(BuildContext context, bool loading,
+      VoidCallback action, PlaceholdersConfig _config) {
     var tr = Ready.localization(context);
 
     return TextButton(
@@ -60,7 +62,8 @@ class _ReadyScreenLoader extends StatelessWidget {
     );
   }
 
-  Widget _getPlaceHolder(BuildContext context, bool loading, PlaceholdersConfig _config) {
+  Widget _getPlaceHolder(
+      BuildContext context, bool loading, PlaceholdersConfig _config) {
     if (loading == true) {
       return _getLoader(context, _config);
     } else {

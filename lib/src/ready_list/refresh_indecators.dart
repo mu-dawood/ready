@@ -1,8 +1,9 @@
 part of ready_list;
 
-class _FooterLoading<T> extends StatelessWidget {
+class _FooterLoading<T, TController extends ReadyListController<T>>
+    extends StatelessWidget {
   final bool shrinkWrap;
-  final ReadyListController<T> controller;
+  final TController controller;
 
   final _ReadyListConfigOptionsDefauls config;
 
@@ -15,13 +16,13 @@ class _FooterLoading<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var state = controller.state;
-    return state.map(
-      empty: (state) => _buildNone(),
-      error: (state) => _buildNone(),
+    var _state = controller.state;
+    return _state.when(
+      empty: () => _buildNone(),
+      error: (error) => _buildNone(),
       intialLoading: (_) => _buildNone(),
-      items: (state) {
-        if (state.items.length < state.total) {
+      loaded: (items, total) {
+        if (items.length < total) {
           return _buildWidget(
             TextButton(
               onPressed: () {
@@ -42,12 +43,12 @@ class _FooterLoading<T> extends StatelessWidget {
           return _buildNone();
         }
       },
-      loadingNext: (state) => _buildWidget(const Padding(
+      loadingNext: (items, _, __) => _buildWidget(const Padding(
         padding: EdgeInsets.only(top: 20, bottom: 20),
         child: CupertinoActivityIndicator(),
       )),
-      refreshing: (state) => _buildNone(),
-      needIntialLoading: (state) => _buildNone(),
+      refreshing: (items, _, __) => _buildNone(),
+      needIntialLoading: () => _buildNone(),
     );
   }
 

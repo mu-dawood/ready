@@ -1,19 +1,24 @@
 part of shimmers;
 
-class ShimmerLoading extends StatefulWidget {
-  const ShimmerLoading({
+/// use this to wrap every element you want to add shimmer effect to it
+/// if [enabled] is `false` then  there is no effect
+/// You must use this in the child tree of [ShimmerScope]
+class Shimmer extends StatefulWidget {
+  const Shimmer({
     Key? key,
-    this.isLoading = true,
+    this.enabled = true,
     required this.child,
   }) : super(key: key);
-  final bool isLoading;
+
+  /// specify if shimmer effect is enabled
+  final bool enabled;
   final Widget child;
 
   @override
-  _ShimmerLoadingState createState() => _ShimmerLoadingState();
+  _ShimmerState createState() => _ShimmerState();
 }
 
-class _ShimmerLoadingState extends State<ShimmerLoading> {
+class _ShimmerState extends State<Shimmer> {
   Listenable? _shimmerChanges;
 
   @override
@@ -22,7 +27,7 @@ class _ShimmerLoadingState extends State<ShimmerLoading> {
     if (_shimmerChanges != null) {
       _shimmerChanges!.removeListener(_onShimmerChange);
     }
-    _shimmerChanges = _Shimmer.of(context)?.shimmerChanges;
+    _shimmerChanges = _ShimmerScope.of(context)?.shimmerChanges;
     if (_shimmerChanges != null) {
       _shimmerChanges!.addListener(_onShimmerChange);
     }
@@ -35,41 +40,35 @@ class _ShimmerLoadingState extends State<ShimmerLoading> {
   }
 
   void _onShimmerChange() {
-    if (widget.isLoading) {
-      setState(() {
-        // update the shimmer painting.
-      });
+    if (widget.enabled) {
+      setState(() {});
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSize(
-      duration: const Duration(milliseconds: 300),
-      child: _build(context),
-    );
+    return _build(context);
   }
 
   Widget _build(BuildContext context) {
-    if (!widget.isLoading) {
+    if (!widget.enabled) {
       return widget.child;
     }
 
     // Collect ancestor shimmer info.
-    final shimmer = _Shimmer.of(context);
+    final shimmer = _ShimmerScope.of(context);
     if (shimmer == null) {
-      throw Exception('You must wrap all shimmer loading with shimmer widget');
-    }
-    if (!shimmer.isSized) {
-      // The ancestor Shimmer widget has not laid
-      // itself out yet. Return an empty box.
       return widget.child;
     }
-    var box = context.findRenderObject();
-    if (box == null || box is! RenderBox) {
-      return widget.child;
+
+    var box = context.findRenderObject() as RenderBox?;
+    if (box == null || !box.hasSize) {
+      return Opacity(
+        opacity: 0,
+        child: widget.child,
+      );
     }
-    final shimmerSize = shimmer.size!;
+    final shimmerSize = shimmer.size;
     final gradient = shimmer.gradient;
     final offsetWithinShimmer = shimmer.getDescendantOffset(descendant: box);
 
@@ -85,7 +84,10 @@ class _ShimmerLoadingState extends State<ShimmerLoading> {
           ),
         );
       },
-      child: widget.child,
+      child: Opacity(
+        opacity: 1,
+        child: widget.child,
+      ),
     );
   }
 }
