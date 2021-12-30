@@ -9,13 +9,13 @@ enum FlipType {
   negativeZ,
 }
 
-/// 🔥  flib widget  accourding to type
-/// 🔥  [FlipType.x] rotate x from (180) t (0)
-/// 🔥  [FlipType.y] rotate y from (180) t (0)
-/// 🔥  [FlipType.z] rotate y from (180) t (0)
-/// 🔥  [FlipType.negativeY] rotate y from (-180) t (0)
-/// 🔥  [FlipType.negativeX] rotate x from (-180) t (0)
-/// 🔥  [FlipType.negativeZ] rotate y from (-180) t (0)
+/// - 🔥  flib widget  accourding to type
+/// - 🔥  [FlipType.x] rotate x from (180) t (0)
+/// - 🔥  [FlipType.y] rotate y from (180) t (0)
+/// - 🔥  [FlipType.z] rotate y from (180) t (0)
+/// - 🔥  [FlipType.negativeY] rotate y from (-180) t (0)
+/// - 🔥  [FlipType.negativeX] rotate x from (-180) t (0)
+/// - 🔥  [FlipType.negativeZ] rotate y from (-180) t (0)
 
 class FlipAnimation extends TransformAnimation {
   double get degrees2Radians => pi / 180;

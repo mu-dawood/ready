@@ -1,6 +1,6 @@
 part of animated_items;
 
-/// 🔥 change opacity from [from] to [to]
+/// - 🔥 change opacity from [from] to [to]
 class FadeAnimation extends Equatable {
   final double from;
   final double to;

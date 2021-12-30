@@ -1,9 +1,9 @@
 part of animated_items;
 
-/// 🔥 scale all axis of widget
-/// 🔥 [fromX] and [toX] scales the x axis
-/// 🔥 [fromY] and [toY] scales the y axis
-/// 🔥 [fromZ] and [toZ] scales the z axis
+/// - 🔥 scale all axis of widget
+/// - 🔥 [fromX] and [toX] scales the x axis
+/// - 🔥 [fromY] and [toY] scales the y axis
+/// - 🔥 [fromZ] and [toZ] scales the z axis
 class ScaleAnimation extends TransformAnimation {
   final double fromX;
   final double toX;

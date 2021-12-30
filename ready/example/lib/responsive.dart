@@ -47,8 +47,7 @@ class ResponsiveList extends StatelessWidget {
         },
         rowActions: [
           IconAction.view(
-            action: (BuildContext context, ReadyListCubit controller,
-                FakeItem item) {
+            action: (BuildContext context, ReadyListCubit controller, FakeItem item) {
               return showDialog(
                 context: context,
                 builder: (_) {
@@ -63,8 +62,7 @@ class ResponsiveList extends StatelessWidget {
               );
             },
           ),
-          IconAction.delete(action: (BuildContext context,
-              ReadyListCubit controller, FakeItem item) async {
+          IconAction.delete(action: (BuildContext context, ReadyListCubit controller, FakeItem item) async {
             await Future.delayed(const Duration(seconds: 1));
             controller.removeItem(item);
           }),
@@ -74,15 +72,12 @@ class ResponsiveList extends StatelessWidget {
   }
 }
 
-class ReadyListCubit extends Cubit<ReadyListState<FakeItem>>
-    implements ReadyListController<FakeItem> {
+class ReadyListCubit extends Cubit<ReadyListState<FakeItem>> implements ReadyListController<FakeItem> {
   ReadyListCubit() : super(ReadyListState());
 
   @override
   Future<ReadylistResponse<FakeItem>> loadData(
-      {ICancelToken? cancelToken,
-      required int skip,
-      required int pageSize}) async {
+      {ICancelToken? cancelToken, required int skip, required int pageSize}) async {
     var list = await FakeRepo.asyncList(pageSize);
     return ReadylistResponse.success(items: list, total: 100);
   }
