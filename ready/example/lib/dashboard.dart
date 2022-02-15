@@ -8,8 +8,7 @@ import 'responsive.dart';
 
 class DashBoardExample extends StatelessWidget {
   final ValueChanged<ThemeMode> onModeChanged;
-  const DashBoardExample({Key? key, required this.onModeChanged})
-      : super(key: key);
+  const DashBoardExample({Key? key, required this.onModeChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +74,9 @@ class DashBoardExample extends StatelessWidget {
             )
           ],
           builder: () {
-            return const Text('App bar actions');
+            return Column(
+              children: const [Text('App bar actions'), TextField()],
+            );
           },
           icon: const Icon(Icons.attractions),
           id: 'actions',
