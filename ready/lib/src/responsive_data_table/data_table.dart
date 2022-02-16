@@ -21,23 +21,27 @@ class _DataTableState<T, TController extends ReadyListController<T>>
 
   @override
   void initState() {
-    widget.source.controller.state.whenOrNull(
-      needInitialLoading: () {
-        widget.source.controller
-            .loadInitialData(widget.source.paging.rowsPerPage);
-      },
-    );
+    if (widget.source.controller.isRemoteController) {
+      widget.source.controller.state.whenOrNull(
+        needInitialLoading: () {
+          widget.source.controller.remote!
+              .loadInitialData(widget.source.paging.rowsPerPage);
+        },
+      );
+    }
     super.initState();
   }
 
   @override
   void didUpdateWidget(covariant _DataTable<T, TController> oldWidget) {
-    widget.source.controller.state.whenOrNull(
-      needInitialLoading: () {
-        widget.source.controller
-            .loadInitialData(widget.source.paging.rowsPerPage);
-      },
-    );
+    if (widget.source.controller.isRemoteController) {
+      widget.source.controller.state.whenOrNull(
+        needInitialLoading: () {
+          widget.source.controller.remote!
+              .loadInitialData(widget.source.paging.rowsPerPage);
+        },
+      );
+    }
     super.didUpdateWidget(oldWidget);
   }
 
@@ -128,10 +132,11 @@ class _DataTableState<T, TController extends ReadyListController<T>>
       onRefresh: () {
         controller.state.whenOrNull(
           empty: () {
-            controller.loadInitialData(widget.source.paging.rowsPerPage);
+            controller.remote
+                ?.loadInitialData(widget.source.paging.rowsPerPage);
           },
           loaded: (_, __) {
-            controller.refreshData(widget.source.paging.rowsPerPage);
+            controller.remote?.refreshData(widget.source.paging.rowsPerPage);
           },
         );
       },

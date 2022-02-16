@@ -75,7 +75,7 @@ class ResponsiveList extends StatelessWidget {
 }
 
 class ReadyListCubit extends Cubit<ReadyListState<FakeItem>>
-    implements ReadyListController<FakeItem> {
+    implements RemoteReadyListController<FakeItem> {
   ReadyListCubit() : super(ReadyListState());
 
   @override

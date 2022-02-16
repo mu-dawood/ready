@@ -186,7 +186,9 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
     var _config = _ReadyListConfigOptionsDefaults.effective(widget, context);
     state.whenOrNull(
       needInitialLoading: () {
-        widget.controller.loadInitialData(_config.pageSize);
+        if (widget.controller.isRemoteController) {
+          widget.controller.remote!.loadInitialData(_config.pageSize);
+        }
       },
     );
     super.didChangeDependencies();
@@ -197,7 +199,9 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
     var _config = _ReadyListConfigOptionsDefaults.effective(widget, context);
     state.whenOrNull(
       needInitialLoading: () {
-        widget.controller.loadInitialData(_config.pageSize);
+        if (widget.controller.isRemoteController) {
+          widget.controller.remote!.loadInitialData(_config.pageSize);
+        }
       },
     );
     super.didUpdateWidget(oldWidget);
@@ -225,6 +229,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
             (BuildContext context, AsyncSnapshot<ReadyListState<T>> snapshot) {
           var _config =
               _ReadyListConfigOptionsDefaults.effective(widget, context);
+
           return NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
               if (_config.allowLoadNext) {
@@ -234,7 +239,11 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
                       if (scrollInfo.metrics.pixels > 0) {
                         if (scrollInfo.metrics.pixels >=
                             scrollInfo.metrics.maxScrollExtent - 200) {
-                          widget.controller.nextData(_config.pageSize);
+                          if (widget.controller
+                              is! RemoteReadyListController<T>) {
+                            (widget.controller as RemoteReadyListController<T>)
+                                .nextData(_config.pageSize);
+                          }
                         }
                       }
                     }
@@ -256,27 +265,32 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
   }
 
   Future _onRefresh(_ReadyListConfigOptionsDefaults _config) async {
-    if (state.mayWhen(
-      orElse: () => true,
-      loaded: (_, __) => false,
-    )) {
-      return;
-    }
-    var isVisible = Ready.isVisible(context);
-    if (isVisible) {
-      await widget.controller.refreshData(_config.pageSize);
+    if (widget.controller.isRemoteController) {
+      if (state.mayWhen(
+        orElse: () => true,
+        loaded: (_, __) => false,
+      )) {
+        return;
+      }
+      var isVisible = Ready.isVisible(context);
+      if (isVisible) {
+        await (widget.controller.remote!).refreshData(_config.pageSize);
+      }
     }
   }
 
   _buildRefresh(_ReadyListConfigOptionsDefaults _config,
       SliverOverlapAbsorberHandle? absorber) {
     double edgeOffset = absorber?.layoutExtent ?? 0;
-
-    return RefreshIndicator(
-      onRefresh: () => _onRefresh(_config),
-      edgeOffset: edgeOffset,
-      child: _buildCustomScrollView(_config, absorber),
-    );
+    if (widget.controller.isRemoteController) {
+      return RefreshIndicator(
+        onRefresh: () => _onRefresh(_config),
+        edgeOffset: edgeOffset,
+        child: _buildCustomScrollView(_config, absorber),
+      );
+    } else {
+      return _buildCustomScrollView(_config, absorber);
+    }
   }
 
   Iterable<T> _filteredItems(Iterable<T> list) {
@@ -336,7 +350,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
               ),
             if (widget.innerFooterSlivers != null)
               ...widget.innerFooterSlivers!(state),
-            if (showFooterLoading)
+            if (showFooterLoading && widget.controller.isRemoteController)
               _FooterLoading<T, TController>(
                 shrinkWrap: shrinkWrap,
                 config: _config,
@@ -431,7 +445,9 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
       loading: loading,
       error: error,
       config: _config.placeholdersConfig,
-      onReload: () => ctrl.loadInitialData(_config.pageSize),
+      onReload: ctrl.isRemoteController
+          ? () => ctrl.remote!.loadInitialData(_config.pageSize)
+          : null,
     );
   }
 

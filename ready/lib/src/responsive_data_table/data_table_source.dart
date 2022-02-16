@@ -103,7 +103,7 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
     controller.state.whenOrNull(
       loaded: (items, total) {
         if (paging.rowsPerPage * paging.currentPage > items.length) {
-          controller.nextData(paging.rowsPerPage);
+          controller.remote?.nextData(paging.rowsPerPage);
         }
       },
     );
@@ -119,7 +119,7 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
     controller.state.whenOrNull(
       loaded: (items, total) {
         if (paging.rowsPerPage * paging.currentPage > items.length) {
-          controller.nextData(paging.rowsPerPage);
+          controller.remote?.nextData(paging.rowsPerPage);
         }
       },
     );

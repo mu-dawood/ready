@@ -9,7 +9,15 @@ abstract class ReadyListController<T> {
 
   /// emitting new state to stream
   void emit(ReadyListState<T> state);
+}
 
+extension ReadyListControllerExt<T> on ReadyListController<T> {
+  bool get isRemoteController => this is RemoteReadyListController<T>;
+  RemoteReadyListController<T>? get remote =>
+      this as RemoteReadyListController<T>?;
+}
+
+abstract class RemoteReadyListController<T> extends ReadyListController<T> {
   /// use current state.copyWith to return the
   @protected
   Future<ReadyListResponse<T>> loadData({
@@ -19,7 +27,7 @@ abstract class ReadyListController<T> {
   });
 }
 
-mixin CancelHandlerMixin<T> on ReadyListController<T> {
+mixin CancelHandlerMixin<T> on RemoteReadyListController<T> {
   ICancelToken generateCancelToken();
   void cancelRunning([dynamic reason]) {
     state.whenOrNull(
@@ -36,7 +44,7 @@ mixin CancelHandlerMixin<T> on ReadyListController<T> {
   }
 }
 
-extension ReadyListRemoteControllerExt<T> on ReadyListController<T> {
+extension ReadyListRemoteControllerExt<T> on RemoteReadyListController<T> {
   void _emitSuccess(_Success<T> result) {
     state.whenOrNull(
       initialLoading: (cancelToken) {

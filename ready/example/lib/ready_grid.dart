@@ -34,7 +34,7 @@ class ReadyGridExample extends StatelessWidget {
 }
 
 class ReadyListCubit extends Cubit<ReadyListState<FakeItem>>
-    implements ReadyListController<FakeItem> {
+    implements RemoteReadyListController<FakeItem> {
   ReadyListCubit(ReadyListState<FakeItem> initialState) : super(initialState);
 
   @override
