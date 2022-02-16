@@ -21,7 +21,7 @@ class ReadyListState<T> extends Equatable {
   });
 
   factory ReadyListState() => ReadyListState<T>._(
-        type: ListStateType.needIntialLoading,
+        type: ListStateType.needInitialLoading,
         items: List<T>.empty(),
         cancelToken: null,
         message: null,
@@ -61,12 +61,12 @@ class ReadyListState<T> extends Equatable {
     );
   }
 
-  ReadyListState<T> intialLoading(ICancelToken? cancelToken) {
+  ReadyListState<T> initialLoading(ICancelToken? cancelToken) {
     return ReadyListState<T>._(
       items: const [],
       total: 0,
       cancelToken: cancelToken,
-      type: ListStateType.intialLoading,
+      type: ListStateType.initialLoading,
       message: null,
     );
   }
@@ -93,9 +93,9 @@ class ReadyListState<T> extends Equatable {
 
   TResult mayWhen<TResult>({
     required TResult Function() orElse,
-    TResult Function()? needIntialLoading,
+    TResult Function()? needInitialLoading,
     TResult Function()? empty,
-    TResult Function(ICancelToken? cancelToken)? intialLoading,
+    TResult Function(ICancelToken? cancelToken)? initialLoading,
     TResult Function(Iterable<T> items, int total)? loaded,
     TResult Function(String message)? error,
     TResult Function(Iterable<T> items, int total, ICancelToken? cancelToken)?
@@ -104,12 +104,12 @@ class ReadyListState<T> extends Equatable {
         refreshing,
   }) {
     switch (type) {
-      case ListStateType.needIntialLoading:
-        return needIntialLoading?.call() ?? orElse();
+      case ListStateType.needInitialLoading:
+        return needInitialLoading?.call() ?? orElse();
       case ListStateType.empty:
         return empty?.call() ?? orElse();
-      case ListStateType.intialLoading:
-        return intialLoading?.call(cancelToken) ?? orElse();
+      case ListStateType.initialLoading:
+        return initialLoading?.call(cancelToken) ?? orElse();
       case ListStateType.loaded:
         return loaded?.call(items, total) ?? orElse();
       case ListStateType.refreshing:
@@ -122,9 +122,9 @@ class ReadyListState<T> extends Equatable {
   }
 
   TResult when<TResult>({
-    required TResult Function() needIntialLoading,
+    required TResult Function() needInitialLoading,
     required TResult Function() empty,
-    required TResult Function(ICancelToken? cancelToken) intialLoading,
+    required TResult Function(ICancelToken? cancelToken) initialLoading,
     required TResult Function(Iterable<T> items, int total) loaded,
     required TResult Function(String message) error,
     required TResult Function(
@@ -135,12 +135,12 @@ class ReadyListState<T> extends Equatable {
         loadingNext,
   }) {
     switch (type) {
-      case ListStateType.needIntialLoading:
-        return needIntialLoading.call();
+      case ListStateType.needInitialLoading:
+        return needInitialLoading.call();
       case ListStateType.empty:
         return empty.call();
-      case ListStateType.intialLoading:
-        return intialLoading.call(cancelToken);
+      case ListStateType.initialLoading:
+        return initialLoading.call(cancelToken);
       case ListStateType.loaded:
         return loaded.call(items, total);
       case ListStateType.refreshing:
@@ -153,9 +153,9 @@ class ReadyListState<T> extends Equatable {
   }
 
   TResult? whenOrNull<TResult>({
-    TResult Function()? needIntialLoading,
+    TResult Function()? needInitialLoading,
     TResult Function()? empty,
-    TResult Function(ICancelToken? cancelToken)? intialLoading,
+    TResult Function(ICancelToken? cancelToken)? initialLoading,
     TResult Function(Iterable<T> items, int total)? loaded,
     TResult Function(String message)? error,
     TResult Function(Iterable<T> items, int total, ICancelToken? cancelToken)?
@@ -164,12 +164,12 @@ class ReadyListState<T> extends Equatable {
         refreshing,
   }) {
     switch (type) {
-      case ListStateType.needIntialLoading:
-        return needIntialLoading?.call();
+      case ListStateType.needInitialLoading:
+        return needInitialLoading?.call();
       case ListStateType.empty:
         return empty?.call();
-      case ListStateType.intialLoading:
-        return intialLoading?.call(cancelToken);
+      case ListStateType.initialLoading:
+        return initialLoading?.call(cancelToken);
       case ListStateType.loaded:
         return loaded?.call(items, total);
       case ListStateType.refreshing:

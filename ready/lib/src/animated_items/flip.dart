@@ -9,7 +9,7 @@ enum FlipType {
   negativeZ,
 }
 
-/// - 🔥  flib widget  accourding to type
+/// - 🔥  flip widget  according to type
 /// - 🔥  [FlipType.x] rotate x from (180) t (0)
 /// - 🔥  [FlipType.y] rotate y from (180) t (0)
 /// - 🔥  [FlipType.z] rotate y from (180) t (0)

@@ -10,7 +10,7 @@ enum ResponsiveDataTableType {
 /// specify the device breakpoints according to width
 enum LayoutType {
   /// [width] <= [321]
-  xsmall,
+  xSmall,
 
   /// [width] > [320] && [width] <= [640]
   small,
@@ -22,18 +22,18 @@ enum LayoutType {
   large,
 
   /// [width] > [1024] && [width] <= [1366]
-  xlarge,
+  xLarge,
 
   /// [width] > [1366]
-  xxlarge,
+  xxLarge,
 }
 
 enum ListStateType {
-  /// when need intial loading
-  needIntialLoading,
+  /// when need initial loading
+  needInitialLoading,
 
-  /// when intial load
-  intialLoading,
+  /// when initial load
+  initialLoading,
 
   /// when items loaded
   loaded,
@@ -41,7 +41,7 @@ enum ListStateType {
   /// when loaded but no items
   empty,
 
-  /// when refrshing items
+  /// when refreshing items
   refreshing,
 
   /// when loading next

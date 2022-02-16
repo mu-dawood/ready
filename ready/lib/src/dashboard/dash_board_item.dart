@@ -10,7 +10,7 @@ class DashboardItem {
   final AppBarOptions? appBarOptions;
   final List<DashboardItem> subItems;
 
-  /// {@macro flutter.material.appbar.actions}
+  /// {@macro flutter.material.appBar.actions}
   ///
   /// This property is used to configure an [AppBar].
   final List<Widget> actions;
@@ -43,14 +43,14 @@ class DashboardItem {
 
 class PageInfo extends StatefulWidget {
   final DashboardItem item;
-  final List<TextSpan> titleSpanes;
+  final List<TextSpan> titleSpans;
   final Widget child;
 
   const PageInfo(
       {Key? key,
       required this.item,
       required this.child,
-      required this.titleSpanes})
+      required this.titleSpans})
       : super(key: key);
   @override
   _PageInfoState createState() => _PageInfoState();

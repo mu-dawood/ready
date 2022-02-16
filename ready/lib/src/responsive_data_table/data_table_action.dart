@@ -37,7 +37,7 @@ class IconAction<T, TController extends ReadyListController<T>>
     this.enabled = _defEnabled,
   });
 
-  /// copy action properties and return new instace
+  /// copy action properties and return new instate
   IconAction<T, TController> copyWith({
     DataTableActionCallBack<T, TController>? action,
     DataTableActionProperty<T, IconData>? icon,

@@ -5,7 +5,7 @@ class _FooterLoading<T, TController extends ReadyListController<T>>
   final bool shrinkWrap;
   final TController controller;
 
-  final _ReadyListConfigOptionsDefauls config;
+  final _ReadyListConfigOptionsDefaults config;
 
   const _FooterLoading({
     Key? key,
@@ -20,7 +20,7 @@ class _FooterLoading<T, TController extends ReadyListController<T>>
     return _state.when(
       empty: () => _buildNone(),
       error: (error) => _buildNone(),
-      intialLoading: (_) => _buildNone(),
+      initialLoading: (_) => _buildNone(),
       loaded: (items, total) {
         if (items.length < total) {
           return _buildWidget(
@@ -48,7 +48,7 @@ class _FooterLoading<T, TController extends ReadyListController<T>>
         child: CupertinoActivityIndicator(),
       )),
       refreshing: (items, _, __) => _buildNone(),
-      needIntialLoading: () => _buildNone(),
+      needInitialLoading: () => _buildNone(),
     );
   }
 

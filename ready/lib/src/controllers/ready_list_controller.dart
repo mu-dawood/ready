@@ -12,7 +12,7 @@ abstract class ReadyListController<T> {
 
   /// use current state.copyWith to return the
   @protected
-  Future<ReadylistResponse<T>> loadData({
+  Future<ReadyListResponse<T>> loadData({
     ICancelToken? cancelToken,
     required int skip,
     required int pageSize,
@@ -23,7 +23,7 @@ mixin CancelHandlerMixin<T> on ReadyListController<T> {
   ICancelToken generateCancelToken();
   void cancelRunning([dynamic reason]) {
     state.whenOrNull(
-      intialLoading: (cancelToken) {
+      initialLoading: (cancelToken) {
         cancelToken?.cancel(reason);
       },
       loadingNext: (items, total, cancelToken) {
@@ -39,7 +39,7 @@ mixin CancelHandlerMixin<T> on ReadyListController<T> {
 extension ReadyListRemoteControllerExt<T> on ReadyListController<T> {
   void _emitSuccess(_Success<T> result) {
     state.whenOrNull(
-      intialLoading: (cancelToken) {
+      initialLoading: (cancelToken) {
         if (result.items.isEmpty) {
           emit(state.empty());
         } else {
@@ -60,11 +60,11 @@ extension ReadyListRemoteControllerExt<T> on ReadyListController<T> {
   }
 
   void _emitResults(
-      ReadylistResponse<T> result, ReadyListState<T> prevoisState) {
+      ReadyListResponse<T> result, ReadyListState<T> previousState) {
     if (result is _Success<T>) {
       _emitSuccess(result);
     } else if (result is _Cancel<T>) {
-      emit(prevoisState);
+      emit(previousState);
     } else if (result is _Error<T>) {
       emit(state.error(result.error));
     } else {
@@ -72,62 +72,63 @@ extension ReadyListRemoteControllerExt<T> on ReadyListController<T> {
     }
   }
 
-  void _checkDublicateLoading() {
+  void _checkDuplicatedLoading() {
     state.whenOrNull(
-      intialLoading: (cancelToken) {
+      initialLoading: (cancelToken) {
         if (cancelToken != null) {
           throw Exception(
-              "You can not make multible load you shoald cancel running one first");
+              "You can not make multiple load you should cancel running one first");
         }
       },
       loadingNext: (items, total, cancelToken) {
         if (cancelToken != null) {
           throw Exception(
-              "You can not make multible load you shoald cancel running one first");
+              "You can not make multiple load you should cancel running one first");
         }
       },
       refreshing: (items, total, cancelToken) {
         if (cancelToken != null) {
           throw Exception(
-              "You can not make multible load you shoald cancel running one first");
+              "You can not make multiple load you should cancel running one first");
         }
       },
     );
   }
 
-  ICancelToken? _getcancelToken() {
+  ICancelToken? _getCancelToken() {
     var controller = this;
     if (controller is CancelHandlerMixin<T>) {
       return controller.generateCancelToken();
     }
+    return null;
   }
 
-  Future loadIntial(int pageSize) async {
-    _checkDublicateLoading();
-    var prevoisState = state;
-    var _cancelToken = _getcancelToken();
-    emit(state.intialLoading(_cancelToken));
+  Future loadInitialData(int pageSize) async {
+    _checkDuplicatedLoading();
+    var previousState = state;
+    var _cancelToken = _getCancelToken();
+    emit(state.initialLoading(_cancelToken));
     try {
       var results = await loadData(
         cancelToken: _cancelToken,
         skip: 0,
         pageSize: pageSize,
       );
-      _emitResults(results, prevoisState);
+      _emitResults(results, previousState);
     } catch (e) {
-      emit(prevoisState);
+      emit(previousState);
       rethrow;
     }
   }
 
   Future refreshData(int pageSize) async {
-    _checkDublicateLoading();
-    var prevoisState = state;
-    if (prevoisState.type != ListStateType.loaded) {
+    _checkDuplicatedLoading();
+    var previousState = state;
+    if (previousState.type != ListStateType.loaded) {
       throw Exception(
-          "Refreshing must be called when state is Loaded try call loadIntial");
+          "Refreshing must be called when state is Loaded try call loadInitial");
     }
-    var _cancelToken = _getcancelToken();
+    var _cancelToken = _getCancelToken();
 
     emit(state.refreshing(_cancelToken));
     try {
@@ -136,35 +137,35 @@ extension ReadyListRemoteControllerExt<T> on ReadyListController<T> {
         skip: 0,
         pageSize: pageSize,
       );
-      _emitResults(results, prevoisState);
+      _emitResults(results, previousState);
     } catch (e) {
-      emit(prevoisState);
+      emit(previousState);
       rethrow;
     }
   }
 
   Future nextData(int pageSize) async {
-    _checkDublicateLoading();
-    var prevoisState = state;
-    if (prevoisState.type != ListStateType.loaded) {
+    _checkDuplicatedLoading();
+    var previousState = state;
+    if (previousState.type != ListStateType.loaded) {
       throw Exception(
-          "Load next must be called when state is Loaded try call loadIntial");
+          "Load next must be called when state is Loaded try call loadInitial");
     }
-    if (prevoisState.items.length >= prevoisState.total) {
+    if (previousState.items.length >= previousState.total) {
       throw Exception("There is no data to load");
     }
-    var _cancelToken = _getcancelToken();
+    var _cancelToken = _getCancelToken();
 
     emit(state.loadingNext(_cancelToken));
     try {
       var results = await loadData(
         cancelToken: _cancelToken,
-        skip: prevoisState.items.length,
+        skip: previousState.items.length,
         pageSize: pageSize,
       );
-      _emitResults(results, prevoisState);
+      _emitResults(results, previousState);
     } catch (e) {
-      emit(prevoisState);
+      emit(previousState);
       rethrow;
     }
   }
@@ -240,11 +241,11 @@ extension ReadyListRemoteControllerExt<T> on ReadyListController<T> {
     );
   }
 
-  void removeItemsAt(List<int> indexs) {
+  void removeItemsAt(List<int> indexes) {
     state.whenOrNull(
       loaded: (items, total) {
         var _new =
-            items.where((a) => !indexs.any((i) => a == items.elementAt(i)));
+            items.where((a) => !indexes.any((i) => a == items.elementAt(i)));
         if (_new.isEmpty) {
           emit(state.empty());
         } else {
@@ -254,7 +255,7 @@ extension ReadyListRemoteControllerExt<T> on ReadyListController<T> {
     );
   }
 
-  void empty(List<int> indexs) {
+  void empty(List<int> indexes) {
     state.whenOrNull(
       loaded: (items, total) {
         emit(state.empty());

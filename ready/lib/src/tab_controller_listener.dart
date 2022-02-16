@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 
 /// This will listen to [controller] and call [builder] every time index changed
 /// If [controller] is null then it will listen to nearest [DefaultTabController]
-class TabControllerLisner extends StatefulWidget {
+class TabControllerListener extends StatefulWidget {
   final TabController? controller;
   final Widget Function(int index) builder;
-  const TabControllerLisner({
+  const TabControllerListener({
     Key? key,
     this.controller,
     required this.builder,
   }) : super(key: key);
   @override
-  _TabControllerLisnerState createState() => _TabControllerLisnerState();
+  _TabControllerListenerState createState() => _TabControllerListenerState();
 }
 
-class _TabControllerLisnerState extends State<TabControllerLisner> {
+class _TabControllerListenerState extends State<TabControllerListener> {
   TabController? _controller;
 
   void _onIndexChanged() {
@@ -22,7 +22,7 @@ class _TabControllerLisnerState extends State<TabControllerLisner> {
   }
 
   @override
-  void didUpdateWidget(TabControllerLisner oldWidget) {
+  void didUpdateWidget(TabControllerListener oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) _updateController();
   }

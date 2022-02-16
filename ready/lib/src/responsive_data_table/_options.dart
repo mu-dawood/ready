@@ -46,15 +46,15 @@ extension DataColumnSingleExtension on String {
 
 /// options of DataTable
 class DataTableOptions<T> {
-  static List<int> _availableRowsCount(int _prefered) {
-    var list = [_prefered, 10, 25, 50, 100];
+  static List<int> _availableRowsCount(int _preferred) {
+    var list = [_preferred, 10, 25, 50, 100];
     list.sort();
     return list;
   }
 
-  static int _intialRowsPerPage(int _prefered) => _prefered;
+  static int _initialRowsPerPage(int _preferred) => _preferred;
 
-  /// DataTable haeders
+  /// DataTable headers
   ///
   /// example
   /// ```dart
@@ -62,26 +62,26 @@ class DataTableOptions<T> {
   /// ```
   final List<DataColumn> headers;
 
-  /// Get the list of widgets that descripe the row
+  /// Get the list of widgets that describe the row
   /// list length must be equal to [headers] list
   final BuildItemCallBack<T> buildItem;
 
   /// get the [availableRowsCount] which will show menu to allow user select from it
-  /// We prefer list that contains [prefered] but its optional
-  final List<int> Function(int prefered) availableRowsCount;
+  /// We prefer list that contains [preferred] but its optional
+  final List<int> Function(int preferred) availableRowsCount;
 
-  /// the intial rows per page
+  /// the initial rows per page
   /// it must be in  [availableRowsCount]
-  final int Function(int prefered) initialRowsPerPage;
+  final int Function(int preferred) initialRowsPerPage;
 
-  /// whether to show refreh icon or not
+  /// whether to show refresh icon or not
   final Widget Function({
     required bool enabled,
     required VoidCallback onRefresh,
     required bool refreshing,
   })? refreshButton;
 
-  /// the intial rows per page
+  /// the initial rows per page
   /// it must be in  [availableRowsCount]
   final EdgeInsetsGeometry padding;
   DataTableOptions({
@@ -90,14 +90,14 @@ class DataTableOptions<T> {
     this.padding = const EdgeInsets.symmetric(horizontal: 20),
     this.refreshButton = _DefaultRefreshButton.get,
     this.availableRowsCount = _availableRowsCount,
-    this.initialRowsPerPage = _intialRowsPerPage,
+    this.initialRowsPerPage = _initialRowsPerPage,
   });
 }
 
 /// options for [ReadyList]
 class ListOptions<T> implements ReadyListConfigOptions {
   /// specify the grid delegate when the visible layout is [ReadyList]
-  final GridDelegateCallback? gridDelrgate;
+  final GridDelegateCallback? gridDelegate;
   final ListItemBuilder<T>? _builder;
 
   final Widget Function(T item)? trailing;
@@ -150,7 +150,7 @@ class ListOptions<T> implements ReadyListConfigOptions {
 
   /// [title] is the card title of [ReadyList] item
   ListOptions({
-    this.gridDelrgate,
+    this.gridDelegate,
     this.trailing,
     this.scrollController,
     this.headerSlivers,
@@ -199,7 +199,7 @@ class ListOptions<T> implements ReadyListConfigOptions {
     this.topLevelHeaderSlivers,
     this.pageSize,
     this.allowFakeItems,
-    this.gridDelrgate,
+    this.gridDelegate,
   })  : trailing = null,
         _title = null,
         _builder = builder;

@@ -55,16 +55,16 @@ class Grids {
   }) {
     var layout = Utils.detectLayout(width);
     switch (layout) {
-      case LayoutType.xsmall:
+      case LayoutType.xSmall:
       case LayoutType.small:
         return Grids.columns_1(width: width, length: length);
       case LayoutType.medium:
         return Grids.columns_2(width: width, length: length);
       case LayoutType.large:
         return Grids.columns_3(width: width, length: length);
-      case LayoutType.xlarge:
+      case LayoutType.xLarge:
         return Grids.columns_4(width: width, length: length);
-      case LayoutType.xxlarge:
+      case LayoutType.xxLarge:
         return Grids.columns_5(width: width, length: length);
     }
   }

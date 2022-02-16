@@ -1,11 +1,11 @@
 part of shimmers;
 
 /// Specify the scope for [Shimmer]
-/// This will paint the shimmer gradient on all [Shimmer] childs in its tree
+/// This will paint the shimmer gradient on all [Shimmer] children in its tree
 class ShimmerScope extends StatelessWidget {
   final Widget child;
 
-  /// Get the gradiant of the shimmer effect
+  /// Get the gradient of the shimmer effect
   /// if [gradient] is null the it will use this
   /// its important to use [transform] passed in the callback
   /// ```

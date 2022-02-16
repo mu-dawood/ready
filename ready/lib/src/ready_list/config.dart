@@ -185,7 +185,7 @@ class ReadyListConfig extends InheritedWidget
   }
 }
 
-class _ReadyListConfigOptionsDefauls implements ReadyListConfigOptions {
+class _ReadyListConfigOptionsDefaults implements ReadyListConfigOptions {
   @override
   final PlaceholdersConfig placeholdersConfig;
   @override
@@ -219,7 +219,7 @@ class _ReadyListConfigOptionsDefauls implements ReadyListConfigOptions {
   final bool allowFakeItems;
   @override
   final int pageSize;
-  const _ReadyListConfigOptionsDefauls({
+  const _ReadyListConfigOptionsDefaults({
     required this.placeholdersConfig,
     required this.showNoMoreText,
     required this.topLevelFooterSlivers,
@@ -238,32 +238,34 @@ class _ReadyListConfigOptionsDefauls implements ReadyListConfigOptions {
     required this.allowFakeItems,
   });
 
-  static _ReadyListConfigOptionsDefauls effective(
+  static _ReadyListConfigOptionsDefaults effective(
       ReadyListConfigOptions? options, BuildContext context) {
     var tr = Ready.localization(context);
-    var cofig = ReadyListConfig.of(context);
-    return _ReadyListConfigOptionsDefauls(
+    var config = ReadyListConfig.of(context);
+    return _ReadyListConfigOptionsDefaults(
       placeholdersConfig: options?.placeholdersConfig ??
-          cofig?.placeholdersConfig ??
+          config?.placeholdersConfig ??
           PlaceholdersConfig(),
       topLevelFooterSlivers:
-          options?.topLevelFooterSlivers ?? cofig?.topLevelFooterSlivers,
+          options?.topLevelFooterSlivers ?? config?.topLevelFooterSlivers,
       topLevelHeaderSlivers:
-          options?.topLevelHeaderSlivers ?? cofig?.topLevelHeaderSlivers,
-      showNoMoreText: options?.showNoMoreText ?? cofig?.showNoMoreText ?? true,
-      allowRefresh: options?.allowRefresh ?? cofig?.allowRefresh ?? true,
-      allowLoadNext: options?.allowLoadNext ?? cofig?.allowLoadNext ?? true,
-      noMoreText: options?.noMoreText ?? cofig?.noMoreText ?? tr.noMoreItems,
-      loadMoreText: options?.loadMoreText ?? cofig?.loadMoreText ?? tr.loadMore,
-      padding: options?.padding ?? cofig?.padding,
-      reverse: options?.reverse ?? cofig?.reverse ?? false,
+          options?.topLevelHeaderSlivers ?? config?.topLevelHeaderSlivers,
+      showNoMoreText: options?.showNoMoreText ?? config?.showNoMoreText ?? true,
+      allowRefresh: options?.allowRefresh ?? config?.allowRefresh ?? true,
+      allowLoadNext: options?.allowLoadNext ?? config?.allowLoadNext ?? true,
+      noMoreText: options?.noMoreText ?? config?.noMoreText ?? tr.noMoreItems,
+      loadMoreText:
+          options?.loadMoreText ?? config?.loadMoreText ?? tr.loadMore,
+      padding: options?.padding ?? config?.padding,
+      reverse: options?.reverse ?? config?.reverse ?? false,
       shimmerScopeGradient:
-          options?.shimmerScopeGradient ?? cofig?.shimmerScopeGradient,
-      shrinkWrap: options?.shrinkWrap ?? cofig?.shrinkWrap ?? (_) => false,
-      axis: options?.axis ?? cofig?.axis ?? Axis.vertical,
-      physics: options?.physics ?? cofig?.physics,
-      pageSize: options?.pageSize ?? cofig?.pageSize ?? 20,
-      allowFakeItems: options?.allowFakeItems ?? cofig?.allowFakeItems ?? false,
+          options?.shimmerScopeGradient ?? config?.shimmerScopeGradient,
+      shrinkWrap: options?.shrinkWrap ?? config?.shrinkWrap ?? (_) => false,
+      axis: options?.axis ?? config?.axis ?? Axis.vertical,
+      physics: options?.physics ?? config?.physics,
+      pageSize: options?.pageSize ?? config?.pageSize ?? 20,
+      allowFakeItems:
+          options?.allowFakeItems ?? config?.allowFakeItems ?? false,
     );
   }
 }

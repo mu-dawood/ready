@@ -6,7 +6,7 @@ class ReadyDashboard extends StatefulWidget {
   final DrawerOptions drawerOptions;
   final AppBarOptions appBarOptions;
 
-  /// {@macro flutter.material.appbar.actions}
+  /// {@macro flutter.material.appBar.actions}
   ///
   /// This property is used to configure an [AppBar].
   final List<Widget> actions;
@@ -64,14 +64,14 @@ class _ReadyDashboardState extends State<ReadyDashboard>
           var layout = Utils.detectLayout(width);
           late bool small;
           switch (layout) {
-            case LayoutType.xsmall:
+            case LayoutType.xSmall:
             case LayoutType.small:
             case LayoutType.medium:
               small = true;
               break;
             case LayoutType.large:
-            case LayoutType.xlarge:
-            case LayoutType.xxlarge:
+            case LayoutType.xLarge:
+            case LayoutType.xxLarge:
               small = false;
               break;
           }
@@ -103,7 +103,7 @@ class _ReadyDashboardState extends State<ReadyDashboard>
                                 sliver: _DashBoardAppBar(
                                   focusNode: _focusNode,
                                   mergeActions: layout == LayoutType.small ||
-                                      layout == LayoutType.xsmall,
+                                      layout == LayoutType.xSmall,
                                   drawerIcon:
                                       expansionController.value == 0 || small
                                           ? _DrawerIcon(
@@ -146,7 +146,7 @@ class _ReadyDashboardState extends State<ReadyDashboard>
       return [
         PageInfo(
           item: e,
-          titleSpanes: [
+          titleSpans: [
             if (parent != null) ...[
               parent,
               TextSpan(
@@ -155,7 +155,7 @@ class _ReadyDashboardState extends State<ReadyDashboard>
             ],
             TextSpan(text: e.label),
           ],
-          // titleSpanes[]: parentTitle == null ? e.label : '$parentTitle / ${e.label}',
+          // titleSpans[]: parentTitle == null ? e.label : '$parentTitle / ${e.label}',
           child: e.builder!(),
         ),
       ];

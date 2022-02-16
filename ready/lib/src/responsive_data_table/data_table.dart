@@ -20,20 +20,22 @@ class _DataTableState<T, TController extends ReadyListController<T>>
   TController get controller => widget.source.controller;
 
   @override
-  void didChangeDependencies() {
+  void initState() {
     widget.source.controller.state.whenOrNull(
-      needIntialLoading: () {
-        widget.source.controller.loadIntial(widget.source.paging.rowsPerPage);
+      needInitialLoading: () {
+        widget.source.controller
+            .loadInitialData(widget.source.paging.rowsPerPage);
       },
     );
-    super.didChangeDependencies();
+    super.initState();
   }
 
   @override
   void didUpdateWidget(covariant _DataTable<T, TController> oldWidget) {
     widget.source.controller.state.whenOrNull(
-      needIntialLoading: () {
-        widget.source.controller.loadIntial(widget.source.paging.rowsPerPage);
+      needInitialLoading: () {
+        widget.source.controller
+            .loadInitialData(widget.source.paging.rowsPerPage);
       },
     );
     super.didUpdateWidget(oldWidget);
@@ -93,7 +95,7 @@ class _DataTableState<T, TController extends ReadyListController<T>>
         children: [
           ...controller.state.mayWhen(
             orElse: () => [],
-            intialLoading: (_) => [
+            initialLoading: (_) => [
               const CupertinoActivityIndicator(),
               const SizedBox(width: 10),
             ],
@@ -103,7 +105,7 @@ class _DataTableState<T, TController extends ReadyListController<T>>
             ],
           ),
           Text.rich(TextSpan(
-            children: PageInfo.of(context)?.titleSpanes ?? [],
+            children: PageInfo.of(context)?.titleSpans ?? [],
           )),
         ],
       ),
@@ -126,7 +128,7 @@ class _DataTableState<T, TController extends ReadyListController<T>>
       onRefresh: () {
         controller.state.whenOrNull(
           empty: () {
-            controller.loadIntial(widget.source.paging.rowsPerPage);
+            controller.loadInitialData(widget.source.paging.rowsPerPage);
           },
           loaded: (_, __) {
             controller.refreshData(widget.source.paging.rowsPerPage);

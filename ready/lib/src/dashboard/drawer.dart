@@ -98,19 +98,19 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
     return _listView(context);
   }
 
-  List<DashboardItem> expaded(List<DashboardItem> items) {
+  List<DashboardItem> expanded(List<DashboardItem> items) {
     return items
         .expand((element) =>
-            element.subItems.isEmpty ? [element] : expaded(element.subItems))
+            element.subItems.isEmpty ? [element] : expanded(element.subItems))
         .toList();
   }
 
   Widget buildTile(BuildContext context, DashboardItem item,
-      DashboardItem selected, List<DashboardItem> expanded) {
+      DashboardItem selected, List<DashboardItem> _expanded) {
     if (item.builder != null) {
       var child = ListTile(
         onTap: () {
-          DefaultTabController.of(context)?.index = expanded.indexOf(item);
+          DefaultTabController.of(context)?.index = _expanded.indexOf(item);
           var hasDrawer = Scaffold.maybeOf(context)?.hasDrawer == true;
           var isDrawerOpen = hasDrawer && Scaffold.of(context).isDrawerOpen;
           if (isDrawerOpen) {
@@ -124,7 +124,7 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
       );
       return child;
     } else {
-      var inner = expaded(item.subItems);
+      var inner = expanded(item.subItems);
       return ExpansionTile(
         title: Text(item.label),
         maintainState: true,
@@ -132,18 +132,18 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
         leading: item.icon,
         children: [
           for (var sub in item.subItems)
-            buildTile(context, sub, selected, expanded),
+            buildTile(context, sub, selected, _expanded),
         ],
       );
     }
   }
 
-  Widget _tilelistView(
+  Widget _tileListView(
       BuildContext context, List<DashboardItem> items, DrawerOptions options) {
-    var expanded = expaded(items);
-    return TabControllerLisner(
+    var _expanded = expanded(items);
+    return TabControllerListener(
       builder: (int index) {
-        var selectedItem = expanded[index];
+        var selectedItem = _expanded[index];
         return Drawer(
           backgroundColor: options.backgroundColor,
           child: Container(
@@ -167,7 +167,7 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
                     delegate: SliverChildListDelegate([
                   ...options.headers,
                   for (var item in items)
-                    buildTile(context, item, selectedItem, expanded),
+                    buildTile(context, item, selectedItem, _expanded),
                 ])),
                 if (options.footer != null)
                   SliverFillRemaining(
@@ -186,7 +186,7 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
     var dashboard = ReadyDashboard.of(context)!;
     var items = dashboard.items;
     assert(items.isNotEmpty);
-    return _tilelistView(context, items, dashboard.drawerOptions);
+    return _tileListView(context, items, dashboard.drawerOptions);
   }
 }
 

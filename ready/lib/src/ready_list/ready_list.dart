@@ -17,7 +17,7 @@ import '../utils.dart';
 part 'config.dart';
 part 'grids.dart';
 part 'ready_screen_loader.dart';
-part 'refresh_indecators.dart';
+part 'refresh_indicators.dart';
 
 class ReadyList<T, TController extends ReadyListController<T>>
     extends StatefulWidget implements ReadyListConfigOptions {
@@ -183,10 +183,10 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
 
   @override
   void didChangeDependencies() {
-    var _config = _ReadyListConfigOptionsDefauls.effective(widget, context);
+    var _config = _ReadyListConfigOptionsDefaults.effective(widget, context);
     state.whenOrNull(
-      needIntialLoading: () {
-        widget.controller.loadIntial(_config.pageSize);
+      needInitialLoading: () {
+        widget.controller.loadInitialData(_config.pageSize);
       },
     );
     super.didChangeDependencies();
@@ -194,10 +194,10 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
 
   @override
   void didUpdateWidget(covariant ReadyList<T, TController> oldWidget) {
-    var _config = _ReadyListConfigOptionsDefauls.effective(widget, context);
+    var _config = _ReadyListConfigOptionsDefaults.effective(widget, context);
     state.whenOrNull(
-      needIntialLoading: () {
-        widget.controller.loadIntial(_config.pageSize);
+      needInitialLoading: () {
+        widget.controller.loadInitialData(_config.pageSize);
       },
     );
     super.didUpdateWidget(oldWidget);
@@ -224,7 +224,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
         builder:
             (BuildContext context, AsyncSnapshot<ReadyListState<T>> snapshot) {
           var _config =
-              _ReadyListConfigOptionsDefauls.effective(widget, context);
+              _ReadyListConfigOptionsDefaults.effective(widget, context);
           return NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
               if (_config.allowLoadNext) {
@@ -255,7 +255,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
     );
   }
 
-  Future _onRefresh(_ReadyListConfigOptionsDefauls _config) async {
+  Future _onRefresh(_ReadyListConfigOptionsDefaults _config) async {
     if (state.mayWhen(
       orElse: () => true,
       loaded: (_, __) => false,
@@ -268,7 +268,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
     }
   }
 
-  _buildRefresh(_ReadyListConfigOptionsDefauls _config,
+  _buildRefresh(_ReadyListConfigOptionsDefaults _config,
       SliverOverlapAbsorberHandle? absorber) {
     double edgeOffset = absorber?.layoutExtent ?? 0;
 
@@ -283,7 +283,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
     return widget.filterItems?.call(list) ?? list;
   }
 
-  Widget _buildCustomScrollView(_ReadyListConfigOptionsDefauls _config,
+  Widget _buildCustomScrollView(_ReadyListConfigOptionsDefaults _config,
       SliverOverlapAbsorberHandle? absorber) {
     var shrinkWrap = _config.shrinkWrap?.call(state) ?? false;
     var showFooterLoading = _config.allowLoadNext;
@@ -309,11 +309,11 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
                 ],
                 error: (error) =>
                     [_buildPlaceholders(shrinkWrap, _config, false, error)],
-                intialLoading: (_) => widget._slivers!(state),
+                initialLoading: (_) => widget._slivers!(state),
                 refreshing: (items, total, _) => widget._slivers!(state),
                 loadingNext: (items, total, _) => widget._slivers!(state),
                 loaded: (items, total) => widget._slivers!(state),
-                needIntialLoading: () => widget._slivers!(state),
+                needInitialLoading: () => widget._slivers!(state),
               )
             else
               state.when(
@@ -321,7 +321,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
                     _buildPlaceholders(shrinkWrap, _config, false, null),
                 error: (message) =>
                     _buildPlaceholders(shrinkWrap, _config, false, message),
-                intialLoading: (_) => !_config.allowFakeItems
+                initialLoading: (_) => !_config.allowFakeItems
                     ? _buildPlaceholders(shrinkWrap, _config, true, null)
                     : _buildBody(constraints, _config),
                 refreshing: (items, _, __) =>
@@ -330,7 +330,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
                     _buildBody(constraints, _config, _filteredItems(items)),
                 loaded: (items, _) =>
                     _buildBody(constraints, _config, _filteredItems(items)),
-                needIntialLoading: () => !_config.allowFakeItems
+                needInitialLoading: () => !_config.allowFakeItems
                     ? _buildPlaceholders(shrinkWrap, _config, true, null)
                     : _buildBody(constraints, _config),
               ),
@@ -353,13 +353,15 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
   }
 
   Widget _buildBody(
-      BoxConstraints constraints, _ReadyListConfigOptionsDefauls _config,
+      BoxConstraints constraints, _ReadyListConfigOptionsDefaults _config,
       [Iterable<T>? items]) {
     if (widget._gridDelegate != null) {
       return SliverPadding(
         padding: _config.padding ?? EdgeInsets.zero,
         sliver: SliverStaggeredGrid(
+          // spell-checker: disable
           addAutomaticKeepAlives: false,
+          // spell-checker: enable
           gridDelegate: widget._gridDelegate!(
             width: constraints.maxWidth,
             length: items?.length,
@@ -402,7 +404,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
 
   Widget _buildPlaceholders(
     bool shrinkWrap,
-    _ReadyListConfigOptionsDefauls _config,
+    _ReadyListConfigOptionsDefaults _config,
     bool loading,
     String? error,
   ) {
@@ -420,7 +422,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
   }
 
   _ReadyScreenLoader _buildRScreenLoading(
-    _ReadyListConfigOptionsDefauls _config,
+    _ReadyListConfigOptionsDefaults _config,
     bool loading,
     String? error,
   ) {
@@ -429,12 +431,12 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
       loading: loading,
       error: error,
       config: _config.placeholdersConfig,
-      onReload: () => ctrl.loadIntial(_config.pageSize),
+      onReload: () => ctrl.loadInitialData(_config.pageSize),
     );
   }
 
   Widget _buildItem(
-      Iterable<T>? items, _ReadyListConfigOptionsDefauls _config, int index) {
+      Iterable<T>? items, _ReadyListConfigOptionsDefaults _config, int index) {
     if (items == null || index >= items.length) {
       if (_config.allowFakeItems) {
         return widget._buildItem!(null, index);

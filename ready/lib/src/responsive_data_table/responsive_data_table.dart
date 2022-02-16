@@ -35,14 +35,14 @@ part 'toggle_filter.dart';
 ///
 /// if type is null then next:
 ///
-/// if width return  [LayoutType.large] or [LayoutType.xlarge] or [LayoutType.xxlarge]
+/// if width return  [LayoutType.large] or [LayoutType.xLarge] or [LayoutType.xxLarge]
 class ResponsiveDataTable<T, TController extends ReadyListController<T>>
     extends InheritedWidget {
   /// Widget to show when there is selection
   /// if this is null , then there is no selection handlers will be added
   final SelectedButtonCallBack? selectionButton;
 
-  /// options to be addedd at the top of the [ReadyList] or [DataTable]
+  /// options to be added at the top of the [ReadyList] or [DataTable]
   /// this is differ from the action of [DashboardItem] if you use it
   final List<Widget> actions;
 
@@ -141,10 +141,10 @@ class __ResponsiveDataTableState<T, TController extends ReadyListController<T>>
   @override
   void initState() {
     var options = widget.options;
-    var _preferedRows = ((widget.constraints.maxHeight - 170) ~/ 48);
+    var _preferredRows = ((widget.constraints.maxHeight - 170) ~/ 48);
     var availableRowsPerPage =
-        options.dataTable!.availableRowsCount(_preferedRows);
-    var rowsPerPage = options.dataTable!.initialRowsPerPage(_preferedRows);
+        options.dataTable!.availableRowsCount(_preferredRows);
+    var rowsPerPage = options.dataTable!.initialRowsPerPage(_preferredRows);
     if (!availableRowsPerPage.contains(rowsPerPage)) {
       rowsPerPage = availableRowsPerPage[0];
     }
@@ -200,13 +200,13 @@ class __ResponsiveDataTableState<T, TController extends ReadyListController<T>>
     var type = widget.type;
     if (type == null) {
       switch (layout) {
-        case LayoutType.xsmall:
+        case LayoutType.xSmall:
         case LayoutType.small:
         case LayoutType.medium:
           return list(context, layout);
         case LayoutType.large:
-        case LayoutType.xlarge:
-        case LayoutType.xxlarge:
+        case LayoutType.xLarge:
+        case LayoutType.xxLarge:
           return dataTable(context);
       }
     } else {
@@ -236,7 +236,7 @@ class __ResponsiveDataTableState<T, TController extends ReadyListController<T>>
   Widget list(BuildContext context, LayoutType layout) {
     var options = widget.options;
     var listOptions = widget.options.list!;
-    return _ChangeNotifierLisner(
+    return _ChangeNotifierListener(
       notifier: source,
       builder: (BuildContext context) {
         return Stack(
@@ -279,7 +279,7 @@ class __ResponsiveDataTableState<T, TController extends ReadyListController<T>>
                         ...listOptions.headerSlivers!.call(controller),
                     ];
                   },
-                  gridDelegate: listOptions.gridDelrgate ?? Grids.responsive,
+                  gridDelegate: listOptions.gridDelegate ?? Grids.responsive,
                 ),
               ),
             ),
@@ -463,18 +463,19 @@ class _ListAppBar<T, TController extends ReadyListController<T>>
   }
 }
 
-class _ChangeNotifierLisner extends StatefulWidget {
+class _ChangeNotifierListener extends StatefulWidget {
   final ChangeNotifier notifier;
   final WidgetBuilder builder;
-  const _ChangeNotifierLisner(
+  const _ChangeNotifierListener(
       {Key? key, required this.notifier, required this.builder})
       : super(key: key);
 
   @override
-  __ChangeNotifierLisnerState createState() => __ChangeNotifierLisnerState();
+  __ChangeNotifierListenerState createState() =>
+      __ChangeNotifierListenerState();
 }
 
-class __ChangeNotifierLisnerState extends State<_ChangeNotifierLisner> {
+class __ChangeNotifierListenerState extends State<_ChangeNotifierListener> {
   _onChanged() {
     if (mounted) {
       setState(() {});

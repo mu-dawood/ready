@@ -6,7 +6,7 @@ class Utils {
   /// detect layout according to passed [width]
   static LayoutType detectLayout(double width) {
     if (width <= 320) {
-      return LayoutType.xsmall;
+      return LayoutType.xSmall;
     } else if (width <= 640) {
       return LayoutType.small;
     } else if (width <= 960) {
@@ -14,9 +14,9 @@ class Utils {
     } else if (width <= 1024) {
       return LayoutType.large;
     } else if (width <= 1366) {
-      return LayoutType.xlarge;
+      return LayoutType.xLarge;
     } else {
-      return LayoutType.xxlarge;
+      return LayoutType.xxLarge;
     }
   }
 }

@@ -7,17 +7,17 @@ class AppBarOptions {
   /// decoration of search box
   final InputDecoration? inputDecoration;
 
-  /// {@macro flutter.material.appbar.flexibleSpace}
+  /// {@macro flutter.material.appBar.flexibleSpace}
   ///
   /// This property is used to configure an [AppBar].
   final Widget? flexibleSpace;
 
-  /// {@macro flutter.material.appbar.bottom}
+  /// {@macro flutter.material.appBar.bottom}
   ///
   /// This property is used to configure an [AppBar].
   final PreferredSizeWidget? bottom;
 
-  /// {@macro flutter.material.appbar.primary}
+  /// {@macro flutter.material.appBar.primary}
   ///
   /// This property is used to configure an [AppBar].
   final bool? primary;
@@ -129,7 +129,7 @@ class AppBarOptions {
   /// also stretch when the user over-scrolls.
   final bool? stretch;
 
-  /// The offset of overscroll required to activate [onStretchTrigger].
+  /// The offset of overScroll required to activate [onStretchTrigger].
   ///
   /// This defaults to 100.0.
   final double? stretchTriggerOffset;
@@ -218,7 +218,7 @@ class _DashBoardAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     var options = ReadyDashboard.of(context)!;
 
-    return TabControllerLisner(
+    return TabControllerListener(
       builder: (int index) {
         var _items = [
           for (var item in options.items) ...items(item),

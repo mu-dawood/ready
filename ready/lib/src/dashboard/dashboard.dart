@@ -6,7 +6,7 @@ import 'package:ready/src/utils.dart';
 
 import '../enums.dart';
 import '../ready.dart';
-import '../tab_controller_lisner.dart';
+import '../tab_controller_listener.dart';
 
 part 'app_bar.dart';
 part 'dash_board_item.dart';

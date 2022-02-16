@@ -59,11 +59,11 @@ class ReadyListCubit extends Cubit<ReadyListState<FakeItem>>
     implements ReadyListController<FakeItem> {
   ReadyListCubit(ReadyListState<FakeItem> initialState) : super(initialState);
   @override
-  Future<ReadylistResponse<FakeItem>> loadData(
+  Future<ReadyListResponse<FakeItem>> loadData(
       {ICancelToken? cancelToken,
       required int skip,
       required int pageSize}) async {
     var list = await FakeRepo.asyncList(30, const Duration(seconds: 3));
-    return ReadylistResponse.success(items: list, total: 100);
+    return ReadyListResponse.success(items: list, total: 100);
   }
 }
