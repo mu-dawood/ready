@@ -135,6 +135,10 @@ class _DataTableState<T, TController extends ReadyListController<T>>
             controller.remote
                 ?.loadInitialData(widget.source.paging.rowsPerPage);
           },
+          error: (e) {
+            controller.remote
+                ?.loadInitialData(widget.source.paging.rowsPerPage);
+          },
           loaded: (_, __) {
             controller.remote?.refreshData(widget.source.paging.rowsPerPage);
           },
