@@ -17,6 +17,10 @@ abstract class ReadyListController<T> {
 
 extension ReadyListRemoteControllerExt<T> on ReadyListController<T> {
   bool get hasHandler => handler != null;
+
+  ReadyListController<T> withHandler(ListLoadingHandler<T>? handler) =>
+      _ReadyListControllerWithHandler(this, handler);
+
   void addItem(T item) {
     state.whenOrNull(
       loaded: (items, total) {

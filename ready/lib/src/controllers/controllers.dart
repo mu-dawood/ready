@@ -9,6 +9,7 @@ import '../enums.dart';
 
 part 'loading_handler.dart';
 part 'ready_list_controller.dart';
+part 'ready_list_controller_copies.dart';
 part 'ready_list_state.dart';
 
 class ReadyListResponse<T> {
