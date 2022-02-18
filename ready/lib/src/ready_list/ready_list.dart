@@ -15,9 +15,9 @@ import '../shimmers/shimmers.dart';
 import '../utils.dart';
 
 part 'config.dart';
+part 'footer_loading.dart';
 part 'grids.dart';
 part 'ready_screen_loader.dart';
-part 'refresh_indicators.dart';
 
 class ReadyList<T, TController extends ReadyListController<T>>
     extends StatefulWidget implements ReadyListConfigOptions {
@@ -186,8 +186,8 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
     var _config = _ReadyListConfigOptionsDefaults.effective(widget, context);
     state.whenOrNull(
       needInitialLoading: () {
-        if (widget.controller.isRemoteController) {
-          widget.controller.remote!.loadInitialData(_config.pageSize);
+        if (widget.controller.hasHandler) {
+          widget.controller.handler!.loadInitialData(_config.pageSize);
         }
       },
     );
@@ -199,8 +199,8 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
     var _config = _ReadyListConfigOptionsDefaults.effective(widget, context);
     state.whenOrNull(
       needInitialLoading: () {
-        if (widget.controller.isRemoteController) {
-          widget.controller.remote!.loadInitialData(_config.pageSize);
+        if (widget.controller.hasHandler) {
+          widget.controller.handler!.loadInitialData(_config.pageSize);
         }
       },
     );
@@ -239,9 +239,8 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
                       if (scrollInfo.metrics.pixels > 0) {
                         if (scrollInfo.metrics.pixels >=
                             scrollInfo.metrics.maxScrollExtent - 200) {
-                          if (widget.controller
-                              is! RemoteReadyListController<T>) {
-                            (widget.controller as RemoteReadyListController<T>)
+                          if (widget.controller.hasHandler) {
+                            widget.controller.handler!
                                 .nextData(_config.pageSize);
                           }
                         }
@@ -265,7 +264,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
   }
 
   Future _onRefresh(_ReadyListConfigOptionsDefaults _config) async {
-    if (widget.controller.isRemoteController) {
+    if (widget.controller.hasHandler) {
       if (state.mayWhen(
         orElse: () => true,
         loaded: (_, __) => false,
@@ -274,7 +273,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
       }
       var isVisible = Ready.isVisible(context);
       if (isVisible) {
-        await (widget.controller.remote!).refreshData(_config.pageSize);
+        await (widget.controller.handler!).refreshData(_config.pageSize);
       }
     }
   }
@@ -282,7 +281,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
   _buildRefresh(_ReadyListConfigOptionsDefaults _config,
       SliverOverlapAbsorberHandle? absorber) {
     double edgeOffset = absorber?.layoutExtent ?? 0;
-    if (widget.controller.isRemoteController) {
+    if (widget.controller.hasHandler) {
       return RefreshIndicator(
         onRefresh: () => _onRefresh(_config),
         edgeOffset: edgeOffset,
@@ -350,7 +349,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
               ),
             if (widget.innerFooterSlivers != null)
               ...widget.innerFooterSlivers!(state),
-            if (showFooterLoading && widget.controller.isRemoteController)
+            if (showFooterLoading && widget.controller.hasHandler)
               _FooterLoading<T, TController>(
                 shrinkWrap: shrinkWrap,
                 config: _config,
@@ -445,8 +444,8 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
       loading: loading,
       error: error,
       config: _config.placeholdersConfig,
-      onReload: ctrl.isRemoteController
-          ? () => ctrl.remote!.loadInitialData(_config.pageSize)
+      onReload: ctrl.hasHandler
+          ? () => ctrl.handler!.loadInitialData(_config.pageSize)
           : null,
     );
   }

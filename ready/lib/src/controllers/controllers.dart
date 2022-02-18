@@ -3,11 +3,11 @@ library controllers;
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:ready/ready.dart';
 
 import '../enums.dart';
 
+part 'loading_handler.dart';
 part 'ready_list_controller.dart';
 part 'ready_list_state.dart';
 

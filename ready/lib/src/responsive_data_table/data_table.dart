@@ -21,10 +21,10 @@ class _DataTableState<T, TController extends ReadyListController<T>>
 
   @override
   void initState() {
-    if (widget.source.controller.isRemoteController) {
+    if (widget.source.controller.hasHandler) {
       widget.source.controller.state.whenOrNull(
         needInitialLoading: () {
-          widget.source.controller.remote!
+          widget.source.controller.handler!
               .loadInitialData(widget.source.paging.rowsPerPage);
         },
       );
@@ -34,10 +34,10 @@ class _DataTableState<T, TController extends ReadyListController<T>>
 
   @override
   void didUpdateWidget(covariant _DataTable<T, TController> oldWidget) {
-    if (widget.source.controller.isRemoteController) {
+    if (widget.source.controller.hasHandler) {
       widget.source.controller.state.whenOrNull(
         needInitialLoading: () {
-          widget.source.controller.remote!
+          widget.source.controller.handler!
               .loadInitialData(widget.source.paging.rowsPerPage);
         },
       );
@@ -128,19 +128,20 @@ class _DataTableState<T, TController extends ReadyListController<T>>
         orElse: () => false,
         loaded: (items, total) => true,
         empty: () => true,
+        error: (message) => true,
       ),
       onRefresh: () {
         controller.state.whenOrNull(
           empty: () {
-            controller.remote
+            controller.handler
                 ?.loadInitialData(widget.source.paging.rowsPerPage);
           },
           error: (e) {
-            controller.remote
+            controller.handler
                 ?.loadInitialData(widget.source.paging.rowsPerPage);
           },
           loaded: (_, __) {
-            controller.remote?.refreshData(widget.source.paging.rowsPerPage);
+            controller.handler?.refreshData(widget.source.paging.rowsPerPage);
           },
         );
       },
@@ -170,7 +171,9 @@ class _DataTableState<T, TController extends ReadyListController<T>>
           filters: filters,
           controller: widget.source.controller,
         ),
-      if (widget.options.dataTable?.refreshButton != null) _buildRefreshIcon(),
+      if (widget.options.dataTable?.refreshButton != null &&
+          controller.hasHandler)
+        _buildRefreshIcon(),
     ];
   }
 }

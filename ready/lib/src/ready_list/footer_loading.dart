@@ -26,7 +26,7 @@ class _FooterLoading<T, TController extends ReadyListController<T>>
           return _buildWidget(
             TextButton(
               onPressed: () {
-                controller.remote?.nextData(config.pageSize);
+                controller.handler?.nextData(config.pageSize);
               },
               child: Text(config.loadMoreText),
             ),

@@ -35,7 +35,7 @@ class ResponsiveList extends StatelessWidget {
           SearchFilter(
             decoration: const InputDecoration(hintText: 'Search here'),
             onChange: (String? value) {
-              controller.loadInitialData(16);
+              controller.handler?.loadInitialData(16);
             },
           ),
         ],
@@ -75,15 +75,15 @@ class ResponsiveList extends StatelessWidget {
 }
 
 class ReadyListCubit extends Cubit<ReadyListState<FakeItem>>
-    implements RemoteReadyListController<FakeItem> {
+    implements ReadyListController<FakeItem> {
   ReadyListCubit() : super(ReadyListState());
 
   @override
-  Future<ReadyListResponse<FakeItem>> loadData(
-      {ICancelToken? cancelToken,
-      required int skip,
-      required int pageSize}) async {
-    var list = await FakeRepo.asyncList(pageSize);
-    return ReadyListResponse.success(items: list, total: 100);
-  }
+  ListLoadingHandler<FakeItem>? get handler => DefaultListLoadingHandler(
+        loadData: (skip, pageSize, cancelToken) async {
+          var list = await FakeRepo.asyncList(pageSize);
+          return ReadyListResponse.success(items: list, total: 100);
+        },
+        controller: this,
+      );
 }
