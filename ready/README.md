@@ -1,5 +1,8 @@
 # Ready
-[![N|Ready](https://img.shields.io/github/v/release/mo-ah-dawood/ready?style=for-the-badge)](https://github.com/mo-ah-dawood/ready) ![GitHub forks](https://img.shields.io/github/forks/mo-ah-dawood/ready?style=for-the-badge) ![GitHub Repo stars](https://img.shields.io/github/stars/mo-ah-dawood/ready?style=for-the-badge) ![GitHub watchers](https://img.shields.io/github/watchers/mo-ah-dawood/ready?style=for-the-badge) [![N|Ready](https://img.shields.io/pub/v/ready.svg?style=for-the-badge)](https://pub.dev/packages/ready)
+
+[![N|Ready](https://img.shields.io/github/v/release/mo-ah-dawood/ready?style=for-the-badge)](https://github.com/mo-ah-dawood/ready) 
+
+![GitHub forks](https://img.shields.io/github/forks/mo-ah-dawood/ready?style=for-the-badge) ![GitHub Repo stars](https://img.shields.io/github/stars/mo-ah-dawood/ready?style=for-the-badge) ![GitHub watchers](https://img.shields.io/github/watchers/mo-ah-dawood/ready?style=for-the-badge) [![N|Ready](https://img.shields.io/pub/v/ready.svg?style=for-the-badge)](https://pub.dev/packages/ready)
 
 ##### - Ready is very simple package to allow you create your admin panal with flutter
 
@@ -8,16 +11,19 @@
 ##### - Admin panal itself can be used in mobile apps as its responsive 
 
 ## Can i see it
+
  - Yes try this [Demo](https://ready-19c04.web.app)
 
 ## Where to get it
+
  - If you are seeing this in pub site so you are in the right place
  - if not you can get it  [Here](https://pub.dev/packages/ready)
 
-
 ## How to use it
+
  
  [ ] Fisrt if you support multi language you have to add ready delegate in your material app
+
 ```dart
     return MaterialApp(
       localizationsDelegates: [
@@ -26,10 +32,11 @@
       ],
     );
 ```
+
 [ ] We currently support `arabic` and `english`
 
-
 ## Features
+
  > Here will explain each feature
  > Click on the feature name to see how to use it
  
@@ -72,7 +79,7 @@
 
 ![LoadingShimmer](https://user-images.githubusercontent.com/31937782/147537961-2076ab13-9105-4251-83dc-62a2ae8d21fc.gif)
 
-- see how the effect works its not related to card
+* see how the effect works its not related to card
  
 
 ## Packages
@@ -81,10 +88,11 @@ Thare is related packges that related  to  ready and you can use it
 
 | Plugin | README |
 | ------ | ------ |
-| Packge | [packges/README.md] |
+| ready_form | [packges/ready_form/README.md] |
 
 ## How to contribute
-- To make package smaller and cleaner as possible we will not add a lot of features to it
-- instead we will add the new features in seperate packages and list it in the packages section
-- in this way if any one need the new feature he can add its package to his project
-- any package must has a good docs before it listed in packges list
+
+* To make package smaller and cleaner as possible we will not add a lot of features to it
+* instead we will add the new features in seperate packages and list it in the packages section
+* in this way if any one need the new feature he can add its package to his project
+* any package must has a good docs before it listed in packges list
