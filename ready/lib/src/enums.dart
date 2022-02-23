@@ -27,26 +27,3 @@ enum LayoutType {
   /// [width] > [1366]
   xxLarge,
 }
-
-enum ListStateType {
-  /// when need initial loading
-  needInitialLoading,
-
-  /// when initial load
-  initialLoading,
-
-  /// when items loaded
-  loaded,
-
-  /// when loaded but no items
-  empty,
-
-  /// when refreshing items
-  refreshing,
-
-  /// when loading next
-  loadingNext,
-
-  /// when has error
-  error,
-}

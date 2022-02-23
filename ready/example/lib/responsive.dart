@@ -35,7 +35,7 @@ class ResponsiveList extends StatelessWidget {
           SearchFilter(
             decoration: const InputDecoration(hintText: 'Search here'),
             onChange: (String? value) {
-              controller.handler?.loadInitialData(16);
+              controller.handler?.firstLoad(16);
             },
           ),
         ],
@@ -76,7 +76,7 @@ class ResponsiveList extends StatelessWidget {
 
 class ReadyListCubit extends Cubit<ReadyListState<FakeItem>>
     implements ReadyListController<FakeItem> {
-  ReadyListCubit() : super(ReadyListState());
+  ReadyListCubit() : super(const ReadyListState.firstState());
 
   @override
   ListLoadingHandler<FakeItem>? get handler => DefaultListLoadingHandler(

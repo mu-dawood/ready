@@ -2,15 +2,13 @@ library controllers;
 
 import 'dart:async';
 
-import 'package:equatable/equatable.dart';
 import 'package:ready/ready.dart';
 
-import '../enums.dart';
+export './state/ready_list_state.dart';
 
 part 'loading_handler.dart';
 part 'ready_list_controller.dart';
 part 'ready_list_controller_copies.dart';
-part 'ready_list_state.dart';
 
 class ReadyListResponse<T> {
   factory ReadyListResponse.success({

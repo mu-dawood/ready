@@ -58,7 +58,7 @@ class _FiltersButtonSheet<T, TController extends ReadyListController<T>>
       builder:
           (BuildContext context, AsyncSnapshot<ReadyListState<T>> snapshot) {
         var loading = controller().state.whenOrNull(
-              initialLoading: (_) => const LinearProgressIndicator(),
+              firstLoading: (_) => const LinearProgressIndicator(),
               refreshing: (_, __, ___) => const LinearProgressIndicator(),
             );
 

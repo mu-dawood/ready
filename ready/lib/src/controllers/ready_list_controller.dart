@@ -24,7 +24,7 @@ extension ReadyListRemoteControllerExt<T> on ReadyListController<T> {
   void addItem(T item) {
     state.whenOrNull(
       loaded: (items, total) {
-        emit(state.loaded([...items, item], total + 1));
+        emit(ReadyListState.loaded(items: [...items, item], total: total + 1));
       },
     );
   }
@@ -32,7 +32,8 @@ extension ReadyListRemoteControllerExt<T> on ReadyListController<T> {
   void addItems(Iterable<T> items) {
     state.whenOrNull(
       loaded: (_items, total) {
-        emit(state.loaded([..._items, ...items], total + items.length));
+        emit(ReadyListState.loaded(
+            items: [..._items, ...items], total: total + items.length));
       },
     );
   }
@@ -40,7 +41,7 @@ extension ReadyListRemoteControllerExt<T> on ReadyListController<T> {
   void insertItem(T item) {
     state.whenOrNull(
       loaded: (items, total) {
-        emit(state.loaded([item, ...items], total + 1));
+        emit(ReadyListState.loaded(items: [item, ...items], total: total + 1));
       },
     );
   }
@@ -48,7 +49,10 @@ extension ReadyListRemoteControllerExt<T> on ReadyListController<T> {
   void insertItems(Iterable<T> items) {
     state.whenOrNull(
       loaded: (_items, total) {
-        emit(state.loaded([...items, ..._items], total + items.length));
+        emit(ReadyListState.loaded(
+          items: [...items, ..._items],
+          total: total + items.length,
+        ));
       },
     );
   }
@@ -58,9 +62,9 @@ extension ReadyListRemoteControllerExt<T> on ReadyListController<T> {
       loaded: (items, total) {
         var _new = items.where((element) => element != item);
         if (_new.isEmpty) {
-          emit(state.empty());
+          emit(const ReadyListState.empty());
         } else {
-          emit(state.loaded(_new, total - 1));
+          emit(ReadyListState.loaded(items: _new, total: total - 1));
         }
       },
     );
@@ -71,9 +75,9 @@ extension ReadyListRemoteControllerExt<T> on ReadyListController<T> {
       loaded: (_items, total) {
         var _new = _items.where((a) => !items.any((b) => a == b));
         if (_new.isEmpty) {
-          emit(state.empty());
+          emit(const ReadyListState.empty());
         } else {
-          emit(state.loaded(_new, total - items.length));
+          emit(ReadyListState.loaded(items: _new, total: total - items.length));
         }
       },
     );
@@ -84,9 +88,9 @@ extension ReadyListRemoteControllerExt<T> on ReadyListController<T> {
       loaded: (items, total) {
         var _new = items.where((element) => element != items.elementAt(index));
         if (_new.isEmpty) {
-          emit(state.empty());
+          emit(const ReadyListState.empty());
         } else {
-          emit(state.loaded(_new, total - 1));
+          emit(ReadyListState.loaded(items: _new, total: total - 1));
         }
       },
     );
@@ -98,9 +102,35 @@ extension ReadyListRemoteControllerExt<T> on ReadyListController<T> {
         var _new =
             items.where((a) => !indexes.any((i) => a == items.elementAt(i)));
         if (_new.isEmpty) {
-          emit(state.empty());
+          emit(const ReadyListState.empty());
         } else {
-          emit(state.loaded(_new, total - items.length));
+          emit(ReadyListState.loaded(items: _new, total: total - items.length));
+        }
+      },
+    );
+  }
+
+  void removeWhere(bool Function(T) test) {
+    state.whenOrNull(
+      loaded: (items, total) {
+        var _new = items.where((a) => !test(a));
+        if (_new.isEmpty) {
+          emit(const ReadyListState.empty());
+        } else {
+          emit(ReadyListState.loaded(items: _new, total: total - items.length));
+        }
+      },
+    );
+  }
+
+  void mapTo(T Function(T) test) {
+    state.whenOrNull(
+      loaded: (items, total) {
+        var _new = items.map((a) => test(a));
+        if (_new.isEmpty) {
+          emit(const ReadyListState.empty());
+        } else {
+          emit(ReadyListState.loaded(items: _new, total: total - items.length));
         }
       },
     );
@@ -109,7 +139,7 @@ extension ReadyListRemoteControllerExt<T> on ReadyListController<T> {
   void empty(List<int> indexes) {
     state.whenOrNull(
       loaded: (items, total) {
-        emit(state.empty());
+        emit(const ReadyListState.empty());
       },
     );
   }

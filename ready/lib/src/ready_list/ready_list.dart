@@ -185,9 +185,9 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
   void didChangeDependencies() {
     var _config = _ReadyListConfigOptionsDefaults.effective(widget, context);
     state.whenOrNull(
-      needInitialLoading: () {
+      firstState: () {
         if (widget.controller.hasHandler) {
-          widget.controller.handler!.loadInitialData(_config.pageSize);
+          widget.controller.handler!.firstLoad(_config.pageSize);
         }
       },
     );
@@ -198,9 +198,9 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
   void didUpdateWidget(covariant ReadyList<T, TController> oldWidget) {
     var _config = _ReadyListConfigOptionsDefaults.effective(widget, context);
     state.whenOrNull(
-      needInitialLoading: () {
+      firstState: () {
         if (widget.controller.hasHandler) {
-          widget.controller.handler!.loadInitialData(_config.pageSize);
+          widget.controller.handler!.firstLoad(_config.pageSize);
         }
       },
     );
@@ -322,11 +322,11 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
                 ],
                 error: (error) =>
                     [_buildPlaceholders(shrinkWrap, _config, false, error)],
-                initialLoading: (_) => widget._slivers!(state),
+                firstLoading: (_) => widget._slivers!(state),
                 refreshing: (items, total, _) => widget._slivers!(state),
                 loadingNext: (items, total, _) => widget._slivers!(state),
                 loaded: (items, total) => widget._slivers!(state),
-                needInitialLoading: () => widget._slivers!(state),
+                firstState: () => widget._slivers!(state),
               )
             else
               state.when(
@@ -334,7 +334,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
                     _buildPlaceholders(shrinkWrap, _config, false, null),
                 error: (message) =>
                     _buildPlaceholders(shrinkWrap, _config, false, message),
-                initialLoading: (_) => !_config.allowFakeItems
+                firstLoading: (_) => !_config.allowFakeItems
                     ? _buildPlaceholders(shrinkWrap, _config, true, null)
                     : _buildBody(constraints, _config),
                 refreshing: (items, _, __) =>
@@ -343,7 +343,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
                     _buildBody(constraints, _config, _filteredItems(items)),
                 loaded: (items, _) =>
                     _buildBody(constraints, _config, _filteredItems(items)),
-                needInitialLoading: () => !_config.allowFakeItems
+                firstState: () => !_config.allowFakeItems
                     ? _buildPlaceholders(shrinkWrap, _config, true, null)
                     : _buildBody(constraints, _config),
               ),
@@ -445,7 +445,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
       error: error,
       config: _config.placeholdersConfig,
       onReload: ctrl.hasHandler
-          ? () => ctrl.handler!.loadInitialData(_config.pageSize)
+          ? () => ctrl.handler!.firstLoad(_config.pageSize)
           : null,
     );
   }

@@ -203,3 +203,55 @@ class HeroReadyImage extends StatelessWidget {
     );
   }
 }
+
+extension ReadyImageExtension on BuildContext {
+  DecorationImage readyImage({
+    required String path,
+    Uri Function(String path)? resolveUrl,
+    ImageRenderMethodForWeb? imageRenderMethodForWeb,
+    int? maxHeight,
+    int? maxWidth,
+    double scale = 1.0,
+    String? cacheKey,
+    BoxFit? fit,
+    HeadersCallBack? headers,
+    BaseCacheManager? cacheManager,
+    void Function(Object, StackTrace?)? onError,
+    ColorFilter? colorFilter,
+    AlignmentGeometry alignment = Alignment.center,
+    Rect? centerSlice,
+    ImageRepeat repeat = ImageRepeat.noRepeat,
+    bool matchTextDirection = false,
+    double opacity = 1.0,
+    FilterQuality filterQuality = FilterQuality.low,
+    bool invertColors = false,
+    bool isAntiAlias = false,
+  }) {
+    var config = ReadyImageConfig.of(this);
+    return DecorationImage(
+      fit: fit ?? config?.fit ?? BoxFit.cover,
+      onError: onError,
+      colorFilter: colorFilter,
+      alignment: alignment,
+      centerSlice: centerSlice,
+      repeat: repeat,
+      opacity: opacity,
+      matchTextDirection: matchTextDirection,
+      filterQuality: filterQuality,
+      invertColors: invertColors,
+      isAntiAlias: isAntiAlias,
+      image: CachedNetworkImageProvider(
+        (resolveUrl ?? config?.resolveUrl)?.call(path).toString() ?? path,
+        maxHeight: maxHeight,
+        maxWidth: maxWidth,
+        scale: scale,
+        headers: (headers ?? config?.headers)?.call(this),
+        cacheManager: cacheManager ?? config?.cacheManager,
+        cacheKey: cacheKey,
+        imageRenderMethodForWeb: imageRenderMethodForWeb ??
+            config?.imageRenderMethodForWeb ??
+            ImageRenderMethodForWeb.HtmlImage,
+      ),
+    );
+  }
+}

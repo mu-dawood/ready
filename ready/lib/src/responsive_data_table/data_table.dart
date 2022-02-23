@@ -23,9 +23,9 @@ class _DataTableState<T, TController extends ReadyListController<T>>
   void initState() {
     if (widget.source.controller.hasHandler) {
       widget.source.controller.state.whenOrNull(
-        needInitialLoading: () {
+        firstState: () {
           widget.source.controller.handler!
-              .loadInitialData(widget.source.paging.rowsPerPage);
+              .firstLoad(widget.source.paging.rowsPerPage);
         },
       );
     }
@@ -36,9 +36,9 @@ class _DataTableState<T, TController extends ReadyListController<T>>
   void didUpdateWidget(covariant _DataTable<T, TController> oldWidget) {
     if (widget.source.controller.hasHandler) {
       widget.source.controller.state.whenOrNull(
-        needInitialLoading: () {
+        firstState: () {
           widget.source.controller.handler!
-              .loadInitialData(widget.source.paging.rowsPerPage);
+              .firstLoad(widget.source.paging.rowsPerPage);
         },
       );
     }
@@ -99,7 +99,7 @@ class _DataTableState<T, TController extends ReadyListController<T>>
         children: [
           ...controller.state.mayWhen(
             orElse: () => [],
-            initialLoading: (_) => [
+            firstLoading: (_) => [
               const CupertinoActivityIndicator(),
               const SizedBox(width: 10),
             ],
@@ -133,12 +133,10 @@ class _DataTableState<T, TController extends ReadyListController<T>>
       onRefresh: () {
         controller.state.whenOrNull(
           empty: () {
-            controller.handler
-                ?.loadInitialData(widget.source.paging.rowsPerPage);
+            controller.handler?.firstLoad(widget.source.paging.rowsPerPage);
           },
           error: (e) {
-            controller.handler
-                ?.loadInitialData(widget.source.paging.rowsPerPage);
+            controller.handler?.firstLoad(widget.source.paging.rowsPerPage);
           },
           loaded: (_, __) {
             controller.handler?.refreshData(widget.source.paging.rowsPerPage);

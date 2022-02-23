@@ -43,7 +43,7 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
   }) {
     _subscription = controller.stream.listen((event) {
       event.whenOrNull(
-        initialLoading: (_) {
+        firstLoading: (_) {
           _selectedItems.clear();
         },
         error: (_) {
@@ -159,7 +159,7 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
   DataRow getRow(int index) {
     return controller.state.mayWhen(
       orElse: () => _fakeRow(false),
-      initialLoading: (_) => _fakeRow(true),
+      firstLoading: (_) => _fakeRow(true),
       loaded: (items, _) =>
           index < items.length ? _realRow(items, index) : _fakeRow(true),
       refreshing: (items, _, __) =>

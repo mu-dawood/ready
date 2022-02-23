@@ -20,7 +20,7 @@ class _FooterLoading<T, TController extends ReadyListController<T>>
     return _state.when(
       empty: () => _buildNone(),
       error: (error) => _buildNone(),
-      initialLoading: (_) => _buildNone(),
+      firstLoading: (_) => _buildNone(),
       loaded: (items, total) {
         if (items.length < total) {
           return _buildWidget(
@@ -48,7 +48,7 @@ class _FooterLoading<T, TController extends ReadyListController<T>>
         child: CupertinoActivityIndicator(),
       )),
       refreshing: (items, _, __) => _buildNone(),
-      needInitialLoading: () => _buildNone(),
+      firstState: () => _buildNone(),
     );
   }
 

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 import 'config.dart';
 import 'ready_form.dart';
@@ -74,43 +73,10 @@ class ProgressButton extends StatefulWidget {
 class _ProgressButtonState extends State<ProgressButton>
     with TickerProviderStateMixin {
   _ButtonState state = _ButtonState.initial;
-  GlobalKey _buttonKey = GlobalKey();
-  final GlobalKey _innerKey = GlobalKey();
-  Size? _buttonSize;
-  Size? _innerSize;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _buttonKey = GlobalKey();
-    SchedulerBinding.instance?.addPostFrameCallback(postFrameCallback);
-  }
-
-  void postFrameCallback(_) {
-    if (state == _ButtonState.initial) {
-      var btnContext = _buttonKey.currentContext;
-      var innerContext = _innerKey.currentContext;
-      var config = ProgressButtonConfig.of(context);
-      var type = widget.type ?? config?.type ?? ButtonType.elevated;
-      if (innerContext != null) {
-        var _size = innerContext.size;
-        if (type == ButtonType.text && _size != null) {
-          _innerSize = _size;
-        } else if (_size != null) {
-          var _min = min(_size.width, _size.height);
-          _innerSize = Size(_min, _min);
-        }
-      }
-      if (btnContext != null) {
-        var _size = btnContext.size;
-        if (type == ButtonType.text && _size != null) {
-          _buttonSize = _size;
-        } else if (_size != null) {
-          var _min = min(_size.width, _size.height);
-          _buttonSize = Size(_min, _min);
-        }
-      }
-    }
   }
 
   AlignmentGeometry alignment(ProgressButtonConfig? config) {
@@ -148,64 +114,6 @@ class _ProgressButtonState extends State<ProgressButton>
     );
   }
 
-  T? effectiveValue<T>(ProgressButtonConfig? config,
-      T? Function(ButtonStyle? style) getProperty) {
-    final widgetStyle = style(config);
-    ButtonStyle? themeStyle;
-    ButtonStyle defaultStyle;
-    switch (type(config)) {
-      case ButtonType.text:
-        themeStyle = TextButton(onPressed: () {}, child: const Text(''))
-            .themeStyleOf(context);
-        defaultStyle = TextButton(onPressed: () {}, child: const Text(''))
-            .defaultStyleOf(context);
-        break;
-      case ButtonType.outlined:
-        themeStyle = OutlinedButton(onPressed: () {}, child: const Text(''))
-            .themeStyleOf(context);
-        defaultStyle = OutlinedButton(onPressed: () {}, child: const Text(''))
-            .defaultStyleOf(context);
-        break;
-      default:
-        themeStyle = ElevatedButton(onPressed: () {}, child: const Text(''))
-            .themeStyleOf(context);
-        defaultStyle = ElevatedButton(onPressed: () {}, child: const Text(''))
-            .defaultStyleOf(context);
-    }
-    final widgetValue = getProperty(widgetStyle);
-    final themeValue = getProperty(themeStyle);
-    final defaultValue = getProperty(defaultStyle);
-    return widgetValue ?? themeValue ?? defaultValue;
-  }
-
-  T? resolve<T>(ProgressButtonConfig? config,
-      MaterialStateProperty<T?>? Function(ButtonStyle? style) getProperty) {
-    return effectiveValue(
-      config,
-      (ButtonStyle? style) => getProperty(style)?.resolve({}),
-    );
-  }
-
-  EdgeInsetsGeometry getDefaultPadding(ProgressButtonConfig? config) {
-    final resolvedPadding =
-        resolve(config, (ButtonStyle? style) => style?.padding);
-    final resolvedVisualDensity =
-        effectiveValue(config, (ButtonStyle? style) => style?.visualDensity);
-
-    final densityAdjustment = resolvedVisualDensity?.baseSizeAdjustment;
-    return resolvedPadding
-            ?.add(
-              EdgeInsets.only(
-                left: densityAdjustment?.dx ?? 0,
-                top: densityAdjustment?.dy ?? 0,
-                right: densityAdjustment?.dx ?? 0,
-                bottom: densityAdjustment?.dy ?? 0,
-              ),
-            )
-            .clamp(EdgeInsets.zero, EdgeInsetsGeometry.infinity) ??
-        EdgeInsets.zero;
-  }
-
   VoidCallback? _getCallBack(ProgressButtonConfig? config) {
     var auto = widget.autoSubmitForm ?? config?.autoSubmitForm ?? true;
     var _callBack =
@@ -215,65 +123,63 @@ class _ProgressButtonState extends State<ProgressButton>
   }
 
   Widget _build(BuildContext context, ProgressButtonConfig? config) {
-    var padding = state == _ButtonState.initial
-        ? getDefaultPadding(config)
-        : const EdgeInsets.all(3);
     Widget buttonChild = AnimatedSize(
       alignment: alignment(config),
       duration: duration(config),
-      child: SizedBox(
-        key: _innerKey,
-        width: state == _ButtonState.initial ? null : _innerSize?.width,
-        height: state == _ButtonState.initial ? null : _innerSize?.height,
-        child: Padding(
-          padding: padding,
-          child: _buildChild(config),
-        ),
-      ),
+      child: _buildChild(config),
     );
 
     var style = (this.style(config) ?? const ButtonStyle()).copyWith(
-      padding: MaterialStateProperty.all(EdgeInsets.zero),
+      padding: state == _ButtonState.initial
+          ? null
+          : MaterialStateProperty.all(const EdgeInsets.all(5)),
       minimumSize: state == _ButtonState.initial
           ? null
-          : MaterialStateProperty.all(_buttonSize),
+          : MaterialStateProperty.all(Size.zero),
       shape: state == _ButtonState.initial
           ? null
           : MaterialStateProperty.all(RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(
-                _buttonSize?.height ?? 50,
-              ),
+              borderRadius: BorderRadius.circular(100),
             )),
     );
     var type = this.type(config);
 
     if (type == ButtonType.outlined) {
-      return OutlinedButton(
-        key: _buttonKey,
-        onPressed: _getCallBack(config),
-        clipBehavior:
-            widget.clipBehavior ?? config?.clipBehavior ?? Clip.antiAlias,
-        style: style,
-        child: buttonChild,
+      return AnimatedSize(
+        alignment: alignment(config),
+        duration: duration(config),
+        child: OutlinedButton(
+          onPressed: _getCallBack(config),
+          clipBehavior:
+              widget.clipBehavior ?? config?.clipBehavior ?? Clip.antiAlias,
+          style: style,
+          child: buttonChild,
+        ),
       );
     }
     if (type == ButtonType.text) {
-      return TextButton(
-        key: _buttonKey,
-        onPressed: _getCallBack(config),
-        clipBehavior:
-            widget.clipBehavior ?? config?.clipBehavior ?? Clip.antiAlias,
-        style: style,
-        child: buttonChild,
+      return AnimatedSize(
+        alignment: alignment(config),
+        duration: duration(config),
+        child: TextButton(
+          onPressed: _getCallBack(config),
+          clipBehavior:
+              widget.clipBehavior ?? config?.clipBehavior ?? Clip.antiAlias,
+          style: style,
+          child: buttonChild,
+        ),
       );
     } else {
-      return ElevatedButton(
-        key: _buttonKey,
-        onPressed: _getCallBack(config),
-        clipBehavior:
-            widget.clipBehavior ?? config?.clipBehavior ?? Clip.antiAlias,
-        style: style,
-        child: buttonChild,
+      return AnimatedSize(
+        alignment: alignment(config),
+        duration: duration(config),
+        child: ElevatedButton(
+          onPressed: _getCallBack(config),
+          clipBehavior:
+              widget.clipBehavior ?? config?.clipBehavior ?? Clip.antiAlias,
+          style: style,
+          child: buttonChild,
+        ),
       );
     }
   }
@@ -308,10 +214,12 @@ class _ProgressButtonState extends State<ProgressButton>
           data: ProgressIndicatorTheme.of(context).copyWith(
             circularTrackColor: DefaultTextStyle.of(context).style.color,
           ),
-          child: ((widget.alignment ?? config?.alignment) == null ||
-                  state != _ButtonState.initial)
+          child: state == _ButtonState.initial
               ? _buildInnerChild(ctx, constrains)
-              : Center(child: _buildInnerChild(ctx, constrains)),
+              : SizedBox(
+                  width: min(constrains.maxWidth, constrains.maxHeight),
+                  child: _buildInnerChild(ctx, constrains),
+                ),
         );
       },
     );

@@ -20,7 +20,7 @@ class ReadyListExample extends StatelessWidget {
       buildItem: (FakeItem? item, int index) {
         return _buildItem(item, index);
       },
-      controller: ReadyListCubit(ReadyListState()),
+      controller: ReadyListCubit(const ReadyListState.firstState()),
     );
   }
 
