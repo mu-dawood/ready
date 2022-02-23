@@ -19,7 +19,8 @@ class AnimatedItemsScope extends StatefulWidget {
 
 class AnimatedItemsScopeState extends State<AnimatedItemsScope> {
   final List<AnimationController> _current = [];
-  void _add(AnimationController controller) {
+  void _add(_AnimatedState state) {
+    var controller = state._controller;
     if (_current.isEmpty) {
       _current.add(controller);
       controller.forward().then((value) {
@@ -38,11 +39,12 @@ class AnimatedItemsScopeState extends State<AnimatedItemsScope> {
 
       _current.add(controller);
       fn() {
-        if (last.isCompleted) {
+        if (!state.mounted) {
+          _remove(controller);
+          last.removeListener(fn);
+        } else if (last.isCompleted) {
           controller.forward().then((value) {
             _current.remove(controller);
-          }).catchError((e) {
-            _remove(controller);
           });
           last.removeListener(fn);
         } else if (last.lastElapsedDuration != null) {
@@ -63,7 +65,6 @@ class AnimatedItemsScopeState extends State<AnimatedItemsScope> {
 
   void _remove(AnimationController controller) {
     var index = _current.indexOf(controller);
-    if (index < 0) return;
     if (_current.remove(controller)) {
       if (_current.length > index && _current[index].isDismissed) {
         _current[index].forward();

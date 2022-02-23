@@ -98,7 +98,7 @@ class _AnimatedState extends State<Animated> with TickerProviderStateMixin {
       _setAnimation();
       _controller.value = 0.0;
       _scope?._remove(_controller);
-      _scope?._add(_controller);
+      _scope?._add(this);
     }
   }
 
@@ -113,7 +113,7 @@ class _AnimatedState extends State<Animated> with TickerProviderStateMixin {
     );
     _setAnimation();
     if (_scope != null) {
-      _scope!._add(_controller);
+      _scope!._add(this);
     } else {
       _controller.forward();
     }

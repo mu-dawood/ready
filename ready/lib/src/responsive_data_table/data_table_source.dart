@@ -98,11 +98,12 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
   bool get hasSelection => selectedItems.isNotEmpty;
 
   void _onPageChanged(int v) {
-    paging = paging.copyWith(currentPage: v);
+    paging = paging.copyWith(currentPage: v ~/ paging.rowsPerPage);
     notifyListeners();
     controller.state.whenOrNull(
       loaded: (items, total) {
-        if (paging.rowsPerPage * paging.currentPage > items.length) {
+        if (items.length < total) return;
+        if (items.length < paging.rowsPerPage + v - 1) {
           controller.handler?.nextData(paging.rowsPerPage);
         }
       },
@@ -118,6 +119,7 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
     notifyListeners();
     controller.state.whenOrNull(
       loaded: (items, total) {
+        if (items.length < total) return;
         if (paging.rowsPerPage * paging.currentPage > items.length) {
           controller.handler?.nextData(paging.rowsPerPage);
         }
