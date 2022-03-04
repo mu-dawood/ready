@@ -205,7 +205,7 @@ class HeroReadyImage extends StatelessWidget {
 }
 
 extension ReadyImageExtension on BuildContext {
-  DecorationImage readyImage({
+  DecorationImage readyImageDecoration({
     required String path,
     Uri Function(String path)? resolveUrl,
     ImageRenderMethodForWeb? imageRenderMethodForWeb,
@@ -252,6 +252,32 @@ extension ReadyImageExtension on BuildContext {
             config?.imageRenderMethodForWeb ??
             ImageRenderMethodForWeb.HtmlImage,
       ),
+    );
+  }
+
+  ImageProvider readyImageProvider({
+    required String path,
+    Uri Function(String path)? resolveUrl,
+    ImageRenderMethodForWeb? imageRenderMethodForWeb,
+    int? maxHeight,
+    int? maxWidth,
+    double scale = 1.0,
+    String? cacheKey,
+    HeadersCallBack? headers,
+    BaseCacheManager? cacheManager,
+  }) {
+    var config = ReadyImageConfig.of(this);
+    return CachedNetworkImageProvider(
+      (resolveUrl ?? config?.resolveUrl)?.call(path).toString() ?? path,
+      maxHeight: maxHeight,
+      maxWidth: maxWidth,
+      scale: scale,
+      headers: (headers ?? config?.headers)?.call(this),
+      cacheManager: cacheManager ?? config?.cacheManager,
+      cacheKey: cacheKey,
+      imageRenderMethodForWeb: imageRenderMethodForWeb ??
+          config?.imageRenderMethodForWeb ??
+          ImageRenderMethodForWeb.HtmlImage,
     );
   }
 }

@@ -1,6 +1,6 @@
-name: ready_image
-description: Simple and customizable image
-version: 0.0.3
+name: ready_picker
+description: Pop up picker that uses ready controllers
+version: 0.0.1
 homepage: https://github.com/mo-ah-dawood/ready
 
 environment:
@@ -10,9 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cached_network_image: ^3.2.0
-  cached_network_image_platform_interface: ^1.0.0
-  flutter_cache_manager: ^3.3.0
+  ready: ^0.0.16
 
 dev_dependencies:
   flutter_test:

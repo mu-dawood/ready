@@ -88,8 +88,9 @@ Thare is related packges that related  to  ready and you can use it
 
 | Plugin | README |
 | ------ | ------ |
-| ready_form | [packges/ready_form/README.md] |
-| ready_image | [packges/ready_image/README.md] |
+| ready_form | [packages/ready_form/README.md] |
+| ready_image | [packages/ready_image/README.md] |
+| ready_picker | [packages/ready_picker/README.md] |
 
 ## How to contribute
 
