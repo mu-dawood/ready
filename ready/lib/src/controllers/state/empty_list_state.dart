@@ -19,7 +19,11 @@ class _Empty<T> extends ReadyListState<T> {
     TResult Function(Iterable<T> items, int total, ICancelToken? cancelToken)?
         refreshing,
   }) {
-    return empty?.call() ?? orElse();
+    if (empty == null) {
+      return orElse();
+    } else {
+      return empty();
+    }
   }
 
   @override

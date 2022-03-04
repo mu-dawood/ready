@@ -20,7 +20,11 @@ class _ErrorState<T> extends ReadyListState<T> {
     TResult Function(Iterable<T> items, int total, ICancelToken? cancelToken)?
         refreshing,
   }) {
-    return error?.call(message) ?? orElse();
+    if (error == null) {
+      return orElse();
+    } else {
+      return error(message);
+    }
   }
 
   @override

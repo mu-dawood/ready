@@ -6,24 +6,24 @@ typedef _BuildRowCallBack<T, TController extends ReadyListController<T>>
 class _DataTablePaging {
   final List<int> availableRowsPerPage;
   final int rowsPerPage;
-  final int currentPage;
+  final int firstRow;
   final int columns;
   _DataTablePaging({
     required this.availableRowsPerPage,
     required this.rowsPerPage,
-    this.currentPage = 0,
+    this.firstRow = 0,
     required this.columns,
   });
 
   _DataTablePaging copyWith({
     List<int>? availableRowsPerPage,
     int? rowsPerPage,
-    int? currentPage,
+    int? firstRow,
   }) {
     return _DataTablePaging(
         availableRowsPerPage: availableRowsPerPage ?? this.availableRowsPerPage,
         rowsPerPage: rowsPerPage ?? this.rowsPerPage,
-        currentPage: currentPage ?? this.currentPage,
+        firstRow: firstRow ?? this.firstRow,
         columns: columns);
   }
 }
@@ -98,11 +98,11 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
   bool get hasSelection => selectedItems.isNotEmpty;
 
   void _onPageChanged(int v) {
-    paging = paging.copyWith(currentPage: v ~/ paging.rowsPerPage);
+    paging = paging.copyWith(firstRow: v);
     notifyListeners();
     controller.state.whenOrNull(
       loaded: (items, total) {
-        if (items.length < total) return;
+        if (items.length >= total) return;
         if (items.length < paging.rowsPerPage + v - 1) {
           controller.handler?.nextData(paging.rowsPerPage);
         }
@@ -119,8 +119,8 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
     notifyListeners();
     controller.state.whenOrNull(
       loaded: (items, total) {
-        if (items.length < total) return;
-        if (paging.rowsPerPage * paging.currentPage > items.length) {
+        if (items.length >= total) return;
+        if (v > items.length) {
           controller.handler?.nextData(paging.rowsPerPage);
         }
       },

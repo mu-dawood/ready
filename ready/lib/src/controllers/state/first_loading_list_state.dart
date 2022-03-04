@@ -20,7 +20,11 @@ class _FirstLoading<T> extends ReadyListState<T> {
     TResult Function(Iterable<T> items, int total, ICancelToken? cancelToken)?
         refreshing,
   }) {
-    return firstLoading?.call(cancelToken) ?? orElse();
+    if (firstLoading == null) {
+      return orElse();
+    } else {
+      return firstLoading(cancelToken);
+    }
   }
 
   @override

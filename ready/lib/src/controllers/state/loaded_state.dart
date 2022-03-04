@@ -24,7 +24,11 @@ class _Loaded<T> extends ReadyListState<T> {
     TResult Function(Iterable<T> items, int total, ICancelToken? cancelToken)?
         refreshing,
   }) {
-    return loaded?.call(items, total) ?? orElse();
+    if (loaded == null) {
+      return orElse();
+    } else {
+      return loaded(items, total);
+    }
   }
 
   @override

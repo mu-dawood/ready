@@ -19,7 +19,11 @@ class _FirstState<T> extends ReadyListState<T> {
     TResult Function(Iterable<T> items, int total, ICancelToken? cancelToken)?
         refreshing,
   }) {
-    return firstState?.call() ?? orElse();
+    if (firstState == null) {
+      return orElse();
+    } else {
+      return firstState();
+    }
   }
 
   @override

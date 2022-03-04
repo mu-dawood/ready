@@ -46,6 +46,11 @@ class _DataTableState<T, TController extends ReadyListController<T>>
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ShimmerScope(
       child: Theme(
@@ -115,7 +120,10 @@ class _DataTableState<T, TController extends ReadyListController<T>>
       ),
       availableRowsPerPage: widget.source.paging.availableRowsPerPage,
       rowsPerPage: widget.source.paging.rowsPerPage,
-      onPageChanged: (v) => widget.source._onPageChanged(v),
+      onPageChanged: (v) {
+        widget.source._onPageChanged(v);
+        setState(() {});
+      },
       onRowsPerPageChanged: widget.source._onRowsPerPageChanged,
       onSelectAll: (v) =>
           v == true ? widget.source.selectAll() : widget.source.unSelectAll(),
@@ -169,9 +177,10 @@ class _DataTableState<T, TController extends ReadyListController<T>>
           filters: filters,
           controller: widget.source.controller,
         ),
-      if (widget.options.dataTable?.refreshButton != null &&
-          controller.hasHandler)
-        _buildRefreshIcon(),
+      if (widget.source.paging.firstRow == 0)
+        if (widget.options.dataTable?.refreshButton != null &&
+            controller.hasHandler)
+          _buildRefreshIcon(),
     ];
   }
 }

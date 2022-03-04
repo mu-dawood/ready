@@ -26,7 +26,11 @@ class _Refreshing<T> extends ReadyListState<T> {
     TResult Function(Iterable<T> items, int total, ICancelToken? cancelToken)?
         refreshing,
   }) {
-    return refreshing?.call(items, total, cancelToken) ?? orElse();
+    if (refreshing == null) {
+      return orElse();
+    } else {
+      return refreshing(items, total, cancelToken);
+    }
   }
 
   @override

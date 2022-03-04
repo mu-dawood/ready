@@ -50,7 +50,6 @@ class ProgressButtonConfig extends InheritedWidget {
   const ProgressButtonConfig({
     Key? key,
     this.loadingIndicator,
-    this.alignment,
     this.duration,
     this.clipBehavior,
     this.style,
@@ -61,9 +60,6 @@ class ProgressButtonConfig extends InheritedWidget {
 
   /// loading indicator for progress button
   final Widget? loadingIndicator;
-
-  /// button default alignment
-  final AlignmentGeometry? alignment;
 
   /// progress animation duration default is 300 ms
   final Duration? duration;
@@ -91,7 +87,6 @@ class ProgressButtonConfig extends InheritedWidget {
         type != oldWidget.type ||
         style != oldWidget.style ||
         clipBehavior != oldWidget.clipBehavior ||
-        duration != oldWidget.duration ||
-        alignment != oldWidget.alignment;
+        duration != oldWidget.duration;
   }
 }

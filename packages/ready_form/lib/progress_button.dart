@@ -72,15 +72,16 @@ class ProgressButton extends StatefulWidget {
 
 class _ProgressButtonState extends State<ProgressButton>
     with TickerProviderStateMixin {
+  GlobalKey key = GlobalKey();
   _ButtonState state = _ButtonState.initial;
-
+  Size? size;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
   }
 
-  AlignmentGeometry alignment(ProgressButtonConfig? config) {
-    return widget.alignment ?? config?.alignment ?? Alignment.center;
+  void _afterFirstFrame(Duration timeStamp) {
+    size = key.currentContext?.size;
   }
 
   Duration duration(ProgressButtonConfig? config) {
@@ -106,12 +107,7 @@ class _ProgressButtonState extends State<ProgressButton>
   @override
   Widget build(BuildContext context) {
     var config = ProgressButtonConfig.of(context);
-    var alignment = widget.alignment ?? config?.alignment;
-    if (alignment == null) return _build(context, config);
-    return Align(
-      alignment: alignment,
-      child: _build(context, config),
-    );
+    return _build(context, config);
   }
 
   VoidCallback? _getCallBack(ProgressButtonConfig? config) {
@@ -123,8 +119,11 @@ class _ProgressButtonState extends State<ProgressButton>
   }
 
   Widget _build(BuildContext context, ProgressButtonConfig? config) {
+    if (state == _ButtonState.initial) {
+      WidgetsBinding.instance!.addPostFrameCallback(_afterFirstFrame);
+    }
     Widget buttonChild = AnimatedSize(
-      alignment: alignment(config),
+      alignment: Alignment.center,
       duration: duration(config),
       child: _buildChild(config),
     );
@@ -146,7 +145,6 @@ class _ProgressButtonState extends State<ProgressButton>
 
     if (type == ButtonType.outlined) {
       return AnimatedSize(
-        alignment: alignment(config),
         duration: duration(config),
         child: OutlinedButton(
           onPressed: _getCallBack(config),
@@ -159,7 +157,6 @@ class _ProgressButtonState extends State<ProgressButton>
     }
     if (type == ButtonType.text) {
       return AnimatedSize(
-        alignment: alignment(config),
         duration: duration(config),
         child: TextButton(
           onPressed: _getCallBack(config),
@@ -171,7 +168,6 @@ class _ProgressButtonState extends State<ProgressButton>
       );
     } else {
       return AnimatedSize(
-        alignment: alignment(config),
         duration: duration(config),
         child: ElevatedButton(
           onPressed: _getCallBack(config),
@@ -208,25 +204,27 @@ class _ProgressButtonState extends State<ProgressButton>
   }
 
   Widget _buildChild(ProgressButtonConfig? config) {
-    return LayoutBuilder(
-      builder: (ctx, constrains) {
+    var _size = size == null ? null : min(size!.width, size!.height);
+    return Builder(
+      key: key,
+      builder: (ctx) {
         return ProgressIndicatorTheme(
           data: ProgressIndicatorTheme.of(context).copyWith(
-            circularTrackColor: DefaultTextStyle.of(context).style.color,
+            circularTrackColor: DefaultTextStyle.of(ctx).style.color,
           ),
           child: state == _ButtonState.initial
-              ? _buildInnerChild(ctx, constrains)
+              ? _buildInnerChild(config)
               : SizedBox(
-                  width: min(constrains.maxWidth, constrains.maxHeight),
-                  child: _buildInnerChild(ctx, constrains),
+                  width: _size,
+                  height: _size,
+                  child: _buildInnerChild(config),
                 ),
         );
       },
     );
   }
 
-  Widget _buildInnerChild(BuildContext ctx, BoxConstraints constrain) {
-    var config = ProgressButtonConfig.of(context);
+  Widget _buildInnerChild(ProgressButtonConfig? config) {
     var circularLoader = loadingIndicator(config);
 
     if (state == _ButtonState.loading) {
