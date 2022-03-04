@@ -86,9 +86,9 @@ class ReadyForm extends StatefulWidget {
         yes: yes,
         no: no,
         onPostData: onPostData,
-        child: Builder(
-          builder: (BuildContext context) {
-            return builder(context, ReadyForm.of(context)!.submitting);
+        child: FormSubmitListener(
+          builder: (BuildContext context, bool submitting) {
+            return builder(context, submitting);
           },
         ),
       );
@@ -114,8 +114,8 @@ class _ReadyFormState extends State<ReadyForm> {
   AutofillContextAction autofillContextAction = AutofillContextAction.cancel;
   CircularRevealController? controller;
   ReadyFormConfig? get config => ReadyFormConfig.of(context);
-  bool _submitting = false;
-  bool get submitting => _submitting;
+  final ValueNotifier<bool> _submitting = ValueNotifier<bool>(false);
+  bool get submitting => _submitting.value;
   bool validate() {
     return formKey.currentState!.validate();
   }
@@ -158,7 +158,7 @@ class _ReadyFormState extends State<ReadyForm> {
   }
 
   Future<bool> onSubmit() async {
-    if (_submitting) return false;
+    if (submitting) return false;
     setState(() {
       autofillContextAction = AutofillContextAction.cancel;
     });
@@ -181,12 +181,12 @@ class _ReadyFormState extends State<ReadyForm> {
       currentFocus.unfocus();
     }
     setState(() {
-      _submitting = true;
+      _submitting.value = true;
     });
     try {
       var result = await widget.onPostData();
       setState(() {
-        _submitting = false;
+        _submitting.value = false;
         autofillContextAction = widget.autofillContextAction ??
             config?.autofillContextAction ??
             AutofillContextAction.commit;
@@ -201,7 +201,7 @@ class _ReadyFormState extends State<ReadyForm> {
       return result;
     } catch (e) {
       setState(() {
-        _submitting = false;
+        _submitting.value = false;
         autofillContextAction = widget.autofillContextAction ??
             config?.autofillContextAction ??
             AutofillContextAction.commit;
@@ -283,5 +283,18 @@ extension IterableExtensions<T> on Iterable<T> {
     } else {
       return null;
     }
+  }
+}
+
+class FormSubmitListener extends StatelessWidget {
+  final Widget Function(BuildContext context, bool submitting) builder;
+  const FormSubmitListener({Key? key, required this.builder}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder(
+      valueListenable: ReadyForm.of(context)!._submitting,
+      builder: (BuildContext ctx, bool v, c) => builder(ctx, v),
+    );
   }
 }
