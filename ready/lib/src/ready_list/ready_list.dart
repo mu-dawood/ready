@@ -185,7 +185,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
   void didChangeDependencies() {
     var _config = _ReadyListConfigOptionsDefaults.effective(widget, context);
     state.whenOrNull(
-      firstState: () {
+      needFirstLoading: (_) {
         if (widget.controller.hasHandler) {
           widget.controller.handler!.firstLoad(_config.pageSize);
         }
@@ -198,7 +198,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
   void didUpdateWidget(covariant ReadyList<T, TController> oldWidget) {
     var _config = _ReadyListConfigOptionsDefaults.effective(widget, context);
     state.whenOrNull(
-      firstState: () {
+      needFirstLoading: (_) {
         if (widget.controller.hasHandler) {
           widget.controller.handler!.firstLoad(_config.pageSize);
         }
@@ -326,7 +326,8 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
                 refreshing: (items, total, _) => widget._slivers!(state),
                 loadingNext: (items, total, _) => widget._slivers!(state),
                 loaded: (items, total) => widget._slivers!(state),
-                firstState: () => widget._slivers!(state),
+                needFirstLoading: (_) => widget._slivers!(state),
+                initializing: () => widget._slivers!(state),
               )
             else
               state.when(
@@ -343,7 +344,10 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
                     _buildBody(constraints, _config, _filteredItems(items)),
                 loaded: (items, _) =>
                     _buildBody(constraints, _config, _filteredItems(items)),
-                firstState: () => !_config.allowFakeItems
+                needFirstLoading: (_) => !_config.allowFakeItems
+                    ? _buildPlaceholders(shrinkWrap, _config, true, null)
+                    : _buildBody(constraints, _config),
+                initializing: () => !_config.allowFakeItems
                     ? _buildPlaceholders(shrinkWrap, _config, true, null)
                     : _buildBody(constraints, _config),
               ),

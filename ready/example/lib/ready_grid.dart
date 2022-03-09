@@ -28,7 +28,7 @@ class ReadyGridExample extends StatelessWidget {
           ),
         );
       },
-      controller: ReadyListCubit(const ReadyListState.firstState()),
+      controller: ReadyListCubit(const ReadyListState.needFirstLoading()),
     );
   }
 }

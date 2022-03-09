@@ -1,7 +1,8 @@
 part of ready_list_state;
 
-class _FirstState<T> extends ReadyListState<T> {
-  const _FirstState() : super._();
+class _NeedFirstLoading<T> extends ReadyListState<T> {
+  final ReadyListState<T>? oldState;
+  const _NeedFirstLoading([this.oldState]) : super._();
 
   @override
   List<Object?> get props => [];
@@ -9,7 +10,8 @@ class _FirstState<T> extends ReadyListState<T> {
   @override
   TResult mayWhen<TResult>({
     required TResult Function() orElse,
-    TResult Function()? firstState,
+    TResult Function()? initializing,
+    TResult Function(ReadyListState<T>? oldState)? needFirstLoading,
     TResult Function()? empty,
     TResult Function(ICancelToken? cancelToken)? firstLoading,
     TResult Function(Iterable<T> items, int total)? loaded,
@@ -19,16 +21,17 @@ class _FirstState<T> extends ReadyListState<T> {
     TResult Function(Iterable<T> items, int total, ICancelToken? cancelToken)?
         refreshing,
   }) {
-    if (firstState == null) {
+    if (needFirstLoading == null) {
       return orElse();
     } else {
-      return firstState();
+      return needFirstLoading(oldState);
     }
   }
 
   @override
   TResult when<TResult>({
-    required TResult Function() firstState,
+    required TResult Function() initializing,
+    required TResult Function(ReadyListState<T>? oldState) needFirstLoading,
     required TResult Function() empty,
     required TResult Function(ICancelToken? cancelToken) firstLoading,
     required TResult Function(Iterable<T> items, int total) loaded,
@@ -40,12 +43,13 @@ class _FirstState<T> extends ReadyListState<T> {
             Iterable<T> items, int total, ICancelToken? cancelToken)
         refreshing,
   }) {
-    return firstState.call();
+    return needFirstLoading.call(oldState);
   }
 
   @override
   TResult? whenOrNull<TResult>({
-    TResult Function()? firstState,
+    TResult Function()? initializing,
+    TResult Function(ReadyListState<T>? oldState)? needFirstLoading,
     TResult Function()? empty,
     TResult Function(ICancelToken? cancelToken)? firstLoading,
     TResult Function(Iterable<T> items, int total)? loaded,
@@ -55,6 +59,6 @@ class _FirstState<T> extends ReadyListState<T> {
     TResult Function(Iterable<T> items, int total, ICancelToken? cancelToken)?
         refreshing,
   }) {
-    return firstState?.call();
+    return needFirstLoading?.call(oldState);
   }
 }

@@ -9,7 +9,8 @@ class _Empty<T> extends ReadyListState<T> {
   @override
   TResult mayWhen<TResult>({
     required TResult Function() orElse,
-    TResult Function()? firstState,
+    TResult Function()? initializing,
+    TResult Function(ReadyListState<T>? oldState)? needFirstLoading,
     TResult Function()? empty,
     TResult Function(ICancelToken? cancelToken)? firstLoading,
     TResult Function(Iterable<T> items, int total)? loaded,
@@ -28,7 +29,8 @@ class _Empty<T> extends ReadyListState<T> {
 
   @override
   TResult when<TResult>({
-    required TResult Function() firstState,
+    required TResult Function() initializing,
+    required TResult Function(ReadyListState<T>? oldState) needFirstLoading,
     required TResult Function() empty,
     required TResult Function(ICancelToken? cancelToken) firstLoading,
     required TResult Function(Iterable<T> items, int total) loaded,
@@ -45,7 +47,8 @@ class _Empty<T> extends ReadyListState<T> {
 
   @override
   TResult? whenOrNull<TResult>({
-    TResult Function()? firstState,
+    TResult Function()? initializing,
+    TResult Function(ReadyListState<T>? oldState)? needFirstLoading,
     TResult Function()? empty,
     TResult Function(ICancelToken? cancelToken)? firstLoading,
     TResult Function(Iterable<T> items, int total)? loaded,

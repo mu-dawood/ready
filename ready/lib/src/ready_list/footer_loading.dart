@@ -48,7 +48,8 @@ class _FooterLoading<T, TController extends ReadyListController<T>>
         child: CupertinoActivityIndicator(),
       )),
       refreshing: (items, _, __) => _buildNone(),
-      firstState: () => _buildNone(),
+      needFirstLoading: (_) => _buildNone(),
+      initializing: () => _buildNone(),
     );
   }
 

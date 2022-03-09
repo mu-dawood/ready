@@ -76,7 +76,7 @@ class ResponsiveList extends StatelessWidget {
 
 class ReadyListCubit extends Cubit<ReadyListState<FakeItem>>
     implements ReadyListController<FakeItem> {
-  ReadyListCubit() : super(const ReadyListState.firstState());
+  ReadyListCubit() : super(const ReadyListState.needFirstLoading());
 
   @override
   ListLoadingHandler<FakeItem>? get handler => DefaultListLoadingHandler(

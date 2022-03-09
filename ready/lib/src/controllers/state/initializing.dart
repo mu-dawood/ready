@@ -1,15 +1,10 @@
 part of ready_list_state;
 
-class _Loaded<T> extends ReadyListState<T> {
-  final Iterable<T> items;
-  final int total;
-  const _Loaded({
-    required this.items,
-    required this.total,
-  }) : super._();
+class _Initializing<T> extends ReadyListState<T> {
+  const _Initializing() : super._();
 
   @override
-  List<Object?> get props => [items, total];
+  List<Object?> get props => [];
 
   @override
   TResult mayWhen<TResult>({
@@ -25,10 +20,10 @@ class _Loaded<T> extends ReadyListState<T> {
     TResult Function(Iterable<T> items, int total, ICancelToken? cancelToken)?
         refreshing,
   }) {
-    if (loaded == null) {
+    if (initializing == null) {
       return orElse();
     } else {
-      return loaded(items, total);
+      return initializing();
     }
   }
 
@@ -47,7 +42,7 @@ class _Loaded<T> extends ReadyListState<T> {
             Iterable<T> items, int total, ICancelToken? cancelToken)
         refreshing,
   }) {
-    return loaded.call(items, total);
+    return initializing.call();
   }
 
   @override
@@ -63,6 +58,6 @@ class _Loaded<T> extends ReadyListState<T> {
     TResult Function(Iterable<T> items, int total, ICancelToken? cancelToken)?
         refreshing,
   }) {
-    return loaded?.call(items, total);
+    return initializing?.call();
   }
 }

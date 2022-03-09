@@ -4,10 +4,11 @@ import 'package:equatable/equatable.dart';
 
 part 'empty_list_state.dart';
 part 'error_list_state.dart';
-part 'first_list_state.dart';
 part 'first_loading_list_state.dart';
+part 'initializing.dart';
 part 'loaded_state.dart';
 part 'loading_next_list_state.dart';
+part 'need_first_loading.dart';
 part 'refreshing_list_state.dart';
 
 abstract class ICancelToken {
@@ -18,9 +19,13 @@ abstract class ICancelToken {
 abstract class ReadyListState<T> extends Equatable {
   const ReadyListState._();
 
-  /// this first state
+  /// use this if you need to wait for something
+  /// and then use needFirstLoading to load the first state
+  const factory ReadyListState.initializing() = _Initializing<T>;
+
   /// this will fire first loading
-  const factory ReadyListState.firstState() = _FirstState<T>;
+  const factory ReadyListState.needFirstLoading([ReadyListState<T>? oldState]) =
+      _NeedFirstLoading<T>;
 
   /// when there is no data
   const factory ReadyListState.empty() = _Empty<T>;
@@ -54,7 +59,8 @@ abstract class ReadyListState<T> extends Equatable {
 
   TResult mayWhen<TResult>({
     required TResult Function() orElse,
-    TResult Function()? firstState,
+    TResult Function()? initializing,
+    TResult Function(ReadyListState<T>? oldState)? needFirstLoading,
     TResult Function()? empty,
     TResult Function(ICancelToken? cancelToken)? firstLoading,
     TResult Function(Iterable<T> items, int total)? loaded,
@@ -66,7 +72,8 @@ abstract class ReadyListState<T> extends Equatable {
   });
 
   TResult when<TResult>({
-    required TResult Function() firstState,
+    required TResult Function() initializing,
+    required TResult Function(ReadyListState<T>? oldState) needFirstLoading,
     required TResult Function() empty,
     required TResult Function(ICancelToken? cancelToken) firstLoading,
     required TResult Function(Iterable<T> items, int total) loaded,
@@ -80,7 +87,8 @@ abstract class ReadyListState<T> extends Equatable {
   });
 
   TResult? whenOrNull<TResult>({
-    TResult Function()? firstState,
+    TResult Function()? initializing,
+    TResult Function(ReadyListState<T>? oldState)? needFirstLoading,
     TResult Function()? empty,
     TResult Function(ICancelToken? cancelToken)? firstLoading,
     TResult Function(Iterable<T> items, int total)? loaded,
@@ -93,8 +101,11 @@ abstract class ReadyListState<T> extends Equatable {
 }
 
 extension ReadyListStateExtension<T> on ReadyListState<T> {
-  _FirstState<T>? asFirstState() => whenOrNull(
-        firstState: () => this as _FirstState<T>,
+  _Initializing<T>? asInitializing() => whenOrNull(
+        initializing: () => this as _Initializing<T>,
+      );
+  _NeedFirstLoading<T>? asNeedFirstLoading() => whenOrNull(
+        needFirstLoading: (_) => this as _NeedFirstLoading<T>,
       );
 
   _Empty<T>? asEmptyState() => whenOrNull(

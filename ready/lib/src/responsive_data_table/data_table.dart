@@ -23,7 +23,7 @@ class _DataTableState<T, TController extends ReadyListController<T>>
   void initState() {
     if (widget.source.controller.hasHandler) {
       widget.source.controller.state.whenOrNull(
-        firstState: () {
+        needFirstLoading: (_) {
           widget.source.controller.handler!
               .firstLoad(widget.source.paging.rowsPerPage);
         },
@@ -36,7 +36,7 @@ class _DataTableState<T, TController extends ReadyListController<T>>
   void didUpdateWidget(covariant _DataTable<T, TController> oldWidget) {
     if (widget.source.controller.hasHandler) {
       widget.source.controller.state.whenOrNull(
-        firstState: () {
+        needFirstLoading: (_) {
           widget.source.controller.handler!
               .firstLoad(widget.source.paging.rowsPerPage);
         },
