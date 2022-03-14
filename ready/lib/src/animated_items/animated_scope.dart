@@ -20,6 +20,7 @@ class AnimatedItemsScope extends StatefulWidget {
 class AnimatedItemsScopeState extends State<AnimatedItemsScope> {
   final List<AnimationController> _current = [];
   void _add(_AnimatedState state) {
+    if (!_current.any((element) => element.isAnimating)) _current.clear();
     var controller = state._controller;
     if (_current.isEmpty) {
       _current.add(controller);
