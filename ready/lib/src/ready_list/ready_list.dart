@@ -175,14 +175,14 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
     extends State<ReadyList<T, TController>>
     with AutomaticKeepAliveClientMixin {
   final deltaExtent = 75.0;
-
+  StreamSubscription? _subscription;
   @override
   bool get wantKeepAlive => widget.keepAlive;
 
   ReadyListState<T> get state => widget.controller.state;
+  Stream<ReadyListState<T>> get stream => widget.controller.stream;
 
-  @override
-  void didChangeDependencies() {
+  void _checkState(ReadyListState<T> state) {
     var _config = _ReadyListConfigOptionsDefaults.effective(widget, context);
     state.whenOrNull(
       needFirstLoading: (_) {
@@ -191,24 +191,23 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
         }
       },
     );
+  }
+
+  @override
+  void initState() {
+    _subscription = stream.listen(_checkState);
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _checkState(state);
     super.didChangeDependencies();
   }
 
   @override
-  void didUpdateWidget(covariant ReadyList<T, TController> oldWidget) {
-    var _config = _ReadyListConfigOptionsDefaults.effective(widget, context);
-    state.whenOrNull(
-      needFirstLoading: (_) {
-        if (widget.controller.hasHandler) {
-          widget.controller.handler!.firstLoad(_config.pageSize);
-        }
-      },
-    );
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
   void dispose() {
+    _subscription?.cancel();
     super.dispose();
   }
 
@@ -224,7 +223,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
 
     return AnimatedItemsScope(
       child: StreamBuilder(
-        stream: widget.controller.stream,
+        stream: stream,
         builder:
             (BuildContext context, AsyncSnapshot<ReadyListState<T>> snapshot) {
           var _config =
@@ -391,11 +390,11 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
           ),
         ),
       );
-    } else if (widget._reorderOptions != null && items != null) {
+    } else if (widget._reorderOptions != null) {
       return SliverPadding(
         padding: _config.padding ?? EdgeInsets.zero,
         sliver: SliverReorderableList(
-          itemCount: items.length,
+          itemCount: items?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
             return _buildItem(items, _config, index);
           },
