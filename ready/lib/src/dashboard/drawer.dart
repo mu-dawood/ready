@@ -34,6 +34,22 @@ class DrawerOptions {
   /// The logo at the top
   final Widget? logo;
 
+  /// override the default drawer icon
+  final Widget Function(VoidCallback toggle, AnimationController expansion)?
+      buildDrawerIcon;
+
+  final bool showDivider;
+
+  /// override the default drawer icon
+  final SliverPersistentHeaderDelegate Function(
+      VoidCallback toggle, AnimationController expansion)? buildHeader;
+
+  /// override the default drawer icon
+  final SliverPersistentHeaderDelegate Function(
+      VoidCallback toggle, AnimationController expansion)? buildDrawer;
+
+  final Widget Function(Widget child, bool collapsed)? buildDesktop;
+  final Widget Function(Widget child)? buildMobile;
   const DrawerOptions({
     this.headers = const [],
     this.footer,
@@ -41,38 +57,47 @@ class DrawerOptions {
     this.image,
     this.gradient,
     this.logo,
+    this.buildDrawerIcon,
+    this.buildHeader,
+    this.showDivider = true,
+    this.buildDrawer,
+    this.buildDesktop,
+    this.buildMobile,
   });
 }
 
 class _DrawerIcon extends StatelessWidget {
   final AnimationController expansion;
   const _DrawerIcon({Key? key, required this.expansion}) : super(key: key);
+  static void toggle(BuildContext context, AnimationController expansion) {
+    var hasDrawer = Scaffold.maybeOf(context)?.hasDrawer == true;
+
+    if (hasDrawer) {
+      var isDrawerOpen = Scaffold.of(context).isDrawerOpen;
+      if (!isDrawerOpen) {
+        Scaffold.of(context).openDrawer();
+      } else {
+        Navigator.of(context).pop();
+      }
+    } else {
+      if (expansion.value == 0 || expansion.value == 1) {
+        if (expansion.value == 0) {
+          expansion.animateTo(1.0);
+        } else {
+          expansion.animateTo(0.0);
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     var hasDrawer = Scaffold.maybeOf(context)?.hasDrawer == true;
 
     return IconButton(
-      onPressed: () {
-        if (hasDrawer) {
-          var isDrawerOpen = Scaffold.of(context).isDrawerOpen;
-          if (!isDrawerOpen) {
-            Scaffold.of(context).openDrawer();
-          } else {
-            Navigator.of(context).pop();
-          }
-        } else {
-          if (expansion.value == 0 || expansion.value == 1) {
-            if (expansion.value == 0) {
-              expansion.animateTo(1.0);
-            } else {
-              expansion.animateTo(0.0);
-            }
-          }
-        }
-      },
+      onPressed: () => toggle(context, expansion),
       icon: AnimatedIcon(
-        icon: AnimatedIcons.close_menu,
+        icon: AnimatedIcons.menu_close,
         progress:
             Tween(begin: !hasDrawer ? 1.0 : 0.0, end: !hasDrawer ? 0.0 : 1.0)
                 .animate(expansion),
@@ -82,10 +107,16 @@ class _DrawerIcon extends StatelessWidget {
 }
 
 class _DashBoardDrawer extends StatefulWidget {
-  final Widget drawerIcon;
+  final bool isDesktop;
+  final bool collapsed;
+  final DrawerOptions options;
+  final AnimationController controller;
   const _DashBoardDrawer({
     Key? key,
-    required this.drawerIcon,
+    required this.isDesktop,
+    required this.collapsed,
+    required this.controller,
+    required this.options,
   }) : super(key: key);
 
   @override
@@ -105,10 +136,37 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
         .toList();
   }
 
-  Widget buildTile(BuildContext context, DashboardItem item,
+  Widget iconButton(BuildContext context, DashboardItem item,
       DashboardItem selected, List<DashboardItem> _expanded) {
+    var _selected = item == selected;
+    return Align(
+      alignment: AlignmentGeometryTween(
+        begin: AlignmentDirectional.centerStart,
+        end: AlignmentDirectional.center,
+      ).transform(widget.controller.value)!,
+      child: IconButton(
+        color: _selected ? Theme.of(context).colorScheme.secondary : null,
+        onPressed: () {
+          DefaultTabController.of(context)?.index = _expanded.indexOf(item);
+          var hasDrawer = Scaffold.maybeOf(context)?.hasDrawer == true;
+          var isDrawerOpen = hasDrawer && Scaffold.of(context).isDrawerOpen;
+          if (isDrawerOpen) {
+            Navigator.of(context).pop();
+          }
+        },
+        icon: selected == item ? (item.selectedIcon ?? item.icon) : item.icon,
+      ),
+    );
+  }
+
+  Widget buildTile(
+      DrawerOptions options,
+      BuildContext context,
+      DashboardItem item,
+      DashboardItem selected,
+      List<DashboardItem> _expanded) {
     if (item.builder != null) {
-      var child = ListTile(
+      return ListTile(
         onTap: () {
           DefaultTabController.of(context)?.index = _expanded.indexOf(item);
           var hasDrawer = Scaffold.maybeOf(context)?.hasDrawer == true;
@@ -122,7 +180,6 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
         leading:
             selected == item ? (item.selectedIcon ?? item.icon) : item.icon,
       );
-      return child;
     } else {
       var inner = expanded(item.subItems);
       return ExpansionTile(
@@ -132,7 +189,7 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
         leading: item.icon,
         children: [
           for (var sub in item.subItems)
-            buildTile(context, sub, selected, _expanded),
+            buildTile(options, context, sub, selected, _expanded),
         ],
       );
     }
@@ -144,6 +201,15 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
     return TabControllerListener(
       builder: (int index) {
         var selectedItem = _expanded[index];
+        if (options.buildDesktop != null && widget.isDesktop) {
+          return options.buildDesktop!(
+              _buildScroll(options, context, _expanded, selectedItem, items),
+              widget.collapsed);
+        }
+        if (options.buildMobile != null && !widget.isDesktop) {
+          return options.buildMobile!(
+              _buildScroll(options, context, _expanded, selectedItem, items));
+        }
         return Drawer(
           backgroundColor: options.backgroundColor,
           child: Container(
@@ -152,33 +218,57 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
               image: options.image,
               gradient: options.gradient,
             ),
-            child: CustomScrollView(
-              // padding: const EdgeInsets.only(bottom: 15),
-              slivers: [
-                SliverPersistentHeader(
-                  delegate: _DrawerHeader(
-                    logo: options.logo,
-                    statusBar: MediaQuery.of(context).padding.top,
-                    drawerIcon: widget.drawerIcon,
-                  ),
-                ),
-                const SliverToBoxAdapter(child: Divider()),
-                SliverList(
-                    delegate: SliverChildListDelegate([
-                  ...options.headers,
-                  for (var item in items)
-                    buildTile(context, item, selectedItem, _expanded),
-                ])),
-                if (options.footer != null)
-                  SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: options.footer,
-                  )
-              ],
-            ),
+            child:
+                _buildScroll(options, context, _expanded, selectedItem, items),
           ),
         );
       },
+    );
+  }
+
+  CustomScrollView _buildScroll(
+      DrawerOptions options,
+      BuildContext context,
+      List<DashboardItem> _expanded,
+      DashboardItem selectedItem,
+      List<DashboardItem> items) {
+    return CustomScrollView(
+      // padding: const EdgeInsets.only(bottom: 15),
+      slivers: [
+        SliverPersistentHeader(
+          delegate: options.buildHeader?.call(() {
+                _DrawerIcon.toggle(context, widget.controller);
+              }, widget.controller) ??
+              _DrawerHeader(
+                logo: options.logo,
+                duration: widget.controller.duration!,
+                collapsed: widget.collapsed,
+                statusBar: MediaQuery.of(context).padding.top,
+                drawerIcon: !widget.isDesktop
+                    ? const SizedBox()
+                    : options.buildDrawerIcon?.call(() {
+                          _DrawerIcon.toggle(context, widget.controller);
+                        }, widget.controller) ??
+                        _DrawerIcon(expansion: widget.controller),
+              ),
+        ),
+        if (options.showDivider) const SliverToBoxAdapter(child: Divider()),
+        SliverList(
+            delegate: SliverChildListDelegate([
+          ...options.headers,
+          if (widget.collapsed)
+            for (var item in _expanded)
+              iconButton(context, item, selectedItem, _expanded)
+          else
+            for (var item in items)
+              buildTile(options, context, item, selectedItem, _expanded),
+        ])),
+        if (options.footer != null)
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: options.footer,
+          )
+      ],
     );
   }
 
@@ -186,7 +276,7 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
     var dashboard = ReadyDashboard.of(context)!;
     var items = dashboard.items;
     assert(items.isNotEmpty);
-    return _tileListView(context, items, dashboard.drawerOptions);
+    return _tileListView(context, items, widget.options);
   }
 }
 
@@ -194,11 +284,15 @@ class _DrawerHeader extends SliverPersistentHeaderDelegate {
   final Widget? logo;
   final Widget drawerIcon;
   final double statusBar;
+  final bool collapsed;
+  final Duration duration;
 
   _DrawerHeader({
     this.logo,
     required this.drawerIcon,
     required this.statusBar,
+    required this.collapsed,
+    required this.duration,
   });
   @override
   Widget build(
@@ -206,14 +300,17 @@ class _DrawerHeader extends SliverPersistentHeaderDelegate {
     return SafeArea(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: Align(
-              alignment: AlignmentDirectional.centerStart,
-              child: logo,
+          if (!collapsed) ...[
+            Expanded(
+              child: Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: logo,
+              ),
             ),
-          ),
-          const SizedBox(width: 10),
+            const SizedBox(width: 10),
+          ],
           drawerIcon,
         ],
       ),
@@ -228,6 +325,6 @@ class _DrawerHeader extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return false;
+    return true;
   }
 }

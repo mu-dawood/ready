@@ -3,8 +3,11 @@ part of dashboard;
 class ReadyDashboard extends StatefulWidget {
   final List<DashboardItem> items;
   final int? initialIndex;
-  final DrawerOptions drawerOptions;
-  final AppBarOptions appBarOptions;
+  final DrawerOptions Function(bool phone) drawerOptions;
+  final AppBarOptions Function(bool phone) appBarOptions;
+  final EdgeInsetsGeometry Function(bool phone) padding;
+  final bool Function(bool phone) wrapPageWithCard;
+  final bool iconsWhenCollapsedInDesktop;
 
   /// {@macro flutter.material.appBar.actions}
   ///
@@ -13,13 +16,20 @@ class ReadyDashboard extends StatefulWidget {
   ReadyDashboard({
     Key? key,
     required this.items,
-    this.drawerOptions = const DrawerOptions(),
+    this.drawerOptions = _drawerOptions,
     this.initialIndex,
-    this.appBarOptions = const AppBarOptions(),
+    this.padding = _padding,
+    this.appBarOptions = _appBarOptions,
+    this.wrapPageWithCard = _wrapPageWithCard,
+    this.iconsWhenCollapsedInDesktop = false,
     this.actions = const [],
   })  : assert(items.isNotEmpty),
         super(key: key);
 
+  static DrawerOptions _drawerOptions(bool phone) => const DrawerOptions();
+  static EdgeInsetsGeometry _padding(bool phone) => EdgeInsets.zero;
+  static AppBarOptions _appBarOptions(bool phone) => const AppBarOptions();
+  static bool _wrapPageWithCard(bool phone) => false;
   @override
   _ReadyDashboardState createState() => _ReadyDashboardState();
 
@@ -36,7 +46,10 @@ class _ReadyDashboardState extends State<ReadyDashboard>
   void initState() {
     _focusNode = FocusNode();
     expansionController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 250), value: 1.0);
+      vsync: this,
+      duration: const Duration(milliseconds: 250),
+      value: 0.0,
+    );
     super.initState();
   }
 
@@ -75,62 +88,88 @@ class _ReadyDashboardState extends State<ReadyDashboard>
               small = false;
               break;
           }
-
+          bool iconsWhenCollapsed = widget.iconsWhenCollapsedInDesktop;
           return Scaffold(
             drawer: small
-                ? const _DashBoardDrawer(
-                    drawerIcon: SizedBox(),
+                ? _DashBoardDrawer(
+                    isDesktop: false,
+                    controller: expansionController,
+                    collapsed: false,
+                    options: widget.drawerOptions(small),
                   )
                 : null,
-            body: AnimatedBuilder(
-                animation: expansionController,
-                builder: (context, _) {
-                  return Stack(
-                    children: [
-                      PositionedDirectional(
-                        top: 0,
-                        bottom: 0,
-                        start: small ? 0 : 304 * expansionController.value,
-                        end: 0,
-                        child: NestedScrollView(
-                          body: tabView(widgets),
-                          headerSliverBuilder:
-                              (BuildContext context, bool innerBoxIsScrolled) {
-                            return [
-                              SliverOverlapAbsorber(
-                                handle: NestedScrollView
-                                    .sliverOverlapAbsorberHandleFor(context),
-                                sliver: _DashBoardAppBar(
-                                  focusNode: _focusNode,
-                                  mergeActions: layout == LayoutType.small ||
-                                      layout == LayoutType.xSmall,
-                                  drawerIcon:
-                                      expansionController.value == 0 || small
-                                          ? _DrawerIcon(
-                                              expansion: expansionController)
-                                          : null,
-                                  innerBoxIsScrolled: innerBoxIsScrolled,
-                                ),
-                              )
-                            ];
-                          },
-                        ),
-                      ),
-                      if (!small)
+            body: Padding(
+              padding: widget.padding(small),
+              child: AnimatedBuilder(
+                  animation: expansionController,
+                  builder: (context, _) {
+                    return Stack(
+                      children: [
                         PositionedDirectional(
                           top: 0,
                           bottom: 0,
-                          start: 304 * expansionController.value - 304,
-                          child: Material(
-                            child: _DashBoardDrawer(
-                              drawerIcon:
-                                  _DrawerIcon(expansion: expansionController),
-                            ),
+                          start: Tween<double>(
+                            begin: small ? 0 : 300,
+                            end: iconsWhenCollapsed ? 75 : 0,
+                          ).transform(expansionController.value),
+                          end: 0,
+                          child: NestedScrollView(
+                            body: tabView(widgets, small),
+                            headerSliverBuilder: (BuildContext context,
+                                bool innerBoxIsScrolled) {
+                              return [
+                                SliverOverlapAbsorber(
+                                  handle: NestedScrollView
+                                      .sliverOverlapAbsorberHandleFor(context),
+                                  sliver: _DashBoardAppBar(
+                                    focusNode: _focusNode,
+                                    drawerOptions: widget.drawerOptions(small),
+                                    appBarOptions: widget.appBarOptions(small),
+                                    mergeActions: layout == LayoutType.small ||
+                                        layout == LayoutType.xSmall,
+                                    drawerIcon:
+                                        (expansionController.value == 0 &&
+                                                    !iconsWhenCollapsed) ||
+                                                small
+                                            ? _DrawerIcon(
+                                                expansion: expansionController)
+                                            : null,
+                                    innerBoxIsScrolled: innerBoxIsScrolled,
+                                  ),
+                                )
+                              ];
+                            },
                           ),
                         ),
-                    ],
-                  );
-                }),
+                        if (!small)
+                          PositionedDirectional(
+                            top: 0,
+                            bottom: 0,
+                            width: Tween(
+                              begin: 300.0,
+                              end: !iconsWhenCollapsed ? 300.0 : 75.0,
+                            ).transform(expansionController.value),
+                            start: Tween(
+                              begin: 0.0,
+                              end: !iconsWhenCollapsed ? -300.0 : 0.0,
+                            ).transform(expansionController.value),
+                            child: Material(
+                              child: _DashBoardDrawer(
+                                controller: expansionController,
+                                isDesktop: true,
+                                options: widget.drawerOptions(small),
+                                collapsed: iconsWhenCollapsed
+                                    ? (expansionController.value == 1.0 ||
+                                        expansionController.status ==
+                                            AnimationStatus.forward)
+                                    : false,
+                              ),
+                            ),
+                          ),
+                      ],
+                    );
+                  }),
+            ),
           );
         },
       ),
@@ -167,10 +206,20 @@ class _ReadyDashboardState extends State<ReadyDashboard>
     }
   }
 
-  Widget tabView(List<Widget> widgets) {
+  Widget tabView(List<Widget> widgets, bool small) {
     return TabBarView(
       physics: const NeverScrollableScrollPhysics(),
-      children: widgets,
+      children: small || !widget.wrapPageWithCard(small)
+          ? widgets
+          : widgets
+              .map((e) => Card(
+                    margin: const EdgeInsets.only(top: 10),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: e,
+                    ),
+                  ))
+              .toList(),
     );
   }
 }

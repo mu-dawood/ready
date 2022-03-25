@@ -158,7 +158,7 @@ class AppBarOptions {
     return AppBarOptions(
       flexibleSpace: other?.flexibleSpace ?? flexibleSpace,
       bottom: other?.bottom ?? bottom,
-      theme: theme == null ? other?.theme : _copyTheme(theme!, other?.theme),
+      theme: other?.theme ?? theme,
       primary: other?.primary ?? primary,
       collapsedHeight: other?.collapsedHeight ?? collapsedHeight,
       expandedHeight: other?.expandedHeight ?? expandedHeight,
@@ -171,21 +171,35 @@ class AppBarOptions {
     );
   }
 
-  static AppBarTheme _copyTheme(AppBarTheme current, AppBarTheme? _new) {
-    return current.copyWith(
-      foregroundColor: _new?.foregroundColor,
-      elevation: _new?.elevation,
-      shadowColor: _new?.shadowColor,
-      shape: _new?.shape,
-      iconTheme: _new?.iconTheme,
-      actionsIconTheme: _new?.actionsIconTheme,
-      backgroundColor: _new?.backgroundColor,
-      centerTitle: _new?.centerTitle,
-      titleSpacing: _new?.titleSpacing,
-      toolbarHeight: _new?.toolbarHeight,
-      toolbarTextStyle: _new?.toolbarTextStyle,
-      titleTextStyle: _new?.titleTextStyle,
-      systemOverlayStyle: _new?.systemOverlayStyle,
+  AppBarOptions copyWith({
+    AppBarTheme? theme,
+    InputDecoration? inputDecoration,
+    Widget? flexibleSpace,
+    PreferredSizeWidget? bottom,
+    bool? primary,
+    double? collapsedHeight,
+    double? expandedHeight,
+    bool? floating,
+    bool? pinned,
+    bool? snap,
+    bool? stretch,
+    double? stretchTriggerOffset,
+    AsyncCallback? onStretchTrigger,
+  }) {
+    return AppBarOptions(
+      theme: theme ?? this.theme,
+      inputDecoration: inputDecoration ?? this.inputDecoration,
+      flexibleSpace: flexibleSpace ?? this.flexibleSpace,
+      bottom: bottom ?? this.bottom,
+      primary: primary ?? this.primary,
+      collapsedHeight: collapsedHeight ?? this.collapsedHeight,
+      expandedHeight: expandedHeight ?? this.expandedHeight,
+      floating: floating ?? this.floating,
+      pinned: pinned ?? this.pinned,
+      snap: snap ?? this.snap,
+      stretch: stretch ?? this.stretch,
+      stretchTriggerOffset: stretchTriggerOffset ?? this.stretchTriggerOffset,
+      onStretchTrigger: onStretchTrigger ?? this.onStretchTrigger,
     );
   }
 }
@@ -195,12 +209,16 @@ class _DashBoardAppBar extends StatelessWidget {
   final bool innerBoxIsScrolled;
   final bool mergeActions;
   final FocusNode focusNode;
+  final DrawerOptions drawerOptions;
+  final AppBarOptions appBarOptions;
   const _DashBoardAppBar({
     Key? key,
     required this.drawerIcon,
     required this.innerBoxIsScrolled,
     required this.focusNode,
     required this.mergeActions,
+    required this.drawerOptions,
+    required this.appBarOptions,
   }) : super(key: key);
 
   List<DashboardItem> items(DashboardItem e) {
@@ -224,17 +242,14 @@ class _DashBoardAppBar extends StatelessWidget {
           for (var item in options.items) ...items(item),
         ];
         var selected = _items[index];
-        var appBar = options.appBarOptions._copyWith(selected.appBarOptions);
+        var appBar = appBarOptions._copyWith(selected.appBarOptions);
         var theme = Theme.of(context);
-        var appBarTheme = AppBarOptions._copyTheme(
-          theme.appBarTheme,
-          appBar.theme ??
-              AppBarTheme(
-                backgroundColor: Colors.transparent,
-                foregroundColor: DefaultTextStyle.of(context).style.color,
-                elevation: 0,
-              ),
-        );
+        var appBarTheme = appBar.theme ??
+            theme.appBarTheme.copyWith(
+              backgroundColor: Colors.transparent,
+              foregroundColor: DefaultTextStyle.of(context).style.color,
+              elevation: 0,
+            );
         var drawerTheme = theme.drawerTheme;
         var border = OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
@@ -248,8 +263,8 @@ class _DashBoardAppBar extends StatelessWidget {
           data: theme.copyWith(
             appBarTheme: appBarTheme,
             inputDecorationTheme: InputDecorationTheme(
-              fillColor: options.drawerOptions.backgroundColor ??
-                  drawerTheme.backgroundColor,
+              fillColor:
+                  drawerOptions.backgroundColor ?? drawerTheme.backgroundColor,
               border: border,
               isDense: true,
               filled: true,

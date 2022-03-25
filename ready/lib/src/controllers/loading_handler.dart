@@ -91,18 +91,14 @@ class DefaultListLoadingHandler<T> extends ListLoadingHandler<T> {
   Future firstLoad(int pageSize) async {
     _checkDuplicatedLoading();
     var previousState = state.asNeedFirstLoading();
-    if (previousState == null) {
-      throw Exception(
-          "Refreshing must be called when state is NeedFirstLoading");
-    }
     var _cancelToken = generateCancelToken?.call();
     emit(ReadyListState.firstLoading(_cancelToken));
     try {
       var results = await loadData(0, pageSize, _cancelToken);
       _emitResults(
-          results, previousState.oldState ?? const ReadyListState.empty());
+          results, previousState?.oldState ?? const ReadyListState.empty());
     } catch (e) {
-      emit(previousState.oldState ?? const ReadyListState.empty());
+      emit(previousState?.oldState ?? const ReadyListState.empty());
       rethrow;
     }
   }

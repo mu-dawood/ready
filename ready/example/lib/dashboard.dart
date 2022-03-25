@@ -8,12 +8,13 @@ import 'responsive.dart';
 
 class DashBoardExample extends StatelessWidget {
   final ValueChanged<ThemeMode> onModeChanged;
-  const DashBoardExample({Key? key, required this.onModeChanged}) : super(key: key);
+  const DashBoardExample({Key? key, required this.onModeChanged})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ReadyDashboard(
-      drawerOptions: DrawerOptions(
+      drawerOptions: (phone) => DrawerOptions(
         headers: [
           const DrawerHeader(child: CircleAvatar()),
           Builder(builder: (context) {
