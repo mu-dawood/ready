@@ -107,7 +107,7 @@ class __ReadyPickerState<T, TController extends SelectFormBloc<T>>
   void _handleFocusChanged() {
     Future.delayed(const Duration(milliseconds: 200)).then((value) {
       if (mounted && _focusNode.hasFocus) {
-        shoSheet();
+        showSheet();
         _focusNode.unfocus();
       }
     });
@@ -156,45 +156,47 @@ class __ReadyPickerState<T, TController extends SelectFormBloc<T>>
       child: GestureDetector(
         onTap: options.enabled
             ? () async {
-                FocusScope.of(context).requestFocus(_focusNode);
+                if (_focusNode.hasFocus) {
+                  showSheet();
+                } else {
+                  FocusScope.of(context).requestFocus(_focusNode);
+                }
               }
             : null,
         behavior: HitTestBehavior.opaque,
-        child: AbsorbPointer(
-          child: options.builder != null
-              ? options.builder!(widget.field)
-              : InputDecorator(
-                  isFocused: _focusNode.hasFocus,
-                  decoration: effectiveDecoration.copyWith(
-                    errorText: widget.field.errorText,
-                    enabled: options.enabled,
-                    suffixIcon: effectiveDecoration.suffixIcon ??
-                        (widget.field.value == null
-                            ? null
-                            : IconButton(
-                                icon: Icon(
-                                  Icons.delete_rounded,
-                                  color: Theme.of(context).errorColor,
-                                ),
-                                onPressed: () {
-                                  widget.field.didChange(null);
-                                  options.onChanged?.call(null);
-                                },
-                              )),
-                  ),
-                  isEmpty: widget.field.value == null,
-                  textAlign: options.textAlign,
-                  child: widget.field.value == null
-                      ? const Text('')
-                      : Text(
-                          options.controller
-                              .getDisplay(context, widget.field.value!),
-                          style: style,
-                          textAlign: options.textAlign,
-                          maxLines: options.maxLines,
-                        ),
+        child: options.builder != null
+            ? options.builder!(widget.field)
+            : InputDecorator(
+                isFocused: _focusNode.hasFocus,
+                decoration: effectiveDecoration.copyWith(
+                  errorText: widget.field.errorText,
+                  enabled: options.enabled,
+                  suffixIcon: effectiveDecoration.suffixIcon ??
+                      (widget.field.value == null
+                          ? null
+                          : IconButton(
+                              icon: Icon(
+                                Icons.delete_rounded,
+                                color: Theme.of(context).errorColor,
+                              ),
+                              onPressed: () {
+                                widget.field.didChange(null);
+                                options.onChanged?.call(null);
+                              },
+                            )),
                 ),
-        ),
+                isEmpty: widget.field.value == null,
+                textAlign: options.textAlign,
+                child: widget.field.value == null
+                    ? const Text('')
+                    : Text(
+                        options.controller
+                            .getDisplay(context, widget.field.value!),
+                        style: style,
+                        textAlign: options.textAlign,
+                        maxLines: options.maxLines,
+                      ),
+              ),
       ),
     );
   }
@@ -210,7 +212,7 @@ class __ReadyPickerState<T, TController extends SelectFormBloc<T>>
     );
   }
 
-  Future shoSheet() {
+  Future showSheet() {
     var options = ReadyPicker.of<T, TController>(context)!;
     Future future;
     if (options.showItems != null) {
