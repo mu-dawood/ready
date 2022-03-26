@@ -166,41 +166,43 @@ class __ReadyMultiPickerState<T, TController extends SelectFormBloc<T>>
               }
             : null,
         behavior: HitTestBehavior.opaque,
-        child: options.builder != null
-            ? options.builder!(widget.field)
-            : InputDecorator(
-                isFocused: _focusNode.hasFocus,
-                decoration: effectiveDecoration.copyWith(
-                  errorText: widget.field.errorText,
-                  enabled: options.enabled,
-                  suffixIcon: effectiveDecoration.suffixIcon ??
-                      (widget.field.value == null
-                          ? null
-                          : IconButton(
-                              icon: Icon(
-                                Icons.delete_rounded,
-                                color: Theme.of(context).errorColor,
-                              ),
-                              onPressed: () {
-                                widget.field.didChange(null);
-                                options.onChanged?.call(null);
-                              },
-                            )),
+        child: AbsorbPointer(
+          child: options.builder != null
+              ? options.builder!(widget.field)
+              : InputDecorator(
+                  isFocused: _focusNode.hasFocus,
+                  decoration: effectiveDecoration.copyWith(
+                    errorText: widget.field.errorText,
+                    enabled: options.enabled,
+                    suffixIcon: effectiveDecoration.suffixIcon ??
+                        (widget.field.value == null
+                            ? null
+                            : IconButton(
+                                icon: Icon(
+                                  Icons.delete_rounded,
+                                  color: Theme.of(context).errorColor,
+                                ),
+                                onPressed: () {
+                                  widget.field.didChange(null);
+                                  options.onChanged?.call(null);
+                                },
+                              )),
+                  ),
+                  isEmpty: value.isEmpty,
+                  textAlign: options.textAlign,
+                  child: value.isEmpty
+                      ? const Text('')
+                      : Text(
+                          value
+                              .map((e) =>
+                                  options.controller.getDisplay(context, e))
+                              .join(','),
+                          style: style,
+                          textAlign: options.textAlign,
+                          maxLines: options.maxLines,
+                        ),
                 ),
-                isEmpty: value.isEmpty,
-                textAlign: options.textAlign,
-                child: value.isEmpty
-                    ? null
-                    : Text(
-                        value
-                            .map((e) =>
-                                options.controller.getDisplay(context, e))
-                            .join(','),
-                        style: style,
-                        textAlign: options.textAlign,
-                        maxLines: options.maxLines,
-                      ),
-              ),
+        ),
       ),
     );
   }

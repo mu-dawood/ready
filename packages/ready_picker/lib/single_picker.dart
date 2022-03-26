@@ -160,39 +160,41 @@ class __ReadyPickerState<T, TController extends SelectFormBloc<T>>
               }
             : null,
         behavior: HitTestBehavior.opaque,
-        child: options.builder != null
-            ? options.builder!(widget.field)
-            : InputDecorator(
-                isFocused: _focusNode.hasFocus,
-                decoration: effectiveDecoration.copyWith(
-                  errorText: widget.field.errorText,
-                  enabled: options.enabled,
-                  suffixIcon: effectiveDecoration.suffixIcon ??
-                      (widget.field.value == null
-                          ? null
-                          : IconButton(
-                              icon: Icon(
-                                Icons.delete_rounded,
-                                color: Theme.of(context).errorColor,
-                              ),
-                              onPressed: () {
-                                widget.field.didChange(null);
-                                options.onChanged?.call(null);
-                              },
-                            )),
+        child: AbsorbPointer(
+          child: options.builder != null
+              ? options.builder!(widget.field)
+              : InputDecorator(
+                  isFocused: _focusNode.hasFocus,
+                  decoration: effectiveDecoration.copyWith(
+                    errorText: widget.field.errorText,
+                    enabled: options.enabled,
+                    suffixIcon: effectiveDecoration.suffixIcon ??
+                        (widget.field.value == null
+                            ? null
+                            : IconButton(
+                                icon: Icon(
+                                  Icons.delete_rounded,
+                                  color: Theme.of(context).errorColor,
+                                ),
+                                onPressed: () {
+                                  widget.field.didChange(null);
+                                  options.onChanged?.call(null);
+                                },
+                              )),
+                  ),
+                  isEmpty: widget.field.value == null,
+                  textAlign: options.textAlign,
+                  child: widget.field.value == null
+                      ? const Text('')
+                      : Text(
+                          options.controller
+                              .getDisplay(context, widget.field.value!),
+                          style: style,
+                          textAlign: options.textAlign,
+                          maxLines: options.maxLines,
+                        ),
                 ),
-                isEmpty: widget.field.value == null,
-                textAlign: options.textAlign,
-                child: widget.field.value == null
-                    ? null
-                    : Text(
-                        options.controller
-                            .getDisplay(context, widget.field.value!),
-                        style: style,
-                        textAlign: options.textAlign,
-                        maxLines: options.maxLines,
-                      ),
-              ),
+        ),
       ),
     );
   }
