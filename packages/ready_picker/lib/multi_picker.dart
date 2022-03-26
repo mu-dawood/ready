@@ -104,16 +104,16 @@ class __ReadyMultiPickerState<T, TController extends SelectFormBloc<T>>
     with AutomaticKeepAliveClientMixin {
   late FocusNode _focusNode;
   late FocusAttachment _focusAttachment;
-
+  bool sheetOpened = false;
   @override
   bool get wantKeepAlive => true;
   void _handleFocusChanged() {
-    Future.delayed(const Duration(milliseconds: 200)).then((value) {
-      if (mounted && _focusNode.hasFocus) {
-        showSheet();
-        _focusNode.unfocus();
-      }
-    });
+    if (mounted && _focusNode.hasFocus && !sheetOpened) {
+      sheetOpened = true;
+      showSheet().whenComplete(() {
+        sheetOpened = false;
+      });
+    }
   }
 
   @override
@@ -162,11 +162,7 @@ class __ReadyMultiPickerState<T, TController extends SelectFormBloc<T>>
       child: GestureDetector(
         onTap: options.enabled
             ? () async {
-                if (_focusNode.hasFocus) {
-                  showSheet();
-                } else {
-                  FocusScope.of(context).requestFocus(_focusNode);
-                }
+                FocusScope.of(context).requestFocus(_focusNode);
               }
             : null,
         behavior: HitTestBehavior.opaque,
