@@ -1,6 +1,6 @@
 name: ready_picker
 description: Pop up picker that uses ready controllers
-version: 0.0.6
+version: 0.0.11
 homepage: https://github.com/mo-ah-dawood/ready
 
 environment:

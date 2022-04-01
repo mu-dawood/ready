@@ -1,39 +1,60 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# usage
+* First you need to add [ready](https://pub.dev/packages/ready) package to your app
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+* create `ReadyListController`
 
 ```dart
-const like = 'sample';
+class ReadyListCubit extends Cubit<ReadyListState<FakeItem>> implements ReadyListController<FakeItem> with ReadyPickerController {
+  ReadyListCubit() : super(const ReadyListState.firstState());
+  /// if you don't need to use loading features you can return null
+  /// ListLoadingHandler<FakeItem>? get handler =>null
+  @override
+  ListLoadingHandler<FakeItem>? get handler => DefaultListLoadingHandler(
+        loadData: (skip, pageSize, cancelToken) async {
+           /// Fetch your data
+        },
+        controller: this,
+      );
+
+  @override
+  bool checkSelected(String left, String right) {
+    return left == right;
+  }
+
+  @override
+  String getDisplay(BuildContext context, String item) {
+    return item;
+  }
+}
 ```
 
-## Additional information
+* now you can use this controller 
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+```dart 
+ReadyPicker(
+
+    controller: context.read<ReadyListCubit>(),
+    onSaved: ///...
+
+ )
+
+```
+
+# Note
+* its up to you how you create your controller package accept any controller that implements `ReadyListController` with `ReadyPickerController`
+* `ReadyPickerController` is mixin of `ReadyListController` so you can use the same instance of `ReadyListController` with a picker or ReadyList
+# Search 
+if you want to add search box to the top of items 
+override the optional method getSearchOptions
+
+```dart
+@override
+  SearchOptions<T>? getSearchOptions(BuildContext context) {
+    return SearchOptions<T>(
+      callback: (String? value) {
+          /// its up to you how to make your search
+          /// example emit(ReadyListState.loaded(items:[1,2,3],total:3))
+      },
+    );
+  }
+```
