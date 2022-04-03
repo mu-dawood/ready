@@ -31,18 +31,19 @@ TextFormField(
   ); 
 
 ```
-1- it get the validator for `String?` values
-2- it check if the value is not null and convert the validator to `String` instead of `String?`
+### explaination
 
+1. it get the validator for `String?` values
+2. it check if the value is not null and convert the validator to `String` instead of `String?`
    > at this point we can use non nullable string validations
-3- checks that string is not empty
-4- check the max length of string
-4- check the min length of string
-4- check if string is number and if it pass transform validator to `num` validator
+3. checks that string is not empty
+4. check the max length of string
+5. check the min length of string
+6. check if string is number and if it pass transform validator to `num` validator
    > at this point we can use all number validations like `greaterThan`
-5- check if the transformed number is greater than 10
+7. check if the transformed number is greater than 10
 
-* is any of the validations fails it will return its validation message and will not continue validations
+8. is any of the validations fails it will return its validation message and will not continue validations
 
 # validators
 ```dart
@@ -77,13 +78,15 @@ TextFormField(
   context.validatorFor<T>(); 
 ```
 
-* any  validator contains  these validators plus its own validators
-* required
-* notEqual
-* equal
-* isIn
-* isNotIn
-* validate with
+- any  validator contains  these validators plus its own validators
+  * required
+  * notEqual
+  * equal
+  * isIn
+  * isNotIn
+  * validate with
+
+
 # transforming 
 
 in any step you can transform your validator to another type and it can still be used with field
