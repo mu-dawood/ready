@@ -11,6 +11,7 @@ part './field_validators/map_extensions.dart';
 part './field_validators/number_extension.dart';
 part './field_validators/string_validation.dart';
 part 'field_validator.dart';
+part 'type_extension.dart';
 
 typedef MessageCallBack<T> = String Function(T value);
 
@@ -21,93 +22,94 @@ extension ValidationExtensions on BuildContext {
       ReadyValidationMessagesAr();
 
   /// create [_FieldValidator] for [String]
-  FieldValidator<String?> string([String? Function(String? value)? validate]) {
-    return FieldValidator<String?>._(
+  _FieldValidator<String?> string([String? Function(String? value)? validate]) {
+    return _FieldValidator<String?>._(
       messages: _messages,
       validate: (value) => validate?.call(value),
     );
   }
 
   /// create [_FieldValidator] for [num]
-  FieldValidator<num?> number([String? Function(num? value)? validate]) {
-    return FieldValidator<num?>._(
+  _FieldValidator<num?> number([String? Function(num? value)? validate]) {
+    return _FieldValidator<num?>._(
       messages: _messages,
       validate: (value) => validate?.call(value),
     );
   }
 
   /// create [_FieldValidator] for [int]
-  FieldValidator<int?> integer([String? Function(int? value)? validate]) {
-    return FieldValidator<int?>._(
+  _FieldValidator<int?> integer([String? Function(int? value)? validate]) {
+    return _FieldValidator<int?>._(
       messages: _messages,
       validate: (value) => validate?.call(value),
     );
   }
 
   /// create [_FieldValidator] for [double]
-  FieldValidator<double?> decimal([String? Function(double? value)? validate]) {
-    return FieldValidator<double?>._(
+  _FieldValidator<double?> decimal(
+      [String? Function(double? value)? validate]) {
+    return _FieldValidator<double?>._(
       messages: _messages,
       validate: (value) => validate?.call(value),
     );
   }
 
   /// create [_FieldValidator] for [bool]
-  FieldValidator<bool?> boolean([String? Function(bool? value)? validate]) {
-    return FieldValidator<bool?>._(
+  _FieldValidator<bool?> boolean([String? Function(bool? value)? validate]) {
+    return _FieldValidator<bool?>._(
       messages: _messages,
       validate: (value) => validate?.call(value),
     );
   }
 
   /// create [_FieldValidator] for [DateTime]
-  FieldValidator<DateTime?> dateTime(
+  _FieldValidator<DateTime?> dateTime(
       [String? Function(DateTime? value)? validate]) {
-    return FieldValidator<DateTime?>._(
+    return _FieldValidator<DateTime?>._(
       messages: _messages,
       validate: (value) => validate?.call(value),
     );
   }
 
   /// create [_FieldValidator] for [TimeOfDay]
-  FieldValidator<TimeOfDay?> timeOfDay(
+  _FieldValidator<TimeOfDay?> timeOfDay(
       [String? Function(TimeOfDay? value)? validate]) {
-    return FieldValidator<TimeOfDay?>._(
+    return _FieldValidator<TimeOfDay?>._(
       messages: _messages,
       validate: (value) => validate?.call(value),
     );
   }
 
   /// create [_FieldValidator] for [List] of type [T]
-  FieldValidator<List<T>?> list<T>(
+  _FieldValidator<List<T>?> list<T>(
       [String? Function(List<T>? value)? validate]) {
-    return FieldValidator<List<T>?>._(
+    return _FieldValidator<List<T>?>._(
       messages: _messages,
       validate: (value) => validate?.call(value),
     );
   }
 
   /// create [_FieldValidator] for [Map] of key [K] and value [V]
-  FieldValidator<Map<K, V>?> map<K, V>(
+  _FieldValidator<Map<K, V>?> map<K, V>(
       [String? Function(Map<K, V>? value)? validate]) {
-    return FieldValidator<Map<K, V>?>._(
+    return _FieldValidator<Map<K, V>?>._(
       messages: _messages,
       validate: (value) => validate?.call(value),
     );
   }
 
   /// create [_FieldValidator] for any type of [T]
-  FieldValidator<T?> validatorFor<T>([String? Function(T? value)? validate]) {
-    return FieldValidator<T>._(
+  _FieldValidator<T?> validatorFor<T>([String? Function(T? value)? validate]) {
+    return _FieldValidator<T>._(
       messages: _messages,
       validate: (value) => validate?.call(value),
     );
   }
 }
 
-extension NullableStringValidationExtension<T> on FieldValidator<T?> {
+extension NullableStringValidationExtension<T> on _FieldValidator<T?> {
   /// check if the value is required
-  _FieldValidator<T?, T> required([MessageCallBack<T?>? message]) {
+  FieldValidator<T?, T> required([MessageCallBack<T?>? message]) {
     return _next(
       (messages, value) =>
           value == null ? message?.call(value) ?? messages.required : null,
@@ -115,9 +117,9 @@ extension NullableStringValidationExtension<T> on FieldValidator<T?> {
   }
 }
 
-extension SharedValidationExtensions<T, R> on _FieldValidator<T, R> {
+extension SharedValidationExtensions<T, R> on FieldValidator<T, R> {
   /// check is the value is not  equal [value]
-  _FieldValidator<T, R> notEqual(R value, [MessageCallBack<R>? message]) {
+  FieldValidator<T, R> notEqual(R value, [MessageCallBack<R>? message]) {
     return _next((messages, value) {
       if (value == value) {
         return message?.call(value) ?? messages.notEqual(value);
@@ -127,7 +129,7 @@ extension SharedValidationExtensions<T, R> on _FieldValidator<T, R> {
   }
 
   /// check is the value is equal [value]
-  _FieldValidator<T, R> equal(R value, [MessageCallBack<R>? message]) {
+  FieldValidator<T, R> equal(R value, [MessageCallBack<R>? message]) {
     return _next((messages, value) {
       if (value != value) {
         return message?.call(value) ?? messages.equal(value);
@@ -137,7 +139,7 @@ extension SharedValidationExtensions<T, R> on _FieldValidator<T, R> {
   }
 
   /// check is the value is in [values]
-  _FieldValidator<T, R> isIn(List<R> values, [MessageCallBack<R>? message]) {
+  FieldValidator<T, R> isIn(List<R> values, [MessageCallBack<R>? message]) {
     return _next((messages, value) {
       if (!values.contains(value)) {
         return message?.call(value) ?? messages.isIn(value, values);
@@ -147,7 +149,7 @@ extension SharedValidationExtensions<T, R> on _FieldValidator<T, R> {
   }
 
   /// check is the value is not in [values]
-  _FieldValidator<T, R> isNotIn(List<R> values, [MessageCallBack<R>? message]) {
+  FieldValidator<T, R> isNotIn(List<R> values, [MessageCallBack<R>? message]) {
     return _next((messages, value) {
       if (values.contains(value)) {
         return message?.call(value) ?? messages.isNotIn(value, values);
@@ -157,7 +159,7 @@ extension SharedValidationExtensions<T, R> on _FieldValidator<T, R> {
   }
 
   /// check is the value is not in [values]
-  _FieldValidator<T, R> validateWith(String? Function(R value) validator) {
+  FieldValidator<T, R> validateWith(String? Function(R value) validator) {
     return _next((messages, value) {
       return validator(value);
     });

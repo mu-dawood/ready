@@ -1,19 +1,19 @@
 part of 'context_extension.dart';
 
-abstract class _FieldValidator<Caller, T> {
-  _FieldValidator<Caller, T> _next(
+abstract class FieldValidator<Caller, T> {
+  FieldValidator<Caller, T> _next(
       String? Function(ReadyValidationMessages messages, T value) next);
-  _FieldValidator<Caller, T> when(bool Function(T value) condition);
-  _FieldValidator<Caller, T> whenNot(bool Function(T value) condition);
-  _FieldValidator<Caller, R> transform<R>(R Function(T value) convert);
+  FieldValidator<Caller, T> when(bool Function(T value) condition);
+  FieldValidator<Caller, T> whenNot(bool Function(T value) condition);
+  FieldValidator<Caller, R> transform<R>(R Function(T value) convert);
   bool isValid(Caller value);
   String? call(Caller value);
 }
 
-class FieldValidator<T> extends _FieldValidator<T, T> {
+class _FieldValidator<T> extends FieldValidator<T, T> {
   final String? Function(T value) _validate;
   final ReadyValidationMessages _messages;
-  FieldValidator._({
+  _FieldValidator._({
     required String? Function(T value) validate,
     required ReadyValidationMessages messages,
   })  : _validate = validate,
@@ -30,10 +30,10 @@ class FieldValidator<T> extends _FieldValidator<T, T> {
   }
 
   @override
-  FieldValidator<T> _next(
+  _FieldValidator<T> _next(
     String? Function(ReadyValidationMessages messages, T value) next,
   ) {
-    return FieldValidator<T>._(
+    return _FieldValidator<T>._(
       validate: (value) {
         return call(value) ?? next(_messages, value);
       },
@@ -42,8 +42,8 @@ class FieldValidator<T> extends _FieldValidator<T, T> {
   }
 
   @override
-  FieldValidator<T> when(bool Function(T value) condition) {
-    return FieldValidator<T>._(
+  _FieldValidator<T> when(bool Function(T value) condition) {
+    return _FieldValidator<T>._(
       validate: (value) {
         if (condition(value)) {
           return call(value);
@@ -55,8 +55,8 @@ class FieldValidator<T> extends _FieldValidator<T, T> {
   }
 
   @override
-  FieldValidator<T> whenNot(bool Function(T value) condition) {
-    return FieldValidator<T>._(
+  _FieldValidator<T> whenNot(bool Function(T value) condition) {
+    return _FieldValidator<T>._(
       validate: (value) {
         if (!condition(value)) {
           return call(value);
@@ -77,7 +77,7 @@ class FieldValidator<T> extends _FieldValidator<T, T> {
   }
 }
 
-class TransformedFieldValidator<T, R> extends _FieldValidator<T, R> {
+class TransformedFieldValidator<T, R> extends FieldValidator<T, R> {
   final String? Function(R value) _validate;
   final ReadyValidationMessages _messages;
   final R Function(T value) _convert;

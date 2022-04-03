@@ -5,9 +5,11 @@ import 'messages/messages.dart';
 class ValidationMessagesConfig extends StatefulWidget {
   final ReadyValidationMessages Function(BuildContext context) messages;
   final Widget child;
-  const ValidationMessagesConfig(
-      {Key? key, required this.messages, required this.child})
-      : super(key: key);
+  const ValidationMessagesConfig({
+    Key? key,
+    required this.messages,
+    required this.child,
+  }) : super(key: key);
 
   @override
   _ValidationMessagesConfigState createState() =>

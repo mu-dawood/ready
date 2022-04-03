@@ -12,6 +12,17 @@
   );
 ```
 
+### if you want to use specified messages across the app you can do so
+
+```dart
+ValidationMessagesConfig(
+  messages: ReadyValidationMessagesAr(),
+  child: // screen or material app
+);
+```
+
+don't worry every validation has a parameter for custom message
+
 # usage
 
 ```dart 
@@ -31,7 +42,8 @@ TextFormField(
   ); 
 
 ```
-### explaination
+
+### explanation
 
 1. it get the validator for `String?` values
 2. it check if the value is not null and convert the validator to `String` instead of `String?`
@@ -45,7 +57,23 @@ TextFormField(
 
 8. is any of the validations fails it will return its validation message and will not continue validations
 
+# non context validation
+`BuildContext` is used to apply localization and global config localization but some times you need to check if is valid 
+this is also supported and this time you don't need to validate required is the value is non nullable as we already know its not null
+
+```dart
+ var testValue = "test";
+  bool isValid = testValue.isValid(
+    validate: (v) => v
+        .hasMaxLength(10)
+        .hasMinLength(11)
+        .isNumber()
+        .greaterThan(100),
+  );
+```
+
 # validators
+
 ```dart
   /// string validators
   context.string();
@@ -78,15 +106,13 @@ TextFormField(
   context.validatorFor<T>(); 
 ```
 
-- any  validator contains  these validators plus its own validators
-  * required
-  * notEqual
-  * equal
-  * isIn
-  * isNotIn
-  * validate with
-
-
+* any  validator contains  these validators plus its own validators
+  + required
+  + notEqual
+  + equal
+  + isIn
+  + isNotIn
+  + validate with
 # transforming 
 
 in any step you can transform your validator to another type and it can still be used with field
@@ -121,4 +147,65 @@ context
         .hasMinLength(15)
         .isNumber()
         .greaterThan(10),
+```
+
+# Advanced
+
+Some times you want to use your own messages to that you has to create your own delegate and classes
+
+the default delegate look like this
+
+```dart
+
+class _ReadyValidationMessagesDelegate
+    extends LocalizationsDelegate<ReadyValidationMessages> {
+  const _ReadyValidationMessagesDelegate();
+
+  @override
+  Future<ReadyValidationMessages> load(Locale locale) {
+    return SynchronousFuture<ReadyValidationMessages>(
+        lookupReadyValidationMessages(locale));
+  }
+
+  @override
+  bool isSupported(Locale locale) =>
+      <String>['ar', 'en', 'fr', 'ur'].contains(locale.languageCode);
+
+  @override
+  bool shouldReload(_ReadyValidationMessagesDelegate old) => false;
+}
+
+ReadyValidationMessages lookupReadyValidationMessages(Locale locale) {
+  // Lookup logic when only language code is specified.
+  switch (locale.languageCode) {
+    case 'ar':
+      return ReadyValidationMessagesAr();
+    case 'en':
+      return ReadyValidationMessagesEn();
+    case 'fr':
+      return ReadyValidationMessagesFr();
+    case 'ur':
+      return ReadyValidationMessagesUr();
+  }
+
+  throw FlutterError(
+      'ReadyValidationMessages.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
+}
+
+```
+
+you also need to create your custom `ReadyValidationMessages` classes 
+now instead of using our delegate use your own
+
+```dart
+  return MaterialApp(
+    localizationsDelegates: [
+      CustomReadyValidationMessages(),
+      ...other delegates
+    ],
+    home: MyApplicationHome(),
+  );
 ```

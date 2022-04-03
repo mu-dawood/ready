@@ -1,8 +1,8 @@
 part of '../context_extension.dart';
 
-extension ListValidationExtension<T, TItem> on _FieldValidator<T, List<TItem>> {
+extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
   /// check if the value is not empty
-  _FieldValidator<T, List<TItem>> notEmpty(
+  FieldValidator<T, List<TItem>> notEmpty(
       [MessageCallBack<List<TItem>>? message]) {
     return _next(
       (messages, value) =>
@@ -11,7 +11,7 @@ extension ListValidationExtension<T, TItem> on _FieldValidator<T, List<TItem>> {
   }
 
   /// check if the value contains [item]
-  _FieldValidator<T, List<TItem>> contains(TItem item,
+  FieldValidator<T, List<TItem>> contains(TItem item,
       [MessageCallBack<List<TItem>>? message]) {
     return _next(
       (messages, value) => !value.any((a) => a == item)
@@ -21,7 +21,7 @@ extension ListValidationExtension<T, TItem> on _FieldValidator<T, List<TItem>> {
   }
 
   /// check if the value not contains [item]
-  _FieldValidator<T, List<TItem>> notContains(TItem item,
+  FieldValidator<T, List<TItem>> notContains(TItem item,
       [MessageCallBack<List<TItem>>? message]) {
     return _next(
       (messages, value) => value.any((a) => a == item)
