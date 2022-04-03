@@ -1,4 +1,6 @@
-# String extensions
+<details>
+  <summary><h1>String extensions</h1></summary>
+  
 * englishToArabicNumbers
 
 ```dart
@@ -81,8 +83,7 @@
   print("text".isInternationalKsaPhone); \\ false
 ```
 
-* toTextWidget
-converts string to text widget
+</details>
 
 ## [Boolean extensions](https://github.com/mo-ah-dawood/simple/wiki/Boolean-extentions)
 
