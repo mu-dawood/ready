@@ -6,6 +6,7 @@ abstract class _FieldValidator<Caller, T> {
   _FieldValidator<Caller, T> when(bool Function(T value) condition);
   _FieldValidator<Caller, T> whenNot(bool Function(T value) condition);
   _FieldValidator<Caller, R> transform<R>(R Function(T value) convert);
+  bool isValid(Caller value);
   String? call(Caller value);
 }
 
@@ -18,6 +19,7 @@ class FieldValidator<T> extends _FieldValidator<T, T> {
   })  : _validate = validate,
         _messages = messages;
 
+  @override
   bool isValid(T value) {
     return _validate(value) == null;
   }
@@ -87,6 +89,7 @@ class TransformedFieldValidator<T, R> extends _FieldValidator<T, R> {
         _convert = convert,
         _messages = messages;
 
+  @override
   bool isValid(T value) {
     return _validate(_convert(value)) == null;
   }

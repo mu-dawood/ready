@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:ready_extensions/ready_extensions.dart';
 
 import 'config.dart';
 import 'messages/messages.dart';
 import 'messages/messages_ar.dart';
 
+part './field_validators/date_time_extensions.dart';
+part './field_validators/list_extensions.dart';
+part './field_validators/map_extensions.dart';
+part './field_validators/number_extension.dart';
 part './field_validators/string_validation.dart';
 part 'field_validator.dart';
 
-void test(BuildContext context) {
-  TextFormField(
-    validator: context.string().required().isDecimal(),
-  );
-}
+typedef MessageCallBack<T> = String Function(T value);
 
 extension ValidationExtensions on BuildContext {
   ReadyValidationMessages get _messages =>
@@ -101,5 +102,64 @@ extension ValidationExtensions on BuildContext {
       messages: _messages,
       validate: (value) => validate?.call(value),
     );
+  }
+}
+
+extension NullableStringValidationExtension<T> on FieldValidator<T?> {
+  /// check if the value is required
+  _FieldValidator<T?, T> required([MessageCallBack<T?>? message]) {
+    return _next(
+      (messages, value) =>
+          value == null ? message?.call(value) ?? messages.required : null,
+    ).transform((value) => value!);
+  }
+}
+
+extension SharedValidationExtensions<T, R> on _FieldValidator<T, R> {
+  /// check is the value is not  equal [value]
+  _FieldValidator<T, R> notEqual(R value, [MessageCallBack<R>? message]) {
+    return _next((messages, value) {
+      if (value == value) {
+        return message?.call(value) ?? messages.notEqual(value);
+      }
+      return null;
+    });
+  }
+
+  /// check is the value is equal [value]
+  _FieldValidator<T, R> equal(R value, [MessageCallBack<R>? message]) {
+    return _next((messages, value) {
+      if (value != value) {
+        return message?.call(value) ?? messages.equal(value);
+      }
+      return null;
+    });
+  }
+
+  /// check is the value is in [values]
+  _FieldValidator<T, R> isIn(List<R> values, [MessageCallBack<R>? message]) {
+    return _next((messages, value) {
+      if (!values.contains(value)) {
+        return message?.call(value) ?? messages.isIn(value, values);
+      }
+      return null;
+    });
+  }
+
+  /// check is the value is not in [values]
+  _FieldValidator<T, R> isNotIn(List<R> values, [MessageCallBack<R>? message]) {
+    return _next((messages, value) {
+      if (values.contains(value)) {
+        return message?.call(value) ?? messages.isNotIn(value, values);
+      }
+      return null;
+    });
+  }
+
+  /// check is the value is not in [values]
+  _FieldValidator<T, R> validateWith(String? Function(R value) validator) {
+    return _next((messages, value) {
+      return validator(value);
+    });
   }
 }

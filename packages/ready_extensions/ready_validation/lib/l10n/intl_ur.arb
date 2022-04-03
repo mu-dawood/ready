@@ -1,0 +1,357 @@
+{
+  "@@locale": "ur",
+  "contains": "متن پر مشتمل ہونا چاہئے {res}",
+  "@contains": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "res": {
+        "type": "String"
+      }
+    }
+  },
+  "containsItem": "فہرست پر مشتمل ہونا چاہئے {res}",
+  "@containsItem": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      },
+      "res": {
+        "type": "dynamic"
+      }
+    }
+  },
+  "endsWith": "متن کے ساتھ ختم ہونا چاہئے {res}",
+  "@endsWith": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "res": {
+        "type": "String"
+      }
+    }
+  },
+  "equal": "صرف قدر {value} کی اجازت ہے۔",
+  "@equal": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      }
+    }
+  },
+  "greaterThan": "قیمت سے زیادہ ہونا چاہئے, {equal, select, true {یا برابر} دیگر{}} {min}",
+  "@greaterThan": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "min": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "hasMaxLength": "متن {max} سے زیادہ نہیں ہونا چاہیے",
+  "@hasMaxLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "hasMinLength": "متن کی لمبائی کم از کم {min} ہونی چاہیے",
+  "@hasMinLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "hasRange": "آپ کو طوالت کا متن درج کرنا چاہیے جو {min} سے کم نہ ہو اور {max} سے زیادہ نہ ہو۔",
+  "@hasRange": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "isAfter": "آپ کے {other}لئے ایک بعد کی تاریخ درج کرنا ضروری ہے, {equal, select, true {یا برابر}}",
+  "@isAfter": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "date": {
+        "type": "DateTime",
+        "format": "yMEd"
+      }
+    }
+  },
+  "isBefore": "آپ سے پہلے ایک تاریخ درج کرنا ضروری {other}ہے, {equal, select, true {یا اس کے برابر}}",
+  "@isBefore": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "date": {
+        "type": "DateTime",
+        "format": "yMEd"
+      }
+    }
+  },
+  "isBetween": "قیمت {min}{max}{equal, select, true {یا برابر}} سے زیادہ اور کم ہونا ضروری ہے",
+  "@isBetween": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "min": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "max": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isDateBetween": "آپ کے {min}{max}درمیان ایک تاریخ درج کرنا ضروری ہے اور, {equal, select, true {یا ایک کے برابر}}",
+  "@isDateBetween": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "min": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "max": {
+        "type": "DateTime",
+        "format": "yMEd"
+      }
+    }
+  },
+  "isDateTime": "آپ کو ایک درست تاریخ درج کرنی ہوگی۔",
+  "@isDateTime": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "isDecimal": "آپ کو اعشاریہ نمبر درج کرنا ہوگا۔",
+  "@isDecimal": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "isDivisibleBy": "ان پٹ ویلیو کی طرف سے تقسیم ہونا ضروری ہے {division}",
+  "@isDivisibleBy": {
+    "placeholders": {
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "division": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isEven": "قدر ایک بھی عدد ہونا ضروری ہے",
+  "@isEven": {
+    "placeholders": {
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isIn": "درج کردہ قدر {list} میں سے ایک ہونی چاہیے",
+  "@isIn": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      },
+      "list": {
+        "type": "List"
+      }
+    }
+  },
+  "isInteger": "آپ کو ایک درست نمبر درج کرنا ہوگا۔",
+  "@isInteger": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "isNegative": "قدر منفی ہونا ضروری ہے",
+  "@isNegative": {
+    "placeholders": {
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isNotIn": "درج کردہ قدر {list} میں نہیں ہونی چاہیے",
+  "@isNotIn": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      },
+      "list": {
+        "type": "List"
+      }
+    }
+  },
+  "isNumber": "آپ کو ایک درست نمبر درج کرنا ہوگا۔",
+  "@isNumber": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "isOdd": "قدر ایک عجیب عدد ہونا ضروری ہے",
+  "@isOdd": {
+    "placeholders": {
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isPositive": "قدر مثبت ہونا چاہئے",
+  "@isPositive": {
+    "placeholders": {
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isTimeOfDay": "آپ کو ایک درست وقت درج کرنا ہوگا۔",
+  "@isTimeOfDay": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "lessThan": "قیمت سے کم ہونا ضروری ہے, {equal, select, true {یا برابر} دیگر{}} {max}",
+  "@lessThan": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "max": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "listMaxLength": "اشیاء کی تعداد سے زیادہ نہیں ہونا چاہئے {max}",
+  "@listMaxLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "listMinLength": "اشیاء کی تعداد سے کم نہیں ہونا چاہئے {min}",
+  "@listMinLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "listRange": "اشیاء کی تعداد کم از کم {min}اور اس سے زیادہ نہیں ہونا چاہئے {max}",
+  "@listRange": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "notContainsItem": "فہرست پر مشتمل نہیں ہے {res}",
+  "@notContainsItem": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      },
+      "res": {
+        "type": "dynamic"
+      }
+    }
+  },
+  "notEmpty": "خالی قیمت درج نہیں کی جانی چاہئے۔",
+  "@notEmpty": {},
+  "notEqual": "{value} میں داخل ہونے کی اجازت نہیں ہے",
+  "@notEqual": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      }
+    }
+  },
+  "regexp": "درخواست کردہ فارمیٹ ان پٹ کے ساتھ مطابقت نہیں رکھتا ہے۔",
+  "@regexp": {},
+  "required": "معاف کیجئے گا! اس کو پر کرنا ضروری ہے",
+  "@required": {},
+  "startsWith": "متن کے ساتھ شروع کرنا چاہئے {res}",
+  "@startsWith": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "res": {
+        "type": "String"
+      }
+    }
+  }
+}

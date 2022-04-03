@@ -1,39 +1,121 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# how to use
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+### first if you are using localizations you must add localization delegate to your material app or we will use arabic
 
 ```dart
-const like = 'sample';
+  return MaterialApp(
+    localizationsDelegates: [
+      ReadyValidationMessages.delegate,
+      ...other delegates
+    ],
+    home: MyApplicationHome(),
+  );
 ```
 
-## Additional information
+# usage
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+```dart 
+/// its very simple
+
+TextFormField(
+
+    validator: context
+        .string()
+        .required()
+        .notEmpty()
+        .hasMaxLength(10)
+        .hasMinLength(15)
+        .isNumber()
+        .greaterThan(10),
+
+  ); 
+
+```
+1- it get the validator for `String?` values
+2- it check if the value is not null and convert the validator to `String` instead of `String?`
+
+   > at this point we can use non nullable string validations
+3- checks that string is not empty
+4- check the max length of string
+4- check the min length of string
+4- check if string is number and if it pass transform validator to `num` validator
+   > at this point we can use all number validations like `greaterThan`
+5- check if the transformed number is greater than 10
+
+* is any of the validations fails it will return its validation message and will not continue validations
+
+# validators
+```dart
+  /// string validators
+  context.string();
+
+  /// number validators
+  context.number();
+
+  /// integer validators
+  context.integer();
+
+  /// decimal validators
+  context.decimal(); // for doubles
+
+  /// boolean validators
+  context.boolean();
+
+   /// dateTime validators
+  context.dateTime();
+
+    /// dateTime validators
+  context.timeOfDay(); // will be added soon
+
+  /// list validators
+  context.list<T>(); 
+
+  /// map validators
+  context.map<K,V>(); 
+
+  /// other validators
+  context.validatorFor<T>(); 
+```
+
+* any  validator contains  these validators plus its own validators
+* required
+* notEqual
+* equal
+* isIn
+* isNotIn
+* validate with
+# transforming 
+
+in any step you can transform your validator to another type and it can still be used with field
+
+imagine we created a validator for our `TextFormField` which accepts a validator of type string
+
+so our validator will be
+
+```dart
+  context.string();
+```
+
+now we need to transform it number validator
+
+```dart
+       context
+        .string()
+        .required() // this to ensure it not null
+        .transform((v)=>int.parse(v))
+```
+
+now you can use any number validation like `greaterThan` but you cant use `hasMaxLength` as it for string till you transform its again to the string validator
+
+# when & whenNot
+
+```dart
+context
+        .string()
+        .required()
+        .when((x) => x.isNotEmpty) /// at this point if string is not empty it will validate next lines or it will return null so that the FormField read it as valid
+        .hasMaxLength(10)
+        .hasMinLength(15)
+        .isNumber()
+        .greaterThan(10),
+```

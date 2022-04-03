@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:simple/simple.dart';
+import 'package:ready_extensions/ready_extensions.dart';
 
 void main() {
   test('bool extension test', () {
@@ -24,12 +23,12 @@ void main() {
   });
 
   test('Color extension test', () {
-    expect(Colors.white.darken(0.5), Color(0xff808080));
-    expect(Colors.black.lighten(0.5), Color(0xffff0000));
+    expect(Colors.white.darken(0.5), const Color(0xff808080));
+    expect(Colors.black.lighten(0.5), const Color(0xffff0000));
   });
 
   test('duration extensions', () {
-    expect(Duration(hours: 16767).format(), 'one year & 11 months');
+    expect(const Duration(hours: 16767).format(), 'one year & 11 months');
   });
 
   test('iterable extensions', () {
@@ -45,9 +44,9 @@ void main() {
 
   test('string extensions', () {
     expect('ss'.toTimeOfDay(), null);
-    expect('19:16'.toTimeOfDay(), TimeOfDay(hour: 19, minute: 16));
-    expect('7:16 pm'.toTimeOfDay(), TimeOfDay(hour: 19, minute: 16));
-    expect('07:16 pm'.toTimeOfDay(), TimeOfDay(hour: 19, minute: 16));
-    expect('07:16 am'.toTimeOfDay(), TimeOfDay(hour: 07, minute: 16));
+    expect('19:16'.toTimeOfDay(), const TimeOfDay(hour: 19, minute: 16));
+    expect('7:16 pm'.toTimeOfDay(), const TimeOfDay(hour: 19, minute: 16));
+    expect('07:16 pm'.toTimeOfDay(), const TimeOfDay(hour: 19, minute: 16));
+    expect('07:16 am'.toTimeOfDay(), const TimeOfDay(hour: 07, minute: 16));
   });
 }

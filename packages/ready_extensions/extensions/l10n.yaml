@@ -1,7 +1,7 @@
 arb-dir: lib/l10n
 template-arb-file: app_ar.arb
-output-class: SimpleLocalizations
-output-localization-file: simple_localizations.dart
+output-class: ReadyExtensionLocalizations
+output-localization-file: ready_extension_localizations.dart
 untranslated-messages-file: untranslated.json
-output-dir: lib/src/gen_l10n
+output-dir: lib/src/messages
 synthetic-package: false

@@ -1,16 +1,1 @@
-{
-  "en": [
-    "mustBeDateBetween",
-    "mustBeTimeOfDayBetween"
-  ],
-
-  "fr": [
-    "mustBeDateBetween",
-    "mustBeTimeOfDayBetween"
-  ],
-
-  "ur": [
-    "mustBeDateBetween",
-    "mustBeTimeOfDayBetween"
-  ]
-}
+{}

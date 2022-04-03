@@ -1,7 +1,9 @@
 name: ready_validation
-description: A new Flutter package project.
-version: 0.0.1
-homepage: https://github.com/mo-ah-dawood/ready
+description: Collection of extension methods to make validation simple , clean and fast
+version: 0.0.1-dev
+homepage: https://github.com/mo-ah-dawood/ready/tree/main/packages/ready_validation
+repository: https://github.com/mo-ah-dawood/ready
+issue_tracker: https://github.com/mo-ah-dawood/ready/issues
 
 environment:
   sdk: ">=2.16.2 <3.0.0"
@@ -10,8 +12,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_localizations:
-    sdk: flutter
+  ready_extensions: ^1.0.0
   intl: ^0.17.0
 
 dev_dependencies:

@@ -1,0 +1,357 @@
+{
+  "@@locale": "fr",
+  "contains": "Le texte doit contenir {res}",
+  "@contains": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "res": {
+        "type": "String"
+      }
+    }
+  },
+  "containsItem": "La liste doit contenir {res}",
+  "@containsItem": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      },
+      "res": {
+        "type": "dynamic"
+      }
+    }
+  },
+  "endsWith": "Le texte doit se terminer par {res}",
+  "@endsWith": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "res": {
+        "type": "String"
+      }
+    }
+  },
+  "equal": "Seule la valeur {value} est autorisée.",
+  "@equal": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      }
+    }
+  },
+  "greaterThan": "La valeur doit être supérieure à, {equal, select, true {ou égal à} autre{}} {min}",
+  "@greaterThan": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "min": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "hasMaxLength": "Le texte ne doit pas dépasser {max}",
+  "@hasMaxLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "hasMinLength": "La longueur du texte doit être d'au moins {min}",
+  "@hasMinLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "hasRange": "Vous devez saisir un texte d'une longueur non inférieure à {min} et non supérieure à {max}",
+  "@hasRange": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "isAfter": "Vous devez entrer une date ultérieure {other}pour, {equal, select, true {ou égal à}}",
+  "@isAfter": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "date": {
+        "type": "DateTime",
+        "format": "yMEd"
+      }
+    }
+  },
+  "isBefore": "Vous devez entrer une date antérieure {other}à, {equal, select, true {ou égal à}}",
+  "@isBefore": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "date": {
+        "type": "DateTime",
+        "format": "yMEd"
+      }
+    }
+  },
+  "isBetween": "La valeur doit être {min}supérieure et inférieure à {max}{equal, select, true {ou égal}}",
+  "@isBetween": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "min": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "max": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isDateBetween": "Vous devez entrer une date {min}{max}comprise entre et, {equal, select, true{ou égal à un}}",
+  "@isDateBetween": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "min": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "max": {
+        "type": "DateTime",
+        "format": "yMEd"
+      }
+    }
+  },
+  "isDateTime": "Vous devez entrer une date valide",
+  "@isDateTime": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "isDecimal": "Vous devez entrer un nombre décimal",
+  "@isDecimal": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "isDivisibleBy": "La valeur d'entrée doit être divisible par {division}",
+  "@isDivisibleBy": {
+    "placeholders": {
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "division": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isEven": "La valeur doit être un nombre pair",
+  "@isEven": {
+    "placeholders": {
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isIn": "La valeur saisie doit faire partie de la {liste}",
+  "@isIn": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      },
+      "list": {
+        "type": "List"
+      }
+    }
+  },
+  "isInteger": "Vous devez saisir un numéro valide",
+  "@isInteger": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "isNegative": "La valeur doit être négative",
+  "@isNegative": {
+    "placeholders": {
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isNotIn": "La valeur saisie ne doit pas être dans {list}",
+  "@isNotIn": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      },
+      "list": {
+        "type": "List"
+      }
+    }
+  },
+  "isNumber": "Vous devez saisir un numéro valide",
+  "@isNumber": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "isOdd": "La valeur doit être un nombre impair",
+  "@isOdd": {
+    "placeholders": {
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isPositive": "La valeur doit être positive",
+  "@isPositive": {
+    "placeholders": {
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isTimeOfDay": "Vous devez saisir une heure valide",
+  "@isTimeOfDay": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "lessThan": "La valeur doit être inférieure à, {equal, select, true {ou égal à} autre{}} {max}",
+  "@lessThan": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "max": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "listMaxLength": "Le nombre d'articles ne doit pas dépasser {max}",
+  "@listMaxLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "listMinLength": "Le nombre d'articles ne doit pas être inférieur à {min}",
+  "@listMinLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "listRange": "Le nombre d'articles doit être d'au moins {min}et pas plus de {max}",
+  "@listRange": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "notContainsItem": "La liste ne doit pas nécessairement contenir {res}",
+  "@notContainsItem": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      },
+      "res": {
+        "type": "dynamic"
+      }
+    }
+  },
+  "notEmpty": "Une valeur vide ne doit pas être saisie",
+  "@notEmpty": {},
+  "notEqual": "Non autorisé à entrer {value}",
+  "@notEqual": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      }
+    }
+  },
+  "regexp": "Le format demandé n'est pas compatible avec l'entrée",
+  "@regexp": {},
+  "required": "Excuse-moi! Ce champ est requis",
+  "@required": {},
+  "startsWith": "Le texte doit commencer par {res}",
+  "@startsWith": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "res": {
+        "type": "String"
+      }
+    }
+  }
+}

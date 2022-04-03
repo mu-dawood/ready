@@ -1,0 +1,357 @@
+{
+  "@@locale": "ar",
+  "contains": "يجب أن يحتوي النص علي {res}",
+  "@contains": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "res": {
+        "type": "String"
+      }
+    }
+  },
+  "containsItem": "يجب أن تحتوي القائمة علي {res}",
+  "@containsItem": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      },
+      "res": {
+        "type": "dynamic"
+      }
+    }
+  },
+  "endsWith": "يجب أن ينتهي النص ب {res}",
+  "@endsWith": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "res": {
+        "type": "String"
+      }
+    }
+  },
+  "equal": "مسموح فقط بإدخال القيمة {value}",
+  "@equal": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      }
+    }
+  },
+  "greaterThan": "يجب أن تكون القيمة أكبر من, {equal, select, true{ أو تساوي} other{}} {min}",
+  "@greaterThan": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "min": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "hasMaxLength": "يجب أن لا يزيد طول النص عن {max}",
+  "@hasMaxLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "hasMinLength": "يجب أن لا يقل طول النص عن {min}",
+  "@hasMinLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "hasRange": "يجب إدخال نص  لايقل طوله عن {min} ولا يزيد عن {max}",
+  "@hasRange": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "isAfter": "يجب إدخال تاريخ لاحق ل {other}, {equal,select,true { أو مساو له}}",
+  "@isAfter": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "date": {
+        "type": "DateTime",
+        "format": "yMEd"
+      }
+    }
+  },
+  "isBefore": "يجب إدخال تاريخ سابق ل {other}, {equal,select,true { أو مساو له}}",
+  "@isBefore": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "date": {
+        "type": "DateTime",
+        "format": "yMEd"
+      }
+    }
+  },
+  "isBetween": "يجب أن تكون القيمة أكبر من {min} وأقل من {max}{equal,select,true{ أو تساويهم}}",
+  "@isBetween": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "min": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "max": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isDateBetween": "يجب إدخال تاريخ بين {min} و {max}, {equal,select,true { أو مساو لأحدهم}}",
+  "@isDateBetween": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "min": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "max": {
+        "type": "DateTime",
+        "format": "yMEd"
+      }
+    }
+  },
+  "isDateTime": "يجب إدخال تاريخ صحيح",
+  "@isDateTime": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "isDecimal": "يجب إدخال رقم عشري",
+  "@isDecimal": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "isDivisibleBy": "يجب أن تكون القيمة المدخلة قابلة للقسمة علي {division}",
+  "@isDivisibleBy": {
+    "placeholders": {
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "division": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isEven": "يجب أن تكون القيمة رقم زوجي",
+  "@isEven": {
+    "placeholders": {
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isIn": "يجب أن تكون القيمة المدخلة من إحدى القيم {list}",
+  "@isIn": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      },
+      "list": {
+        "type": "List"
+      }
+    }
+  },
+  "isInteger": "يجب إدخال رقم صحيح",
+  "@isInteger": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "isNegative": "يجب أن تكون القيمة سالبة",
+  "@isNegative": {
+    "placeholders": {
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isNotIn": "لا يجب أن تكون القيمة المدخلة من القيم {list}",
+  "@isNotIn": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      },
+      "list": {
+        "type": "List"
+      }
+    }
+  },
+  "isNumber": "يجب إدخال رقم",
+  "@isNumber": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "isOdd": "يجب أن تكون القيمة رقم فردي",
+  "@isOdd": {
+    "placeholders": {
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isPositive": "يجب أن تكون القيمة موجبة",
+  "@isPositive": {
+    "placeholders": {
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isTimeOfDay": "يجب إدخال وقت صحيح",
+  "@isTimeOfDay": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "lessThan": "يجب أن تكون القيمة أقل من, {equal, select,true { أو تساوي} other {}} {max}",
+  "@lessThan": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "max": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "listMaxLength": "لا يجب أن يزيد عدد العناصر عن {max}",
+  "@listMaxLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "listMinLength": "لا يجب أن يقل عدد العناصر عن {min}",
+  "@listMinLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "listRange": "يجب أن لا يقل عدد العناصر  عن {min} ولا يزيد عن {max}",
+  "@listRange": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "notContainsItem": "لا يجب أن تحتوي القائمة علي {res}",
+  "@notContainsItem": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      },
+      "res": {
+        "type": "dynamic"
+      }
+    }
+  },
+  "notEmpty": "لا يجب إدخال قيمة فارغة",
+  "@notEmpty": {},
+  "notEqual": "غير مسموح بإدخال القيمة {value}",
+  "@notEqual": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      }
+    }
+  },
+  "regexp": "الصيغة المطلوبة غير متوافقة مع المدخلات",
+  "@regexp": {},
+  "required": "عذرا! هذا الحقل مطلوب",
+  "@required": {},
+  "startsWith": "يجب أن يبدأ النص ب {res}",
+  "@startsWith": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "res": {
+        "type": "String"
+      }
+    }
+  }
+}

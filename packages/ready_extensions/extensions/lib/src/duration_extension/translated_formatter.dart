@@ -6,12 +6,15 @@ part of duration_extension;
 ///  )
 /// ```
 class TranslatedDurationFormatter implements DurationFormatter {
-  final BuildContext context;
-
-  const TranslatedDurationFormatter(this.context);
+  final ReadyExtensionLocalizations messages;
+  const TranslatedDurationFormatter(this.messages);
+  factory TranslatedDurationFormatter.of(BuildContext context) {
+    return TranslatedDurationFormatter(
+        ReadyExtensionLocalizations.of(context)!);
+  }
   @override
   String getSeparator() {
-    return SimpleLocalizations.of(context)!.formatSeperator;
+    return messages.formatSeparator;
   }
 
   @override
@@ -19,7 +22,7 @@ class TranslatedDurationFormatter implements DurationFormatter {
     if (years == 0) {
       return '';
     } else {
-      return SimpleLocalizations.of(context)!.yearsPlural(years);
+      return messages.yearsPlural(years);
     }
   }
 
@@ -28,7 +31,7 @@ class TranslatedDurationFormatter implements DurationFormatter {
     if (months == 0) {
       return '';
     } else {
-      return SimpleLocalizations.of(context)!.monthsPlural(months);
+      return messages.monthsPlural(months);
     }
   }
 
@@ -37,7 +40,7 @@ class TranslatedDurationFormatter implements DurationFormatter {
     if (days == 0) {
       return '';
     } else {
-      return SimpleLocalizations.of(context)!.daysPlural(days);
+      return messages.daysPlural(days);
     }
   }
 
@@ -46,7 +49,7 @@ class TranslatedDurationFormatter implements DurationFormatter {
     if (weeks == 0) {
       return '';
     } else {
-      return SimpleLocalizations.of(context)!.weeksPlural(weeks);
+      return messages.weeksPlural(weeks);
     }
   }
 
@@ -55,7 +58,7 @@ class TranslatedDurationFormatter implements DurationFormatter {
     if (hours == 0) {
       return '';
     } else {
-      return SimpleLocalizations.of(context)!.hoursPlural(hours);
+      return messages.hoursPlural(hours);
     }
   }
 
@@ -64,7 +67,7 @@ class TranslatedDurationFormatter implements DurationFormatter {
     if (minutes == 0) {
       return '';
     } else {
-      return SimpleLocalizations.of(context)!.minutesPlural(minutes);
+      return messages.minutesPlural(minutes);
     }
   }
 
@@ -73,12 +76,12 @@ class TranslatedDurationFormatter implements DurationFormatter {
     if (seconds == 0) {
       return '';
     } else {
-      return SimpleLocalizations.of(context)!.socondsPlural(seconds);
+      return messages.secondsPlural(seconds);
     }
   }
 
   @override
   String getNow() {
-    return SimpleLocalizations.of(context)!.now;
+    return messages.now;
   }
 }

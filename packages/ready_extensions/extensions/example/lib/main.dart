@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple/simple.dart';
+import 'package:ready_extensions/ready_extensions.dart';
 
 void main() {
   runApp(MyApp());

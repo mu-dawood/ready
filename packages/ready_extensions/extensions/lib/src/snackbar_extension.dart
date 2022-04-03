@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 class _Dismiss extends StatefulWidget {
   final Widget child;
   final Duration duration;
-  const _Dismiss({Key? key, required this.child, required this.duration}) : super(key: key);
+  const _Dismiss({Key? key, required this.child, required this.duration})
+      : super(key: key);
   @override
   __DismissState createState() => __DismissState();
 }
@@ -37,14 +38,20 @@ class _Observer extends NavigatorObserver {
   final ValueNotifier<Route?> _currentRoute = ValueNotifier(null);
   bool get isPopupRoute {
     if (_currentRoute.value == null && kDebugMode) {
-      print('Please ensure that you added context.snackBarObserver to your material app observer');
+      if (kDebugMode) {
+        print(
+            'Please ensure that you added context.snackBarObserver to your material app observer');
+      }
     }
     return _currentRoute.value != null && _currentRoute.value is PopupRoute;
   }
 
   bool get isDialog {
     if (_currentRoute.value == null && kDebugMode) {
-      print('Please ensure that you added context.snackBarObserver to your material app observer');
+      if (kDebugMode) {
+        print(
+            'Please ensure that you added context.snackBarObserver to your material app observer');
+      }
     }
     return _currentRoute.value != null && _currentRoute.value is DialogRoute;
   }
@@ -156,14 +163,20 @@ extension SnackBarExtension on BuildContext {
                             padding: padding ?? const EdgeInsets.all(15),
                             child: Text(
                               message,
-                              style: snackBarTheme.contentTextStyle?.copyWith(color: textColor) ?? TextStyle(color: textColor),
-                              textAlign: action == null ? TextAlign.center : TextAlign.start,
+                              style: snackBarTheme.contentTextStyle
+                                      ?.copyWith(color: textColor) ??
+                                  TextStyle(color: textColor),
+                              textAlign: action == null
+                                  ? TextAlign.center
+                                  : TextAlign.start,
                             ),
                           ),
                         ),
                         if (action != null)
                           TextButton(
-                            style: TextButton.styleFrom(primary: action.textColor ?? snackBarTheme.actionTextColor),
+                            style: TextButton.styleFrom(
+                                primary: action.textColor ??
+                                    snackBarTheme.actionTextColor),
                             onPressed: action.onPressed,
                             child: Text(action.label),
                           )

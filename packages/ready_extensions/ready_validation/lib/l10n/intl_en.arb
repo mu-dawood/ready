@@ -1,0 +1,357 @@
+{
+  "@@locale": "en",
+  "contains": "The text should contain {res}",
+  "@contains": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "res": {
+        "type": "String"
+      }
+    }
+  },
+  "containsItem": "The list should contain {res}",
+  "@containsItem": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      },
+      "res": {
+        "type": "dynamic"
+      }
+    }
+  },
+  "endsWith": "Text should end with {res}",
+  "@endsWith": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "res": {
+        "type": "String"
+      }
+    }
+  },
+  "equal": "Only the value {value} is allowed.",
+  "@equal": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      }
+    }
+  },
+  "greaterThan": "The value should be greater than, {equal, select, true {or equal to} other{}} {min}",
+  "@greaterThan": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "min": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "hasMaxLength": "The text must be no longer than {max}",
+  "@hasMaxLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "hasMinLength": "The length of the text must be at least {min}",
+  "@hasMinLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "hasRange": "You must enter a text of length not less than {min} and not more than {max}",
+  "@hasRange": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "isAfter": "You must enter a later date {other}for, {equal, select, true {or equal to}}",
+  "@isAfter": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "date": {
+        "type": "DateTime",
+        "format": "yMEd"
+      }
+    }
+  },
+  "isBefore": "You must enter a date prior {other}to, {equal, select, true {or equal to}}",
+  "@isBefore": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "date": {
+        "type": "DateTime",
+        "format": "yMEd"
+      }
+    }
+  },
+  "isBetween": "Value must be greater {min}than and less than {max}{equal, select, true {or equal}}",
+  "@isBetween": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "min": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "max": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isDateBetween": "You must enter a date {min}{max}between and, {equal, select, true {or equal to one}}",
+  "@isDateBetween": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "min": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "max": {
+        "type": "DateTime",
+        "format": "yMEd"
+      }
+    }
+  },
+  "isDateTime": "You must enter a valid date",
+  "@isDateTime": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "isDecimal": "You must enter a decimal number",
+  "@isDecimal": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "isDivisibleBy": "The input value must be divisible by {division}",
+  "@isDivisibleBy": {
+    "placeholders": {
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "division": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isEven": "The value must be an even number",
+  "@isEven": {
+    "placeholders": {
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isIn": "The entered value must be one of the {list}",
+  "@isIn": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      },
+      "list": {
+        "type": "List"
+      }
+    }
+  },
+  "isInteger": "You must enter a valid number",
+  "@isInteger": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "isNegative": "Value must be negative",
+  "@isNegative": {
+    "placeholders": {
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isNotIn": "The entered value must not be in {list}",
+  "@isNotIn": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      },
+      "list": {
+        "type": "List"
+      }
+    }
+  },
+  "isNumber": "You must enter a valid number",
+  "@isNumber": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "isOdd": "The value must be an odd number",
+  "@isOdd": {
+    "placeholders": {
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isPositive": "The value should be positive",
+  "@isPositive": {
+    "placeholders": {
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isTimeOfDay": "You must enter a valid time",
+  "@isTimeOfDay": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "lessThan": "Value must be less than, {equal, select, true {or equal to} other{}} {max}",
+  "@lessThan": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "max": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "listMaxLength": "The number of items should not be more than {max}",
+  "@listMaxLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "listMinLength": "The number of items should not be less than {min}",
+  "@listMinLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "listRange": "The number of items must be at least {min}and no more than {max}",
+  "@listRange": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "notContainsItem": "The list does not have to contain {res}",
+  "@notContainsItem": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      },
+      "res": {
+        "type": "dynamic"
+      }
+    }
+  },
+  "notEmpty": "You should not enter an empty value",
+  "@notEmpty": {},
+  "notEqual": "Not allowed to enter {value}",
+  "@notEqual": {
+    "placeholders": {
+      "value": {
+        "type": "dynamic"
+      }
+    }
+  },
+  "regexp": "The requested format is not compatible with the input",
+  "@regexp": {},
+  "required": "Excuse me! This field is required",
+  "@required": {},
+  "startsWith": "Text should start with {res}",
+  "@startsWith": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "res": {
+        "type": "String"
+      }
+    }
+  }
+}

@@ -25,7 +25,7 @@ extension FlutterStringExtensions on String? {
     }
   }
 
-  /// check the string can be timeofDay
+  /// check the string can be timeousDay
   bool get isTimeOfDay {
     return toTimeOfDay() != null;
   }

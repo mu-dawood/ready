@@ -2,21 +2,21 @@ library duration_extension;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:simple_dart/simple_dart.dart';
-import '../gen_l10n/simple_localizations.dart';
-import 'package:simple/src/gen_l10n/simple_localizations.dart';
+import 'package:ready_extensions_dart/ready_extensions_dart.dart';
+
+import '../messages/ready_extension_localizations.dart';
+
 part 'translated_formatter.dart';
 
 extension FlutterDurationExtensions on Duration {
-  ///Localize duration useing TranslatedDurationFormatter formatter
-  ///You have to add `SimpleLocalizations.delegate` in your `localizationsDelegates`
+  ///Localize duration using TranslatedDurationFormatter formatter
+  ///You have to add `TranslatedDurationFormatter.delegate` in your `localizationsDelegates`
   /// ```
   /// return MaterialApp(
   ///   localizationsDelegates: [
-  ///     SimpleLocalizations.delegate,
+  ///     TranslatedDurationFormatter.delegate,
   ///     ...other delegates
   ///   ],
-  ///   supportedLocales: SimpleLocalizations.supportedLocales,
   ///   home: MyApplicationHome(),
   /// );
   /// ```
@@ -25,7 +25,7 @@ extension FlutterDurationExtensions on Duration {
     int maxParts = 2,
     int secondsToShowNow = 0,
   }) {
-    var simpleLocalization = SimpleLocalizations.of(context);
+    var simpleLocalization = ReadyExtensionLocalizations.of(context);
     if (simpleLocalization == null) {
       throw FlutterError(
           'You have to add `SimpleLocalizations.delegate` in your `localizationsDelegates`');
@@ -33,7 +33,7 @@ extension FlutterDurationExtensions on Duration {
     return format(
       maxParts: maxParts,
       secondsToShowNow: 0,
-      formatter: TranslatedDurationFormatter(context),
+      formatter: TranslatedDurationFormatter.of(context),
     );
   }
 }
