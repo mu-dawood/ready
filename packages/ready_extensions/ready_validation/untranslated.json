@@ -1,0 +1,28 @@
+{
+  "en": [
+    "hasMaxLength",
+    "hasMinLength",
+    "hasRange",
+    "isNumber",
+    "isInteger",
+    "isDecimal"
+  ],
+
+  "fr": [
+    "hasMaxLength",
+    "hasMinLength",
+    "hasRange",
+    "isNumber",
+    "isInteger",
+    "isDecimal"
+  ],
+
+  "ur": [
+    "hasMaxLength",
+    "hasMinLength",
+    "hasRange",
+    "isNumber",
+    "isInteger",
+    "isDecimal"
+  ]
+}

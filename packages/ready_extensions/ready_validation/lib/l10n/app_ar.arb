@@ -1,0 +1,53 @@
+{
+  "required": "عذرا! هذا الحقل مطلوب",
+  "hasMaxLength": "يجب أن لا يزيد طول النص عن {max}",
+  "@hasMaxLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "hasMinLength": "يجب أن لا يقل طول النص عن {min}",
+  "@hasMinLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "hasRange": "يجب إدخال نص  لايقل طوله عن {min} ولا يزيد عن {max}",
+  "@hasRange": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "isNumber": "يجب إدخال رقم",
+  "@isNumber": {
+    "placeholders": { "value": {} }
+  },
+  "isInteger": "يجب إدخال رقم",
+  "@isInteger": {
+    "placeholders": { "value": {} }
+  },
+  "isDecimal": "يجب إدخال رقم",
+  "@isDecimal": {
+    "placeholders": { "value": {} }
+  }
+
+  
+}

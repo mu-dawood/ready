@@ -1,0 +1,7 @@
+arb-dir: lib/l10n
+template-arb-file: app_ar.arb
+output-class: ReadyValidationMessages
+output-localization-file: messages.dart
+untranslated-messages-file: untranslated.json
+output-dir: lib/src/messages
+synthetic-package: false
