@@ -374,9 +374,7 @@ return value.onTrue("yes")
   Duration plusMilliSeconds([int v = 1]);
   
   /// count up this duration with n seconds
-  Duration plusSeconds([int v = 1]) {
-    return this + Duration(seconds: v);
-  }
+  Duration plusSeconds([int v = 1]);
 
   /// count up this duration with n minutes
   Duration plusMinutes([int v = 1]);
