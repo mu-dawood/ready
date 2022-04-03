@@ -5,7 +5,9 @@ class CrunchbaseOrganizationUrl {
 
   CrunchbaseOrganizationUrl._(this.organization);
   static CrunchbaseOrganizationUrl? parse(String url) {
-    var matches = RegExp(r'(?:https?:)?\/\/crunchbase\.com\/organization\/(?<organization>[A-z0-9_-]+)').allMatches(url);
+    var matches = RegExp(
+            r'(?:https?:)?\/\/crunchbase\.com\/organization\/(?<organization>[A-z0-9_-]+)')
+        .allMatches(url);
     var _organization = matches.getValue("organization");
     if (_organization == null) return null;
     return CrunchbaseOrganizationUrl._(_organization);
@@ -17,7 +19,9 @@ class CrunchbasePersonUrl {
 
   CrunchbasePersonUrl._(this.person);
   static CrunchbasePersonUrl? parse(String url) {
-    var matches = RegExp(r'(?:https?:)?\/\/crunchbase\.com\/person\/(?<person>[A-z0-9_-]+)').allMatches(url);
+    var matches = RegExp(
+            r'(?:https?:)?\/\/crunchbase\.com\/person\/(?<person>[A-z0-9_-]+)')
+        .allMatches(url);
     var _person = matches.getValue("person");
     if (_person == null) return null;
     return CrunchbasePersonUrl._(_person);

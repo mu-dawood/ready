@@ -1,16 +1,6 @@
 part of duration_extension;
 
 /// formatter to be used  with duration formatter
-/// you must do the following before use it
-/// ```
-/// import 'gen_l10n/simple_localizations.dart';
-///
-/// return MaterialApp(
-///   localizationsDelegates: SimpleLocalizations.localizationsDelegates,
-///   supportedLocales: SimpleLocalizations.supportedLocales,
-///   home: MyApplicationHome(),
-/// );
-/// ```
 class DefaultDurationFormatter implements DurationFormatter {
   const DefaultDurationFormatter();
   @override

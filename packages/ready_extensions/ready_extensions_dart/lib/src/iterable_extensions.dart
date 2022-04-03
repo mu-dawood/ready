@@ -28,7 +28,7 @@ extension IterableExtensions<T> on Iterable<T> {
     }
   }
 
-  /// loap items with index and element arguments
+  /// loop items with index and element arguments
   void indexedForEach(void Function(int index, T element) f) {
     var index = 0;
     for (var element in this) {
@@ -37,7 +37,7 @@ extension IterableExtensions<T> on Iterable<T> {
     }
   }
 
-  /// Return a new list without dublicated elements
+  /// Return a new list without duplicated elements
   /// you can use `.toSet().toList()` but the order may not be the same
   List<T> removeDuplicates([bool Function(T a, T b)? compare]) {
     var tempList = <T>[];

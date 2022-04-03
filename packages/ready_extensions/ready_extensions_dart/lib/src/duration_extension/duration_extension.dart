@@ -5,8 +5,6 @@ part 'formatter_base.dart';
 
 extension DurationExtensions on Duration {
   /// Format duration to readable string
-  /// you can choose one of our formatters `DefaultDurationFormatter` or `TranslatedDurationFormatter`
-  /// or you can implement `DurationFormatter` and create your own
   String format({
     int maxParts = 2,
     int secondsToShowNow = 0,
@@ -27,7 +25,7 @@ extension DurationExtensions on Duration {
     var minutes = (delta / 60).floor() % 60;
     delta -= minutes * 60;
     var seconds = delta % 60;
-    var text;
+    String? text;
     var parts = 0;
     if (years > 0) {
       if (text == null) {
@@ -95,63 +93,63 @@ extension DurationExtensions on Duration {
     return text ?? '';
   }
 
-  /// count down this duration with 1 microsecond
-  Duration countDownMicroseconds() {
-    return this - Duration(microseconds: 1);
+  /// count down this duration with n microseconds
+  Duration minusMicroSeconds([int v = 1]) {
+    return this - Duration(microseconds: v);
   }
 
-  /// count down this duration with 1 millisecond
-  Duration countDownMilliseconds() {
-    return this - Duration(milliseconds: 1);
+  /// count down this duration with n milliseconds
+  Duration minusMilliSeconds([int v = 1]) {
+    return this - Duration(milliseconds: v);
   }
 
-  /// count down this duration with 1 seconds
-  Duration countDownSeconds() {
-    return this - Duration(seconds: 1);
+  /// count down this duration with n seconds
+  Duration minusSeconds([int v = 1]) {
+    return this - Duration(seconds: v);
   }
 
-  /// count down this duration with 1 minute
-  Duration countDownMinutes() {
-    return this - Duration(minutes: 1);
+  /// count down this duration with n minutes
+  Duration minusMinutes([int v = 1]) {
+    return this - Duration(minutes: v);
   }
 
-  /// count down this duration with 1 hour
-  Duration countDownHours() {
-    return this - Duration(minutes: 1);
+  /// count down this duration with n hours
+  Duration minusHours([int v = 1]) {
+    return this - Duration(hours: v);
   }
 
-  /// count down this duration with 1 day
-  Duration countDownDays() {
-    return this - Duration(days: 1);
+  /// count down this duration with n days
+  Duration minusDays([int v = 1]) {
+    return this - Duration(days: v);
   }
 
-  /// count up this duration with 1 microsecond
-  Duration countUpMicroseconds() {
-    return this + Duration(microseconds: 1);
+  /// count up this duration with n microseconds
+  Duration plusMicroSeconds([int v = 1]) {
+    return this + Duration(microseconds: v);
   }
 
-  /// count up this duration with 1 millisecond
-  Duration countUpMilliseconds() {
-    return this + Duration(milliseconds: 1);
+  /// count up this duration with n milliseconds
+  Duration plusMilliSeconds([int v = 1]) {
+    return this + Duration(milliseconds: v);
   }
 
-  /// count up this duration with 1 seconds
-  Duration countUpSeconds() {
-    return this + Duration(seconds: 1);
+  /// count up this duration with n seconds
+  Duration plusSeconds([int v = 1]) {
+    return this + Duration(seconds: v);
   }
 
-  /// count up this duration with 1 minute
-  Duration countUpMinutes() {
-    return this + Duration(minutes: 1);
+  /// count up this duration with n minutes
+  Duration plusMinutes([int v = 1]) {
+    return this + Duration(minutes: v);
   }
 
-  /// count up this duration with 1 hour
-  Duration countUpHours() {
-    return this + Duration(minutes: 1);
+  /// count up this duration with n hours
+  Duration plusHours([int v = 1]) {
+    return this + Duration(hours: v);
   }
 
-  /// count up this duration with 1 day
-  Duration countUpnDays() {
-    return this + Duration(days: 1);
+  /// count up this duration with n days
+  Duration plusDays([int v = 1]) {
+    return this + Duration(days: v);
   }
 }

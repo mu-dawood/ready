@@ -22,7 +22,7 @@ void main() {
   });
 
   test('duration extensions', () {
-    expect(Duration(hours: 16767).format(), 'one year & 11 months');
+    expect(const Duration(hours: 16767).format(), 'one year & 11 months');
   });
 
   test('num extensions', () {
@@ -35,6 +35,7 @@ void main() {
     expect((15.5000050).noTrailing(), '15.500005');
     expect((0.5000050).noTrailing(), '0.500005');
     expect((15.5).noTrailing(2), '15.50');
+    expect((15.00).noTrailing(2), '15.00');
     expect((15.05).noTrailing(2), '15.05');
     expect(15.5.noTrailing(), '15.5');
     expect((30000.0).noTrailing(), '30000');

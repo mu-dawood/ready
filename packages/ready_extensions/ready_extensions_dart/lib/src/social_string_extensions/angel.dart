@@ -6,7 +6,9 @@ class AngelCompanyUrl {
 
   AngelCompanyUrl._(this.company, this.subpage);
   static AngelCompanyUrl? parse(String url) {
-    var matches = RegExp(r'(?:https?:)?\/\/angel\.co\/company\/(?<company>[A-z0-9_-]+)(?:\/(?<company_subpage>[A-z0-9-]+))?').allMatches(url);
+    var matches = RegExp(
+            r'(?:https?:)?\/\/angel\.co\/company\/(?<company>[A-z0-9_-]+)(?:\/(?<company_subpage>[A-z0-9-]+))?')
+        .allMatches(url);
     var _companey = matches.getValue("company");
     var _subpage = matches.getValue("company_subpage");
     if (_companey == null) return null;
@@ -27,7 +29,9 @@ class AngelJobUrl {
     required this.jobSlug,
   });
   static AngelJobUrl? parse(String url) {
-    var matches = RegExp(r'(?:https?:)?\/\/angel\.co\/company\/(?<company>[A-z0-9_-]+)\/jobs\/(?<job_permalink>(?<job_id>[0-9]+)-(?<job_slug>[A-z0-9-]+))').allMatches(url);
+    var matches = RegExp(
+            r'(?:https?:)?\/\/angel\.co\/company\/(?<company>[A-z0-9_-]+)\/jobs\/(?<job_permalink>(?<job_id>[0-9]+)-(?<job_slug>[A-z0-9-]+))')
+        .allMatches(url);
     var _companey = matches.getValue("company");
     var _jobId = matches.getValue("job_id");
     var _jobPermalink = matches.getValue("job_permalink");

@@ -43,17 +43,18 @@ extension StringExtensions on String? {
   bool get isNullOrEmpty {
     return this == null || this == '';
   }
-  // check string is local egyptian phone
 
+  /// check string is local egyptian phone
   bool get isLocalEgyptianPhone {
     return RegExp(r'^(01|1)([0-9]{9})$').hasMatch(this ?? '');
   }
-  // check string is international egyptian phone
 
+  /// check string is international egyptian phone
   bool get isInternationalEgyptianPhone {
     return RegExp(r'^(00201|201|\+201)([0-9]{9})$').hasMatch(this ?? '');
   }
-  // check string is local ksa phone
+
+  /// check string is local ksa phone
 
   bool get isLocalKsaPhone {
     return RegExp(r'^(05)(5|0|3|6|4|9|1|8|7)([0-9]{7})$').hasMatch(this ?? '');
@@ -81,23 +82,13 @@ extension StringExtensions on String? {
     return this?.replaceAll(' ', '');
   }
 
-  /// `queen`  will return ['q','u','e','e','n']
+  /// `queen` will return ['q','u','e','e','n']
   List<String> get toChars {
     final charsList = <String>[];
     for (final char in charsList) {
       charsList.add(char);
     }
     return charsList;
-  }
-
-  /// return true` if stating is valid DateTime format
-  bool get isValidDateFormat {
-    try {
-      DateTime.parse(this!);
-      return true;
-    } catch (e) {
-      return false;
-    }
   }
 
   /// check the string can be DateTime
@@ -124,6 +115,13 @@ extension StringExtensions on String? {
   /// else will return null
   int? toInt() {
     if (this != null) return int.tryParse(this!);
+    return null;
+  }
+
+  /// convert `String` to `num` if is possible
+  /// else will return null
+  num? toNumber() {
+    if (this != null) return num.tryParse(this!);
     return null;
   }
 }

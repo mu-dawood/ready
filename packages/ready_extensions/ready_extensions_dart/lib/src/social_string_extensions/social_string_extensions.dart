@@ -21,10 +21,9 @@ extension SocialStringExtensions on String? {
   AngelCompanyUrl? get angelCompany => AngelCompanyUrl.parse(this ?? '');
 
   /// Parse string to angle job url
-
   AngelJobUrl? get angelJob => AngelJobUrl.parse(this ?? '');
 
-  /// check string is angel comapny valid url
+  /// check string is angel company valid url
   bool isAngelCompany([String? company]) {
     var o = angelCompany;
     if (o == null) return false;
@@ -38,7 +37,7 @@ extension SocialStringExtensions on String? {
     return (jobId == null || o.jobId == jobId);
   }
 
-  /// Parse string to crunchbase organization url
+  /// Parse string to crunches organization url
   CrunchbaseOrganizationUrl? get crunchbaseOrganization =>
       CrunchbaseOrganizationUrl.parse(this ?? '');
 
