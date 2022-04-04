@@ -13,7 +13,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
   }
 
   @override
-  String containsItem(dynamic value, dynamic res) {
+  String containsItem(Iterable value, dynamic res) {
     return 'يجب أن تحتوي القائمة علي $res';
   }
 
@@ -47,6 +47,16 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
   }
 
   @override
+  String hasLength(String value, int length) {
+    return 'يجب إدخال نص مكون من $length حرف';
+  }
+
+  @override
+  String listHasLength(Iterable value, int length) {
+    return 'يجب أن يساوي عدد العناصر $length';
+  }
+
+  @override
   String hasMinLength(String value, int min) {
     return 'يجب أن لا يقل طول النص عن $min';
   }
@@ -61,7 +71,8 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
     final String selectString = intl.Intl.select(
       equal,
       {
-        'true': ' أو مساو له'
+        'true': ' أو مساو له',
+        'other': ''
       },
       desc: 'No description provided in @isAfter'
     );
@@ -74,7 +85,8 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
     final String selectString = intl.Intl.select(
       equal,
       {
-        'true': ' أو مساو له'
+        'true': ' أو مساو له',
+        'other': ''
       },
       desc: 'No description provided in @isBefore'
     );
@@ -87,7 +99,8 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
     final String selectString = intl.Intl.select(
       equal,
       {
-        'true': ' أو تساويهم'
+        'true': ' أو تساويهم',
+        'other': ''
       },
       desc: 'No description provided in @isBetween'
     );
@@ -100,7 +113,8 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
     final String selectString = intl.Intl.select(
       equal,
       {
-        'true': ' أو مساو لأحدهم'
+        'true': ' أو مساو لأحدهم',
+        'other': ''
       },
       desc: 'No description provided in @isDateBetween'
     );
@@ -137,7 +151,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
   }
 
   @override
-  String isIn(dynamic value, List list) {
+  String isIn(dynamic value, Iterable list) {
     return 'يجب أن تكون القيمة المدخلة من إحدى القيم $list';
   }
 
@@ -155,7 +169,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
   }
 
   @override
-  String isNotIn(dynamic value, List list) {
+  String isNotIn(dynamic value, Iterable list) {
     return 'لا يجب أن تكون القيمة المدخلة من القيم $list';
   }
 
@@ -200,22 +214,22 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
   }
 
   @override
-  String listMaxLength(String value, int max) {
+  String listMaxLength(Iterable value, int max) {
     return 'لا يجب أن يزيد عدد العناصر عن $max';
   }
 
   @override
-  String listMinLength(String value, int min) {
+  String listMinLength(Iterable value, int min) {
     return 'لا يجب أن يقل عدد العناصر عن $min';
   }
 
   @override
-  String listRange(String value, int min, int max) {
+  String listRange(Iterable value, int min, int max) {
     return 'يجب أن لا يقل عدد العناصر  عن $min ولا يزيد عن $max';
   }
 
   @override
-  String notContainsItem(dynamic value, dynamic res) {
+  String notContainsItem(Iterable value, dynamic res) {
     return 'لا يجب أن تحتوي القائمة علي $res';
   }
 

@@ -92,7 +92,7 @@ abstract class ReadyValidationMessages {
   ///
   /// In ar, this message translates to:
   /// **'يجب أن تحتوي القائمة علي {res}'**
-  String containsItem(dynamic value, dynamic res);
+  String containsItem(Iterable value, dynamic res);
 
   /// No description provided for @endsWith.
   ///
@@ -118,6 +118,18 @@ abstract class ReadyValidationMessages {
   /// **'يجب أن لا يزيد طول النص عن {max}'**
   String hasMaxLength(String value, int max);
 
+  /// No description provided for @hasLength.
+  ///
+  /// In ar, this message translates to:
+  /// **'يجب إدخال نص مكون من {length} حرف'**
+  String hasLength(String value, int length);
+
+  /// No description provided for @listHasLength.
+  ///
+  /// In ar, this message translates to:
+  /// **'يجب أن يساوي عدد العناصر {length}'**
+  String listHasLength(Iterable value, int length);
+
   /// No description provided for @hasMinLength.
   ///
   /// In ar, this message translates to:
@@ -133,25 +145,25 @@ abstract class ReadyValidationMessages {
   /// No description provided for @isAfter.
   ///
   /// In ar, this message translates to:
-  /// **'يجب إدخال تاريخ لاحق ل {other}, {equal,select,true { أو مساو له}}'**
+  /// **'يجب إدخال تاريخ لاحق ل {other}, {equal,select,true { أو مساو له} other{}}'**
   String isAfter(bool equal, DateTime value, DateTime date);
 
   /// No description provided for @isBefore.
   ///
   /// In ar, this message translates to:
-  /// **'يجب إدخال تاريخ سابق ل {other}, {equal,select,true { أو مساو له}}'**
+  /// **'يجب إدخال تاريخ سابق ل {other}, {equal,select,true { أو مساو له} other{}}'**
   String isBefore(bool equal, DateTime value, DateTime date);
 
   /// No description provided for @isBetween.
   ///
   /// In ar, this message translates to:
-  /// **'يجب أن تكون القيمة أكبر من {min} وأقل من {max}{equal,select,true{ أو تساويهم}}'**
+  /// **'يجب أن تكون القيمة أكبر من {min} وأقل من {max}{equal,select,true{ أو تساويهم} other{}}'**
   String isBetween(bool equal, num value, num min, num max);
 
   /// No description provided for @isDateBetween.
   ///
   /// In ar, this message translates to:
-  /// **'يجب إدخال تاريخ بين {min} و {max}, {equal,select,true { أو مساو لأحدهم}}'**
+  /// **'يجب إدخال تاريخ بين {min} و {max}, {equal,select,true { أو مساو لأحدهم} other{}}'**
   String isDateBetween(bool equal, DateTime value, DateTime min, DateTime max);
 
   /// No description provided for @isDateTime.
@@ -182,7 +194,7 @@ abstract class ReadyValidationMessages {
   ///
   /// In ar, this message translates to:
   /// **'يجب أن تكون القيمة المدخلة من إحدى القيم {list}'**
-  String isIn(dynamic value, List list);
+  String isIn(dynamic value, Iterable list);
 
   /// No description provided for @isInteger.
   ///
@@ -200,7 +212,7 @@ abstract class ReadyValidationMessages {
   ///
   /// In ar, this message translates to:
   /// **'لا يجب أن تكون القيمة المدخلة من القيم {list}'**
-  String isNotIn(dynamic value, List list);
+  String isNotIn(dynamic value, Iterable list);
 
   /// No description provided for @isNumber.
   ///
@@ -236,25 +248,25 @@ abstract class ReadyValidationMessages {
   ///
   /// In ar, this message translates to:
   /// **'لا يجب أن يزيد عدد العناصر عن {max}'**
-  String listMaxLength(String value, int max);
+  String listMaxLength(Iterable value, int max);
 
   /// No description provided for @listMinLength.
   ///
   /// In ar, this message translates to:
   /// **'لا يجب أن يقل عدد العناصر عن {min}'**
-  String listMinLength(String value, int min);
+  String listMinLength(Iterable value, int min);
 
   /// No description provided for @listRange.
   ///
   /// In ar, this message translates to:
   /// **'يجب أن لا يقل عدد العناصر  عن {min} ولا يزيد عن {max}'**
-  String listRange(String value, int min, int max);
+  String listRange(Iterable value, int min, int max);
 
   /// No description provided for @notContainsItem.
   ///
   /// In ar, this message translates to:
   /// **'لا يجب أن تحتوي القائمة علي {res}'**
-  String notContainsItem(dynamic value, dynamic res);
+  String notContainsItem(Iterable value, dynamic res);
 
   /// No description provided for @notEmpty.
   ///

@@ -15,7 +15,7 @@
   "@containsItem": {
     "placeholders": {
       "value": {
-        "type": "dynamic"
+        "type": "Iterable"
       },
       "res": {
         "type": "dynamic"
@@ -41,7 +41,29 @@
       }
     }
   },
-  "greaterThan": "The value should be greater than, {equal, select, true {or equal to} other{}} {min}",
+  "hasLength": "You must enter a text of {length} characters",
+  "@hasLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "length": {
+        "type": "int"
+      }
+    }
+  },
+  "listHasLength": "The number of elements must equal {length}",
+  "@listHasLength": {
+    "placeholders": {
+      "value": {
+        "type": "Iterable"
+      },
+      "length": {
+        "type": "int"
+      }
+    }
+  },
+  "greaterThan": "The value should be greater than, {equal, select, true {or equal to} other{} other{}} {min}",
   "@greaterThan": {
     "placeholders": {
       "equal": {
@@ -93,7 +115,7 @@
       }
     }
   },
-  "isAfter": "You must enter a later date {other}for, {equal, select, true {or equal to}}",
+  "isAfter": "You must enter a later date {other}for, {equal, select, true {or equal to} other{}}",
   "@isAfter": {
     "placeholders": {
       "equal": {
@@ -109,7 +131,7 @@
       }
     }
   },
-  "isBefore": "You must enter a date prior {other}to, {equal, select, true {or equal to}}",
+  "isBefore": "You must enter a date prior {other}to, {equal, select, true {or equal to} other{}}",
   "@isBefore": {
     "placeholders": {
       "equal": {
@@ -125,7 +147,7 @@
       }
     }
   },
-  "isBetween": "Value must be greater {min}than and less than {max}{equal, select, true {or equal}}",
+  "isBetween": "Value must be greater {min}than and less than {max}{equal, select, true {or equal} other{}}",
   "@isBetween": {
     "placeholders": {
       "equal": {
@@ -145,7 +167,7 @@
       }
     }
   },
-  "isDateBetween": "You must enter a date {min}{max}between and, {equal, select, true {or equal to one}}",
+  "isDateBetween": "You must enter a date {min}{max}between and, {equal, select, true {or equal to one} other{}}",
   "@isDateBetween": {
     "placeholders": {
       "equal": {
@@ -206,7 +228,7 @@
         "type": "dynamic"
       },
       "list": {
-        "type": "List"
+        "type": "Iterable"
       }
     }
   },
@@ -232,7 +254,7 @@
         "type": "dynamic"
       },
       "list": {
-        "type": "List"
+        "type": "Iterable"
       }
     }
   },
@@ -266,7 +288,7 @@
       "value": {}
     }
   },
-  "lessThan": "Value must be less than, {equal, select, true {or equal to} other{}} {max}",
+  "lessThan": "Value must be less than, {equal, select, true {or equal to} other{} other{}} {max}",
   "@lessThan": {
     "placeholders": {
       "equal": {
@@ -286,7 +308,7 @@
   "@listMaxLength": {
     "placeholders": {
       "value": {
-        "type": "String"
+        "type": "Iterable"
       },
       "max": {
         "type": "int"
@@ -297,7 +319,7 @@
   "@listMinLength": {
     "placeholders": {
       "value": {
-        "type": "String"
+        "type": "Iterable"
       },
       "min": {
         "type": "int"
@@ -308,7 +330,7 @@
   "@listRange": {
     "placeholders": {
       "value": {
-        "type": "String"
+        "type": "Iterable"
       },
       "min": {
         "type": "int"
@@ -322,7 +344,7 @@
   "@notContainsItem": {
     "placeholders": {
       "value": {
-        "type": "dynamic"
+        "type": "Iterable"
       },
       "res": {
         "type": "dynamic"

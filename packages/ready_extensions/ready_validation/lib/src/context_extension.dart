@@ -21,98 +21,131 @@ extension ValidationExtensions on BuildContext {
       ReadyValidationMessages.of(this) ??
       ReadyValidationMessagesAr();
 
-  /// create [_FieldValidator] for [String]
-  _FieldValidator<String?> string([String? Function(String? value)? validate]) {
-    return _FieldValidator<String?>._(
+  /// create [FieldValidator] for [String]
+  FieldValidator<String?, String?> string(
+      [String? Function(String? value)? validate]) {
+    return FieldValidator<String?, String?>._(
       messages: _messages,
+      convert: (v) => v,
+      validatePrev: (v) => null,
+      prevErrors: (v) => [],
       validate: (value) => validate?.call(value),
     );
   }
 
-  /// create [_FieldValidator] for [num]
-  _FieldValidator<num?> number([String? Function(num? value)? validate]) {
-    return _FieldValidator<num?>._(
+  /// create [FieldValidator] for [num]
+  FieldValidator<num?, num?> number([String? Function(num? value)? validate]) {
+    return FieldValidator<num?, num?>._(
       messages: _messages,
+      convert: (v) => v,
+      validatePrev: (v) => null,
+      prevErrors: (v) => [],
       validate: (value) => validate?.call(value),
     );
   }
 
-  /// create [_FieldValidator] for [int]
-  _FieldValidator<int?> integer([String? Function(int? value)? validate]) {
-    return _FieldValidator<int?>._(
+  /// create [FieldValidator] for [int]
+  FieldValidator<int?, int?> integer([String? Function(int? value)? validate]) {
+    return FieldValidator<int?, int?>._(
       messages: _messages,
+      convert: (v) => v,
+      validatePrev: (v) => null,
+      prevErrors: (v) => [],
       validate: (value) => validate?.call(value),
     );
   }
 
-  /// create [_FieldValidator] for [double]
-  _FieldValidator<double?> decimal(
+  /// create [FieldValidator] for [double]
+  FieldValidator<double?, double?> decimal(
       [String? Function(double? value)? validate]) {
-    return _FieldValidator<double?>._(
+    return FieldValidator<double?, double?>._(
       messages: _messages,
+      convert: (v) => v,
+      validatePrev: (v) => null,
+      prevErrors: (v) => [],
       validate: (value) => validate?.call(value),
     );
   }
 
-  /// create [_FieldValidator] for [bool]
-  _FieldValidator<bool?> boolean([String? Function(bool? value)? validate]) {
-    return _FieldValidator<bool?>._(
+  /// create [FieldValidator] for [bool]
+  FieldValidator<bool?, bool?> boolean(
+      [String? Function(bool? value)? validate]) {
+    return FieldValidator<bool?, bool?>._(
       messages: _messages,
+      convert: (v) => v,
+      validatePrev: (v) => null,
+      prevErrors: (v) => [],
       validate: (value) => validate?.call(value),
     );
   }
 
-  /// create [_FieldValidator] for [DateTime]
-  _FieldValidator<DateTime?> dateTime(
+  /// create [FieldValidator] for [DateTime]
+  FieldValidator<DateTime?, DateTime?> dateTime(
       [String? Function(DateTime? value)? validate]) {
-    return _FieldValidator<DateTime?>._(
+    return FieldValidator<DateTime?, DateTime?>._(
       messages: _messages,
+      convert: (v) => v,
+      validatePrev: (v) => null,
+      prevErrors: (v) => [],
       validate: (value) => validate?.call(value),
     );
   }
 
-  /// create [_FieldValidator] for [TimeOfDay]
-  _FieldValidator<TimeOfDay?> timeOfDay(
+  /// create [FieldValidator] for [TimeOfDay]
+  FieldValidator<TimeOfDay?, TimeOfDay?> timeOfDay(
       [String? Function(TimeOfDay? value)? validate]) {
-    return _FieldValidator<TimeOfDay?>._(
+    return FieldValidator<TimeOfDay?, TimeOfDay?>._(
       messages: _messages,
+      convert: (v) => v,
+      validatePrev: (v) => null,
+      prevErrors: (v) => [],
       validate: (value) => validate?.call(value),
     );
   }
 
-  /// create [_FieldValidator] for [List] of type [T]
-  _FieldValidator<List<T>?> list<T>(
+  /// create [FieldValidator] for [List] of type [T]
+  FieldValidator<List<T>?, List<T>?> list<T>(
       [String? Function(List<T>? value)? validate]) {
-    return _FieldValidator<List<T>?>._(
+    return FieldValidator<List<T>?, List<T>?>._(
       messages: _messages,
+      convert: (v) => v,
+      validatePrev: (v) => null,
+      prevErrors: (v) => [],
       validate: (value) => validate?.call(value),
     );
   }
 
-  /// create [_FieldValidator] for [Map] of key [K] and value [V]
-  _FieldValidator<Map<K, V>?> map<K, V>(
+  /// create [FieldValidator] for [Map] of key [K] and value [V]
+  FieldValidator<Map<K, V>?, Map<K, V>?> map<K, V>(
       [String? Function(Map<K, V>? value)? validate]) {
-    return _FieldValidator<Map<K, V>?>._(
+    return FieldValidator<Map<K, V>?, Map<K, V>?>._(
       messages: _messages,
+      convert: (v) => v,
+      validatePrev: (v) => null,
+      prevErrors: (v) => [],
       validate: (value) => validate?.call(value),
     );
   }
 
-  /// create [_FieldValidator] for any type of [T]
-  _FieldValidator<T?> validatorFor<T>([String? Function(T? value)? validate]) {
-    return _FieldValidator<T>._(
+  /// create [FieldValidator] for any type of [T]
+  FieldValidator<T, T> validatorFor<T>([String? Function(T? value)? validate]) {
+    return FieldValidator<T, T>._(
       messages: _messages,
+      convert: (v) => v,
+      validatePrev: (v) => null,
+      prevErrors: (v) => [],
       validate: (value) => validate?.call(value),
     );
   }
 }
 
-extension NullableStringValidationExtension<T> on _FieldValidator<T?> {
+extension NullableStringValidationExtension<T> on FieldValidator<T?, T?> {
   /// check if the value is required
   FieldValidator<T?, T> required([MessageCallBack<T?>? message]) {
     return _next(
-      (messages, value) =>
-          value == null ? message?.call(value) ?? messages.required : null,
+      (messages, value) {
+        return value == null ? message?.call(value) ?? messages.required : null;
+      },
     ).transform((value) => value!);
   }
 }

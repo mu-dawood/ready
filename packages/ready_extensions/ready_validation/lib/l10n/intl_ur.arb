@@ -15,7 +15,7 @@
   "@containsItem": {
     "placeholders": {
       "value": {
-        "type": "dynamic"
+        "type": "Iterable"
       },
       "res": {
         "type": "dynamic"
@@ -41,7 +41,7 @@
       }
     }
   },
-  "greaterThan": "قیمت سے زیادہ ہونا چاہئے, {equal, select, true {یا برابر} دیگر{}} {min}",
+  "greaterThan": "قیمت سے زیادہ ہونا چاہئے, {equal, select, true {یا برابر} دیگر{} other{}} {min}",
   "@greaterThan": {
     "placeholders": {
       "equal": {
@@ -93,7 +93,7 @@
       }
     }
   },
-  "isAfter": "آپ کے {other}لئے ایک بعد کی تاریخ درج کرنا ضروری ہے, {equal, select, true {یا برابر}}",
+  "isAfter": "آپ کے {other}لئے ایک بعد کی تاریخ درج کرنا ضروری ہے, {equal, select, true {یا برابر} other{}}",
   "@isAfter": {
     "placeholders": {
       "equal": {
@@ -109,7 +109,7 @@
       }
     }
   },
-  "isBefore": "آپ سے پہلے ایک تاریخ درج کرنا ضروری {other}ہے, {equal, select, true {یا اس کے برابر}}",
+  "isBefore": "آپ سے پہلے ایک تاریخ درج کرنا ضروری {other}ہے, {equal, select, true {یا اس کے برابر} other{}}",
   "@isBefore": {
     "placeholders": {
       "equal": {
@@ -125,7 +125,7 @@
       }
     }
   },
-  "isBetween": "قیمت {min}{max}{equal, select, true {یا برابر}} سے زیادہ اور کم ہونا ضروری ہے",
+  "isBetween": "قیمت {min}{max}{equal, select, true {یا برابر} other{}} سے زیادہ اور کم ہونا ضروری ہے",
   "@isBetween": {
     "placeholders": {
       "equal": {
@@ -145,7 +145,7 @@
       }
     }
   },
-  "isDateBetween": "آپ کے {min}{max}درمیان ایک تاریخ درج کرنا ضروری ہے اور, {equal, select, true {یا ایک کے برابر}}",
+  "isDateBetween": "آپ کے {min}{max}درمیان ایک تاریخ درج کرنا ضروری ہے اور, {equal, select, true {یا ایک کے برابر} other{}}",
   "@isDateBetween": {
     "placeholders": {
       "equal": {
@@ -206,7 +206,7 @@
         "type": "dynamic"
       },
       "list": {
-        "type": "List"
+        "type": "Iterable"
       }
     }
   },
@@ -232,7 +232,7 @@
         "type": "dynamic"
       },
       "list": {
-        "type": "List"
+        "type": "Iterable"
       }
     }
   },
@@ -266,7 +266,29 @@
       "value": {}
     }
   },
-  "lessThan": "قیمت سے کم ہونا ضروری ہے, {equal, select, true {یا برابر} دیگر{}} {max}",
+  "hasLength": "آپ کو {length} حروف کا متن درج کرنا ہوگا۔",
+  "@hasLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "length": {
+        "type": "int"
+      }
+    }
+  },
+  "listHasLength": "عناصر کی تعداد {length} کے برابر ہونی چاہیے",
+  "@listHasLength": {
+    "placeholders": {
+      "value": {
+        "type": "Iterable"
+      },
+      "length": {
+        "type": "int"
+      }
+    }
+  },
+  "lessThan": "قیمت سے کم ہونا ضروری ہے, {equal, select, true {یا برابر} دیگر{} other{}} {max}",
   "@lessThan": {
     "placeholders": {
       "equal": {
@@ -286,7 +308,7 @@
   "@listMaxLength": {
     "placeholders": {
       "value": {
-        "type": "String"
+        "type": "Iterable"
       },
       "max": {
         "type": "int"
@@ -297,7 +319,7 @@
   "@listMinLength": {
     "placeholders": {
       "value": {
-        "type": "String"
+        "type": "Iterable"
       },
       "min": {
         "type": "int"
@@ -308,7 +330,7 @@
   "@listRange": {
     "placeholders": {
       "value": {
-        "type": "String"
+        "type": "Iterable"
       },
       "min": {
         "type": "int"
@@ -322,7 +344,7 @@
   "@notContainsItem": {
     "placeholders": {
       "value": {
-        "type": "dynamic"
+        "type": "Iterable"
       },
       "res": {
         "type": "dynamic"

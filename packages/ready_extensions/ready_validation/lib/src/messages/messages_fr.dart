@@ -13,7 +13,7 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   }
 
   @override
-  String containsItem(dynamic value, dynamic res) {
+  String containsItem(Iterable value, dynamic res) {
     return 'La liste doit contenir $res';
   }
 
@@ -33,7 +33,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
       equal,
       {
         'true': 'ou égal à',
-        'autre': ''
+        'autre': '',
+        'other': ''
       },
       desc: 'No description provided in @greaterThan'
     );
@@ -44,6 +45,16 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String hasMaxLength(String value, int max) {
     return 'Le texte ne doit pas dépasser $max';
+  }
+
+  @override
+  String hasLength(String value, int length) {
+    return 'Vous devez saisir un texte de $length caractères';
+  }
+
+  @override
+  String listHasLength(Iterable value, int length) {
+    return 'Le nombre d\'éléments doit être égal à $length';
   }
 
   @override
@@ -61,7 +72,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
     final String selectString = intl.Intl.select(
       equal,
       {
-        'true': 'ou égal à'
+        'true': 'ou égal à',
+        'other': ''
       },
       desc: 'No description provided in @isAfter'
     );
@@ -74,7 +86,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
     final String selectString = intl.Intl.select(
       equal,
       {
-        'true': 'ou égal à'
+        'true': 'ou égal à',
+        'other': ''
       },
       desc: 'No description provided in @isBefore'
     );
@@ -87,7 +100,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
     final String selectString = intl.Intl.select(
       equal,
       {
-        'true': 'ou égal'
+        'true': 'ou égal',
+        'other': ''
       },
       desc: 'No description provided in @isBetween'
     );
@@ -100,7 +114,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
     final String selectString = intl.Intl.select(
       equal,
       {
-        'true': 'ou égal à un'
+        'true': 'ou égal à un',
+        'other': ''
       },
       desc: 'No description provided in @isDateBetween'
     );
@@ -137,7 +152,7 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   }
 
   @override
-  String isIn(dynamic value, List list) {
+  String isIn(dynamic value, Iterable list) {
     return 'La valeur saisie doit faire partie de la {liste}';
   }
 
@@ -155,7 +170,7 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   }
 
   @override
-  String isNotIn(dynamic value, List list) {
+  String isNotIn(dynamic value, Iterable list) {
     return 'La valeur saisie ne doit pas être dans $list';
   }
 
@@ -191,7 +206,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
       equal,
       {
         'true': 'ou égal à',
-        'autre': ''
+        'autre': '',
+        'other': ''
       },
       desc: 'No description provided in @lessThan'
     );
@@ -200,22 +216,22 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   }
 
   @override
-  String listMaxLength(String value, int max) {
+  String listMaxLength(Iterable value, int max) {
     return 'Le nombre d\'articles ne doit pas dépasser $max';
   }
 
   @override
-  String listMinLength(String value, int min) {
+  String listMinLength(Iterable value, int min) {
     return 'Le nombre d\'articles ne doit pas être inférieur à $min';
   }
 
   @override
-  String listRange(String value, int min, int max) {
+  String listRange(Iterable value, int min, int max) {
     return 'Le nombre d\'articles doit être d\'au moins ${min}et pas plus de $max';
   }
 
   @override
-  String notContainsItem(dynamic value, dynamic res) {
+  String notContainsItem(Iterable value, dynamic res) {
     return 'La liste ne doit pas nécessairement contenir $res';
   }
 

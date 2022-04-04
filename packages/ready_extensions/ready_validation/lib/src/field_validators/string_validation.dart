@@ -51,11 +51,22 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check is the value matches [regExp]
-  FieldValidator<T, String> regex(RegExp regExp,
+  FieldValidator<T, String> matches(RegExp regExp,
       [MessageCallBack<String>? message]) {
     return _next((messages, value) {
       if (!regExp.hasMatch(value)) {
         return message?.call(value) ?? messages.regexp;
+      }
+      return null;
+    });
+  }
+
+  /// check is the value has  length of [length]
+  FieldValidator<T, String> hasLength(int length,
+      [MessageCallBack<String>? message]) {
+    return _next((messages, value) {
+      if (value.length != length) {
+        return message?.call(value) ?? messages.hasLength(value, length);
       }
       return null;
     });
@@ -97,7 +108,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   /// check is the value is number
   FieldValidator<T, num> isNumber([MessageCallBack<String>? message]) {
     return _next((messages, value) {
-      if (num.tryParse(value) != null) {
+      if (num.tryParse(value) == null) {
         return message?.call(value) ?? messages.isNumber(value);
       }
       return null;
@@ -107,7 +118,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   /// check is the value is [int]
   FieldValidator<T, int> isInteger([MessageCallBack<String>? message]) {
     return _next((messages, value) {
-      if (int.tryParse(value) != null) {
+      if (int.tryParse(value) == null) {
         return message?.call(value) ?? messages.isInteger(value);
       }
       return null;
@@ -117,7 +128,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   /// check is the value is [double]
   FieldValidator<T, int> isDecimal([MessageCallBack<String>? message]) {
     return _next((messages, value) {
-      if (double.tryParse(value) != null) {
+      if (double.tryParse(value) == null) {
         return message?.call(value) ?? messages.isDecimal(value);
       }
       return null;
@@ -127,7 +138,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   /// check is the value is [DateTime]
   FieldValidator<T, DateTime> isDateTime([MessageCallBack<String>? message]) {
     return _next((messages, value) {
-      if (DateTime.tryParse(value) != null) {
+      if (DateTime.tryParse(value) == null) {
         return message?.call(value) ?? messages.isDateTime(value);
       }
       return null;

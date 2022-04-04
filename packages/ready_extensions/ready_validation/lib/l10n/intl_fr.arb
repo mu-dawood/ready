@@ -15,7 +15,7 @@
   "@containsItem": {
     "placeholders": {
       "value": {
-        "type": "dynamic"
+        "type": "Iterable"
       },
       "res": {
         "type": "dynamic"
@@ -41,7 +41,7 @@
       }
     }
   },
-  "greaterThan": "La valeur doit être supérieure à, {equal, select, true {ou égal à} autre{}} {min}",
+  "greaterThan": "La valeur doit être supérieure à, {equal, select, true {ou égal à} autre{} other{}} {min}",
   "@greaterThan": {
     "placeholders": {
       "equal": {
@@ -93,7 +93,7 @@
       }
     }
   },
-  "isAfter": "Vous devez entrer une date ultérieure {other}pour, {equal, select, true {ou égal à}}",
+  "isAfter": "Vous devez entrer une date ultérieure {other}pour, {equal, select, true {ou égal à} other{}}",
   "@isAfter": {
     "placeholders": {
       "equal": {
@@ -109,7 +109,7 @@
       }
     }
   },
-  "isBefore": "Vous devez entrer une date antérieure {other}à, {equal, select, true {ou égal à}}",
+  "isBefore": "Vous devez entrer une date antérieure {other}à, {equal, select, true {ou égal à} other{}}",
   "@isBefore": {
     "placeholders": {
       "equal": {
@@ -125,7 +125,7 @@
       }
     }
   },
-  "isBetween": "La valeur doit être {min}supérieure et inférieure à {max}{equal, select, true {ou égal}}",
+  "isBetween": "La valeur doit être {min}supérieure et inférieure à {max}{equal, select, true {ou égal} other{}}",
   "@isBetween": {
     "placeholders": {
       "equal": {
@@ -145,7 +145,7 @@
       }
     }
   },
-  "isDateBetween": "Vous devez entrer une date {min}{max}comprise entre et, {equal, select, true{ou égal à un}}",
+  "isDateBetween": "Vous devez entrer une date {min}{max}comprise entre et, {equal, select, true{ou égal à un} other{}}",
   "@isDateBetween": {
     "placeholders": {
       "equal": {
@@ -206,7 +206,7 @@
         "type": "dynamic"
       },
       "list": {
-        "type": "List"
+        "type": "Iterable"
       }
     }
   },
@@ -232,7 +232,7 @@
         "type": "dynamic"
       },
       "list": {
-        "type": "List"
+        "type": "Iterable"
       }
     }
   },
@@ -266,7 +266,7 @@
       "value": {}
     }
   },
-  "lessThan": "La valeur doit être inférieure à, {equal, select, true {ou égal à} autre{}} {max}",
+  "lessThan": "La valeur doit être inférieure à, {equal, select, true {ou égal à} autre{} other{}} {max}",
   "@lessThan": {
     "placeholders": {
       "equal": {
@@ -282,11 +282,33 @@
       }
     }
   },
+  "hasLength": "Vous devez saisir un texte de {length} caractères",
+  "@hasLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "length": {
+        "type": "int"
+      }
+    }
+  },
+  "listHasLength": "Le nombre d'éléments doit être égal à {length}",
+  "@listHasLength": {
+    "placeholders": {
+      "value": {
+        "type": "Iterable"
+      },
+      "length": {
+        "type": "int"
+      }
+    }
+  },
   "listMaxLength": "Le nombre d'articles ne doit pas dépasser {max}",
   "@listMaxLength": {
     "placeholders": {
       "value": {
-        "type": "String"
+        "type": "Iterable"
       },
       "max": {
         "type": "int"
@@ -297,7 +319,7 @@
   "@listMinLength": {
     "placeholders": {
       "value": {
-        "type": "String"
+        "type": "Iterable"
       },
       "min": {
         "type": "int"
@@ -308,7 +330,7 @@
   "@listRange": {
     "placeholders": {
       "value": {
-        "type": "String"
+        "type": "Iterable"
       },
       "min": {
         "type": "int"
@@ -322,7 +344,7 @@
   "@notContainsItem": {
     "placeholders": {
       "value": {
-        "type": "dynamic"
+        "type": "Iterable"
       },
       "res": {
         "type": "dynamic"

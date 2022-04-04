@@ -1,6 +1,6 @@
 part of '../context_extension.dart';
 
-extension NumberValidationExtension<T> on FieldValidator<T, DateTime> {
+extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
   /// check if the value is after [other]
   FieldValidator<T, DateTime> isAfter(DateTime other,
       [MessageCallBack<DateTime>? message]) {
@@ -49,7 +49,7 @@ extension NumberValidationExtension<T> on FieldValidator<T, DateTime> {
   FieldValidator<T, DateTime> isBetween(DateTime min, DateTime max,
       [MessageCallBack<DateTime>? message]) {
     return _next((messages, value) {
-      if (!value.isAfter(min) && value.isBefore(max)) {
+      if (!value.isAfter(min) || !value.isBefore(max)) {
         return message?.call(value) ??
             messages.isDateBetween(false, value, min, max);
       }

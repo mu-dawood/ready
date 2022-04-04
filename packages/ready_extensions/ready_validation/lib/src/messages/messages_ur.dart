@@ -13,7 +13,7 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   }
 
   @override
-  String containsItem(dynamic value, dynamic res) {
+  String containsItem(Iterable value, dynamic res) {
     return 'فہرست پر مشتمل ہونا چاہئے $res';
   }
 
@@ -32,7 +32,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
     final String selectString = intl.Intl.select(
       equal,
       {
-        'true': 'یا برابر'
+        'true': 'یا برابر',
+        'other': ''
       },
       desc: 'No description provided in @greaterThan'
     );
@@ -43,6 +44,16 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String hasMaxLength(String value, int max) {
     return 'متن $max سے زیادہ نہیں ہونا چاہیے';
+  }
+
+  @override
+  String hasLength(String value, int length) {
+    return 'آپ کو $length حروف کا متن درج کرنا ہوگا۔';
+  }
+
+  @override
+  String listHasLength(Iterable value, int length) {
+    return 'عناصر کی تعداد $length کے برابر ہونی چاہیے';
   }
 
   @override
@@ -60,7 +71,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
     final String selectString = intl.Intl.select(
       equal,
       {
-        'true': 'یا برابر'
+        'true': 'یا برابر',
+        'other': ''
       },
       desc: 'No description provided in @isAfter'
     );
@@ -73,7 +85,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
     final String selectString = intl.Intl.select(
       equal,
       {
-        'true': 'یا اس کے برابر'
+        'true': 'یا اس کے برابر',
+        'other': ''
       },
       desc: 'No description provided in @isBefore'
     );
@@ -86,7 +99,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
     final String selectString = intl.Intl.select(
       equal,
       {
-        'true': 'یا برابر'
+        'true': 'یا برابر',
+        'other': ''
       },
       desc: 'No description provided in @isBetween'
     );
@@ -99,7 +113,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
     final String selectString = intl.Intl.select(
       equal,
       {
-        'true': 'یا ایک کے برابر'
+        'true': 'یا ایک کے برابر',
+        'other': ''
       },
       desc: 'No description provided in @isDateBetween'
     );
@@ -136,7 +151,7 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   }
 
   @override
-  String isIn(dynamic value, List list) {
+  String isIn(dynamic value, Iterable list) {
     return 'درج کردہ قدر $list میں سے ایک ہونی چاہیے';
   }
 
@@ -154,7 +169,7 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   }
 
   @override
-  String isNotIn(dynamic value, List list) {
+  String isNotIn(dynamic value, Iterable list) {
     return 'درج کردہ قدر $list میں نہیں ہونی چاہیے';
   }
 
@@ -189,7 +204,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
     final String selectString = intl.Intl.select(
       equal,
       {
-        'true': 'یا برابر'
+        'true': 'یا برابر',
+        'other': ''
       },
       desc: 'No description provided in @lessThan'
     );
@@ -198,22 +214,22 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   }
 
   @override
-  String listMaxLength(String value, int max) {
+  String listMaxLength(Iterable value, int max) {
     return 'اشیاء کی تعداد سے زیادہ نہیں ہونا چاہئے $max';
   }
 
   @override
-  String listMinLength(String value, int min) {
+  String listMinLength(Iterable value, int min) {
     return 'اشیاء کی تعداد سے کم نہیں ہونا چاہئے $min';
   }
 
   @override
-  String listRange(String value, int min, int max) {
+  String listRange(Iterable value, int min, int max) {
     return 'اشیاء کی تعداد کم از کم $minاور اس سے زیادہ نہیں ہونا چاہئے $max';
   }
 
   @override
-  String notContainsItem(dynamic value, dynamic res) {
+  String notContainsItem(Iterable value, dynamic res) {
     return 'فہرست پر مشتمل نہیں ہے $res';
   }
 

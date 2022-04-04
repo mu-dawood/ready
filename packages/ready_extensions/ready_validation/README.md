@@ -142,11 +142,13 @@ now you can use any number validation like `greaterThan` but you cant use `hasMa
 context
         .string()
         .required()
-        .when((x) => x.isNotEmpty) /// at this point if string is not empty it will validate next lines or it will return null so that the FormField read it as valid
         .hasMaxLength(10)
         .hasMinLength(15)
+        .when((x) => false) /// at this point `hasMinLength` is ignored
         .isNumber()
         .greaterThan(10),
+  /// so the validations will be
+  /// `required` => `hasMaxLength` => `isNumber` => `greaterThan`
 ```
 
 # Advanced

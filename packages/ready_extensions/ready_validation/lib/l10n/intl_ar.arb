@@ -15,7 +15,7 @@
   "@containsItem": {
     "placeholders": {
       "value": {
-        "type": "dynamic"
+        "type": "Iterable"
       },
       "res": {
         "type": "dynamic"
@@ -68,6 +68,28 @@
       }
     }
   },
+  "hasLength": "يجب إدخال نص مكون من {length} حرف",
+  "@hasLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "length": {
+        "type": "int"
+      }
+    }
+  },
+  "listHasLength": "يجب أن يساوي عدد العناصر {length}",
+  "@listHasLength": {
+    "placeholders": {
+      "value": {
+        "type": "Iterable"
+      },
+      "length": {
+        "type": "int"
+      }
+    }
+  },
   "hasMinLength": "يجب أن لا يقل طول النص عن {min}",
   "@hasMinLength": {
     "placeholders": {
@@ -93,7 +115,7 @@
       }
     }
   },
-  "isAfter": "يجب إدخال تاريخ لاحق ل {other}, {equal,select,true { أو مساو له}}",
+  "isAfter": "يجب إدخال تاريخ لاحق ل {other}, {equal,select,true { أو مساو له} other{}}",
   "@isAfter": {
     "placeholders": {
       "equal": {
@@ -109,7 +131,7 @@
       }
     }
   },
-  "isBefore": "يجب إدخال تاريخ سابق ل {other}, {equal,select,true { أو مساو له}}",
+  "isBefore": "يجب إدخال تاريخ سابق ل {other}, {equal,select,true { أو مساو له} other{}}",
   "@isBefore": {
     "placeholders": {
       "equal": {
@@ -125,7 +147,7 @@
       }
     }
   },
-  "isBetween": "يجب أن تكون القيمة أكبر من {min} وأقل من {max}{equal,select,true{ أو تساويهم}}",
+  "isBetween": "يجب أن تكون القيمة أكبر من {min} وأقل من {max}{equal,select,true{ أو تساويهم} other{}}",
   "@isBetween": {
     "placeholders": {
       "equal": {
@@ -145,7 +167,7 @@
       }
     }
   },
-  "isDateBetween": "يجب إدخال تاريخ بين {min} و {max}, {equal,select,true { أو مساو لأحدهم}}",
+  "isDateBetween": "يجب إدخال تاريخ بين {min} و {max}, {equal,select,true { أو مساو لأحدهم} other{}}",
   "@isDateBetween": {
     "placeholders": {
       "equal": {
@@ -206,7 +228,7 @@
         "type": "dynamic"
       },
       "list": {
-        "type": "List"
+        "type": "Iterable"
       }
     }
   },
@@ -232,7 +254,7 @@
         "type": "dynamic"
       },
       "list": {
-        "type": "List"
+        "type": "Iterable"
       }
     }
   },
@@ -286,7 +308,7 @@
   "@listMaxLength": {
     "placeholders": {
       "value": {
-        "type": "String"
+        "type": "Iterable"
       },
       "max": {
         "type": "int"
@@ -297,7 +319,7 @@
   "@listMinLength": {
     "placeholders": {
       "value": {
-        "type": "String"
+        "type": "Iterable"
       },
       "min": {
         "type": "int"
@@ -308,7 +330,7 @@
   "@listRange": {
     "placeholders": {
       "value": {
-        "type": "String"
+        "type": "Iterable"
       },
       "min": {
         "type": "int"
@@ -322,7 +344,7 @@
   "@notContainsItem": {
     "placeholders": {
       "value": {
-        "type": "dynamic"
+        "type": "Iterable"
       },
       "res": {
         "type": "dynamic"
