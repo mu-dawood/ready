@@ -256,7 +256,7 @@ to do this you have to extend the field validator
 extension MyCustomValidationExtension<T> on FieldValidator<T, String> {
   FieldValidator<T, String> myCustomValidation() {
     return next(
-      (messages, value) => validate(value)/// validate your text here
+      (messages, value) => !validate(value)/// validate your text here
           ? "My custom message"
           : null,
     );

@@ -6,7 +6,8 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
       [MessageCallBack<List<TItem>>? message]) {
     return next((messages, value) {
       if (value.length != length) {
-        return message?.call(value) ?? messages.listHasLength(value, length);
+        return message?.call(messages, value) ??
+            messages.listHasLength(value, length);
       }
       return null;
     });
@@ -17,7 +18,8 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
       [MessageCallBack<List<TItem>>? message]) {
     return next((messages, value) {
       if (value.length > max) {
-        return message?.call(value) ?? messages.listMaxLength(value, max);
+        return message?.call(messages, value) ??
+            messages.listMaxLength(value, max);
       }
       return null;
     });
@@ -28,7 +30,8 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
       [MessageCallBack<List<TItem>>? message]) {
     return next((messages, value) {
       if (value.length < min) {
-        return message?.call(value) ?? messages.listMinLength(value, min);
+        return message?.call(messages, value) ??
+            messages.listMinLength(value, min);
       }
       return null;
     });
@@ -39,7 +42,8 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
       [MessageCallBack<List<TItem>>? message]) {
     return next((messages, value) {
       if (value.length < min || value.length > max) {
-        return message?.call(value) ?? messages.listRange(value, min, max);
+        return message?.call(messages, value) ??
+            messages.listRange(value, min, max);
       }
       return null;
     });
@@ -49,8 +53,9 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
   FieldValidator<T, List<TItem>> notEmpty(
       [MessageCallBack<List<TItem>>? message]) {
     return next(
-      (messages, value) =>
-          value.isEmpty ? message?.call(value) ?? messages.notEmpty : null,
+      (messages, value) => value.isEmpty
+          ? message?.call(messages, value) ?? messages.notEmpty
+          : null,
     );
   }
 
@@ -59,7 +64,7 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
       [MessageCallBack<List<TItem>>? message]) {
     return next(
       (messages, value) => !value.any((a) => a == item)
-          ? message?.call(value) ?? messages.containsItem(value, item)
+          ? message?.call(messages, value) ?? messages.containsItem(value, item)
           : null,
     );
   }
@@ -69,7 +74,8 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
       [MessageCallBack<List<TItem>>? message]) {
     return next(
       (messages, value) => value.any((a) => a == item)
-          ? message?.call(value) ?? messages.notContainsItem(value, item)
+          ? message?.call(messages, value) ??
+              messages.notContainsItem(value, item)
           : null,
     );
   }

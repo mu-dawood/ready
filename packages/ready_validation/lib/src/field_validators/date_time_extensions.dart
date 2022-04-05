@@ -6,7 +6,8 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
       [MessageCallBack<DateTime>? message]) {
     return next((messages, value) {
       if (!value.isAfter(other)) {
-        return message?.call(value) ?? messages.isAfter(false, value, other);
+        return message?.call(messages, value) ??
+            messages.isAfter(false, value, other);
       }
       return null;
     });
@@ -17,7 +18,8 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
       [MessageCallBack<DateTime>? message]) {
     return next((messages, value) {
       if (!value.isAfter(other) && !value.isAtSameMomentAs(other)) {
-        return message?.call(value) ?? messages.isAfter(true, value, other);
+        return message?.call(messages, value) ??
+            messages.isAfter(true, value, other);
       }
       return null;
     });
@@ -28,7 +30,8 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
       [MessageCallBack<DateTime>? message]) {
     return next((messages, value) {
       if (!value.isBefore(other)) {
-        return message?.call(value) ?? messages.isBefore(false, value, other);
+        return message?.call(messages, value) ??
+            messages.isBefore(false, value, other);
       }
       return null;
     });
@@ -39,7 +42,8 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
       [MessageCallBack<DateTime>? message]) {
     return next((messages, value) {
       if (!value.isBefore(other) && !value.isAtSameMomentAs(other)) {
-        return message?.call(value) ?? messages.isBefore(true, value, other);
+        return message?.call(messages, value) ??
+            messages.isBefore(true, value, other);
       }
       return null;
     });
@@ -50,7 +54,7 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
       [MessageCallBack<DateTime>? message]) {
     return next((messages, value) {
       if (!value.isAfter(min) || !value.isBefore(max)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.isDateBetween(false, value, min, max);
       }
       return null;
@@ -62,7 +66,7 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
       [MessageCallBack<DateTime>? message]) {
     return next((messages, value) {
       if (value.isBefore(min) || value.isAfter(max)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.isDateBetween(true, value, min, max);
       }
       return null;

@@ -5,7 +5,8 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
   FieldValidator<T, num> lessThan(num max, [MessageCallBack<num>? message]) {
     return next((messages, value) {
       if (value >= max) {
-        return message?.call(value) ?? messages.lessThan(false, value, max);
+        return message?.call(messages, value) ??
+            messages.lessThan(false, value, max);
       }
       return null;
     });
@@ -15,7 +16,8 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
   FieldValidator<T, num> greaterThan(num min, [MessageCallBack<num>? message]) {
     return next((messages, value) {
       if (value <= min) {
-        return message?.call(value) ?? messages.greaterThan(false, value, min);
+        return message?.call(messages, value) ??
+            messages.greaterThan(false, value, min);
       }
       return null;
     });
@@ -26,7 +28,7 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
       [MessageCallBack<num>? message]) {
     return next((messages, value) {
       if (value <= min || value >= max) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.isBetween(false, value, min, max);
       }
       return null;
@@ -38,7 +40,8 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
       [MessageCallBack<num>? message]) {
     return next((messages, value) {
       if (value > max) {
-        return message?.call(value) ?? messages.lessThan(true, value, max);
+        return message?.call(messages, value) ??
+            messages.lessThan(true, value, max);
       }
       return null;
     });
@@ -49,7 +52,8 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
       [MessageCallBack<num>? message]) {
     return next((messages, value) {
       if (value < min) {
-        return message?.call(value) ?? messages.greaterThan(true, value, min);
+        return message?.call(messages, value) ??
+            messages.greaterThan(true, value, min);
       }
       return null;
     });
@@ -60,7 +64,7 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
       [MessageCallBack<num>? message]) {
     return next((messages, value) {
       if (value < min || value > max) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.isBetween(true, value, min, max);
       }
       return null;
@@ -72,7 +76,8 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
       [MessageCallBack<num>? message]) {
     return next((messages, value) {
       if (value % other != 0) {
-        return message?.call(value) ?? messages.isDivisibleBy(value, other);
+        return message?.call(messages, value) ??
+            messages.isDivisibleBy(value, other);
       }
       return null;
     });
@@ -82,7 +87,7 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
   FieldValidator<T, num> isNegative([MessageCallBack<num>? message]) {
     return next((messages, value) {
       if (!value.isNegative) {
-        return message?.call(value) ?? messages.isNegative(value);
+        return message?.call(messages, value) ?? messages.isNegative(value);
       }
       return null;
     });
@@ -92,7 +97,7 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
   FieldValidator<T, num> isPositive([MessageCallBack<num>? message]) {
     return next((messages, value) {
       if (value.isNegative) {
-        return message?.call(value) ?? messages.isPositive(value);
+        return message?.call(messages, value) ?? messages.isPositive(value);
       }
       return null;
     });
@@ -104,7 +109,7 @@ extension IntegerValidationExtension<T> on FieldValidator<T, int> {
   FieldValidator<T, int> isEven([MessageCallBack<int>? message]) {
     return next((messages, value) {
       if (!value.isEven) {
-        return message?.call(value) ?? messages.isEven(value);
+        return message?.call(messages, value) ?? messages.isEven(value);
       }
       return null;
     });
@@ -114,7 +119,7 @@ extension IntegerValidationExtension<T> on FieldValidator<T, int> {
   FieldValidator<T, int> isOdd([MessageCallBack<int>? message]) {
     return next((messages, value) {
       if (!value.isOdd) {
-        return message?.call(value) ?? messages.isOdd(value);
+        return message?.call(messages, value) ?? messages.isOdd(value);
       }
       return null;
     });

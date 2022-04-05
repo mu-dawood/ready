@@ -14,7 +14,8 @@ part './field_validators/string_validation.dart';
 part 'field_validator.dart';
 part 'type_extension.dart';
 
-typedef MessageCallBack<T> = String Function(T value);
+typedef MessageCallBack<T> = String Function(
+    ReadyValidationMessages messages, T value);
 
 extension ValidationExtensions on BuildContext {
   ReadyValidationMessages get _messages =>
@@ -145,7 +146,9 @@ extension NullableStringValidationExtension<T> on FieldValidator<T?, T?> {
   FieldValidator<T?, T> required([MessageCallBack<T?>? message]) {
     return next(
       (messages, value) {
-        return value == null ? message?.call(value) ?? messages.required : null;
+        return value == null
+            ? message?.call(messages, value) ?? messages.required
+            : null;
       },
     ).transform((value) => value!);
   }
@@ -156,7 +159,7 @@ extension SharedValidationExtensions<T, R> on FieldValidator<T, R> {
   FieldValidator<T, R> notEqual(R value, [MessageCallBack<R>? message]) {
     return next((messages, value) {
       if (value == value) {
-        return message?.call(value) ?? messages.notEqual(value);
+        return message?.call(messages, value) ?? messages.notEqual(value);
       }
       return null;
     });
@@ -166,7 +169,7 @@ extension SharedValidationExtensions<T, R> on FieldValidator<T, R> {
   FieldValidator<T, R> equal(R value, [MessageCallBack<R>? message]) {
     return next((messages, value) {
       if (value != value) {
-        return message?.call(value) ?? messages.equal(value);
+        return message?.call(messages, value) ?? messages.equal(value);
       }
       return null;
     });
@@ -176,7 +179,7 @@ extension SharedValidationExtensions<T, R> on FieldValidator<T, R> {
   FieldValidator<T, R> isIn(List<R> values, [MessageCallBack<R>? message]) {
     return next((messages, value) {
       if (!values.contains(value)) {
-        return message?.call(value) ?? messages.isIn(value, values);
+        return message?.call(messages, value) ?? messages.isIn(value, values);
       }
       return null;
     });
@@ -186,7 +189,8 @@ extension SharedValidationExtensions<T, R> on FieldValidator<T, R> {
   FieldValidator<T, R> notIn(List<R> values, [MessageCallBack<R>? message]) {
     return next((messages, value) {
       if (values.contains(value)) {
-        return message?.call(value) ?? messages.isNotIn(value, values);
+        return message?.call(messages, value) ??
+            messages.isNotIn(value, values);
       }
       return null;
     });

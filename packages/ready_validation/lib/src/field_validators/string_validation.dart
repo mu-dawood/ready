@@ -5,7 +5,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   FieldValidator<T, String> isEmail([MessageCallBack<String>? message]) {
     return next(
       (messages, value) => !Utils.isEmail(value)
-          ? message?.call(value) ?? messages.isEmail(value)
+          ? message?.call(messages, value) ?? messages.isEmail(value)
           : null,
     );
   }
@@ -14,7 +14,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   FieldValidator<T, String> isCreditCard([MessageCallBack<String>? message]) {
     return next(
       (messages, value) => !Utils.isCreditCard(value)
-          ? message?.call(value) ?? messages.isCreditCard(value)
+          ? message?.call(messages, value) ?? messages.isCreditCard(value)
           : null,
     );
   }
@@ -24,7 +24,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
       [MessageCallBack<String>? message]) {
     return next(
       (messages, value) => !value.startsWith(pattern)
-          ? message?.call(value) ??
+          ? message?.call(messages, value) ??
               messages.startsWith(value, pattern.toString())
           : null,
     );
@@ -35,7 +35,8 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
       [MessageCallBack<String>? message]) {
     return next(
       (messages, value) => !value.contains(pattern)
-          ? message?.call(value) ?? messages.contains(value, pattern.toString())
+          ? message?.call(messages, value) ??
+              messages.contains(value, pattern.toString())
           : null,
     );
   }
@@ -45,7 +46,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
       [MessageCallBack<String>? message]) {
     return next(
       (messages, value) => !value.endsWith(other)
-          ? message?.call(value) ?? messages.startsWith(value, other)
+          ? message?.call(messages, value) ?? messages.startsWith(value, other)
           : null,
     );
   }
@@ -53,8 +54,9 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   /// check if the value is not empty
   FieldValidator<T, String> notEmpty([MessageCallBack<String>? message]) {
     return next(
-      (messages, value) =>
-          value.isEmpty ? message?.call(value) ?? messages.notEmpty : null,
+      (messages, value) => value.isEmpty
+          ? message?.call(messages, value) ?? messages.notEmpty
+          : null,
     );
   }
 
@@ -63,7 +65,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
       [MessageCallBack<String>? message]) {
     return next(
       (messages, value) => value.isNullOrEmptyOrWhiteSpace
-          ? message?.call(value) ?? messages.notEmpty
+          ? message?.call(messages, value) ?? messages.notEmpty
           : null,
     );
   }
@@ -73,7 +75,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       if (!regExp.hasMatch(value)) {
-        return message?.call(value) ?? messages.regexp;
+        return message?.call(messages, value) ?? messages.regexp;
       }
       return null;
     });
@@ -84,7 +86,8 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       if (value.length != length) {
-        return message?.call(value) ?? messages.hasLength(value, length);
+        return message?.call(messages, value) ??
+            messages.hasLength(value, length);
       }
       return null;
     });
@@ -95,7 +98,8 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       if (value.length < min) {
-        return message?.call(value) ?? messages.hasMinLength(value, min);
+        return message?.call(messages, value) ??
+            messages.hasMinLength(value, min);
       }
       return null;
     });
@@ -106,7 +110,8 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       if (value.length > max) {
-        return message?.call(value) ?? messages.hasMaxLength(value, max);
+        return message?.call(messages, value) ??
+            messages.hasMaxLength(value, max);
       }
       return null;
     });
@@ -117,7 +122,8 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       if (value.length < min || value.length > max) {
-        return message?.call(value) ?? messages.hasRange(value, min, max);
+        return message?.call(messages, value) ??
+            messages.hasRange(value, min, max);
       }
       return null;
     });
@@ -127,7 +133,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   FieldValidator<T, num> isNumber([MessageCallBack<String>? message]) {
     return next((messages, value) {
       if (num.tryParse(value) == null) {
-        return message?.call(value) ?? messages.isNumber(value);
+        return message?.call(messages, value) ?? messages.isNumber(value);
       }
       return null;
     }).transform((value) => num.parse(value));
@@ -137,7 +143,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   FieldValidator<T, int> isInteger([MessageCallBack<String>? message]) {
     return next((messages, value) {
       if (int.tryParse(value) == null) {
-        return message?.call(value) ?? messages.isInteger(value);
+        return message?.call(messages, value) ?? messages.isInteger(value);
       }
       return null;
     }).transform((value) => int.parse(value));
@@ -147,7 +153,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   FieldValidator<T, int> isDecimal([MessageCallBack<String>? message]) {
     return next((messages, value) {
       if (double.tryParse(value) == null) {
-        return message?.call(value) ?? messages.isDecimal(value);
+        return message?.call(messages, value) ?? messages.isDecimal(value);
       }
       return null;
     }).transform((value) => int.parse(value));
@@ -157,7 +163,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   FieldValidator<T, DateTime> isDateTime([MessageCallBack<String>? message]) {
     return next((messages, value) {
       if (DateTime.tryParse(value) == null) {
-        return message?.call(value) ?? messages.isDateTime(value);
+        return message?.call(messages, value) ?? messages.isDateTime(value);
       }
       return null;
     }).transform((value) => DateTime.parse(value));
@@ -167,7 +173,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   FieldValidator<T, TimeOfDay> isTimeOfDay([MessageCallBack<String>? message]) {
     return next((messages, value) {
       if (!value.isTimeOfDay) {
-        return message?.call(value) ?? messages.isTimeOfDay(value);
+        return message?.call(messages, value) ?? messages.isTimeOfDay(value);
       }
       return null;
     }).transform((value) => value.toTimeOfDay()!);
@@ -180,7 +186,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }) {
     return next((messages, value) {
       if (!value.isAngelCompany(company)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidAngelCompanyUrl(value, company ?? '_');
       }
       return null;
@@ -194,7 +200,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }) {
     return next((messages, value) {
       if (!value.isAngelJob(jobId)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidAngelJobUrl(value, jobId ?? '_');
       }
       return null;
@@ -208,7 +214,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }) {
     return next((messages, value) {
       if (!value.isCrunchbaseOrganization(organization)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidCrunchbaseOrganizationUrl(
                 value, organization ?? '_');
       }
@@ -223,7 +229,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }) {
     return next((messages, value) {
       if (!value.isCrunchbasePerson(person)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidCrunchbasePersonUrl(value, person ?? '_');
       }
       return null;
@@ -241,7 +247,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
         name: name,
         id: id,
       )) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidFacebookUrl(
               value,
               name ?? '_',
@@ -263,7 +269,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
         user: user,
         repositry: repository,
       )) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidGitHubUrl(
               value,
               user ?? '_',
@@ -285,7 +291,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
         userName: userName,
         id: id,
       )) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidGooglePlusUrl(
               value,
               userName ?? '_',
@@ -303,7 +309,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }) {
     return next((messages, value) {
       if (!value.isHackerNewsUserUrl(id: id)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidHackerNewsUserUrl(value, id ?? '_');
       }
       return null;
@@ -317,7 +323,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }) {
     return next((messages, value) {
       if (!value.isHackerNewsItemUrl(id: id)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidHackerNewsItemUrl(value, id ?? '_');
       }
       return null;
@@ -331,7 +337,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }) {
     return next((messages, value) {
       if (!value.isInstagramUrl(user: user)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidInstagramUrl(value, user ?? '_');
       }
       return null;
@@ -345,7 +351,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }) {
     return next((messages, value) {
       if (!value.isLinkedInProfile(permalink: permalink)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidLinkedInProfileUrl(value, permalink ?? '_');
       }
       return null;
@@ -359,7 +365,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }) {
     return next((messages, value) {
       if (!value.isLinkedInCompaney(permalink: permalink)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidAngelCompanyUrl(value, permalink ?? '_');
       }
       return null;
@@ -373,7 +379,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }) {
     return next((messages, value) {
       if (!value.isLinkedInPost(id: id)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidLinkedInPostUrl(value, id ?? '_');
       }
       return null;
@@ -387,7 +393,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }) {
     return next((messages, value) {
       if (!value.isRedditUrl(user: user)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidRedditUrl(value, user ?? '_');
       }
       return null;
@@ -401,7 +407,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }) {
     return next((messages, value) {
       if (!value.isSnapchatUrl(user: user)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidSnapchatUrl(value, user ?? '_');
       }
       return null;
@@ -417,7 +423,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }) {
     return next((messages, value) {
       if (!value.isStackexchangeUrl(user: user, id: id, community: community)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidStackexchangeUrl(value, user ?? '_', id ?? '_');
       }
       return null;
@@ -431,7 +437,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }) {
     return next((messages, value) {
       if (!value.isStackoverflowQuestionUrl(id: id)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidStackoverflowQuestionUrl(value, id ?? '_');
       }
       return null;
@@ -445,7 +451,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }) {
     return next((messages, value) {
       if (!value.isStackoverflowUserUrl(id: id)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidStackoverflowUserUrl(value, id ?? '_');
       }
       return null;
@@ -459,7 +465,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }) {
     return next((messages, value) {
       if (!value.isTelegramProfileUrl(userName: userName)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidTelegramProfileUrl(value, userName ?? '_');
       }
       return null;
@@ -473,7 +479,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }) {
     return next((messages, value) {
       if (!value.isMediumPostUrl(postId: postId)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidMediumPostUrl(value, postId ?? '_');
       }
       return null;
@@ -491,7 +497,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
         userName: userName,
         id: id,
       )) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidMediumUserUrl(
               value,
               userName ?? '_',
@@ -513,7 +519,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
         userName: userName,
         tweetId: userName,
       )) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidTwitterStatusUrl(
               value,
               userName ?? '_',
@@ -531,7 +537,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }) {
     return next((messages, value) {
       if (!value.isTwitterUserUrl(userName: userName)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidTwitterUserUrl(value, userName ?? '_');
       }
       return null;
@@ -545,7 +551,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }) {
     return next((messages, value) {
       if (!value.isYoutubeChannelUrl(id: id)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidYoutubeChannelUrl(value, id ?? '_');
       }
       return null;
@@ -559,7 +565,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }) {
     return next((messages, value) {
       if (!value.isYoutubeVideoUrl(id: id)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidYoutubeVideoUrl(value, id ?? '_');
       }
       return null;
@@ -573,7 +579,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }) {
     return next((messages, value) {
       if (!value.isYoutubeUserUrl(username: username)) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.invalidYoutubeUserUrl(value, username ?? '_');
       }
       return null;

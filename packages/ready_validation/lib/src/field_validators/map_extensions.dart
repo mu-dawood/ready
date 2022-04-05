@@ -7,7 +7,7 @@ extension MapValidationExtension<T, TKey, TValue>
       [MessageCallBack<Map<TKey, TValue>>? message]) {
     return next((messages, value) {
       if (value.length != length) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.listHasLength(value.entries, length);
       }
       return null;
@@ -19,7 +19,7 @@ extension MapValidationExtension<T, TKey, TValue>
       [MessageCallBack<Map<TKey, TValue>>? message]) {
     return next((messages, value) {
       if (value.length > max) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.listMaxLength(value.entries, max);
       }
       return null;
@@ -31,7 +31,7 @@ extension MapValidationExtension<T, TKey, TValue>
       [MessageCallBack<Map<TKey, TValue>>? message]) {
     return next((messages, value) {
       if (value.length < min) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.listMinLength(value.entries, min);
       }
       return null;
@@ -43,7 +43,7 @@ extension MapValidationExtension<T, TKey, TValue>
       [MessageCallBack<Map<TKey, TValue>>? message]) {
     return next((messages, value) {
       if (value.length < min || value.length > max) {
-        return message?.call(value) ??
+        return message?.call(messages, value) ??
             messages.listRange(value.entries, min, max);
       }
       return null;
@@ -54,8 +54,9 @@ extension MapValidationExtension<T, TKey, TValue>
   FieldValidator<T, Map<TKey, TValue>> notEmpty(
       [MessageCallBack<Map<TKey, TValue>>? message]) {
     return next(
-      (messages, value) =>
-          value.isEmpty ? message?.call(value) ?? messages.notEmpty : null,
+      (messages, value) => value.isEmpty
+          ? message?.call(messages, value) ?? messages.notEmpty
+          : null,
     );
   }
 
@@ -64,7 +65,8 @@ extension MapValidationExtension<T, TKey, TValue>
       [MessageCallBack<Map<TKey, TValue>>? message]) {
     return next(
       (messages, value) => !value.containsKey(key)
-          ? message?.call(value) ?? messages.containsItem(value.entries, key)
+          ? message?.call(messages, value) ??
+              messages.containsItem(value.entries, key)
           : null,
     );
   }
@@ -74,7 +76,8 @@ extension MapValidationExtension<T, TKey, TValue>
       [MessageCallBack<Map<TKey, TValue>>? message]) {
     return next(
       (messages, value) => value.containsKey(key)
-          ? message?.call(value) ?? messages.notContainsItem(value.entries, key)
+          ? message?.call(messages, value) ??
+              messages.notContainsItem(value.entries, key)
           : null,
     );
   }
@@ -84,7 +87,8 @@ extension MapValidationExtension<T, TKey, TValue>
       [MessageCallBack<Map<TKey, TValue>>? message]) {
     return next(
       (messages, v) => !v.containsValue(value)
-          ? message?.call(v) ?? messages.containsItem(v.entries, value)
+          ? message?.call(messages, v) ??
+              messages.containsItem(v.entries, value)
           : null,
     );
   }
@@ -94,7 +98,8 @@ extension MapValidationExtension<T, TKey, TValue>
       [MessageCallBack<Map<TKey, TValue>>? message]) {
     return next(
       (messages, v) => v.containsValue(value)
-          ? message?.call(v) ?? messages.notContainsItem(v.entries, value)
+          ? message?.call(messages, v) ??
+              messages.notContainsItem(v.entries, value)
           : null,
     );
   }
