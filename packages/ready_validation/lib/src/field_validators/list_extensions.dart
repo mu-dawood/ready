@@ -4,7 +4,7 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
   /// check is the list contains [length] of elements
   FieldValidator<T, List<TItem>> hasLength(int length,
       [MessageCallBack<List<TItem>>? message]) {
-    return _next((messages, value) {
+    return next((messages, value) {
       if (value.length != length) {
         return message?.call(value) ?? messages.listHasLength(value, length);
       }
@@ -15,7 +15,7 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
   /// check is the list contains  elements less than or equal [max]
   FieldValidator<T, List<TItem>> hasMaxLength(int max,
       [MessageCallBack<List<TItem>>? message]) {
-    return _next((messages, value) {
+    return next((messages, value) {
       if (value.length > max) {
         return message?.call(value) ?? messages.listMaxLength(value, max);
       }
@@ -26,7 +26,7 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
   /// check is the list contains  elements greater than or equal [min]
   FieldValidator<T, List<TItem>> hasMinLength(int min,
       [MessageCallBack<List<TItem>>? message]) {
-    return _next((messages, value) {
+    return next((messages, value) {
       if (value.length < min) {
         return message?.call(value) ?? messages.listMinLength(value, min);
       }
@@ -37,7 +37,7 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
   /// check is the list contains  elements greater than or equal [min] and  less than or equal [max]
   FieldValidator<T, List<TItem>> hasRange(int min, int max,
       [MessageCallBack<List<TItem>>? message]) {
-    return _next((messages, value) {
+    return next((messages, value) {
       if (value.length < min || value.length > max) {
         return message?.call(value) ?? messages.listRange(value, min, max);
       }
@@ -48,7 +48,7 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
   /// check if the value is not empty
   FieldValidator<T, List<TItem>> notEmpty(
       [MessageCallBack<List<TItem>>? message]) {
-    return _next(
+    return next(
       (messages, value) =>
           value.isEmpty ? message?.call(value) ?? messages.notEmpty : null,
     );
@@ -57,7 +57,7 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
   /// check if the value contains [item]
   FieldValidator<T, List<TItem>> contains(TItem item,
       [MessageCallBack<List<TItem>>? message]) {
-    return _next(
+    return next(
       (messages, value) => !value.any((a) => a == item)
           ? message?.call(value) ?? messages.containsItem(value, item)
           : null,
@@ -67,7 +67,7 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
   /// check if the value not contains [item]
   FieldValidator<T, List<TItem>> notContains(TItem item,
       [MessageCallBack<List<TItem>>? message]) {
-    return _next(
+    return next(
       (messages, value) => value.any((a) => a == item)
           ? message?.call(value) ?? messages.notContainsItem(value, item)
           : null,

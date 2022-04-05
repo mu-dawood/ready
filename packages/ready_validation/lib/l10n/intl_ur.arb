@@ -57,6 +57,17 @@
       }
     }
   },
+  "hasLength": "آپ کو {length} حروف کا متن درج کرنا ہوگا۔",
+  "@hasLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "length": {
+        "type": "int"
+      }
+    }
+  },
   "hasMaxLength": "متن {max} سے زیادہ نہیں ہونا چاہیے",
   "@hasMaxLength": {
     "placeholders": {
@@ -90,6 +101,310 @@
       },
       "max": {
         "type": "int"
+      }
+    }
+  },
+  "invalidAngelCompanyUrl": "معذرت! آپ کو ایک درست فرشتہ کمپنی درج کرنی ہوگی {company, select, _{ url } other{ name: {company}}} کے ساتھ۔",
+  "@invalidAngelCompanyUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "company": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidAngelJobUrl": "معذرت! آپ کو ایک درست فرشتہ جاب درج کرنا ہوگا {jobId, select, _{ url } other{ id کے ساتھ: {jobId}}} ۔",
+  "@invalidAngelJobUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "jobId": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidCrunchbaseOrganizationUrl": "معذرت! آپ کو ایک درست کرنچبیس تنظیم {organization, select, _{ url } other{ نام کے ساتھ درج کرنا ہوگا: {organization}}} ۔",
+  "@invalidCrunchbaseOrganizationUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "organization": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidCrunchbasePersonUrl": "معذرت! آپ کو ایک درست crunchbase person {person, select, _{ url } other{ نام کے ساتھ: {person}}} درج کرنا ہوگا۔",
+  "@invalidCrunchbasePersonUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "person": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidFacebookUrl": "معذرت! آپ کو ایک درست facebook {name, select, _{{id, select, _{ url } other{ user آئی ڈی کے ساتھ: {id}}}} other{ user نام کے ساتھ: {name}}} کرنا ہوگا۔",
+  "@invalidFacebookUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidGitHubUrl": "معذرت! آپ کو ایک درست gitHub {user, select, _{{repository, select, _{ url } other{ repository: {repository}}}} other{ user نام کے ساتھ: {user} {repository, select, _{} other{ درج کرنا ہوگا۔ {repository, select, _{} other{ اور repository: {repository}}}}} ۔",
+  "@invalidGitHubUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "user": {
+        "type": "String"
+      },
+      "repository": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidGooglePlusUrl": "معذرت! آپ کو ایک درست گوگل پلس درج کرنا ہوگا {userName, select, _{ url } other{ صارف نام کے ساتھ: {userName}}} ۔",
+  "@invalidGooglePlusUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "userName": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidHackerNewsItemUrl": "معذرت! آپ کو ایک درست ہیکر نیوز آئٹم درج کرنا ہوگا {id, select, _{ url } other{ id کے ساتھ: {id}}} ۔",
+  "@invalidHackerNewsItemUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidHackerNewsUserUrl": "معذرت! آپ کو ایک درست ہیکر نیوز صارف {id, select, _{ url } other{ id کے ساتھ درج کرنا ہوگا: {id}}} ۔",
+  "@invalidHackerNewsUserUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidInstagramUrl": "معذرت! آپ کو ایک درست انسٹاگرام درج کرنا ہوگا {user, select, _{ url } other{ user: {user}}} کے ساتھ۔",
+  "@invalidInstagramUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidLinkedInCompanyUrl": "معذرت! آپ کو کمپنی کے یو آر ایل میں ایک درست لنک درج کرنا ہوگا۔ {permalink}",
+  "@invalidLinkedInCompanyUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "permalink": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidLinkedInPostUrl": "معذرت! آپ کو پوسٹ {id, select, _{ url } other{ id کے ساتھ ایک درست لنک درج کرنا ہوگا: {id}}}",
+  "@invalidLinkedInPostUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidLinkedInProfileUrl": "معذرت! آپ کو پروفائل یو آر ایل میں ایک درست لنک درج کرنا ہوگا۔ {permalink}",
+  "@invalidLinkedInProfileUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "permalink": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidMediumPostUrl": "معذرت! آپ کو id کے ساتھ ایک درست میڈیم پوسٹ {postId, select, _{ url } other{ درج کرنا ہوگا: {postId}}} ۔",
+  "@invalidMediumPostUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "postId": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidMediumUserUrl": "معذرت! آپ کو ایک درست میڈیم صارف درج کرنا ہوگا {userName, select, _{{id, select, _{ url } other{ id کے ساتھ: {id}}}} other{ user name: {userName}}} کے ساتھ۔",
+  "@invalidMediumUserUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "userName": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidRedditUrl": "معذرت! آپ کو ایک درست reddit درج کرنا ہوگا {user, select, _{ url } other{ user: {user}}} کے ساتھ۔",
+  "@invalidRedditUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidSnapchatUrl": "معذرت! آپ کو ایک درست اسنیپ چیٹ درج کرنا ہوگا {user, select, _{ url } other{ user: {user}}} کے ساتھ۔",
+  "@invalidSnapchatUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidStackexchangeUrl": "معذرت! آپ کو ایک درست stackexchange درج کرنا ہوگا {user, select, _{{id, select, _{ url } other{ id کے ساتھ: {id}}}} other{ user name: {user}}} کے ساتھ۔",
+  "@invalidStackexchangeUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "user": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidStackoverflowQuestionUrl": "معذرت! آپ کو ایک درست اسٹیک اوور فلو سوال درج کرنا ہوگا {id, select, _{ url } other{ id کے ساتھ: {id}}} ۔",
+  "@invalidStackoverflowQuestionUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidStackoverflowUserUrl": "معذرت! آپ کو ایک درست اسٹیک اوور فلو صارف {id, select, _{ url } other{ id: {id}}} کے ساتھ درج کرنا ہوگا۔",
+  "@invalidStackoverflowUserUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidTelegramProfileUrl": "معذرت! آپ کو ایک درست ٹیلیگرام پروفائل درج کرنا ہوگا {userName, select, _{ url } other{ صارف نام کے ساتھ: {userName}}} ۔",
+  "@invalidTelegramProfileUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidTwitterStatusUrl": "معذرت! آپ کو ایک درست ٹویٹر اسٹیٹس درج کرنا ہوگا {tweetId, select, _{ url } other{ id کے ساتھ: {tweetId}}} {userName, select, _{} other{ user name: {userName}}} کے ساتھ۔",
+  "@invalidTwitterStatusUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "userName": {
+        "type": "String"
+      },
+      "tweetId": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidTwitterUserUrl": "معذرت! آپ کو ایک درست ٹویٹر صارف {userName, select, _{ url } other{ صارف نام کے ساتھ درج کرنا ہوگا: {userName}}} ۔",
+  "@invalidTwitterUserUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidYoutubeChannelUrl": "معذرت! آپ کو ایک درست یوٹیوب چینل {id, select, _{ url } other{ id: {id}}} کے ساتھ درج کرنا ہوگا۔",
+  "@invalidYoutubeChannelUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidYoutubeUserUrl": "معذرت! آپ کو ایک درست یوٹیوب صارف {userName, select, _{ url } other{ صارف کے نام کے ساتھ درج کرنا ہوگا: {userName}}} ۔",
+  "@invalidYoutubeUserUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidYoutubeVideoUrl": "معذرت! آپ کو ایک درست یوٹیوب ویڈیو {id, select, _{ url } other{ id: {id}}} کے ساتھ درج کرنا ہوگا۔",
+  "@invalidYoutubeVideoUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
       }
     }
   },
@@ -145,6 +460,14 @@
       }
     }
   },
+  "isCreditCard": "آپ کو ایک درست کریڈٹ کارڈ نمبر درج کرنا ہوگا",
+  "@isCreditCard": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "isDateBetween": "آپ کے {min}{max}درمیان ایک تاریخ درج کرنا ضروری ہے اور, {equal, select, true {یا ایک کے برابر} other{}}",
   "@isDateBetween": {
     "placeholders": {
@@ -187,6 +510,14 @@
       "division": {
         "type": "num",
         "format": "decimalPattern"
+      }
+    }
+  },
+  "isEmail": "آپ کو ایک درست ای میل درج کرنا ہوگی۔",
+  "@isEmail": {
+    "placeholders": {
+      "value": {
+        "type": "String"
       }
     }
   },
@@ -266,28 +597,6 @@
       "value": {}
     }
   },
-  "hasLength": "آپ کو {length} حروف کا متن درج کرنا ہوگا۔",
-  "@hasLength": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      },
-      "length": {
-        "type": "int"
-      }
-    }
-  },
-  "listHasLength": "عناصر کی تعداد {length} کے برابر ہونی چاہیے",
-  "@listHasLength": {
-    "placeholders": {
-      "value": {
-        "type": "Iterable"
-      },
-      "length": {
-        "type": "int"
-      }
-    }
-  },
   "lessThan": "قیمت سے کم ہونا ضروری ہے, {equal, select, true {یا برابر} دیگر{} other{}} {max}",
   "@lessThan": {
     "placeholders": {
@@ -301,6 +610,17 @@
       "max": {
         "type": "num",
         "format": "decimalPattern"
+      }
+    }
+  },
+  "listHasLength": "عناصر کی تعداد {length} کے برابر ہونی چاہیے",
+  "@listHasLength": {
+    "placeholders": {
+      "value": {
+        "type": "Iterable"
+      },
+      "length": {
+        "type": "int"
       }
     }
   },
@@ -361,7 +681,7 @@
       }
     }
   },
-  "regexp": "درخواست کردہ فارمیٹ ان پٹ کے ساتھ مطابقت نہیں رکھتا ہے۔",
+  "regexp": "درخواست کردہ وضع ان پٹ سے مطابقت نہیں رکھتی",
   "@regexp": {},
   "required": "معاف کیجئے گا! اس کو پر کرنا ضروری ہے",
   "@required": {},

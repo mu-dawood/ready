@@ -72,6 +72,28 @@ this is also supported and this time you don't need to validate required is the 
   );
 ```
 
+# Available validations
+
+### all types 
+
+`required`  `notEqual`  `equal`  `isIn`  `isNotIn`  `validateWith`
+
+### strings
+
+* `isEmail`  `isCreditCard`  `startsWith`  `contains`  `endsWith`  `notEmpty`  `notEmptyOrWhiteSpace`  `matches`  `hasLength`  `hasMinLength`
+* `hasMaxLength`  `hasRange`  `isAngelCompany`  `isAngelJob`  `isCrunchbaseOrganization`  `isCrunchbasePerson`  `isFacebookUrl`  `isGitHubUrl`
+* `isGooglePlusUrl`  `isHackerNewsUserUrl`  `isHackerNewsItemUrl`  `isInstagramUrl`  `isLinkedInProfile`  `isLinkedInCompany`  `isLinkedInPost`
+* `isRedditUrl`  `isSnapchatUrl`  `isStackexchangeUrl`  `isStackoverflowQuestionUrl`  `isStackoverflowUserUrl`  `isTelegramProfileUrl`  `isMediumPostUrl`
+* `isMediumUserUrl`  `isTwitterStatusUrl`  `isTwitterUserUrl`  `isYoutubeChannelUrl`  `isYoutubeVideoUrl`  `isYoutubeUserUrl`
+
+### numbers 
+
+* `lessThan`  `greaterThan`  `isBetween`  `lessThanOrEqual`  `greaterThanOrEqual`  `isBetweenOrEqual`  `isDivisibleBy`
+* `isNegative`  `isPositive`  `isEven`  `isOdd`
+
+### dates 
+
+* `isAfter`  `isAfterOrEqual`  `isBefore`  `isBeforeOrEqual`  `isBetween`  `isBetweenOrEqual`
 # validators
 
 ```dart
@@ -106,13 +128,6 @@ this is also supported and this time you don't need to validate required is the 
   context.validatorFor<T>(); 
 ```
 
-* any  validator contains  these validators plus its own validators
-  + required
-  + notEqual
-  + equal
-  + isIn
-  + isNotIn
-  + validate with
 # transforming 
 
 in any step you can transform your validator to another type and it can still be used with field
@@ -210,4 +225,46 @@ now instead of using our delegate use your own
     ],
     home: MyApplicationHome(),
   );
+```
+
+# injectable
+
+what if you need to make your own validation that can be used with other validations
+-like this
+
+```dart 
+
+TextFormField(
+
+    validator: context
+        .string()
+        .required()
+        .myCustomValidation() /// this your custom validation
+        .hasMaxLength(10)
+        .hasMinLength(15)
+        .isNumber()
+        .greaterThan(10),
+
+  ); 
+
+```
+
+to do this you have to extend the field validator 
+
+```dart
+
+extension MyCustomValidationExtension<T> on FieldValidator<T, String> {
+  FieldValidator<T, String> myCustomValidation() {
+    return next(
+      (messages, value) => validate(value)/// validate your text here
+          ? "My custom message"
+          : null,
+    );
+  }
+}
+
+/// FieldValidator takes 2 generic arguments
+/// the first is the caller which means what is the type of value that will be passed to the validator
+/// as we need our validator to work with string values and any type that is transformed to string we use T as the first arg
+
 ```

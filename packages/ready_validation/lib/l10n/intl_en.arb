@@ -41,29 +41,7 @@
       }
     }
   },
-  "hasLength": "You must enter a text of {length} characters",
-  "@hasLength": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      },
-      "length": {
-        "type": "int"
-      }
-    }
-  },
-  "listHasLength": "The number of elements must equal {length}",
-  "@listHasLength": {
-    "placeholders": {
-      "value": {
-        "type": "Iterable"
-      },
-      "length": {
-        "type": "int"
-      }
-    }
-  },
-  "greaterThan": "The value should be greater than, {equal, select, true {or equal to} other{} other{}} {min}",
+  "greaterThan": "The value should be greater than, {equal, select, true {or equal to}  other {}} {min}",
   "@greaterThan": {
     "placeholders": {
       "equal": {
@@ -76,6 +54,17 @@
       "min": {
         "type": "num",
         "format": "decimalPattern"
+      }
+    }
+  },
+  "hasLength": "You must enter a text of {length} characters",
+  "@hasLength": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "length": {
+        "type": "int"
       }
     }
   },
@@ -112,6 +101,310 @@
       },
       "max": {
         "type": "int"
+      }
+    }
+  },
+  "invalidAngelCompanyUrl": "Sorry! you have to enter a valid angel company {company, select, _{url} other{with name: {company}}}.",
+  "@invalidAngelCompanyUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "company": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidAngelJobUrl": "Sorry! you have to enter a valid angel job {jobId, select, _{url} other{with id: {jobId}}}.",
+  "@invalidAngelJobUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "jobId": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidCrunchbaseOrganizationUrl": "Sorry! you have to enter a valid crunchbase organization {organization, select, _{url} other{with name: {organization}}}.",
+  "@invalidCrunchbaseOrganizationUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "organization": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidCrunchbasePersonUrl": "Sorry! you have to enter a valid crunchbase person {person, select, _{url} other{with name: {person}}}.",
+  "@invalidCrunchbasePersonUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "person": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidFacebookUrl": "Sorry! you have to enter a valid facebook {name, select, _{{id, select, _{url} other{user with id: {id}}}} other{user with name: {name}}}.",
+  "@invalidFacebookUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidGitHubUrl": "Sorry! you have to enter a valid gitHub {user, select, _{{repository, select, _{url} other{repository: {repository}}}} other{user with name: {user} {repository, select, _{} other{and repository: {repository}}}}}.",
+  "@invalidGitHubUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "user": {
+        "type": "String"
+      },
+      "repository": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidGooglePlusUrl": "Sorry! you have to enter a valid google plus {userName, select, _{url} other{with user name: {userName}}}.",
+  "@invalidGooglePlusUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "userName": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidHackerNewsItemUrl": "Sorry! you have to enter a valid hacker news item  {id, select, _{url} other{with id: {id}}}.",
+  "@invalidHackerNewsItemUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidHackerNewsUserUrl": "Sorry! you have to enter a valid hacker news user  {id, select, _{url} other{with id: {id}}}.",
+  "@invalidHackerNewsUserUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidInstagramUrl": "Sorry! you have to enter a valid instagram {user, select, _{url} other{with user: {user}}}.",
+  "@invalidInstagramUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidLinkedInCompanyUrl": "Sorry! you have to enter a valid linked in company url. {permalink}",
+  "@invalidLinkedInCompanyUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "permalink": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidLinkedInPostUrl": "Sorry! you have to enter a valid linked in post  {id, select, _{url} other{with id: {id}}}",
+  "@invalidLinkedInPostUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidLinkedInProfileUrl": "Sorry! you have to enter a valid linked in profile url. {permalink}",
+  "@invalidLinkedInProfileUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "permalink": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidMediumPostUrl": "Sorry! you have to enter a valid medium post {postId, select, _{url} other{with id: {postId}}}.",
+  "@invalidMediumPostUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "postId": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidMediumUserUrl": "Sorry! you have to enter a valid medium user {userName, select, _{{id, select, _{url} other{with id: {id}}}} other{with user name: {userName}}}.",
+  "@invalidMediumUserUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "userName": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidRedditUrl": "Sorry! you have to enter a valid reddit {user, select, _{url} other{with user: {user}}}.",
+  "@invalidRedditUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidSnapchatUrl": "Sorry! you have to enter a valid snapchat {user, select, _{url} other{with user: {user}}}.",
+  "@invalidSnapchatUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidStackexchangeUrl": "Sorry! you have to enter a valid stackexchange {user, select, _{{id, select, _{url} other{with id: {id}}}} other{with user name: {user}}}.",
+  "@invalidStackexchangeUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "user": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidStackoverflowQuestionUrl": "Sorry! you have to enter a valid stackoverflow question {id, select, _{url} other{with id: {id}}}.",
+  "@invalidStackoverflowQuestionUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidStackoverflowUserUrl": "Sorry! you have to enter a valid stackoverflow user {id, select, _{url} other{with id: {id}}}.",
+  "@invalidStackoverflowUserUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidTelegramProfileUrl": "Sorry! you have to enter a valid telegram profile {userName, select, _{url} other{with user name: {userName}}}.",
+  "@invalidTelegramProfileUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidTwitterStatusUrl": "Sorry! you have to enter a valid twitter status {tweetId, select, _{url} other{with id: {tweetId}}} {userName, select, _{} other{with user name: {userName}}}.",
+  "@invalidTwitterStatusUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "userName": {
+        "type": "String"
+      },
+      "tweetId": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidTwitterUserUrl": "Sorry! you have to enter a valid twitter user {userName, select, _{url} other{with user name: {userName}}}.",
+  "@invalidTwitterUserUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidYoutubeChannelUrl": "Sorry! you have to enter a valid youtube channel {id, select, _{url} other{with id: {id}}}.",
+  "@invalidYoutubeChannelUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidYoutubeUserUrl": "Sorry! you have to enter a valid youtube user {userName, select, _{url} other{with user name: {userName}}}.",
+  "@invalidYoutubeUserUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidYoutubeVideoUrl": "Sorry! you have to enter a valid youtube video {id, select, _{url} other{with id: {id}}}.",
+  "@invalidYoutubeVideoUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
       }
     }
   },
@@ -167,6 +460,14 @@
       }
     }
   },
+  "isCreditCard": "You must enter the credit card number",
+  "@isCreditCard": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "isDateBetween": "You must enter a date {min}{max}between and, {equal, select, true {or equal to one} other{}}",
   "@isDateBetween": {
     "placeholders": {
@@ -209,6 +510,14 @@
       "division": {
         "type": "num",
         "format": "decimalPattern"
+      }
+    }
+  },
+  "isEmail": "You must enter a valid isEmail",
+  "@isEmail": {
+    "placeholders": {
+      "value": {
+        "type": "String"
       }
     }
   },
@@ -288,7 +597,7 @@
       "value": {}
     }
   },
-  "lessThan": "Value must be less than, {equal, select, true {or equal to} other{} other{}} {max}",
+  "lessThan": "Value must be less than, {equal, select, true {or equal to}  other {}} {max}",
   "@lessThan": {
     "placeholders": {
       "equal": {
@@ -301,6 +610,17 @@
       "max": {
         "type": "num",
         "format": "decimalPattern"
+      }
+    }
+  },
+  "listHasLength": "The number of elements must equal {length}",
+  "@listHasLength": {
+    "placeholders": {
+      "value": {
+        "type": "Iterable"
+      },
+      "length": {
+        "type": "int"
       }
     }
   },

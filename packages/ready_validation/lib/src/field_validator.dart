@@ -1,82 +1,5 @@
 part of 'context_extension.dart';
 
-// abstract class FieldValidator<Caller, T> {
-//   FieldValidator<Caller, T> _next(
-//       String? Function(ReadyValidationMessages messages, T value) next);
-//   FieldValidator<Caller, T> when(bool Function(T value) condition);
-//   FieldValidator<Caller, T> whenNot(bool Function(T value) condition);
-//   FieldValidator<Caller, R> transform<R>(R Function(T value) convert);
-//   bool isValid(Caller value);
-//   String? call(Caller value);
-// }
-
-// class _FieldValidator<T, R> extends FieldValidator<T, T> {
-//   final String? Function(T value) _validate;
-//   final ReadyValidationMessages _messages;
-//   _FieldValidator._({
-//     required String? Function(T value) validate,
-//     required ReadyValidationMessages messages,
-//   })  : _validate = validate,
-//         _messages = messages;
-
-//   @override
-//   bool isValid(T value) {
-//     return _validate(value) == null;
-//   }
-
-//   @override
-//   String? call(T value) {
-//     return _validate(value);
-//   }
-
-//   @override
-//   _FieldValidator<T, R> _next(
-//     String? Function(ReadyValidationMessages messages, T value) next,
-//   ) {
-//     return _FieldValidator<T, R>._(
-//       validate: (value) {
-//         return call(value) ?? next(_messages, value);
-//       },
-//       messages: _messages,
-//     );
-//   }
-
-//   @override
-//   _FieldValidator<T, R> when(bool Function(T value) condition) {
-//     return _FieldValidator<T, R>._(
-//       validate: (value) {
-//         if (condition(value)) {
-//           return call(value);
-//         }
-//         return null;
-//       },
-//       messages: _messages,
-//     );
-//   }
-
-//   @override
-//   _FieldValidator<T, R> whenNot(bool Function(T value) condition) {
-//     return _FieldValidator<T, R>._(
-//       validate: (value) {
-//         if (!condition(value)) {
-//           return call(value);
-//         }
-//         return null;
-//       },
-//       messages: _messages,
-//     );
-//   }
-
-//   @override
-//   TransformedFieldValidator<T, R> transform<R>(R Function(T value) convert) {
-//     return TransformedFieldValidator<T, R>._(
-//       validate: (value) => null,
-//       messages: _messages,
-//       convert: convert,
-//     );
-//   }
-// }
-
 class FieldValidator<T, R> {
   final String? Function(T value) _validate;
   final String? Function(T value) _validatePrev;
@@ -111,7 +34,7 @@ class FieldValidator<T, R> {
     ];
   }
 
-  FieldValidator<T, R> _next(
+  FieldValidator<T, R> next(
     String? Function(ReadyValidationMessages messages, R value) next,
   ) {
     return FieldValidator<T, R>._(

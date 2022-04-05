@@ -1,10 +1,28 @@
 part of '../context_extension.dart';
 
 extension StringValidationExtension<T> on FieldValidator<T, String> {
+  /// check if the value is email address
+  FieldValidator<T, String> isEmail([MessageCallBack<String>? message]) {
+    return next(
+      (messages, value) => !Utils.isEmail(value)
+          ? message?.call(value) ?? messages.isEmail(value)
+          : null,
+    );
+  }
+
+  /// check if the value is email address
+  FieldValidator<T, String> isCreditCard([MessageCallBack<String>? message]) {
+    return next(
+      (messages, value) => !Utils.isCreditCard(value)
+          ? message?.call(value) ?? messages.isCreditCard(value)
+          : null,
+    );
+  }
+
   /// check if the value starts with [pattern]
   FieldValidator<T, String> startsWith(Pattern pattern,
       [MessageCallBack<String>? message]) {
-    return _next(
+    return next(
       (messages, value) => !value.startsWith(pattern)
           ? message?.call(value) ??
               messages.startsWith(value, pattern.toString())
@@ -15,7 +33,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   /// check if the value contains [pattern]
   FieldValidator<T, String> contains(Pattern pattern,
       [MessageCallBack<String>? message]) {
-    return _next(
+    return next(
       (messages, value) => !value.contains(pattern)
           ? message?.call(value) ?? messages.contains(value, pattern.toString())
           : null,
@@ -25,7 +43,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   /// check if the value ends with [other]
   FieldValidator<T, String> endsWith(String other,
       [MessageCallBack<String>? message]) {
-    return _next(
+    return next(
       (messages, value) => !value.endsWith(other)
           ? message?.call(value) ?? messages.startsWith(value, other)
           : null,
@@ -34,7 +52,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
 
   /// check if the value is not empty
   FieldValidator<T, String> notEmpty([MessageCallBack<String>? message]) {
-    return _next(
+    return next(
       (messages, value) =>
           value.isEmpty ? message?.call(value) ?? messages.notEmpty : null,
     );
@@ -43,7 +61,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   /// check if the value is not empty and not contains only white spaces
   FieldValidator<T, String> notEmptyOrWhiteSpace(
       [MessageCallBack<String>? message]) {
-    return _next(
+    return next(
       (messages, value) => value.isNullOrEmptyOrWhiteSpace
           ? message?.call(value) ?? messages.notEmpty
           : null,
@@ -53,7 +71,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   /// check is the value matches [regExp]
   FieldValidator<T, String> matches(RegExp regExp,
       [MessageCallBack<String>? message]) {
-    return _next((messages, value) {
+    return next((messages, value) {
       if (!regExp.hasMatch(value)) {
         return message?.call(value) ?? messages.regexp;
       }
@@ -64,7 +82,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   /// check is the value has  length of [length]
   FieldValidator<T, String> hasLength(int length,
       [MessageCallBack<String>? message]) {
-    return _next((messages, value) {
+    return next((messages, value) {
       if (value.length != length) {
         return message?.call(value) ?? messages.hasLength(value, length);
       }
@@ -75,7 +93,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   /// check is the value has min length of [min]
   FieldValidator<T, String> hasMinLength(int min,
       [MessageCallBack<String>? message]) {
-    return _next((messages, value) {
+    return next((messages, value) {
       if (value.length < min) {
         return message?.call(value) ?? messages.hasMinLength(value, min);
       }
@@ -86,7 +104,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   /// check is the value has max length of [max]
   FieldValidator<T, String> hasMaxLength(int max,
       [MessageCallBack<String>? message]) {
-    return _next((messages, value) {
+    return next((messages, value) {
       if (value.length > max) {
         return message?.call(value) ?? messages.hasMaxLength(value, max);
       }
@@ -97,7 +115,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   /// check is the value length is between [min] and [max]
   FieldValidator<T, String> hasRange(int min, int max,
       [MessageCallBack<String>? message]) {
-    return _next((messages, value) {
+    return next((messages, value) {
       if (value.length < min || value.length > max) {
         return message?.call(value) ?? messages.hasRange(value, min, max);
       }
@@ -107,7 +125,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
 
   /// check is the value is number
   FieldValidator<T, num> isNumber([MessageCallBack<String>? message]) {
-    return _next((messages, value) {
+    return next((messages, value) {
       if (num.tryParse(value) == null) {
         return message?.call(value) ?? messages.isNumber(value);
       }
@@ -117,7 +135,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
 
   /// check is the value is [int]
   FieldValidator<T, int> isInteger([MessageCallBack<String>? message]) {
-    return _next((messages, value) {
+    return next((messages, value) {
       if (int.tryParse(value) == null) {
         return message?.call(value) ?? messages.isInteger(value);
       }
@@ -127,7 +145,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
 
   /// check is the value is [double]
   FieldValidator<T, int> isDecimal([MessageCallBack<String>? message]) {
-    return _next((messages, value) {
+    return next((messages, value) {
       if (double.tryParse(value) == null) {
         return message?.call(value) ?? messages.isDecimal(value);
       }
@@ -137,7 +155,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
 
   /// check is the value is [DateTime]
   FieldValidator<T, DateTime> isDateTime([MessageCallBack<String>? message]) {
-    return _next((messages, value) {
+    return next((messages, value) {
       if (DateTime.tryParse(value) == null) {
         return message?.call(value) ?? messages.isDateTime(value);
       }
@@ -147,11 +165,418 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
 
   /// check is the value is [TimeOfDay]
   FieldValidator<T, TimeOfDay> isTimeOfDay([MessageCallBack<String>? message]) {
-    return _next((messages, value) {
+    return next((messages, value) {
       if (!value.isTimeOfDay) {
         return message?.call(value) ?? messages.isTimeOfDay(value);
       }
       return null;
     }).transform((value) => value.toTimeOfDay()!);
+  }
+
+  /// check string is angel company valid url
+  FieldValidator<T, String> isAngelCompany({
+    MessageCallBack<String>? message,
+    String? company,
+  }) {
+    return next((messages, value) {
+      if (!value.isAngelCompany(company)) {
+        return message?.call(value) ??
+            messages.invalidAngelCompanyUrl(value, company ?? '_');
+      }
+      return null;
+    });
+  }
+
+  /// check string is angel job valid url
+  FieldValidator<T, String> isAngelJob({
+    MessageCallBack<String>? message,
+    String? jobId,
+  }) {
+    return next((messages, value) {
+      if (!value.isAngelJob(jobId)) {
+        return message?.call(value) ??
+            messages.invalidAngelJobUrl(value, jobId ?? '_');
+      }
+      return null;
+    });
+  }
+
+  /// check string is crunchbase organization url
+  FieldValidator<T, String> isCrunchbaseOrganization({
+    MessageCallBack<String>? message,
+    String? organization,
+  }) {
+    return next((messages, value) {
+      if (!value.isCrunchbaseOrganization(organization)) {
+        return message?.call(value) ??
+            messages.invalidCrunchbaseOrganizationUrl(
+                value, organization ?? '_');
+      }
+      return null;
+    });
+  }
+
+  /// check string is crunchbase person url
+  FieldValidator<T, String> isCrunchbasePerson({
+    MessageCallBack<String>? message,
+    String? person,
+  }) {
+    return next((messages, value) {
+      if (!value.isCrunchbasePerson(person)) {
+        return message?.call(value) ??
+            messages.invalidCrunchbasePersonUrl(value, person ?? '_');
+      }
+      return null;
+    });
+  }
+
+  /// Check string is facebook url
+  FieldValidator<T, String> isFacebookUrl({
+    MessageCallBack<String>? message,
+    String? name,
+    String? id,
+  }) {
+    return next((messages, value) {
+      if (!value.isFacebookUrl(
+        name: name,
+        id: id,
+      )) {
+        return message?.call(value) ??
+            messages.invalidFacebookUrl(
+              value,
+              name ?? '_',
+              id ?? '_',
+            );
+      }
+      return null;
+    });
+  }
+
+  /// Check string is github url
+  FieldValidator<T, String> isGitHubUrl({
+    MessageCallBack<String>? message,
+    String? user,
+    String? repository,
+  }) {
+    return next((messages, value) {
+      if (!value.isGitHubUrl(
+        user: user,
+        repositry: repository,
+      )) {
+        return message?.call(value) ??
+            messages.invalidGitHubUrl(
+              value,
+              user ?? '_',
+              repository ?? '_',
+            );
+      }
+      return null;
+    });
+  }
+
+  /// Check string is google plus url
+  FieldValidator<T, String> isGooglePlusUrl({
+    MessageCallBack<String>? message,
+    String? userName,
+    String? id,
+  }) {
+    return next((messages, value) {
+      if (!value.isGooglePlusUrl(
+        userName: userName,
+        id: id,
+      )) {
+        return message?.call(value) ??
+            messages.invalidGooglePlusUrl(
+              value,
+              userName ?? '_',
+              id ?? '_',
+            );
+      }
+      return null;
+    });
+  }
+
+  /// Check string is hacker news user url
+  FieldValidator<T, String> isHackerNewsUserUrl({
+    MessageCallBack<String>? message,
+    String? id,
+  }) {
+    return next((messages, value) {
+      if (!value.isHackerNewsUserUrl(id: id)) {
+        return message?.call(value) ??
+            messages.invalidHackerNewsUserUrl(value, id ?? '_');
+      }
+      return null;
+    });
+  }
+
+  /// Check string is hacker news url
+  FieldValidator<T, String> isHackerNewsItemUrl({
+    MessageCallBack<String>? message,
+    String? id,
+  }) {
+    return next((messages, value) {
+      if (!value.isHackerNewsItemUrl(id: id)) {
+        return message?.call(value) ??
+            messages.invalidHackerNewsItemUrl(value, id ?? '_');
+      }
+      return null;
+    });
+  }
+
+  /// Check string is instagram url
+  FieldValidator<T, String> isInstagramUrl({
+    MessageCallBack<String>? message,
+    String? user,
+  }) {
+    return next((messages, value) {
+      if (!value.isInstagramUrl(user: user)) {
+        return message?.call(value) ??
+            messages.invalidInstagramUrl(value, user ?? '_');
+      }
+      return null;
+    });
+  }
+
+  /// Check string is linkedin profile url
+  FieldValidator<T, String> isLinkedInProfile({
+    MessageCallBack<String>? message,
+    String? permalink,
+  }) {
+    return next((messages, value) {
+      if (!value.isLinkedInProfile(permalink: permalink)) {
+        return message?.call(value) ??
+            messages.invalidLinkedInProfileUrl(value, permalink ?? '_');
+      }
+      return null;
+    });
+  }
+
+  /// Check string is linkedin company url
+  FieldValidator<T, String> isLinkedInCompany({
+    MessageCallBack<String>? message,
+    String? permalink,
+  }) {
+    return next((messages, value) {
+      if (!value.isLinkedInCompaney(permalink: permalink)) {
+        return message?.call(value) ??
+            messages.invalidAngelCompanyUrl(value, permalink ?? '_');
+      }
+      return null;
+    });
+  }
+
+  /// Check string is linkedin post url
+  FieldValidator<T, String> isLinkedInPost({
+    MessageCallBack<String>? message,
+    String? id,
+  }) {
+    return next((messages, value) {
+      if (!value.isLinkedInPost(id: id)) {
+        return message?.call(value) ??
+            messages.invalidLinkedInPostUrl(value, id ?? '_');
+      }
+      return null;
+    });
+  }
+
+  /// Check string is reddit url
+  FieldValidator<T, String> isRedditUrl({
+    MessageCallBack<String>? message,
+    String? user,
+  }) {
+    return next((messages, value) {
+      if (!value.isRedditUrl(user: user)) {
+        return message?.call(value) ??
+            messages.invalidRedditUrl(value, user ?? '_');
+      }
+      return null;
+    });
+  }
+
+  /// Check string is snapchat url
+  FieldValidator<T, String> isSnapchatUrl({
+    MessageCallBack<String>? message,
+    String? user,
+  }) {
+    return next((messages, value) {
+      if (!value.isSnapchatUrl(user: user)) {
+        return message?.call(value) ??
+            messages.invalidSnapchatUrl(value, user ?? '_');
+      }
+      return null;
+    });
+  }
+
+  /// Check string is stack exchange url
+  FieldValidator<T, String> isStackexchangeUrl({
+    MessageCallBack<String>? message,
+    String? user,
+    String? id,
+    String? community,
+  }) {
+    return next((messages, value) {
+      if (!value.isStackexchangeUrl(user: user, id: id, community: community)) {
+        return message?.call(value) ??
+            messages.invalidStackexchangeUrl(value, user ?? '_', id ?? '_');
+      }
+      return null;
+    });
+  }
+
+  /// Check string is stackoverflow question url
+  FieldValidator<T, String> isStackoverflowQuestionUrl({
+    MessageCallBack<String>? message,
+    String? id,
+  }) {
+    return next((messages, value) {
+      if (!value.isStackoverflowQuestionUrl(id: id)) {
+        return message?.call(value) ??
+            messages.invalidStackoverflowQuestionUrl(value, id ?? '_');
+      }
+      return null;
+    });
+  }
+
+  /// Check string is stackoverflow user url
+  FieldValidator<T, String> isStackoverflowUserUrl({
+    MessageCallBack<String>? message,
+    String? id,
+  }) {
+    return next((messages, value) {
+      if (!value.isStackoverflowUserUrl(id: id)) {
+        return message?.call(value) ??
+            messages.invalidStackoverflowUserUrl(value, id ?? '_');
+      }
+      return null;
+    });
+  }
+
+  /// Check string is telegram profile  url
+  FieldValidator<T, String> isTelegramProfileUrl({
+    MessageCallBack<String>? message,
+    String? userName,
+  }) {
+    return next((messages, value) {
+      if (!value.isTelegramProfileUrl(userName: userName)) {
+        return message?.call(value) ??
+            messages.invalidTelegramProfileUrl(value, userName ?? '_');
+      }
+      return null;
+    });
+  }
+
+  /// Check string is  medium post url
+  FieldValidator<T, String> isMediumPostUrl({
+    MessageCallBack<String>? message,
+    String? postId,
+  }) {
+    return next((messages, value) {
+      if (!value.isMediumPostUrl(postId: postId)) {
+        return message?.call(value) ??
+            messages.invalidMediumPostUrl(value, postId ?? '_');
+      }
+      return null;
+    });
+  }
+
+  /// Check string is  medium user url
+  FieldValidator<T, String> isMediumUserUrl({
+    MessageCallBack<String>? message,
+    String? userName,
+    String? id,
+  }) {
+    return next((messages, value) {
+      if (!value.isMediumUserUrl(
+        userName: userName,
+        id: id,
+      )) {
+        return message?.call(value) ??
+            messages.invalidMediumUserUrl(
+              value,
+              userName ?? '_',
+              id ?? '_',
+            );
+      }
+      return null;
+    });
+  }
+
+  /// Check string is twitter status  url
+  FieldValidator<T, String> isTwitterStatusUrl({
+    MessageCallBack<String>? message,
+    String? userName,
+    String? tweetId,
+  }) {
+    return next((messages, value) {
+      if (!value.isTwitterStatusUrl(
+        userName: userName,
+        tweetId: userName,
+      )) {
+        return message?.call(value) ??
+            messages.invalidTwitterStatusUrl(
+              value,
+              userName ?? '_',
+              tweetId ?? '_',
+            );
+      }
+      return null;
+    });
+  }
+
+  /// Check string is twitter user  url
+  FieldValidator<T, String> isTwitterUserUrl({
+    MessageCallBack<String>? message,
+    String? userName,
+  }) {
+    return next((messages, value) {
+      if (!value.isTwitterUserUrl(userName: userName)) {
+        return message?.call(value) ??
+            messages.invalidTwitterUserUrl(value, userName ?? '_');
+      }
+      return null;
+    });
+  }
+
+  /// Check string is youtube channel  url
+  FieldValidator<T, String> isYoutubeChannelUrl({
+    MessageCallBack<String>? message,
+    String? id,
+  }) {
+    return next((messages, value) {
+      if (!value.isYoutubeChannelUrl(id: id)) {
+        return message?.call(value) ??
+            messages.invalidYoutubeChannelUrl(value, id ?? '_');
+      }
+      return null;
+    });
+  }
+
+  /// Check string is youtube video  url
+  FieldValidator<T, String> isYoutubeVideoUrl({
+    MessageCallBack<String>? message,
+    String? id,
+  }) {
+    return next((messages, value) {
+      if (!value.isYoutubeVideoUrl(id: id)) {
+        return message?.call(value) ??
+            messages.invalidYoutubeVideoUrl(value, id ?? '_');
+      }
+      return null;
+    });
+  }
+
+  /// Check string is youtube user  url
+  FieldValidator<T, String> isYoutubeUserUrl({
+    MessageCallBack<String>? message,
+    String? username,
+  }) {
+    return next((messages, value) {
+      if (!value.isYoutubeUserUrl(username: username)) {
+        return message?.call(value) ??
+            messages.invalidYoutubeUserUrl(value, username ?? '_');
+      }
+      return null;
+    });
   }
 }

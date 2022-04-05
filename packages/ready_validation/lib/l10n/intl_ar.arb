@@ -57,17 +57,6 @@
       }
     }
   },
-  "hasMaxLength": "يجب أن لا يزيد طول النص عن {max}",
-  "@hasMaxLength": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      },
-      "max": {
-        "type": "int"
-      }
-    }
-  },
   "hasLength": "يجب إدخال نص مكون من {length} حرف",
   "@hasLength": {
     "placeholders": {
@@ -79,13 +68,13 @@
       }
     }
   },
-  "listHasLength": "يجب أن يساوي عدد العناصر {length}",
-  "@listHasLength": {
+  "hasMaxLength": "يجب أن لا يزيد طول النص عن {max}",
+  "@hasMaxLength": {
     "placeholders": {
       "value": {
-        "type": "Iterable"
+        "type": "String"
       },
-      "length": {
+      "max": {
         "type": "int"
       }
     }
@@ -112,6 +101,310 @@
       },
       "max": {
         "type": "int"
+      }
+    }
+  },
+  "invalidAngelCompanyUrl": "آسف! يجب عليك إدخال رابط صحيح لشركة {company, select, _{  } other{{company}}} بموقع angel.",
+  "@invalidAngelCompanyUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "company": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidAngelJobUrl": "آسف! عليك إدخال رابط صحيح لوظيفة {jobId, select, _{} other{ تحمل المعرف : {jobId}}} بموقع angel.",
+  "@invalidAngelJobUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "jobId": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidCrunchbaseOrganizationUrl": "آسف! يجب عليك إدخال منظمة crunchbase صالحة {organization, select, _{ url } other{ بالاسم: {organization}}} بموقع crunchbase.",
+  "@invalidCrunchbaseOrganizationUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "organization": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidCrunchbasePersonUrl": "آسف! يجب عليك إدخال شخص crunchbase صالح {person, select, _{ url } other{ بالاسم: {person}}} بموقع crunchbase.",
+  "@invalidCrunchbasePersonUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "person": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidFacebookUrl": "آسف! يجب عليك إدخال رابط {name, select, _{{id, select, _{ url } other{ للمستخدم الذي يحمل المعرف: {id}}}} other{ user للمستخدم: {name}}} بموقع facebook.",
+  "@invalidFacebookUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidGitHubUrl": "آسف! يجب عليك إدخال رابط {user, select, _{{repository, select, _{ } other{ للمستودع: {repository}}}} other{ للمستخدم: {user} {repository, select, _{} other{ : {repository}}}}} بموقع gitHub.",
+  "@invalidGitHubUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "user": {
+        "type": "String"
+      },
+      "repository": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidGooglePlusUrl": "آسف! يجب عليك إدخال رابط {userName, select, _{ لمستخدم } other{ للمستخدم: {userName}}} بموقع google.",
+  "@invalidGooglePlusUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "userName": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidHackerNewsItemUrl": "آسف! يجب عليك إدخال رابط {id, select, _{ لخبر } other{للخبر الذي يحمل المعرف: {id}}} بموقع HackerNews.",
+  "@invalidHackerNewsItemUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidHackerNewsUserUrl": "آسف! يجب عليك إدخال رابط {id, select, _{ لمستخدم } other{ للمستخدم الذي يحمل المعرف: {id}}} بموقع HackerNews.",
+  "@invalidHackerNewsUserUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidInstagramUrl": "آسف! يجب عليك إدخال رابط {user, select, _{ لمستخدم } other{ للمستخدم: {user}}} بموقع instagram.",
+  "@invalidInstagramUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidLinkedInCompanyUrl": "آسف! يجب عليك إدخال رابط {permalink,select,_{لشركة} other{للشركة التي تحمل المعرف}} بموقع linkedIn.",
+  "@invalidLinkedInCompanyUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "permalink": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidLinkedInPostUrl": "آسف! يجب عليك إدخال رابط  {id, select, _{ لمنشور} other{ للمنشور الذي يحمل المعرف: {id}}} بموقع linkedIn.",
+  "@invalidLinkedInPostUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidLinkedInProfileUrl": "آسف! يجب عليك إدخال رابط {permalink,select,_{لملف شخصي} other{للملف الشخصي الذي يحمل المعرف}} بموقع linkedIn.",
+  "@invalidLinkedInProfileUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "permalink": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidMediumPostUrl": "آسف! يجب عليك إدخال رابط {postId, select, _{ لمنشور } other{ للمنشور الذي يحمل المعرف: {postId}}} بموقع medium.",
+  "@invalidMediumPostUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "postId": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidMediumUserUrl": "آسف! يجب عليك إدخال رابط {userName, select, _{{id, select, _{ url } other{ للمستخدم الذي يحمل المعرف: {id}}}} other{ للمستخدم: {userName}}}  بموقع medium.",
+  "@invalidMediumUserUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "userName": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidRedditUrl": "آسف! يجب عليك إدخال رابط {user, select, _{ } other{ للمستخدم: {user}}} بموقع reddit.",
+  "@invalidRedditUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidSnapchatUrl": "آسف! يجب عليك إدخال snapchat صالح {user, select, _{ url } other{ with user: {user}}} بموقع medium.",
+  "@invalidSnapchatUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidStackexchangeUrl": "آسف! يجب عليك إدخال رابط {user, select, _{{id, select, _{ } other{ بالمعرف: {id}}}} other{ مع اسم المستخدم: {user}}} بموقع stackexchange.",
+  "@invalidStackexchangeUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "user": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidStackoverflowQuestionUrl": "آسف! يجب عليك إدخال رابط {id, select, _{ لسؤال } other{ للسؤال الذي يحمل المعرف: {id}}} بموقع stackoverflow.",
+  "@invalidStackoverflowQuestionUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidStackoverflowUserUrl": "آسف! يجب عليك إدخال رابط {id, select, _{ لمستخدم } other{ للمستخدم الذي يحمل المعرف: {id}}} بموقع stackoverflow.",
+  "@invalidStackoverflowUserUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidTelegramProfileUrl": "آسف! يجب عليك إدخال رابط {userName, select, _{ لملف شخصي } other{ لملف المستخدم: {userName}}} بموقع telegram.",
+  "@invalidTelegramProfileUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidTwitterStatusUrl": "آسف! يجب عليك إدخال رابط {tweetId, select, _{ لتغريدة } other{ للتغريدة التي تحمل المعرف: {tweetId}}} {userName, select, _{} other{ بإسم: {userName}}}  بموقع twitter.",
+  "@invalidTwitterStatusUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "userName": {
+        "type": "String"
+      },
+      "tweetId": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidTwitterUserUrl": "آسف! يجب عليك إدخال رابط {userName, select, _{ لمستخدم } other{ للمستخدم: {userName}}}   بموقع twitter.",
+  "@invalidTwitterUserUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidYoutubeChannelUrl": "آسف! عليك إدخال رابط {id, select, _{ لقناة } other{للقناة التي تحمل المعرف: {id}}}  بموقع youtube.",
+  "@invalidYoutubeChannelUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidYoutubeUserUrl": "آسف! عليك إدخال رابط {userName, select, _{ لمستخدم } other{ للمستخدم: {userName}}}  بموقع youtube.",
+  "@invalidYoutubeUserUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidYoutubeVideoUrl": "آسف! عليك إدخال رابط {id, select, _{لفيديو } other{ للفيديو الذي يحمل المعرف: {id}}}   بموقع youtube.",
+  "@invalidYoutubeVideoUrl": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
       }
     }
   },
@@ -167,6 +460,14 @@
       }
     }
   },
+  "isCreditCard": "يجب ادخال رقم بطاقة ائتمانية صحيح",
+  "@isCreditCard": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "isDateBetween": "يجب إدخال تاريخ بين {min} و {max}, {equal,select,true { أو مساو لأحدهم} other{}}",
   "@isDateBetween": {
     "placeholders": {
@@ -212,6 +513,14 @@
       }
     }
   },
+  "isEmail": "يجب إدخال بريد إلكتروني صحيح",
+  "@isEmail": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "isEven": "يجب أن تكون القيمة رقم زوجي",
   "@isEven": {
     "placeholders": {
@@ -232,7 +541,7 @@
       }
     }
   },
-  "isInteger": "يجب إدخال رقم صحيح",
+  "isInteger": "يجب إدخال رقم",
   "@isInteger": {
     "placeholders": {
       "value": {}
@@ -301,6 +610,17 @@
       "max": {
         "type": "num",
         "format": "decimalPattern"
+      }
+    }
+  },
+  "listHasLength": "يجب أن يساوي عدد العناصر {length}",
+  "@listHasLength": {
+    "placeholders": {
+      "value": {
+        "type": "Iterable"
+      },
+      "length": {
+        "type": "int"
       }
     }
   },

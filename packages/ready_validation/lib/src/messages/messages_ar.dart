@@ -42,18 +42,13 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
   }
 
   @override
-  String hasMaxLength(String value, int max) {
-    return 'يجب أن لا يزيد طول النص عن $max';
-  }
-
-  @override
   String hasLength(String value, int length) {
     return 'يجب إدخال نص مكون من $length حرف';
   }
 
   @override
-  String listHasLength(Iterable value, int length) {
-    return 'يجب أن يساوي عدد العناصر $length';
+  String hasMaxLength(String value, int max) {
+    return 'يجب أن لا يزيد طول النص عن $max';
   }
 
   @override
@@ -64,6 +59,359 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
   @override
   String hasRange(String value, int min, int max) {
     return 'يجب إدخال نص  لايقل طوله عن $min ولا يزيد عن $max';
+  }
+
+  @override
+  String invalidAngelCompanyUrl(String value, String company) {
+    final String selectString = intl.Intl.select(
+      company,
+      {
+        '_': '  ',
+        'other': '${company}'
+      },
+      desc: 'No description provided in @invalidAngelCompanyUrl'
+    );
+
+    return 'آسف! يجب عليك إدخال رابط صحيح لشركة $selectString بموقع angel.';
+  }
+
+  @override
+  String invalidAngelJobUrl(String value, String jobId) {
+    final String selectString = intl.Intl.select(
+      jobId,
+      {
+        '_': '',
+        'other': ' تحمل المعرف : ${jobId}'
+      },
+      desc: 'No description provided in @invalidAngelJobUrl'
+    );
+
+    return 'آسف! عليك إدخال رابط صحيح لوظيفة $selectString بموقع angel.';
+  }
+
+  @override
+  String invalidCrunchbaseOrganizationUrl(String value, String organization) {
+    final String selectString = intl.Intl.select(
+      organization,
+      {
+        '_': ' url ',
+        'other': ' بالاسم: ${organization}'
+      },
+      desc: 'No description provided in @invalidCrunchbaseOrganizationUrl'
+    );
+
+    return 'آسف! يجب عليك إدخال منظمة crunchbase صالحة $selectString بموقع crunchbase.';
+  }
+
+  @override
+  String invalidCrunchbasePersonUrl(String value, String person) {
+    final String selectString = intl.Intl.select(
+      person,
+      {
+        '_': ' url ',
+        'other': ' بالاسم: ${person}'
+      },
+      desc: 'No description provided in @invalidCrunchbasePersonUrl'
+    );
+
+    return 'آسف! يجب عليك إدخال شخص crunchbase صالح $selectString بموقع crunchbase.';
+  }
+
+  @override
+  String invalidFacebookUrl(String value, String name, String id) {
+    final String selectString = intl.Intl.select(
+      name,
+      {
+        '_': '{id, select, _{ url ',
+        'other': ' للمستخدم الذي يحمل المعرف: ${id}',
+        'other': ' user للمستخدم: ${name}'
+      },
+      desc: 'No description provided in @invalidFacebookUrl'
+    );
+
+    return 'آسف! يجب عليك إدخال رابط $selectString بموقع facebook.';
+  }
+
+  @override
+  String invalidGitHubUrl(String value, String user, String repository) {
+    final String selectString = intl.Intl.select(
+      user,
+      {
+        '_': '{repository, select, _{ ',
+        'other': ' للمستودع: ${repository}',
+        'other': ' للمستخدم: $user {repository, select, _{',
+        'other': ' : ${repository}'
+      },
+      desc: 'No description provided in @invalidGitHubUrl'
+    );
+
+    return 'آسف! يجب عليك إدخال رابط $selectString بموقع gitHub.';
+  }
+
+  @override
+  String invalidGooglePlusUrl(String value, String userName, String id) {
+    final String selectString = intl.Intl.select(
+      userName,
+      {
+        '_': ' لمستخدم ',
+        'other': ' للمستخدم: ${userName}'
+      },
+      desc: 'No description provided in @invalidGooglePlusUrl'
+    );
+
+    return 'آسف! يجب عليك إدخال رابط $selectString بموقع google.';
+  }
+
+  @override
+  String invalidHackerNewsItemUrl(String value, String id) {
+    final String selectString = intl.Intl.select(
+      id,
+      {
+        '_': ' لخبر ',
+        'other': 'للخبر الذي يحمل المعرف: ${id}'
+      },
+      desc: 'No description provided in @invalidHackerNewsItemUrl'
+    );
+
+    return 'آسف! يجب عليك إدخال رابط $selectString بموقع HackerNews.';
+  }
+
+  @override
+  String invalidHackerNewsUserUrl(String value, String id) {
+    final String selectString = intl.Intl.select(
+      id,
+      {
+        '_': ' لمستخدم ',
+        'other': ' للمستخدم الذي يحمل المعرف: ${id}'
+      },
+      desc: 'No description provided in @invalidHackerNewsUserUrl'
+    );
+
+    return 'آسف! يجب عليك إدخال رابط $selectString بموقع HackerNews.';
+  }
+
+  @override
+  String invalidInstagramUrl(String value, String user) {
+    final String selectString = intl.Intl.select(
+      user,
+      {
+        '_': ' لمستخدم ',
+        'other': ' للمستخدم: ${user}'
+      },
+      desc: 'No description provided in @invalidInstagramUrl'
+    );
+
+    return 'آسف! يجب عليك إدخال رابط $selectString بموقع instagram.';
+  }
+
+  @override
+  String invalidLinkedInCompanyUrl(String value, String permalink) {
+    return 'آسف! يجب عليك إدخال رابط {permalink,select,_{لشركة} other{للشركة التي تحمل المعرف}} بموقع linkedIn.';
+  }
+
+  @override
+  String invalidLinkedInPostUrl(String value, String id) {
+    final String selectString = intl.Intl.select(
+      id,
+      {
+        '_': ' لمنشور',
+        'other': ' للمنشور الذي يحمل المعرف: ${id}'
+      },
+      desc: 'No description provided in @invalidLinkedInPostUrl'
+    );
+
+    return 'آسف! يجب عليك إدخال رابط  $selectString بموقع linkedIn.';
+  }
+
+  @override
+  String invalidLinkedInProfileUrl(String value, String permalink) {
+    return 'آسف! يجب عليك إدخال رابط {permalink,select,_{لملف شخصي} other{للملف الشخصي الذي يحمل المعرف}} بموقع linkedIn.';
+  }
+
+  @override
+  String invalidMediumPostUrl(String value, String postId) {
+    final String selectString = intl.Intl.select(
+      postId,
+      {
+        '_': ' لمنشور ',
+        'other': ' للمنشور الذي يحمل المعرف: ${postId}'
+      },
+      desc: 'No description provided in @invalidMediumPostUrl'
+    );
+
+    return 'آسف! يجب عليك إدخال رابط $selectString بموقع medium.';
+  }
+
+  @override
+  String invalidMediumUserUrl(String value, String userName, String id) {
+    final String selectString = intl.Intl.select(
+      userName,
+      {
+        '_': '{id, select, _{ url ',
+        'other': ' للمستخدم الذي يحمل المعرف: ${id}',
+        'other': ' للمستخدم: ${userName}'
+      },
+      desc: 'No description provided in @invalidMediumUserUrl'
+    );
+
+    return 'آسف! يجب عليك إدخال رابط $selectString  بموقع medium.';
+  }
+
+  @override
+  String invalidRedditUrl(String value, String user) {
+    final String selectString = intl.Intl.select(
+      user,
+      {
+        '_': ' ',
+        'other': ' للمستخدم: ${user}'
+      },
+      desc: 'No description provided in @invalidRedditUrl'
+    );
+
+    return 'آسف! يجب عليك إدخال رابط $selectString بموقع reddit.';
+  }
+
+  @override
+  String invalidSnapchatUrl(String value, String user) {
+    final String selectString = intl.Intl.select(
+      user,
+      {
+        '_': ' url ',
+        'other': ' with user: ${user}'
+      },
+      desc: 'No description provided in @invalidSnapchatUrl'
+    );
+
+    return 'آسف! يجب عليك إدخال snapchat صالح $selectString بموقع medium.';
+  }
+
+  @override
+  String invalidStackexchangeUrl(String value, String user, String id) {
+    final String selectString = intl.Intl.select(
+      user,
+      {
+        '_': '{id, select, _{ ',
+        'other': ' بالمعرف: ${id}',
+        'other': ' مع اسم المستخدم: ${user}'
+      },
+      desc: 'No description provided in @invalidStackexchangeUrl'
+    );
+
+    return 'آسف! يجب عليك إدخال رابط $selectString بموقع stackexchange.';
+  }
+
+  @override
+  String invalidStackoverflowQuestionUrl(String value, String id) {
+    final String selectString = intl.Intl.select(
+      id,
+      {
+        '_': ' لسؤال ',
+        'other': ' للسؤال الذي يحمل المعرف: ${id}'
+      },
+      desc: 'No description provided in @invalidStackoverflowQuestionUrl'
+    );
+
+    return 'آسف! يجب عليك إدخال رابط $selectString بموقع stackoverflow.';
+  }
+
+  @override
+  String invalidStackoverflowUserUrl(String value, String id) {
+    final String selectString = intl.Intl.select(
+      id,
+      {
+        '_': ' لمستخدم ',
+        'other': ' للمستخدم الذي يحمل المعرف: ${id}'
+      },
+      desc: 'No description provided in @invalidStackoverflowUserUrl'
+    );
+
+    return 'آسف! يجب عليك إدخال رابط $selectString بموقع stackoverflow.';
+  }
+
+  @override
+  String invalidTelegramProfileUrl(String value, String userName) {
+    final String selectString = intl.Intl.select(
+      userName,
+      {
+        '_': ' لملف شخصي ',
+        'other': ' لملف المستخدم: ${userName}'
+      },
+      desc: 'No description provided in @invalidTelegramProfileUrl'
+    );
+
+    return 'آسف! يجب عليك إدخال رابط $selectString بموقع telegram.';
+  }
+
+  @override
+  String invalidTwitterStatusUrl(String value, String userName, String tweetId) {
+    final String selectString = intl.Intl.select(
+      tweetId,
+      {
+        '_': ' لتغريدة ',
+        'other': ' للتغريدة التي تحمل المعرف: ${tweetId}',
+        '_': '',
+        'other': ' بإسم: ${userName}'
+      },
+      desc: 'No description provided in @invalidTwitterStatusUrl'
+    );
+
+    return 'آسف! يجب عليك إدخال رابط $selectString  بموقع twitter.';
+  }
+
+  @override
+  String invalidTwitterUserUrl(String value, String userName) {
+    final String selectString = intl.Intl.select(
+      userName,
+      {
+        '_': ' لمستخدم ',
+        'other': ' للمستخدم: ${userName}'
+      },
+      desc: 'No description provided in @invalidTwitterUserUrl'
+    );
+
+    return 'آسف! يجب عليك إدخال رابط $selectString   بموقع twitter.';
+  }
+
+  @override
+  String invalidYoutubeChannelUrl(String value, String id) {
+    final String selectString = intl.Intl.select(
+      id,
+      {
+        '_': ' لقناة ',
+        'other': 'للقناة التي تحمل المعرف: ${id}'
+      },
+      desc: 'No description provided in @invalidYoutubeChannelUrl'
+    );
+
+    return 'آسف! عليك إدخال رابط $selectString  بموقع youtube.';
+  }
+
+  @override
+  String invalidYoutubeUserUrl(String value, String userName) {
+    final String selectString = intl.Intl.select(
+      userName,
+      {
+        '_': ' لمستخدم ',
+        'other': ' للمستخدم: ${userName}'
+      },
+      desc: 'No description provided in @invalidYoutubeUserUrl'
+    );
+
+    return 'آسف! عليك إدخال رابط $selectString  بموقع youtube.';
+  }
+
+  @override
+  String invalidYoutubeVideoUrl(String value, String id) {
+    final String selectString = intl.Intl.select(
+      id,
+      {
+        '_': 'لفيديو ',
+        'other': ' للفيديو الذي يحمل المعرف: ${id}'
+      },
+      desc: 'No description provided in @invalidYoutubeVideoUrl'
+    );
+
+    return 'آسف! عليك إدخال رابط $selectString   بموقع youtube.';
   }
 
   @override
@@ -109,6 +457,11 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
   }
 
   @override
+  String isCreditCard(String value) {
+    return 'يجب ادخال رقم بطاقة ائتمانية صحيح';
+  }
+
+  @override
   String isDateBetween(bool equal, DateTime value, DateTime min, DateTime max) {
     final String selectString = intl.Intl.select(
       equal,
@@ -143,6 +496,11 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
   }
 
   @override
+  String isEmail(String value) {
+    return 'يجب إدخال بريد إلكتروني صحيح';
+  }
+
+  @override
   String isEven(num value) {
     final intl.NumberFormat valueNumberFormat = intl.NumberFormat.decimalPattern(localeName);
     final String valueString = valueNumberFormat.format(value);
@@ -157,7 +515,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
 
   @override
   String isInteger(Object value) {
-    return 'يجب إدخال رقم صحيح';
+    return 'يجب إدخال رقم';
   }
 
   @override
@@ -211,6 +569,11 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
     );
 
     return 'يجب أن تكون القيمة أقل من, ${selectString}';
+  }
+
+  @override
+  String listHasLength(Iterable value, int length) {
+    return 'يجب أن يساوي عدد العناصر $length';
   }
 
   @override

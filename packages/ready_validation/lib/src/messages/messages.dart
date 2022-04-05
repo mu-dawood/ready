@@ -84,218 +84,386 @@ abstract class ReadyValidationMessages {
 
   /// No description provided for @contains.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب أن يحتوي النص علي {res}'**
+  /// In en, this message translates to:
+  /// **'The text should contain {res}'**
   String contains(String value, String res);
 
   /// No description provided for @containsItem.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب أن تحتوي القائمة علي {res}'**
+  /// In en, this message translates to:
+  /// **'The list should contain {res}'**
   String containsItem(Iterable value, dynamic res);
 
   /// No description provided for @endsWith.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب أن ينتهي النص ب {res}'**
+  /// In en, this message translates to:
+  /// **'Text should end with {res}'**
   String endsWith(String value, String res);
 
   /// No description provided for @equal.
   ///
-  /// In ar, this message translates to:
-  /// **'مسموح فقط بإدخال القيمة {value}'**
+  /// In en, this message translates to:
+  /// **'Only the value {value} is allowed.'**
   String equal(dynamic value);
 
   /// No description provided for @greaterThan.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب أن تكون القيمة أكبر من, {equal, select, true{ أو تساوي} other{}} {min}'**
+  /// In en, this message translates to:
+  /// **'The value should be greater than, {equal, select, true {or equal to}  other {}} {min}'**
   String greaterThan(bool equal, num value, num min);
-
-  /// No description provided for @hasMaxLength.
-  ///
-  /// In ar, this message translates to:
-  /// **'يجب أن لا يزيد طول النص عن {max}'**
-  String hasMaxLength(String value, int max);
 
   /// No description provided for @hasLength.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب إدخال نص مكون من {length} حرف'**
+  /// In en, this message translates to:
+  /// **'You must enter a text of {length} characters'**
   String hasLength(String value, int length);
 
-  /// No description provided for @listHasLength.
+  /// No description provided for @hasMaxLength.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب أن يساوي عدد العناصر {length}'**
-  String listHasLength(Iterable value, int length);
+  /// In en, this message translates to:
+  /// **'The text must be no longer than {max}'**
+  String hasMaxLength(String value, int max);
 
   /// No description provided for @hasMinLength.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب أن لا يقل طول النص عن {min}'**
+  /// In en, this message translates to:
+  /// **'The length of the text must be at least {min}'**
   String hasMinLength(String value, int min);
 
   /// No description provided for @hasRange.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب إدخال نص  لايقل طوله عن {min} ولا يزيد عن {max}'**
+  /// In en, this message translates to:
+  /// **'You must enter a text of length not less than {min} and not more than {max}'**
   String hasRange(String value, int min, int max);
+
+  /// No description provided for @invalidAngelCompanyUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid angel company {company, select, _{url} other{with name: {company}}}.'**
+  String invalidAngelCompanyUrl(String value, String company);
+
+  /// No description provided for @invalidAngelJobUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid angel job {jobId, select, _{url} other{with id: {jobId}}}.'**
+  String invalidAngelJobUrl(String value, String jobId);
+
+  /// No description provided for @invalidCrunchbaseOrganizationUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid crunchbase organization {organization, select, _{url} other{with name: {organization}}}.'**
+  String invalidCrunchbaseOrganizationUrl(String value, String organization);
+
+  /// No description provided for @invalidCrunchbasePersonUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid crunchbase person {person, select, _{url} other{with name: {person}}}.'**
+  String invalidCrunchbasePersonUrl(String value, String person);
+
+  /// No description provided for @invalidFacebookUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid facebook {name, select, _{{id, select, _{url} other{user with id: {id}}}} other{user with name: {name}}}.'**
+  String invalidFacebookUrl(String value, String name, String id);
+
+  /// No description provided for @invalidGitHubUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid gitHub {user, select, _{{repository, select, _{url} other{repository: {repository}}}} other{user with name: {user} {repository, select, _{} other{and repository: {repository}}}}}.'**
+  String invalidGitHubUrl(String value, String user, String repository);
+
+  /// No description provided for @invalidGooglePlusUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid google plus {userName, select, _{url} other{with user name: {userName}}}.'**
+  String invalidGooglePlusUrl(String value, String userName, String id);
+
+  /// No description provided for @invalidHackerNewsItemUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid hacker news item  {id, select, _{url} other{with id: {id}}}.'**
+  String invalidHackerNewsItemUrl(String value, String id);
+
+  /// No description provided for @invalidHackerNewsUserUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid hacker news user  {id, select, _{url} other{with id: {id}}}.'**
+  String invalidHackerNewsUserUrl(String value, String id);
+
+  /// No description provided for @invalidInstagramUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid instagram {user, select, _{url} other{with user: {user}}}.'**
+  String invalidInstagramUrl(String value, String user);
+
+  /// No description provided for @invalidLinkedInCompanyUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid linked in company url. {permalink}'**
+  String invalidLinkedInCompanyUrl(String value, String permalink);
+
+  /// No description provided for @invalidLinkedInPostUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid linked in post  {id, select, _{url} other{with id: {id}}}'**
+  String invalidLinkedInPostUrl(String value, String id);
+
+  /// No description provided for @invalidLinkedInProfileUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid linked in profile url. {permalink}'**
+  String invalidLinkedInProfileUrl(String value, String permalink);
+
+  /// No description provided for @invalidMediumPostUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid medium post {postId, select, _{url} other{with id: {postId}}}.'**
+  String invalidMediumPostUrl(String value, String postId);
+
+  /// No description provided for @invalidMediumUserUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid medium user {userName, select, _{{id, select, _{url} other{with id: {id}}}} other{with user name: {userName}}}.'**
+  String invalidMediumUserUrl(String value, String userName, String id);
+
+  /// No description provided for @invalidRedditUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid reddit {user, select, _{url} other{with user: {user}}}.'**
+  String invalidRedditUrl(String value, String user);
+
+  /// No description provided for @invalidSnapchatUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid snapchat {user, select, _{url} other{with user: {user}}}.'**
+  String invalidSnapchatUrl(String value, String user);
+
+  /// No description provided for @invalidStackexchangeUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid stackexchange {user, select, _{{id, select, _{url} other{with id: {id}}}} other{with user name: {user}}}.'**
+  String invalidStackexchangeUrl(String value, String user, String id);
+
+  /// No description provided for @invalidStackoverflowQuestionUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid stackoverflow question {id, select, _{url} other{with id: {id}}}.'**
+  String invalidStackoverflowQuestionUrl(String value, String id);
+
+  /// No description provided for @invalidStackoverflowUserUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid stackoverflow user {id, select, _{url} other{with id: {id}}}.'**
+  String invalidStackoverflowUserUrl(String value, String id);
+
+  /// No description provided for @invalidTelegramProfileUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid telegram profile {userName, select, _{url} other{with user name: {userName}}}.'**
+  String invalidTelegramProfileUrl(String value, String userName);
+
+  /// No description provided for @invalidTwitterStatusUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid twitter status {tweetId, select, _{url} other{with id: {tweetId}}} {userName, select, _{} other{with user name: {userName}}}.'**
+  String invalidTwitterStatusUrl(String value, String userName, String tweetId);
+
+  /// No description provided for @invalidTwitterUserUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid twitter user {userName, select, _{url} other{with user name: {userName}}}.'**
+  String invalidTwitterUserUrl(String value, String userName);
+
+  /// No description provided for @invalidYoutubeChannelUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid youtube channel {id, select, _{url} other{with id: {id}}}.'**
+  String invalidYoutubeChannelUrl(String value, String id);
+
+  /// No description provided for @invalidYoutubeUserUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid youtube user {userName, select, _{url} other{with user name: {userName}}}.'**
+  String invalidYoutubeUserUrl(String value, String userName);
+
+  /// No description provided for @invalidYoutubeVideoUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you have to enter a valid youtube video {id, select, _{url} other{with id: {id}}}.'**
+  String invalidYoutubeVideoUrl(String value, String id);
 
   /// No description provided for @isAfter.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب إدخال تاريخ لاحق ل {other}, {equal,select,true { أو مساو له} other{}}'**
+  /// In en, this message translates to:
+  /// **'You must enter a later date {other}for, {equal, select, true {or equal to} other{}}'**
   String isAfter(bool equal, DateTime value, DateTime date);
 
   /// No description provided for @isBefore.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب إدخال تاريخ سابق ل {other}, {equal,select,true { أو مساو له} other{}}'**
+  /// In en, this message translates to:
+  /// **'You must enter a date prior {other}to, {equal, select, true {or equal to} other{}}'**
   String isBefore(bool equal, DateTime value, DateTime date);
 
   /// No description provided for @isBetween.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب أن تكون القيمة أكبر من {min} وأقل من {max}{equal,select,true{ أو تساويهم} other{}}'**
+  /// In en, this message translates to:
+  /// **'Value must be greater {min}than and less than {max}{equal, select, true {or equal} other{}}'**
   String isBetween(bool equal, num value, num min, num max);
+
+  /// No description provided for @isCreditCard.
+  ///
+  /// In en, this message translates to:
+  /// **'You must enter the credit card number'**
+  String isCreditCard(String value);
 
   /// No description provided for @isDateBetween.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب إدخال تاريخ بين {min} و {max}, {equal,select,true { أو مساو لأحدهم} other{}}'**
+  /// In en, this message translates to:
+  /// **'You must enter a date {min}{max}between and, {equal, select, true {or equal to one} other{}}'**
   String isDateBetween(bool equal, DateTime value, DateTime min, DateTime max);
 
   /// No description provided for @isDateTime.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب إدخال تاريخ صحيح'**
+  /// In en, this message translates to:
+  /// **'You must enter a valid date'**
   String isDateTime(Object value);
 
   /// No description provided for @isDecimal.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب إدخال رقم عشري'**
+  /// In en, this message translates to:
+  /// **'You must enter a decimal number'**
   String isDecimal(Object value);
 
   /// No description provided for @isDivisibleBy.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب أن تكون القيمة المدخلة قابلة للقسمة علي {division}'**
+  /// In en, this message translates to:
+  /// **'The input value must be divisible by {division}'**
   String isDivisibleBy(num value, num division);
+
+  /// No description provided for @isEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'You must enter a valid isEmail'**
+  String isEmail(String value);
 
   /// No description provided for @isEven.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب أن تكون القيمة رقم زوجي'**
+  /// In en, this message translates to:
+  /// **'The value must be an even number'**
   String isEven(num value);
 
   /// No description provided for @isIn.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب أن تكون القيمة المدخلة من إحدى القيم {list}'**
+  /// In en, this message translates to:
+  /// **'The entered value must be one of the {list}'**
   String isIn(dynamic value, Iterable list);
 
   /// No description provided for @isInteger.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب إدخال رقم صحيح'**
+  /// In en, this message translates to:
+  /// **'You must enter a valid number'**
   String isInteger(Object value);
 
   /// No description provided for @isNegative.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب أن تكون القيمة سالبة'**
+  /// In en, this message translates to:
+  /// **'Value must be negative'**
   String isNegative(num value);
 
   /// No description provided for @isNotIn.
   ///
-  /// In ar, this message translates to:
-  /// **'لا يجب أن تكون القيمة المدخلة من القيم {list}'**
+  /// In en, this message translates to:
+  /// **'The entered value must not be in {list}'**
   String isNotIn(dynamic value, Iterable list);
 
   /// No description provided for @isNumber.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب إدخال رقم'**
+  /// In en, this message translates to:
+  /// **'You must enter a valid number'**
   String isNumber(Object value);
 
   /// No description provided for @isOdd.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب أن تكون القيمة رقم فردي'**
+  /// In en, this message translates to:
+  /// **'The value must be an odd number'**
   String isOdd(num value);
 
   /// No description provided for @isPositive.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب أن تكون القيمة موجبة'**
+  /// In en, this message translates to:
+  /// **'The value should be positive'**
   String isPositive(num value);
 
   /// No description provided for @isTimeOfDay.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب إدخال وقت صحيح'**
+  /// In en, this message translates to:
+  /// **'You must enter a valid time'**
   String isTimeOfDay(Object value);
 
   /// No description provided for @lessThan.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب أن تكون القيمة أقل من, {equal, select,true { أو تساوي} other {}} {max}'**
+  /// In en, this message translates to:
+  /// **'Value must be less than, {equal, select, true {or equal to}  other {}} {max}'**
   String lessThan(bool equal, num value, num max);
+
+  /// No description provided for @listHasLength.
+  ///
+  /// In en, this message translates to:
+  /// **'The number of elements must equal {length}'**
+  String listHasLength(Iterable value, int length);
 
   /// No description provided for @listMaxLength.
   ///
-  /// In ar, this message translates to:
-  /// **'لا يجب أن يزيد عدد العناصر عن {max}'**
+  /// In en, this message translates to:
+  /// **'The number of items should not be more than {max}'**
   String listMaxLength(Iterable value, int max);
 
   /// No description provided for @listMinLength.
   ///
-  /// In ar, this message translates to:
-  /// **'لا يجب أن يقل عدد العناصر عن {min}'**
+  /// In en, this message translates to:
+  /// **'The number of items should not be less than {min}'**
   String listMinLength(Iterable value, int min);
 
   /// No description provided for @listRange.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب أن لا يقل عدد العناصر  عن {min} ولا يزيد عن {max}'**
+  /// In en, this message translates to:
+  /// **'The number of items must be at least {min}and no more than {max}'**
   String listRange(Iterable value, int min, int max);
 
   /// No description provided for @notContainsItem.
   ///
-  /// In ar, this message translates to:
-  /// **'لا يجب أن تحتوي القائمة علي {res}'**
+  /// In en, this message translates to:
+  /// **'The list does not have to contain {res}'**
   String notContainsItem(Iterable value, dynamic res);
 
   /// No description provided for @notEmpty.
   ///
-  /// In ar, this message translates to:
-  /// **'لا يجب إدخال قيمة فارغة'**
+  /// In en, this message translates to:
+  /// **'You should not enter an empty value'**
   String get notEmpty;
 
   /// No description provided for @notEqual.
   ///
-  /// In ar, this message translates to:
-  /// **'غير مسموح بإدخال القيمة {value}'**
+  /// In en, this message translates to:
+  /// **'Not allowed to enter {value}'**
   String notEqual(dynamic value);
 
   /// No description provided for @regexp.
   ///
-  /// In ar, this message translates to:
-  /// **'الصيغة المطلوبة غير متوافقة مع المدخلات'**
+  /// In en, this message translates to:
+  /// **'The requested format is not compatible with the input'**
   String get regexp;
 
   /// No description provided for @required.
   ///
-  /// In ar, this message translates to:
-  /// **'عذرا! هذا الحقل مطلوب'**
+  /// In en, this message translates to:
+  /// **'Excuse me! This field is required'**
   String get required;
 
   /// No description provided for @startsWith.
   ///
-  /// In ar, this message translates to:
-  /// **'يجب أن يبدأ النص ب {res}'**
+  /// In en, this message translates to:
+  /// **'Text should start with {res}'**
   String startsWith(String value, String res);
 }
 

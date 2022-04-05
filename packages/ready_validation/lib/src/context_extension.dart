@@ -4,6 +4,7 @@ import 'package:ready_extensions/ready_extensions.dart';
 import 'config.dart';
 import 'messages/messages.dart';
 import 'messages/messages_ar.dart';
+import 'utils.dart';
 
 part './field_validators/date_time_extensions.dart';
 part './field_validators/list_extensions.dart';
@@ -142,7 +143,7 @@ extension ValidationExtensions on BuildContext {
 extension NullableStringValidationExtension<T> on FieldValidator<T?, T?> {
   /// check if the value is required
   FieldValidator<T?, T> required([MessageCallBack<T?>? message]) {
-    return _next(
+    return next(
       (messages, value) {
         return value == null ? message?.call(value) ?? messages.required : null;
       },
@@ -153,7 +154,7 @@ extension NullableStringValidationExtension<T> on FieldValidator<T?, T?> {
 extension SharedValidationExtensions<T, R> on FieldValidator<T, R> {
   /// check is the value is not  equal [value]
   FieldValidator<T, R> notEqual(R value, [MessageCallBack<R>? message]) {
-    return _next((messages, value) {
+    return next((messages, value) {
       if (value == value) {
         return message?.call(value) ?? messages.notEqual(value);
       }
@@ -163,7 +164,7 @@ extension SharedValidationExtensions<T, R> on FieldValidator<T, R> {
 
   /// check is the value is equal [value]
   FieldValidator<T, R> equal(R value, [MessageCallBack<R>? message]) {
-    return _next((messages, value) {
+    return next((messages, value) {
       if (value != value) {
         return message?.call(value) ?? messages.equal(value);
       }
@@ -173,7 +174,7 @@ extension SharedValidationExtensions<T, R> on FieldValidator<T, R> {
 
   /// check is the value is in [values]
   FieldValidator<T, R> isIn(List<R> values, [MessageCallBack<R>? message]) {
-    return _next((messages, value) {
+    return next((messages, value) {
       if (!values.contains(value)) {
         return message?.call(value) ?? messages.isIn(value, values);
       }
@@ -182,8 +183,8 @@ extension SharedValidationExtensions<T, R> on FieldValidator<T, R> {
   }
 
   /// check is the value is not in [values]
-  FieldValidator<T, R> isNotIn(List<R> values, [MessageCallBack<R>? message]) {
-    return _next((messages, value) {
+  FieldValidator<T, R> notIn(List<R> values, [MessageCallBack<R>? message]) {
+    return next((messages, value) {
       if (values.contains(value)) {
         return message?.call(value) ?? messages.isNotIn(value, values);
       }
@@ -193,7 +194,7 @@ extension SharedValidationExtensions<T, R> on FieldValidator<T, R> {
 
   /// check is the value is not in [values]
   FieldValidator<T, R> validateWith(String? Function(R value) validator) {
-    return _next((messages, value) {
+    return next((messages, value) {
       return validator(value);
     });
   }
