@@ -1,11 +1,42 @@
 import 'package:flutter/material.dart';
 
-class ReadyFormConfig extends InheritedWidget {
-  /// show reveal effect
-  final bool? reveal;
+class RevealConfig {
+  final bool? enabled;
+  final Color? color;
 
-  /// handle how AutoFillGroup works
-  final AutofillContextAction? autofillContextAction;
+  const RevealConfig({
+    this.enabled,
+    this.color,
+  });
+
+  RevealConfig copyWith(RevealConfig? other) {
+    return RevealConfig(
+      enabled: other?.enabled ?? enabled,
+      color: other?.color ?? color,
+    );
+  }
+}
+
+class KeyBoardActionConfig {
+  final bool? enabled;
+  final FocusTraversalPolicy? policy;
+
+  const KeyBoardActionConfig({
+    this.enabled,
+    this.policy,
+  });
+
+  KeyBoardActionConfig copyWith(KeyBoardActionConfig? other) {
+    return KeyBoardActionConfig(
+      enabled: other?.enabled ?? enabled,
+      policy: other?.policy ?? policy,
+    );
+  }
+}
+
+class ReadyFormConfig extends InheritedWidget {
+  /// show reveal effect, disabled by default
+  final RevealConfig revealConfig;
 
   /// cancel dialog title
   final Widget? cancelRequestTitle;
@@ -16,14 +47,21 @@ class ReadyFormConfig extends InheritedWidget {
   /// yes button
   final Widget? yes;
 
+  /// disable taping and editing form fields while submitting defaults to [false]
+  final bool? disableEditingOnSubmit;
+
+  /// if [true] then it will add keyboard actions , enabled by default
+  final KeyBoardActionConfig keyBoardActionConfig;
+
   /// no button
   final Widget? no;
   const ReadyFormConfig({
     Key? key,
-    this.reveal,
-    this.autofillContextAction,
+    this.revealConfig = const RevealConfig(),
     this.cancelRequestTitle,
     this.cancelRequestContent,
+    this.disableEditingOnSubmit,
+    this.keyBoardActionConfig = const KeyBoardActionConfig(),
     this.yes,
     this.no,
     required Widget child,
@@ -35,12 +73,12 @@ class ReadyFormConfig extends InheritedWidget {
 
   @override
   bool updateShouldNotify(ReadyFormConfig oldWidget) {
-    return reveal != oldWidget.reveal ||
+    return revealConfig != oldWidget.revealConfig ||
         cancelRequestTitle != oldWidget.cancelRequestTitle ||
+        disableEditingOnSubmit != oldWidget.disableEditingOnSubmit ||
         cancelRequestContent != oldWidget.cancelRequestContent ||
         yes != oldWidget.yes ||
-        no != oldWidget.no ||
-        autofillContextAction != autofillContextAction;
+        no != oldWidget.no;
   }
 }
 
