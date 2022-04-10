@@ -8,24 +8,18 @@ import 'ready_form.dart';
 
 enum _ButtonState { initial, loading }
 
-class ProgressButtonKey extends GlobalKey<_ProgressButtonState> {
-  final String id;
-  const ProgressButtonKey(this.id) : super.constructor();
-  @override
-  int get hashCode => identityHashCode(id);
+class ProgressButtonKey {
+  final GlobalKey<_ProgressButtonState> _key;
+  const ProgressButtonKey._(this._key);
+  factory ProgressButtonKey({String? debugLabel}) => ProgressButtonKey._(
+      GlobalKey<_ProgressButtonState>(debugLabel: debugLabel));
 
-  @override
-  bool operator ==(Object other) {
-    if (other.runtimeType != runtimeType) return false;
-    return other is ProgressButtonKey && identical(other.id, id);
-  }
-
-  void onPressed() => currentState == null
+  void onPressed() => _key.currentState == null
       ? () {}
-      : currentState
-          ?._getCallBack(ProgressButtonConfig.of(currentContext!))
+      : _key.currentState
+          ?._getCallBack(ProgressButtonConfig.of(_key.currentContext!))
           ?.call();
-  bool get isLoading => currentState?.state == _ButtonState.loading;
+  bool get isLoading => _key.currentState?.state == _ButtonState.loading;
 }
 
 class ProgressButton extends StatefulWidget {
@@ -53,7 +47,7 @@ class ProgressButton extends StatefulWidget {
 
   /// whether or not to submit parent form
   final bool? autoSubmitForm;
-  const ProgressButton({
+  ProgressButton({
     ProgressButtonKey? key,
     this.onPressed,
     required this.child,
@@ -64,7 +58,7 @@ class ProgressButton extends StatefulWidget {
     this.autoSubmitForm,
     this.type,
     this.loadingIndicator,
-  }) : super(key: key);
+  }) : super(key: key?._key);
 
   @override
   _ProgressButtonState createState() => _ProgressButtonState();

@@ -61,6 +61,7 @@ class ReadyImage extends StatelessWidget {
     Widget child;
     if (p.outerDecoration != null || p.outerPadding != null) {
       child = Container(
+        clipBehavior: Clip.antiAlias,
         decoration: p.outerDecoration,
         padding: p.outerPadding,
         child: _build(context),
@@ -93,22 +94,13 @@ class ReadyImage extends StatelessWidget {
           borderRadius: decoration.borderRadius ?? foreground.borderRadius);
       foreground = foreground.copyWith(borderRadius: decoration.borderRadius);
     }
-    BorderRadius? radius;
-    if (decoration is BoxDecoration) {
-      radius = decoration.borderRadius?.resolve(Directionality.of(context));
-    }
 
     return Container(
+      clipBehavior: Clip.antiAlias,
       decoration: decoration,
       foregroundDecoration: foreground,
       padding: p.innerPadding,
-      child: radius == null
-          ? child
-          : ClipRRect(
-              clipBehavior: Clip.antiAlias,
-              borderRadius: radius,
-              child: child,
-            ),
+      child: child,
     );
   }
 }

@@ -14,34 +14,28 @@ abstract class ReadyFormState {
 }
 
 /// Form key to allow accessing [validate] [onSubmit] [invalidFields] methods
-class ReadyFormKey extends GlobalKey<_ReadyFormState>
-    implements ReadyFormState {
-  final String id;
-  const ReadyFormKey(this.id) : super.constructor();
-  @override
-  int get hashCode => identityHashCode(id);
-
-  @override
-  bool operator ==(Object other) {
-    if (other.runtimeType != runtimeType) return false;
-    return other is ReadyFormKey && identical(other.id, id);
-  }
+class ReadyFormKey implements ReadyFormState {
+  final GlobalKey<_ReadyFormState> _key;
+  const ReadyFormKey._(this._key);
+  factory ReadyFormKey({String? debugLabel}) =>
+      ReadyFormKey._(GlobalKey<_ReadyFormState>(debugLabel: debugLabel));
 
   /// manually validate form
   @override
-  bool validate() => currentState!.validate();
+  bool validate() => _key.currentState!.validate();
 
   /// manually submit form
   @override
-  Future<bool> onSubmit() => currentState!.onSubmit();
+  Future<bool> onSubmit() => _key.currentState!.onSubmit();
 
   /// detect if form is now submitting
   @override
-  bool get submitting => currentState?.submitting ?? false;
+  bool get submitting => _key.currentState?.submitting ?? false;
 
   /// get invalid fields in the current form
   @override
-  List<FormFieldState> invalidFields() => currentState?.invalidFields() ?? [];
+  List<FormFieldState> invalidFields() =>
+      _key.currentState?.invalidFields() ?? [];
 }
 
 class ReadyForm extends StatefulWidget {
@@ -75,7 +69,7 @@ class ReadyForm extends StatefulWidget {
 
   /// if [true] then it will add keyboard actions , enabled by default
   final KeyBoardActionConfig keyBoardActionConfig;
-  const ReadyForm({
+  ReadyForm({
     ReadyFormKey? key,
     required this.onPostData,
     required this.child,
@@ -88,7 +82,7 @@ class ReadyForm extends StatefulWidget {
     this.autovalidateMode,
     this.keyBoardActionConfig = const KeyBoardActionConfig(),
     this.no,
-  }) : super(key: key);
+  }) : super(key: key?._key);
 
   factory ReadyForm.builder({
     ReadyFormKey? key,
