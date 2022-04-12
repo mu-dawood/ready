@@ -86,11 +86,9 @@
 
 Thare is related packges that related  to  ready and you can use it
 
-| Plugin | README |
-| ------ | ------ |
-| ready_form | [packages/ready_form/README.md] |
-| ready_image | [packages/ready_image/README.md] |
-| ready_picker | [packages/ready_picker/README.md] |
+| Plugin | Version
+| ------ | --------- |
+| [![N\|Ready form][ready_form_github_padge]][ready_form_github]  | [![N\|Ready][ready_form_pub_padge]][ready_form_pub] |
 
 ## How to contribute
 
@@ -111,3 +109,9 @@ Thare is related packges that related  to  ready and you can use it
 [forksPadge]: https://img.shields.io/github/forks/mo-ah-dawood/ready?style=for-the-badge
 [releases]: https://github.com/mo-ah-dawood/ready/releases
 [releasesPadge]: https://img.shields.io/github/v/release/mo-ah-dawood/ready?style=for-the-badge
+
+
+[ready_form_github]: https://github.com/mo-ah-dawood/ready/tree/main/packages/ready_form/README.md
+[ready_form_github_padge]: https://img.shields.io/github/stars/mo-ah-dawood/ready?label=Ready%20form&logoColor=%23ff0000&style=for-the-badge
+[ready_form_pub]: https://pub.dev/packages/ready_form
+[ready_form_pub_padge]: https://img.shields.io/pub/v/ready_form.svg?style=for-the-badge
