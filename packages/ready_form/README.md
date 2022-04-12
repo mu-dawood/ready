@@ -112,3 +112,38 @@ FocusTraversalOrder(
   child: ...
 ),
 ```
+
+## validation mode
+
+every form can has the validation mode instead of  flutter [AutoValidateMode] enum
+you can use [FormAutoValidateMode] which contains `onSubmit`
+
+* it can be also configured globally
+
+## scrolling to invalid field visibility
+
+without any configuration this package scrolls to the first invalid field when [onSubmit]
+
+but some time you want to override this behavior
+
+to do that you have to use `ensureFieldVisible` property
+
+```dart
+EnsureFieldVisible(
+  after:(field) async{
+     /// this will be called after the default behaviour
+  }
+  before:(field) async{
+     /// this will be called after the default behaviour
+  }
+);
+```
+
+```dart
+EnsureFieldVisible.override((field) async{
+     /// this will override the default behaviour
+  }
+);
+```
+
+* if your wrap a single field

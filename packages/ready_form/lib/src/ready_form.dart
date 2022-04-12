@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'circular_reveal.dart';
@@ -5,13 +7,6 @@ import 'config.dart';
 import 'keyboard_actions.dart';
 
 typedef OnPostDataCallBack = Future<dynamic> Function();
-
-abstract class ReadyFormState {
-  bool validate();
-  Future<bool> onSubmit();
-  bool get submitting;
-  List<FormFieldState> invalidFields();
-}
 
 /// Form key to allow accessing [validate] [onSubmit] [invalidFields] methods
 class ReadyFormKey implements ReadyFormState {
@@ -36,6 +31,15 @@ class ReadyFormKey implements ReadyFormState {
   @override
   List<FormFieldState> invalidFields() =>
       _key.currentState?.invalidFields() ?? [];
+
+  @override
+  List<SubmitActions> get submitActions =>
+      _key.currentState?.submitActions ?? [];
+
+  @override
+  Future makeFieldVisible(FormFieldState field) async {
+    await _key.currentState?.makeFieldVisible(field);
+  }
 }
 
 class ReadyForm extends StatefulWidget {
@@ -64,11 +68,14 @@ class ReadyForm extends StatefulWidget {
   /// if specified will show a dialog when user try to pop and the form is [submitting]
   final VoidCallback? onCancelRequest;
 
-  /// [Form.autovalidateMode]
-  final AutovalidateMode? autovalidateMode;
+  /// [Form.autovalidateMode] defaults to [FormAutoValidateMode.onSave]
+  final FormAutoValidateMode? autoValidateMode;
 
   /// if [true] then it will add keyboard actions , enabled by default
   final KeyBoardActionConfig keyBoardActionConfig;
+
+  /// configure how fields become visible if they are not valid
+  final EnsureFieldVisible? ensureFieldVisible;
   ReadyForm({
     ReadyFormKey? key,
     required this.onPostData,
@@ -79,7 +86,8 @@ class ReadyForm extends StatefulWidget {
     this.cancelRequestContent,
     this.disableEditingOnSubmit,
     this.yes,
-    this.autovalidateMode,
+    this.autoValidateMode,
+    this.ensureFieldVisible,
     this.keyBoardActionConfig = const KeyBoardActionConfig(),
     this.no,
   }) : super(key: key?._key);
@@ -95,6 +103,8 @@ class ReadyForm extends StatefulWidget {
     Widget? no,
     bool? disableEditingOnSubmit,
     KeyBoardActionConfig keyBoardActionConfig = const KeyBoardActionConfig(),
+    EnsureFieldVisible? ensureFieldVisible,
+    FormAutoValidateMode? autoValidateMode,
   }) =>
       ReadyForm(
         key: key,
@@ -106,6 +116,8 @@ class ReadyForm extends StatefulWidget {
         no: no,
         keyBoardActionConfig: keyBoardActionConfig,
         onPostData: onPostData,
+        autoValidateMode: autoValidateMode,
+        ensureFieldVisible: ensureFieldVisible,
         child: FormSubmitListener(
           builder: (BuildContext context, bool submitting) {
             return builder(context, submitting);
@@ -132,7 +144,10 @@ class ReadyForm extends StatefulWidget {
 
 class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
+  final List<SubmitActions> _submitActions = [];
+  @override
+  List<SubmitActions> get submitActions =>
+      _submitActions.map((e) => e).toList();
   CircularRevealController? controller;
   ReadyFormConfig? get config => ReadyFormConfig.of(context);
   final ValueNotifier<bool> _submitting = ValueNotifier<bool>(false);
@@ -146,26 +161,48 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
   bool get _disableEditingOnSubmit =>
       widget.disableEditingOnSubmit ?? config?.disableEditingOnSubmit ?? false;
 
-  @override
-  List<FormFieldState> invalidFields() {
-    if (formKey.currentContext == null) return [];
-    return FocusScope.of(formKey.currentContext!)
-        .children
-        .map((element) {
-          if (element.context == null) return null;
-          var field =
-              element.context!.findAncestorStateOfType<FormFieldState>();
-          if (field == null || field.isValid) return null;
-          return field;
-        })
-        .whereType<FormFieldState>()
-        .toList();
+  void _visitElements(
+      Element element, bool Function(FormFieldState field) check) {
+    element.visitChildren((element) {
+      if (element is StatefulElement) {
+        var _state = element.state;
+        if (_state is FormFieldState) {
+          if (check(_state)) {
+            return;
+          }
+        }
+      }
+      _visitElements(element, check);
+    });
   }
 
-  Future _goToElement(FormFieldState field) async {
+  @override
+  List<FormFieldState> invalidFields() {
+    List<FormFieldState> list = [];
+    context.visitChildElements((element) {
+      _visitElements(element, (field) {
+        if (!field.isValid) {
+          list.add(field);
+        }
+        return false;
+      });
+    });
+    return list;
+  }
+
+  @override
+  Future makeFieldVisible(FormFieldState field) async {
+    var ensureVisible = config?.ensureFieldVisible ?? widget.ensureFieldVisible;
+    if (ensureVisible != null && ensureVisible.override != null) {
+      return ensureVisible.override!(field);
+    }
+    if (ensureVisible != null && ensureVisible.before != null) {
+      await ensureVisible.before!(field);
+    }
     var scope = FocusScope.of(field.context);
     if (scope.hasFocus) {
-      var focus = scope.children.firstOrDefault(
+      var focus = _firstOrDefault<FocusNode>(
+        scope.children,
         (element) =>
             element.context?.findAncestorStateOfType<FormFieldState>() == field,
       );
@@ -174,7 +211,6 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
         return;
       }
     }
-
     await Scrollable.ensureVisible(
       field.context,
       duration: const Duration(milliseconds: 300),
@@ -182,19 +218,35 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
       alignment: 1.0,
       alignmentPolicy: ScrollPositionAlignmentPolicy.explicit,
     );
+    if (ensureVisible != null && ensureVisible.after != null) {
+      await ensureVisible.after!(field);
+    }
   }
 
   @override
   Future<bool> onSubmit() async {
-    if (submitting) return false;
+    var action = SubmitActions(isValid: true, isSubmitting: submitting);
+    if (submitting) {
+      setState(() {
+        _submitActions.add(action);
+      });
+      return false;
+    }
+    action = action.copyWith(isSubmitting: false);
     if (validate()) {
+      setState(() {
+        _submitActions.add(action);
+      });
       formKey.currentState!.save();
       await _validationSuccess();
       return true;
     } else {
+      setState(() {
+        _submitActions.add(action.copyWith(isValid: false));
+      });
       var items = invalidFields();
       if (items.isNotEmpty) {
-        await _goToElement(items.first);
+        await makeFieldVisible(items.first);
       }
       return false;
     }
@@ -261,6 +313,32 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
     }
   }
 
+  AutovalidateMode? _getAutoValidateMode() {
+    var mode = config?.autoValidateMode ?? widget.autoValidateMode;
+    if (mode == null) return null;
+    switch (mode) {
+      case FormAutoValidateMode.disabled:
+        return AutovalidateMode.disabled;
+      case FormAutoValidateMode.always:
+        return AutovalidateMode.always;
+      case FormAutoValidateMode.onUserInteraction:
+        return AutovalidateMode.onUserInteraction;
+      case FormAutoValidateMode.onSubmit:
+        return submitActions.isEmpty
+            ? AutovalidateMode.disabled
+            : AutovalidateMode.always;
+    }
+  }
+
+  T? _firstOrDefault<T>(Iterable<T> list, [bool Function(T element)? test]) {
+    var filtered = test == null ? list : list.where(test);
+    if (filtered.isNotEmpty) {
+      return filtered.first;
+    } else {
+      return null;
+    }
+  }
+
   Widget _buildForm(BuildContext context) {
     return AbsorbPointer(
       absorbing: _disableEditingOnSubmit && _submitting.value,
@@ -301,25 +379,14 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
               });
           return res == "yes";
         },
-        autovalidateMode: widget.autovalidateMode,
+        autovalidateMode: _getAutoValidateMode(),
         child: widget.child,
       ),
     );
   }
 }
 
-extension IterableExtensions<T> on Iterable<T> {
-  /// get the first item that match expression or null if not any
-  T? firstOrDefault([bool Function(T element)? test]) {
-    var filtered = test == null ? this : where(test);
-    if (filtered.isNotEmpty) {
-      return filtered.first;
-    } else {
-      return null;
-    }
-  }
-}
-
+/// listen for form submit event
 class FormSubmitListener extends StatelessWidget {
   final Widget Function(BuildContext context, bool submitting) builder;
   const FormSubmitListener({Key? key, required this.builder}) : super(key: key);

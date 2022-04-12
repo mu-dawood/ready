@@ -25,20 +25,22 @@ class ReadyImageConfig extends InheritedWidget {
     required Widget child,
   }) : super(key: key, child: child);
 
-  final Uri Function(String path)? resolveUrl;
-  final ImageRenderMethodForWeb? imageRenderMethodForWeb;
+  final Uri Function(BuildContext context, String path)? resolveUrl;
+  final ImageRenderMethodForWeb Function(BuildContext context)?
+      imageRenderMethodForWeb;
   final LoadingErrorWidgetBuilder? errorPlaceholder;
   final ProgressIndicatorBuilder? loadingPlaceholder;
-  final Decoration? foregroundDecoration;
-  final Decoration? decoration;
-  final Decoration? outerDecoration;
-  final EdgeInsetsGeometry? outerPadding;
-  final EdgeInsetsGeometry? innerPadding;
-  final BoxFit? fit;
+  final Decoration Function(BuildContext context)? foregroundDecoration;
+  final Decoration Function(BuildContext context)? decoration;
+  final Decoration Function(BuildContext context)? outerDecoration;
+  final EdgeInsetsGeometry Function(BuildContext context)? outerPadding;
+  final EdgeInsetsGeometry Function(BuildContext context)? innerPadding;
+  final BoxFit Function(BuildContext context)? fit;
   final HeadersCallBack? headers;
-  final BaseCacheManager? cacheManager;
-  final bool? disableHero;
-  final bool? forceForegroundRadiusSameAsBackground;
+  final BaseCacheManager Function(BuildContext context)? cacheManager;
+  final bool Function(BuildContext context)? disableHero;
+  final bool Function(BuildContext context)?
+      forceForegroundRadiusSameAsBackground;
 
   static ReadyImageConfig? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<ReadyImageConfig>();
@@ -65,7 +67,7 @@ class ReadyImageConfig extends InheritedWidget {
 }
 
 class ReadyImageDefaults {
-  final Uri Function(String path) resolveUrl;
+  final Uri Function(BuildContext context, String path) resolveUrl;
   final ImageRenderMethodForWeb imageRenderMethodForWeb;
   final LoadingErrorWidgetBuilder errorPlaceholder;
   final ProgressIndicatorBuilder loadingPlaceholder;
@@ -114,7 +116,7 @@ class ReadyImageDefaults {
     return {if (language != null) "Accept-Language": language};
   }
 
-  static Uri _defaultUrlResolver(String path) {
+  static Uri _defaultUrlResolver(BuildContext context, String path) {
     return Uri.parse(path);
   }
 
@@ -125,7 +127,7 @@ class ReadyImageDefaults {
       resolveUrl:
           widget.resolveUrl ?? config?.resolveUrl ?? _defaultUrlResolver,
       imageRenderMethodForWeb: widget.imageRenderMethodForWeb ??
-          config?.imageRenderMethodForWeb ??
+          config?.imageRenderMethodForWeb?.call(context) ??
           ImageRenderMethodForWeb.HtmlImage,
       errorPlaceholder: widget.errorPlaceholder ??
           config?.errorPlaceholder ??
@@ -133,19 +135,21 @@ class ReadyImageDefaults {
       loadingPlaceholder: widget.loadingPlaceholder ??
           config?.loadingPlaceholder ??
           _defaultLoadingBuilder,
-      foregroundDecoration:
-          widget.foregroundDecoration ?? config?.foregroundDecoration,
-      decoration: widget.decoration ?? config?.decoration,
-      outerDecoration: widget.outerDecoration ?? config?.outerDecoration,
-      outerPadding: widget.outerPadding ?? config?.outerPadding,
-      innerPadding: widget.innerPadding ?? config?.innerPadding,
-      fit: widget.fit ?? config?.fit ?? BoxFit.contain,
+      foregroundDecoration: widget.foregroundDecoration ??
+          config?.foregroundDecoration?.call(context),
+      decoration: widget.decoration ?? config?.decoration?.call(context),
+      outerDecoration:
+          widget.outerDecoration ?? config?.outerDecoration?.call(context),
+      outerPadding: widget.outerPadding ?? config?.outerPadding?.call(context),
+      innerPadding: widget.innerPadding ?? config?.innerPadding?.call(context),
+      fit: widget.fit ?? config?.fit?.call(context) ?? BoxFit.contain,
       headers: widget.headers ?? config?.headers ?? _defaultHeaders,
-      cacheManager: widget.cacheManager ?? config?.cacheManager,
-      disableHero: widget.disableHero ?? config?.disableHero ?? false,
+      cacheManager: widget.cacheManager ?? config?.cacheManager?.call(context),
+      disableHero:
+          widget.disableHero ?? config?.disableHero?.call(context) ?? false,
       forceForegroundRadiusSameAsBackground:
           widget.forceForegroundRadiusSameAsBackground ??
-              config?.forceForegroundRadiusSameAsBackground ??
+              config?.forceForegroundRadiusSameAsBackground?.call(context) ??
               true,
     );
   }

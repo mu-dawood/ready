@@ -16,7 +16,7 @@ class ReadyImage extends StatelessWidget {
   final double? width;
   final double? height;
   final Map<String, String>? queryParameters;
-  final Uri Function(String path)? resolveUrl;
+  final Uri Function(BuildContext context, String path)? resolveUrl;
   final ImageRenderMethodForWeb? imageRenderMethodForWeb;
   final LoadingErrorWidgetBuilder? errorPlaceholder;
   final ProgressIndicatorBuilder? loadingPlaceholder;
@@ -76,7 +76,7 @@ class ReadyImage extends StatelessWidget {
   Widget _build(BuildContext context) {
     var p = config(context);
     var child = CachedNetworkImage(
-      imageUrl: p.resolveUrl(path).toString(),
+      imageUrl: p.resolveUrl(context, path).toString(),
       width: width,
       height: height,
       imageRenderMethodForWeb: p.imageRenderMethodForWeb,
@@ -221,7 +221,7 @@ extension ReadyImageExtension on BuildContext {
   }) {
     var config = ReadyImageConfig.of(this);
     return DecorationImage(
-      fit: fit ?? config?.fit ?? BoxFit.cover,
+      fit: fit ?? config?.fit?.call(this) ?? BoxFit.cover,
       onError: onError,
       colorFilter: colorFilter,
       alignment: alignment,
@@ -238,10 +238,10 @@ extension ReadyImageExtension on BuildContext {
         maxWidth: maxWidth,
         scale: scale,
         headers: (headers ?? config?.headers)?.call(this),
-        cacheManager: cacheManager ?? config?.cacheManager,
+        cacheManager: cacheManager ?? config?.cacheManager?.call(this),
         cacheKey: cacheKey,
         imageRenderMethodForWeb: imageRenderMethodForWeb ??
-            config?.imageRenderMethodForWeb ??
+            config?.imageRenderMethodForWeb?.call(this) ??
             ImageRenderMethodForWeb.HtmlImage,
       ),
     );
@@ -265,10 +265,10 @@ extension ReadyImageExtension on BuildContext {
       maxWidth: maxWidth,
       scale: scale,
       headers: (headers ?? config?.headers)?.call(this),
-      cacheManager: cacheManager ?? config?.cacheManager,
+      cacheManager: cacheManager ?? config?.cacheManager?.call(this),
       cacheKey: cacheKey,
       imageRenderMethodForWeb: imageRenderMethodForWeb ??
-          config?.imageRenderMethodForWeb ??
+          config?.imageRenderMethodForWeb?.call(this) ??
           ImageRenderMethodForWeb.HtmlImage,
     );
   }
