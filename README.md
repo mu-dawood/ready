@@ -1,8 +1,8 @@
 # Ready
 
-[![N|Ready](https://img.shields.io/github/v/release/mo-ah-dawood/ready?style=for-the-badge)](https://github.com/mo-ah-dawood/ready) 
+[![N|Ready][releasesPadge]][releases] 
 
-![GitHub forks](https://img.shields.io/github/forks/mo-ah-dawood/ready?style=for-the-badge) ![GitHub Repo stars](https://img.shields.io/github/stars/mo-ah-dawood/ready?style=for-the-badge) ![GitHub watchers](https://img.shields.io/github/watchers/mo-ah-dawood/ready?style=for-the-badge) [![N|Ready](https://img.shields.io/pub/v/ready.svg?style=for-the-badge)](https://pub.dev/packages/ready)
+[![N|GitHub forks][forksPadge]][forks] [![N|GitHub Repo stars][starsPadge]][stars] [![N|GitHub watchers][watchersPadge]][watchers] [![N|Ready][pubPadge]][pubUrl]
 
 ##### - Ready is very simple package to allow you create your admin panal with flutter
 
@@ -12,12 +12,12 @@
 
 ## Can i see it
 
- - Yes try this [Demo](https://ready-19c04.web.app)
+ - Yes try this [Demo](demo)
 
 ## Where to get it
 
  - If you are seeing this in pub site so you are in the right place
- - if not you can get it  [Here](https://pub.dev/packages/ready)
+ - if not you can get it  [Here](pubUrl)
 
 ## How to use it
 
@@ -98,3 +98,16 @@ Thare is related packges that related  to  ready and you can use it
 * instead we will add the new features in seperate packages and list it in the packages section
 * in this way if any one need the new feature he can add its package to his project
 * any package must has a good docs before it listed in packges list
+
+
+[demo]: https://ready-19c04.web.app
+[pubUrl]: https://pub.dev/packages/ready
+[pubPadge]: https://img.shields.io/pub/v/ready.svg?style=for-the-badge
+[stars]: https://github.com/mo-ah-dawood/ready/stargazers
+[starsPadge]: https://img.shields.io/github/stars/mo-ah-dawood/ready?style=for-the-badge
+[watchers]: https://github.com/mo-ah-dawood/ready/watchers
+[watchersPadge]: https://img.shields.io/github/watchers/mo-ah-dawood/ready?style=for-the-badge
+[forks]: https://github.com/mo-ah-dawood/ready/network/members
+[forksPadge]: https://img.shields.io/github/forks/mo-ah-dawood/ready?style=for-the-badge
+[releases]: https://github.com/mo-ah-dawood/ready/releases
+[releasesPadge]: https://img.shields.io/github/v/release/mo-ah-dawood/ready?style=for-the-badge
