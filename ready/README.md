@@ -1,28 +1,28 @@
 # Ready
 
-[![N|Ready](https://img.shields.io/github/v/release/mo-ah-dawood/ready?style=for-the-badge)](https://github.com/mo-ah-dawood/ready) 
+[![N|Ready][releasesPadge]][releases] 
 
-![GitHub forks](https://img.shields.io/github/forks/mo-ah-dawood/ready?style=for-the-badge) ![GitHub Repo stars](https://img.shields.io/github/stars/mo-ah-dawood/ready?style=for-the-badge) ![GitHub watchers](https://img.shields.io/github/watchers/mo-ah-dawood/ready?style=for-the-badge) [![N|Ready](https://img.shields.io/pub/v/ready.svg?style=for-the-badge)](https://pub.dev/packages/ready)
+[![N|GitHub forks][forksPadge]][forks] [![N|GitHub Repo stars][starsPadge]][stars] [![N|GitHub watchers][watchersPadge]][watchers] [![N|Ready][pubPadge]][pubUrl]
 
-##### - Ready is very simple package to allow you create your admin panal with flutter
+##### - Ready is very simple package to allow you create your admin panel with flutter
 
-##### - Not just an admin panal it also contains avery helpfull widgets that you can use with your mobile app
+##### - Not just an admin panel it also contains avery helpful widgets that you can use with your mobile app
 
-##### - Admin panal itself can be used in mobile apps as its responsive 
+##### - Admin panel itself can be used in mobile apps as its responsive 
 
 ## Can i see it
 
- - Yes try this [Demo](https://ready-19c04.web.app)
+ - Yes try this [Demo](demo)
 
 ## Where to get it
 
  - If you are seeing this in pub site so you are in the right place
- - if not you can get it  [Here](https://pub.dev/packages/ready)
+ - if not you can get it  [Here](pubUrl)
 
 ## How to use it
 
  
- [ ] Fisrt if you support multi language you have to add ready delegate in your material app
+ [ ] First if you support multi language you have to add ready delegate in your material app
 
 ```dart
     return MaterialApp(
@@ -41,9 +41,9 @@
  > Click on the feature name to see how to use it
  
  [x] [ReadyDashboard](https://github.com/mo-ah-dawood/ready/wiki/ReadyDashboard)
- - Admin panal layout ineasy way
- - [responsive] it can work in any device except watch ofcourse😄😄
- - ability to groub drawer iems
+ - Admin panel layout in easy way
+ - [responsive] it can work in any device except watch of course😄😄
+ - ability to group drawer items
  - ability to add action buttons
  - ability to override action buttons for some pages
  - ability to add search input field in the top app bar
@@ -58,10 +58,10 @@
  - contains ready grid delegates to make it simple
  
   [x] [ResponsiveDataTable](https://github.com/mo-ah-dawood/ready/wiki/ResponsiveDataTable)
- - Responsive widget that show datatable in large devices and list or grid in smaller one
+ - Responsive widget that show DataTable in large devices and list or grid in smaller one
  - 6 layouts
- - can be configured to use list or datatable
- - can has selection in lists and datatables
+ - can be configured to use list or DataTable
+ - can has selection in lists and DataTables
  - can add filters , actions or actions for each row
  - work with the same controller [ReadyList] 
  
@@ -70,11 +70,11 @@
  - able to merge between (flip , scale , fade, translate)
  - scoped  animated runs animations one after one
  - non scoped run all animations in parallel
- - ReadyList contains ascope so you dont need to add it
+ - ReadyList contains a scope so you don't need to add it
  
  [x] [Shimmer](https://github.com/mo-ah-dawood/ready/wiki/Shimmer)
  - Show shimmer effect on a widget
- - drawing the shimmer on the whole scope the shimmer is in so the full page may has one scope and will paint the shimmer gradient on all [Shimmer] childs in its tree
+ - drawing the shimmer on the whole scope the shimmer is in so the full page may has one scope and will paint the shimmer gradient on all [Shimmer] children in its tree
  -like this
 
 ![LoadingShimmer](https://user-images.githubusercontent.com/31937782/147537961-2076ab13-9105-4251-83dc-62a2ae8d21fc.gif)
@@ -84,17 +84,56 @@
 
 ## Packages
 
-Thare is related packges that related  to  ready and you can use it
+There is related packages that related  to  ready and you can use it
 
-| Plugin | README |
-| ------ | ------ |
-| ready_form | [packages/ready_form/README.md] |
-| ready_image | [packages/ready_image/README.md] |
-| ready_picker | [packages/ready_picker/README.md] |
+| Plugin | Version
+| ------ | --------- |
+| [![N\|Ready form][ready_form_github_padge]][ready_form_github]  | [![N\|Ready][ready_form_pub_padge]][ready_form_pub] |
+| [![N\|Ready validation][ready_validation_github_padge]][ready_validation_github]  | [![N\|Ready][ready_validation_pub_padge]][ready_validation_pub] |
+| [![N\|Ready extension][ready_extension_github_padge]][ready_extension_github]  | [![N\|Ready][ready_extension_pub_padge]][ready_extension_pub] |
+| [![N\|Ready picker][ready_picker_github_padge]][ready_picker_github]  | [![N\|Ready][ready_picker_pub_padge]][ready_picker_pub] |
+| [![N\|Ready image][ready_image_github_padge]][ready_image_github]  | [![N\|Ready][ready_image_pub_padge]][ready_image_pub] |
 
 ## How to contribute
 
 * To make package smaller and cleaner as possible we will not add a lot of features to it
-* instead we will add the new features in seperate packages and list it in the packages section
+* instead we will add the new features in separate packages and list it in the packages section
 * in this way if any one need the new feature he can add its package to his project
-* any package must has a good docs before it listed in packges list
+* any package must has a good docs before it listed in packages list
+
+[demo]: https://ready-19c04.web.app
+[pubUrl]: https://pub.dev/packages/ready
+[pubPadge]: https://img.shields.io/pub/v/ready.svg?style=for-the-badge
+[stars]: https://github.com/mo-ah-dawood/ready/stargazers
+[starsPadge]: https://img.shields.io/github/stars/mo-ah-dawood/ready?style=for-the-badge
+[watchers]: https://github.com/mo-ah-dawood/ready/watchers
+[watchersPadge]: https://img.shields.io/github/watchers/mo-ah-dawood/ready?style=for-the-badge
+[forks]: https://github.com/mo-ah-dawood/ready/network/members
+[forksPadge]: https://img.shields.io/github/forks/mo-ah-dawood/ready?style=for-the-badge
+[releases]: https://github.com/mo-ah-dawood/ready/releases
+[releasesPadge]: https://img.shields.io/github/v/release/mo-ah-dawood/ready?style=for-the-badge
+
+[ready_form_github]: https://github.com/mo-ah-dawood/ready/tree/main/packages/ready_form/README.md
+[ready_form_github_padge]: https://img.shields.io/github/stars/mo-ah-dawood/ready?label=Ready%20form&logoColor=%23ff0000&style=for-the-badge
+[ready_form_pub]: https://pub.dev/packages/ready_form
+[ready_form_pub_padge]: https://img.shields.io/pub/v/ready_form.svg?style=for-the-badge
+
+[ready_extensions_github]: https://github.com/mo-ah-dawood/ready/tree/main/packages/ready_extensions/README.md
+[ready_extensions_github_padge]: https://img.shields.io/github/stars/mo-ah-dawood/ready?label=Ready%20extensions&logoColor=%23ff0000&style=for-the-badge
+[ready_extensions_pub]: https://pub.dev/packages/ready_extensions
+[ready_extensions_pub_padge]: https://img.shields.io/pub/v/ready_extensions.svg?style=for-the-badge
+
+[ready_image_github]: https://github.com/mo-ah-dawood/ready/tree/main/packages/ready_image/README.md
+[ready_image_github_padge]: https://img.shields.io/github/stars/mo-ah-dawood/ready?label=Ready%20image&logoColor=%23ff0000&style=for-the-badge
+[ready_image_pub]: https://pub.dev/packages/ready_image
+[ready_image_pub_padge]: https://img.shields.io/pub/v/ready_image.svg?style=for-the-badge
+
+[ready_picker_github]: https://github.com/mo-ah-dawood/ready/tree/main/packages/ready_picker/README.md
+[ready_picker_github_padge]: https://img.shields.io/github/stars/mo-ah-dawood/ready?label=Ready%20picker&logoColor=%23ff0000&style=for-the-badge
+[ready_picker_pub]: https://pub.dev/packages/ready_picker
+[ready_picker_pub_padge]: https://img.shields.io/pub/v/ready_picker.svg?style=for-the-badge
+
+[ready_validation_github]: https://github.com/mo-ah-dawood/ready/tree/main/packages/ready_validation/README.md
+[ready_validation_github_padge]: https://img.shields.io/github/stars/mo-ah-dawood/ready?label=Ready%20validation&logoColor=%23ff0000&style=for-the-badge
+[ready_validation_pub]: https://pub.dev/packages/ready_validation
+[ready_validation_pub_padge]: https://img.shields.io/pub/v/ready_validation.svg?style=for-the-badge
