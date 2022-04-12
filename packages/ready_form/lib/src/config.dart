@@ -1,26 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// wrap your fields with this widget will override the default behaviour of
-/// field visibility
-///
-/// for [EnsureFieldVisible] constructor the [ensureVisible] callback will be called after the default behaviour
-/// for [EnsureFieldVisible.override] constructor the [ensureVisible] callback will override the default behaviour
-class EnsureFieldVisible {
-  final Future Function(FormFieldState field)? after;
-  final Future Function(FormFieldState field)? before;
-  final Future Function(FormFieldState field)? override;
-
-  /// call ensureVisible after the
-  const EnsureFieldVisible({
-    required this.after,
-    required this.before,
-  }) : override = null;
-
-  const EnsureFieldVisible.override(this.override)
-      : after = null,
-        before = null;
-}
-
 abstract class ReadyFormState {
   /// validate form field
   bool validate();
@@ -140,8 +119,6 @@ class ReadyFormConfig extends InheritedWidget {
   /// no button
   final Widget? no;
 
-  /// configure how fields become visible if they are not valid
-  final EnsureFieldVisible? ensureFieldVisible;
   const ReadyFormConfig({
     Key? key,
     this.revealConfig = const RevealConfig(),
@@ -152,7 +129,6 @@ class ReadyFormConfig extends InheritedWidget {
     this.yes,
     this.no,
     this.autoValidateMode,
-    this.ensureFieldVisible,
     required Widget child,
   }) : super(key: key, child: child);
 

@@ -74,8 +74,6 @@ class ReadyForm extends StatefulWidget {
   /// if [true] then it will add keyboard actions , enabled by default
   final KeyBoardActionConfig keyBoardActionConfig;
 
-  /// configure how fields become visible if they are not valid
-  final EnsureFieldVisible? ensureFieldVisible;
   ReadyForm({
     ReadyFormKey? key,
     required this.onPostData,
@@ -87,7 +85,6 @@ class ReadyForm extends StatefulWidget {
     this.disableEditingOnSubmit,
     this.yes,
     this.autoValidateMode,
-    this.ensureFieldVisible,
     this.keyBoardActionConfig = const KeyBoardActionConfig(),
     this.no,
   }) : super(key: key?._key);
@@ -103,7 +100,6 @@ class ReadyForm extends StatefulWidget {
     Widget? no,
     bool? disableEditingOnSubmit,
     KeyBoardActionConfig keyBoardActionConfig = const KeyBoardActionConfig(),
-    EnsureFieldVisible? ensureFieldVisible,
     FormAutoValidateMode? autoValidateMode,
   }) =>
       ReadyForm(
@@ -117,7 +113,6 @@ class ReadyForm extends StatefulWidget {
         keyBoardActionConfig: keyBoardActionConfig,
         onPostData: onPostData,
         autoValidateMode: autoValidateMode,
-        ensureFieldVisible: ensureFieldVisible,
         child: FormSubmitListener(
           builder: (BuildContext context, bool submitting) {
             return builder(context, submitting);
@@ -192,9 +187,11 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
 
   @override
   Future makeFieldVisible(FormFieldState field) async {
-    var ensureVisible = config?.ensureFieldVisible ?? widget.ensureFieldVisible;
-    if (ensureVisible != null && ensureVisible.override != null) {
-      return ensureVisible.override!(field);
+    var ensureVisible = field.context
+        .findAncestorStateOfType<_EnsureFieldVisibleState>()
+        ?.widget;
+    if (ensureVisible != null && ensureVisible._ensureVisible != null) {
+      return ensureVisible._ensureVisible!(field);
     }
     if (ensureVisible != null && ensureVisible.before != null) {
       await ensureVisible.before!(field);
@@ -397,5 +394,43 @@ class FormSubmitListener extends StatelessWidget {
       valueListenable: ReadyForm._of(context)!._submitting,
       builder: (BuildContext ctx, bool v, c) => builder(ctx, v),
     );
+  }
+}
+
+/// wrap your fields with this widget will override the default behaviour of
+/// field visibility
+///
+/// for [EnsureFieldVisible] constructor the [ensureVisible] callback will be called after the default behaviour
+/// for [EnsureFieldVisible.override] constructor the [ensureVisible] callback will override the default behaviour
+
+class EnsureFieldVisible extends StatefulWidget {
+  final Future Function(FormFieldState field)? after;
+  final Future Function(FormFieldState field)? before;
+  final Future Function(FormFieldState field)? _ensureVisible;
+  final Widget child;
+  const EnsureFieldVisible({
+    Key? key,
+    this.after,
+    this.before,
+    required this.child,
+  })  : _ensureVisible = null,
+        super(key: key);
+  const EnsureFieldVisible.override({
+    Key? key,
+    required Future Function(FormFieldState field) ensureVisible,
+    required this.child,
+  })  : _ensureVisible = ensureVisible,
+        after = null,
+        before = null,
+        super(key: key);
+
+  @override
+  State<EnsureFieldVisible> createState() => _EnsureFieldVisibleState();
+}
+
+class _EnsureFieldVisibleState extends State<EnsureFieldVisible> {
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
   }
 }
