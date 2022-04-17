@@ -1,39 +1,69 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# wrapper for cached network image but with additional features
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+# how to use 
 
 ```dart
-const like = 'sample';
+/// only the path property is required
+ ReadyImage(
+        path: //url or just file name as the there is a global url resolver that can handle the url,
+        height: /// image height,
+        width: /// image width
+        queryParameters: /// query parameters to be added to the url,
+        resolveUrl: /// url resolver to override the global one,
+        imageRenderMethodForWeb: /// how web images can be handled,
+        errorPlaceholder: /// widget in case of error,
+        loadingPlaceholder: /// widget while loading,
+        foregroundDecoration: /// decoration to be applied above the image,
+        decoration: /// decoration behind the image,
+        outerDecoration:/// decoration behind the image and its decoration ,
+        outerPadding: /// the padding between the outer decoration and the image decoration,
+        innerPadding: /// padding between the image and its decoration,
+        fit: /// ,
+        headers:/// headers to be passed ,
+        cacheManager:/// image cacheManager ,
+        forceForegroundRadiusSameAsBackground: /// if true will override the foreground border radius to be the sme as background,
+       
+      ),
 ```
 
-## Additional information
+### You can also configure these properties globally so that all images in your app can have the same shape
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+```dart
+/// all of these properties are optional
+ ReadyImageConfig(
+        resolveUrl: (context, path) => Uri.parse('http://someurl/$path'),
+        imageRenderMethodForWeb: ,
+        errorPlaceholder: ,
+        loadingPlaceholder: ,
+        foregroundDecoration: ,
+        decoration: ,
+        outerDecoration: ,
+        outerPadding: EdgeInsetsDirectional.only(start: 20),
+        innerPadding: ,
+        fit: ,
+        headers: ,
+        cacheManager: ,
+        forceForegroundRadiusSameAsBackground: ,
+         child: MaterialApp(),
+ )
+```
+
+### this alow has its own hero image which animate all of its decoration while navigating from one screen to other
+
+```dart
+   HeroReadyImage(path:///)
+```
+
+### in some cases you may need to create an image provider not the image it self like in container background 
+
+this will allow to make benefit of global configuration
+
+```dart
+Container(
+      decoration: BoxDecoration(image: context.readyImageDecoration(path: 'path')),
+    );
+
+CircleAvatar(
+      backgroundImage: context.readyImageProvider(path: 'path'),
+    );
+```

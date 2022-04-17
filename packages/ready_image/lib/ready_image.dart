@@ -11,26 +11,59 @@ export 'package:cached_network_image/cached_network_image.dart';
 export 'package:cached_network_image_platform_interface/cached_network_image_platform_interface.dart';
 export 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
+/// Wrapper around  cashed network image
 class ReadyImage extends StatelessWidget {
+  /// the path or the url of the image
   final String path;
-  final double? width;
-  final double? height;
-  final Map<String, String>? queryParameters;
-  final Uri Function(BuildContext context, String path)? resolveUrl;
-  final ImageRenderMethodForWeb? imageRenderMethodForWeb;
-  final LoadingErrorWidgetBuilder? errorPlaceholder;
-  final ProgressIndicatorBuilder? loadingPlaceholder;
-  final Decoration? foregroundDecoration;
-  final Decoration? decoration;
-  final Decoration? outerDecoration;
-  final EdgeInsetsGeometry? outerPadding;
-  final EdgeInsetsGeometry? innerPadding;
-  final BoxFit? fit;
-  final HeadersCallBack? headers;
-  final BaseCacheManager? cacheManager;
-  final bool? disableHero;
-  final bool? forceForegroundRadiusSameAsBackground;
 
+  /// image width
+  final double? width;
+
+  /// image height
+  final double? height;
+
+  /// parameter to be added to the url
+  final Map<String, String>? queryParameters;
+
+  /// override the global url resolver
+  final Uri Function(BuildContext context, String path)? resolveUrl;
+
+  /// how image will be fetched in web platform
+  final ImageRenderMethodForWeb? imageRenderMethodForWeb;
+
+  /// the error widget
+  final LoadingErrorWidgetBuilder? errorPlaceholder;
+
+  /// the loading pace holder
+  final ProgressIndicatorBuilder? loadingPlaceholder;
+
+  /// the decoration above the image
+  final Decoration? foregroundDecoration;
+
+  /// the decoration behind the image
+  final Decoration? decoration;
+
+  /// the decoration behind the image  and its decoration
+  final Decoration? outerDecoration;
+
+  /// the padding between the inner and outer decoration
+  final EdgeInsetsGeometry? outerPadding;
+
+  /// the padding between the decoration and the image
+  final EdgeInsetsGeometry? innerPadding;
+
+  /// image Box fit
+  final BoxFit? fit;
+
+  /// url headers
+  final HeadersCallBack? headers;
+
+  /// The image cache manager
+  final BaseCacheManager? cacheManager;
+
+  /// if true will ignore the foreground radius and copy the radius from decoration
+  final bool? forceForegroundRadiusSameAsBackground;
+  final Widget Function(ReadyImageDefaults config)? _builder;
   const ReadyImage({
     Key? key,
     required this.path,
@@ -49,9 +82,33 @@ class ReadyImage extends StatelessWidget {
     this.fit,
     this.headers,
     this.cacheManager,
-    this.disableHero,
     this.forceForegroundRadiusSameAsBackground,
-  }) : super(key: key);
+  })  : _builder = null,
+        super(key: key);
+
+  /// in case of you need local image with respect of global decorations
+  const ReadyImage.custom({
+    Key? key,
+    required Widget Function(ReadyImageDefaults config) builder,
+    this.foregroundDecoration,
+    this.decoration,
+    this.outerDecoration,
+    this.outerPadding,
+    this.innerPadding,
+    this.forceForegroundRadiusSameAsBackground,
+  })  : _builder = builder,
+        path = '',
+        width = null,
+        height = null,
+        queryParameters = null,
+        fit = null,
+        headers = null,
+        cacheManager = null,
+        imageRenderMethodForWeb = null,
+        errorPlaceholder = null,
+        loadingPlaceholder = null,
+        resolveUrl = null,
+        super(key: key);
 
   ReadyImageDefaults config(BuildContext context) =>
       ReadyImageDefaults.of(context, this);
@@ -61,7 +118,7 @@ class ReadyImage extends StatelessWidget {
     Widget child;
     if (p.outerDecoration != null || p.outerPadding != null) {
       child = Container(
-        clipBehavior: Clip.antiAlias,
+        clipBehavior: p.outerDecoration == null ? Clip.none : Clip.antiAlias,
         decoration: p.outerDecoration,
         padding: p.outerPadding,
         child: _build(context),
@@ -75,17 +132,18 @@ class ReadyImage extends StatelessWidget {
 
   Widget _build(BuildContext context) {
     var p = config(context);
-    var child = CachedNetworkImage(
-      imageUrl: p.resolveUrl(context, path).toString(),
-      width: width,
-      height: height,
-      imageRenderMethodForWeb: p.imageRenderMethodForWeb,
-      httpHeaders: p.headers(context),
-      errorWidget: p.errorPlaceholder,
-      fit: p.fit,
-      cacheManager: p.cacheManager,
-      progressIndicatorBuilder: p.loadingPlaceholder,
-    );
+    var child = _builder?.call(p) ??
+        CachedNetworkImage(
+          imageUrl: p.resolveUrl(context, path).toString(),
+          width: width,
+          height: height,
+          imageRenderMethodForWeb: p.imageRenderMethodForWeb,
+          httpHeaders: p.headers(context),
+          errorWidget: p.errorPlaceholder,
+          fit: p.fit,
+          cacheManager: p.cacheManager,
+          progressIndicatorBuilder: p.loadingPlaceholder,
+        );
     var decoration = p.decoration ?? const BoxDecoration();
     var foreground = p.foregroundDecoration;
     var force = p.forceForegroundRadiusSameAsBackground == true;
@@ -105,18 +163,24 @@ class ReadyImage extends StatelessWidget {
   }
 }
 
+/// instead of using the normal hero you can use this as it will animate its properties
 class HeroReadyImage extends StatelessWidget {
   final String tag;
+
+  /// whether to disable hero or not
+  final bool? disableHero;
   final ReadyImage child;
   const HeroReadyImage({
     Key? key,
     required this.child,
     required this.tag,
+    required this.disableHero,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var disable = ReadyImageDefaults.of(context, child).disableHero == true;
+    var disable = disableHero ??
+        (ReadyImageDefaults.of(context, child).disableHero == true);
     if (disable) {
       return child;
     }
@@ -186,7 +250,6 @@ class HeroReadyImage extends StatelessWidget {
           fit: child.fit,
           headers: child.headers,
           cacheManager: child.cacheManager,
-          disableHero: child.disableHero,
           forceForegroundRadiusSameAsBackground:
               child.forceForegroundRadiusSameAsBackground,
           path: child.path,
@@ -197,6 +260,7 @@ class HeroReadyImage extends StatelessWidget {
 }
 
 extension ReadyImageExtension on BuildContext {
+  /// create [DecorationImage] with respect of global config
   DecorationImage readyImageDecoration({
     required String path,
     Uri Function(String path)? resolveUrl,
@@ -246,6 +310,8 @@ extension ReadyImageExtension on BuildContext {
       ),
     );
   }
+
+  /// create [ImageProvider] with respect of global config
 
   ImageProvider readyImageProvider({
     required String path,

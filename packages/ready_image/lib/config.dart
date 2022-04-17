@@ -25,20 +25,47 @@ class ReadyImageConfig extends InheritedWidget {
     required Widget child,
   }) : super(key: key, child: child);
 
+  /// manage how the url can be parsed
   final Uri Function(BuildContext context, String path)? resolveUrl;
+
+  /// manage how web platform load images
   final ImageRenderMethodForWeb Function(BuildContext context)?
       imageRenderMethodForWeb;
+
+  /// manage the error widget
   final LoadingErrorWidgetBuilder? errorPlaceholder;
+
+  /// manage the loading widget
   final ProgressIndicatorBuilder? loadingPlaceholder;
+
+  /// [ReadyImage.foregroundDecoration]
   final Decoration Function(BuildContext context)? foregroundDecoration;
+
+  /// [ReadyImage.decoration]
   final Decoration Function(BuildContext context)? decoration;
+
+  /// [ReadyImage.outerDecoration]
   final Decoration Function(BuildContext context)? outerDecoration;
+
+  /// [ReadyImage.outerPadding]
   final EdgeInsetsGeometry Function(BuildContext context)? outerPadding;
+
+  /// [ReadyImage.innerPadding]
   final EdgeInsetsGeometry Function(BuildContext context)? innerPadding;
+
+  /// [ReadyImage.fit]
   final BoxFit Function(BuildContext context)? fit;
+
+  /// [ReadyImage.headers]
   final HeadersCallBack? headers;
+
+  /// [ReadyImage.cacheManager]
   final BaseCacheManager Function(BuildContext context)? cacheManager;
+
+  /// [HeroReadyImage.disableHero]
   final bool Function(BuildContext context)? disableHero;
+
+  /// [ReadyImage.forceForegroundRadiusSameAsBackground]
   final bool Function(BuildContext context)?
       forceForegroundRadiusSameAsBackground;
 
@@ -145,8 +172,7 @@ class ReadyImageDefaults {
       fit: widget.fit ?? config?.fit?.call(context) ?? BoxFit.contain,
       headers: widget.headers ?? config?.headers ?? _defaultHeaders,
       cacheManager: widget.cacheManager ?? config?.cacheManager?.call(context),
-      disableHero:
-          widget.disableHero ?? config?.disableHero?.call(context) ?? false,
+      disableHero: config?.disableHero?.call(context) ?? false,
       forceForegroundRadiusSameAsBackground:
           widget.forceForegroundRadiusSameAsBackground ??
               config?.forceForegroundRadiusSameAsBackground?.call(context) ??

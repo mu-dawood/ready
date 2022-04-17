@@ -1,6 +1,6 @@
 name: ready_image
-description: Simple and customizable image
-version: 0.0.6
+description: Simple and customizable image which is  wrapper for cached network image ad part of ready packages
+version: 0.0.8
 homepage: https://github.com/mo-ah-dawood/ready
 
 environment:
