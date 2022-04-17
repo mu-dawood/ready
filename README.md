@@ -90,7 +90,7 @@ There is related packages that related  to  ready and you can use it
 | ------ | --------- |
 | [![N\|Ready form][ready_form_github_padge]][ready_form_github]  | [![N\|Ready][ready_form_pub_padge]][ready_form_pub] |
 | [![N\|Ready validation][ready_validation_github_padge]][ready_validation_github]  | [![N\|Ready][ready_validation_pub_padge]][ready_validation_pub] |
-| [![N\|Ready extension][ready_extension_github_padge]][ready_extension_github]  | [![N\|Ready][ready_extension_pub_padge]][ready_extension_pub] |
+| [![N\|Ready extension][ready_extensions_github_padge]][ready_extensions_github]  | [![N\|Ready][ready_extensions_pub_padge]][ready_extensions_pub] |
 | [![N\|Ready picker][ready_picker_github_padge]][ready_picker_github]  | [![N\|Ready][ready_picker_pub_padge]][ready_picker_pub] |
 | [![N\|Ready image][ready_image_github_padge]][ready_image_github]  | [![N\|Ready][ready_image_pub_padge]][ready_image_pub] |
 
