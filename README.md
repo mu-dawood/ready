@@ -86,13 +86,13 @@
 
 There is related packages that related  to  ready and you can use it
 
-| Plugin | Version
-| ------ | --------- |
-| [![N\|Ready form][ready_form_github_padge]][ready_form_github]  | [![N\|Ready][ready_form_pub_padge]][ready_form_pub] |
-| [![N\|Ready validation][ready_validation_github_padge]][ready_validation_github]  | [![N\|Ready][ready_validation_pub_padge]][ready_validation_pub] |
-| [![N\|Ready extension][ready_extensions_github_padge]][ready_extensions_github]  | [![N\|Ready][ready_extensions_pub_padge]][ready_extensions_pub] |
-| [![N\|Ready picker][ready_picker_github_padge]][ready_picker_github]  | [![N\|Ready][ready_picker_pub_padge]][ready_picker_pub] |
-| [![N\|Ready image][ready_image_github_padge]][ready_image_github]  | [![N\|Ready][ready_image_pub_padge]][ready_image_pub] |
+| Plugin | Version | Depends on ready
+| ------ | --------- | -|
+| [![N\|Ready form][ready_form_github_padge]][ready_form_github]  | [![N\|Ready][ready_form_pub_padge]][ready_form_pub] | ❌ |
+| [![N\|Ready validation][ready_validation_github_padge]][ready_validation_github]  | [![N\|Ready][ready_validation_pub_padge]][ready_validation_pub] | ❌ |
+| [![N\|Ready extension][ready_extensions_github_padge]][ready_extensions_github]  | [![N\|Ready][ready_extensions_pub_padge]][ready_extensions_pub] | ❌ |
+| [![N\|Ready picker][ready_picker_github_padge]][ready_picker_github]  | [![N\|Ready][ready_picker_pub_padge]][ready_picker_pub] | ✅  |
+| [![N\|Ready image][ready_image_github_padge]][ready_image_github]  | [![N\|Ready][ready_image_pub_padge]][ready_image_pub] | ❌ |
 
 ## How to contribute
 
