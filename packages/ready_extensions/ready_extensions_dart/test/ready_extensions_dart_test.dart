@@ -30,15 +30,16 @@ void main() {
     expect((15.5).noTrailing(), '15.5');
     expect((15.55).noTrailing(), '15.55');
     expect((15.500005).noTrailing(), '15.500005');
-    expect((15.5000050).noTrailing(10), '15.5000050000');
+    expect((15.5000050).noTrailing(fractionDigits: 10), '15.5000050000');
     expect((15.50000500000).noTrailing(), '15.500005');
     expect((15.5000050).noTrailing(), '15.500005');
     expect((0.5000050).noTrailing(), '0.500005');
-    expect((15.5).noTrailing(2), '15.50');
-    expect((15.00).noTrailing(2), '15.00');
-    expect((15.05).noTrailing(2), '15.05');
+    expect((15.5).noTrailing(fractionDigits: 2), '15.50');
+    expect((15.00).noTrailing(fractionDigits: 2), '15.00');
+    expect((15.05).noTrailing(fractionDigits: 2), '15.05');
     expect(15.5.noTrailing(), '15.5');
-    expect((30000.0).noTrailing(), '30000');
+    expect((30000.0).noTrailing(), '30,000');
+    expect((30000.0).noTrailing(grouping: false), '30000');
   });
 
   test('iterable extensions', () {

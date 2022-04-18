@@ -2,7 +2,14 @@ import 'package:intl/intl.dart';
 
 extension NumExtensions on num? {
   /// format the current number using NumberFormat
-  String format(NumberFormat format) {
+  /// ex. #.0#
+  String format(String _format) {
+    if (this == null) return '';
+    return formatWith(NumberFormat(_format));
+  }
+
+  /// format the current number using NumberFormat
+  String formatWith(NumberFormat format) {
     if (this == null) return '';
     return format.format(this);
   }
@@ -13,22 +20,19 @@ extension NumExtensions on num? {
   /// 15.5 => 15.50
   /// 15.500 => 15.50
   /// 15.00 => 15.00
-  String noTrailing([int? fractionDigits]) {
+  String noTrailing({
+    int? fractionDigits,
+    bool grouping = true,
+    String? locale,
+  }) {
     if (this == null) return '';
-    var str = ((fractionDigits == null
-            ? this!.toString()
-            : this!.toStringAsFixed(fractionDigits)))
-        .replaceAll(r'\.0+$', '');
-
-    var dotIndex = str.indexOf(".");
-    if (dotIndex < 0 || fractionDigits != null) return str;
-    var splits = str.split('.');
-    var trailing = splits[1].replaceAll(RegExp(r'0+$'), '');
-    if (trailing.isEmpty) {
-      return splits[0];
+    var _format = grouping ? '#,##0.' : '#.';
+    if (fractionDigits == null) {
+      _format += '#############';
     } else {
-      return '${splits[0]}.$trailing';
+      _format += List.filled(fractionDigits, '0').join();
     }
+    return formatWith(NumberFormat(_format, locale));
   }
 
   /// format number with intl currency format
