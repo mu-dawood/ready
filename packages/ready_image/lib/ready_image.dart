@@ -158,9 +158,29 @@ class ReadyImage extends StatelessWidget {
       decoration: decoration,
       foregroundDecoration: foreground,
       padding: p.innerPadding,
-      child: child,
+      child: ClipPath(
+        clipBehavior: Clip.antiAlias,
+        clipper: _DecorationClipper(decoration, Directionality.of(context)),
+        child: child,
+      ),
     );
   }
+}
+
+class _DecorationClipper extends CustomClipper<Path> {
+  final Decoration decoration;
+  final TextDirection textDirection;
+  _DecorationClipper(this.decoration, this.textDirection);
+
+  @override
+  Path getClip(Size size) {
+    return decoration.getClipPath(
+        Rect.fromLTWH(0, 0, size.width, size.height), textDirection);
+  }
+
+  @override
+  bool shouldReclip(covariant _DecorationClipper oldClipper) =>
+      decoration != oldClipper.decoration;
 }
 
 /// instead of using the normal hero you can use this as it will animate its properties
