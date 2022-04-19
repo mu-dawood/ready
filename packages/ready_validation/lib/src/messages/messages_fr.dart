@@ -309,21 +309,57 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   }
 
   @override
-  String isAfter(bool equal, DateTime value, DateTime date) {
+  String isDateAfter(bool equal, DateTime value, DateTime other) {
     final String selectString = intl.Intl.select(
         equal, {'true': 'ou égal à', 'other': ''},
-        desc: 'No description provided in @isAfter');
+        desc: 'No description provided in @isDateAfter');
 
-    return 'Vous devez entrer une date ultérieure ${selectString}';
+    return 'Vous devez entrer une date après ${selectString}';
   }
 
   @override
-  String isBefore(bool equal, DateTime value, DateTime date) {
+  String isDateBefore(bool equal, DateTime value, DateTime other) {
     final String selectString = intl.Intl.select(
         equal, {'true': 'ou égal à', 'other': ''},
-        desc: 'No description provided in @isBefore');
+        desc: 'No description provided in @isDateBefore');
 
-    return 'Vous devez entrer une date antérieure ${selectString}';
+    return 'Vous devez entrer une date avant le ${selectString}';
+  }
+
+  @override
+  String isDateBetween(bool equal, DateTime value, DateTime min, DateTime max) {
+    final String selectString = intl.Intl.select(
+        equal, {'true': 'ou égal à un', 'other': ''},
+        desc: 'No description provided in @isDateBetween');
+
+    return 'Vous devez entrer une date entre ${selectString}';
+  }
+
+  @override
+  String isTimeAfter(bool equal, DateTime value, DateTime other) {
+    final String selectString = intl.Intl.select(
+        equal, {'true': 'ou égal à', 'other': ''},
+        desc: 'No description provided in @isTimeAfter');
+
+    return 'Vous devez saisir une heure après ${selectString}';
+  }
+
+  @override
+  String isTimeBefore(bool equal, DateTime value, DateTime other) {
+    final String selectString = intl.Intl.select(
+        equal, {'true': 'ou égal à', 'other': ''},
+        desc: 'No description provided in @isTimeBefore');
+
+    return 'Vous devez saisir une heure avant ${selectString}';
+  }
+
+  @override
+  String isTimeBetween(bool equal, DateTime value, DateTime min, DateTime max) {
+    final String selectString = intl.Intl.select(
+        equal, {'true': 'ou égal à un', 'other': ''},
+        desc: 'No description provided in @isTimeBetween');
+
+    return 'Vous devez saisir un temps compris entre ${selectString}';
   }
 
   @override
@@ -338,15 +374,6 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String isCreditCard(String value) {
     return 'Vous devez entrer le numéro de carte de crédit';
-  }
-
-  @override
-  String isDateBetween(bool equal, DateTime value, DateTime min, DateTime max) {
-    final String selectString = intl.Intl.select(
-        equal, {'true': 'ou égal à un', 'other': ''},
-        desc: 'No description provided in @isDateBetween');
-
-    return 'Vous devez entrer une date ${selectString}';
   }
 
   @override

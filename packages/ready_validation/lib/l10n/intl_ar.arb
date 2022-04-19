@@ -408,8 +408,8 @@
       }
     }
   },
-  "isAfter": "يجب إدخال تاريخ لاحق ل {other}, {equal,select,true { أو مساو له} other{}}",
-  "@isAfter": {
+  "isDateAfter": "يجب إدخال تاريخ لاحق ل {other}, {equal,select,true { أو مساو له} other{}}",
+  "@isDateAfter": {
     "placeholders": {
       "equal": {
         "type": "bool"
@@ -418,14 +418,14 @@
         "type": "DateTime",
         "format": "yMEd"
       },
-      "date": {
+      "other": {
         "type": "DateTime",
         "format": "yMEd"
       }
     }
   },
-  "isBefore": "يجب إدخال تاريخ سابق ل {other}, {equal,select,true { أو مساو له} other{}}",
-  "@isBefore": {
+  "isDateBefore": "يجب إدخال تاريخ سابق ل {other}, {equal,select,true { أو مساو له} other{}}",
+  "@isDateBefore": {
     "placeholders": {
       "equal": {
         "type": "bool"
@@ -434,9 +434,81 @@
         "type": "DateTime",
         "format": "yMEd"
       },
-      "date": {
+      "other": {
         "type": "DateTime",
         "format": "yMEd"
+      }
+    }
+  },
+  "isDateBetween": "يجب إدخال تاريخ بين {min} و {max}, {equal,select,true { أو مساو لأحدهم} other{}}",
+  "@isDateBetween": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "min": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "max": {
+        "type": "DateTime",
+        "format": "yMEd"
+      }
+    }
+  },
+  "isTimeAfter": "يجب إدخال وقت لاحق ل {other}, {equal,select,true { أو مساو له} other{}}",
+  "@isTimeAfter": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "other": {
+        "type": "DateTime",
+        "format": "jm"
+      }
+    }
+  },
+  "isTimeBefore": "يجب إدخال وقت سابق ل {other}, {equal,select,true { أو مساو له} other{}}",
+  "@isTimeBefore": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "other": {
+        "type": "DateTime",
+        "format": "jm"
+      }
+    }
+  },
+  "isTimeBetween": "يجب إدخال وقت بين {min} و {max}, {equal,select,true { أو مساو لأحدهم} other{}}",
+  "@isTimeBetween": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "min": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "max": {
+        "type": "DateTime",
+        "format": "jm"
       }
     }
   },
@@ -465,26 +537,6 @@
     "placeholders": {
       "value": {
         "type": "String"
-      }
-    }
-  },
-  "isDateBetween": "يجب إدخال تاريخ بين {min} و {max}, {equal,select,true { أو مساو لأحدهم} other{}}",
-  "@isDateBetween": {
-    "placeholders": {
-      "equal": {
-        "type": "bool"
-      },
-      "value": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
-      "min": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
-      "max": {
-        "type": "DateTime",
-        "format": "yMEd"
       }
     }
   },

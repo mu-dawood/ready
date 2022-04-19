@@ -309,21 +309,57 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
   }
 
   @override
-  String isAfter(bool equal, DateTime value, DateTime date) {
+  String isDateAfter(bool equal, DateTime value, DateTime other) {
     final String selectString = intl.Intl.select(
         equal, {'true': ' أو مساو له', 'other': ''},
-        desc: 'No description provided in @isAfter');
+        desc: 'No description provided in @isDateAfter');
 
     return 'يجب إدخال تاريخ لاحق ل ${selectString}';
   }
 
   @override
-  String isBefore(bool equal, DateTime value, DateTime date) {
+  String isDateBefore(bool equal, DateTime value, DateTime other) {
     final String selectString = intl.Intl.select(
         equal, {'true': ' أو مساو له', 'other': ''},
-        desc: 'No description provided in @isBefore');
+        desc: 'No description provided in @isDateBefore');
 
     return 'يجب إدخال تاريخ سابق ل ${selectString}';
+  }
+
+  @override
+  String isDateBetween(bool equal, DateTime value, DateTime min, DateTime max) {
+    final String selectString = intl.Intl.select(
+        equal, {'true': ' أو مساو لأحدهم', 'other': ''},
+        desc: 'No description provided in @isDateBetween');
+
+    return 'يجب إدخال تاريخ بين ${selectString}';
+  }
+
+  @override
+  String isTimeAfter(bool equal, DateTime value, DateTime other) {
+    final String selectString = intl.Intl.select(
+        equal, {'true': ' أو مساو له', 'other': ''},
+        desc: 'No description provided in @isTimeAfter');
+
+    return 'يجب إدخال وقت لاحق ل ${selectString}';
+  }
+
+  @override
+  String isTimeBefore(bool equal, DateTime value, DateTime other) {
+    final String selectString = intl.Intl.select(
+        equal, {'true': ' أو مساو له', 'other': ''},
+        desc: 'No description provided in @isTimeBefore');
+
+    return 'يجب إدخال وقت سابق ل ${selectString}';
+  }
+
+  @override
+  String isTimeBetween(bool equal, DateTime value, DateTime min, DateTime max) {
+    final String selectString = intl.Intl.select(
+        equal, {'true': ' أو مساو لأحدهم', 'other': ''},
+        desc: 'No description provided in @isTimeBetween');
+
+    return 'يجب إدخال وقت بين ${selectString}';
   }
 
   @override
@@ -338,15 +374,6 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
   @override
   String isCreditCard(String value) {
     return 'يجب ادخال رقم بطاقة ائتمانية صحيح';
-  }
-
-  @override
-  String isDateBetween(bool equal, DateTime value, DateTime min, DateTime max) {
-    final String selectString = intl.Intl.select(
-        equal, {'true': ' أو مساو لأحدهم', 'other': ''},
-        desc: 'No description provided in @isDateBetween');
-
-    return 'يجب إدخال تاريخ بين ${selectString}';
   }
 
   @override

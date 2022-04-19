@@ -7,7 +7,7 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
     return next((messages, value) {
       if (!value.isAfter(other)) {
         return message?.call(messages, value) ??
-            messages.isAfter(false, value, other);
+            messages.isDateAfter(false, value, other);
       }
       return null;
     });
@@ -19,7 +19,7 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
     return next((messages, value) {
       if (!value.isAfter(other) && !value.isAtSameMomentAs(other)) {
         return message?.call(messages, value) ??
-            messages.isAfter(true, value, other);
+            messages.isDateAfter(true, value, other);
       }
       return null;
     });
@@ -31,7 +31,7 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
     return next((messages, value) {
       if (!value.isBefore(other)) {
         return message?.call(messages, value) ??
-            messages.isBefore(false, value, other);
+            messages.isDateBefore(false, value, other);
       }
       return null;
     });
@@ -43,7 +43,7 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
     return next((messages, value) {
       if (!value.isBefore(other) && !value.isAtSameMomentAs(other)) {
         return message?.call(messages, value) ??
-            messages.isBefore(true, value, other);
+            messages.isDateBefore(true, value, other);
       }
       return null;
     });

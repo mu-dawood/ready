@@ -314,21 +314,57 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   }
 
   @override
-  String isAfter(bool equal, DateTime value, DateTime date) {
+  String isDateAfter(bool equal, DateTime value, DateTime other) {
     final String selectString = intl.Intl.select(
         equal, {'true': 'یا برابر', 'other': ''},
-        desc: 'No description provided in @isAfter');
+        desc: 'No description provided in @isDateAfter');
 
-    return 'آپ کے ${selectString}';
+    return 'آپ کو ${selectString}';
   }
 
   @override
-  String isBefore(bool equal, DateTime value, DateTime date) {
+  String isDateBefore(bool equal, DateTime value, DateTime other) {
     final String selectString = intl.Intl.select(
         equal, {'true': 'یا اس کے برابر', 'other': ''},
-        desc: 'No description provided in @isBefore');
+        desc: 'No description provided in @isDateBefore');
 
-    return 'آپ سے پہلے ایک تاریخ درج کرنا ضروری ${selectString}';
+    return 'آپ کو ${selectString}';
+  }
+
+  @override
+  String isDateBetween(bool equal, DateTime value, DateTime min, DateTime max) {
+    final String selectString = intl.Intl.select(
+        equal, {'true': 'یا ایک کے برابر', 'other': ''},
+        desc: 'No description provided in @isDateBetween');
+
+    return 'آپ کو ${selectString}';
+  }
+
+  @override
+  String isTimeAfter(bool equal, DateTime value, DateTime other) {
+    final String selectString = intl.Intl.select(
+        equal, {'true': 'یا برابر', 'other': ''},
+        desc: 'No description provided in @isTimeAfter');
+
+    return 'آپ کو ${selectString}';
+  }
+
+  @override
+  String isTimeBefore(bool equal, DateTime value, DateTime other) {
+    final String selectString = intl.Intl.select(
+        equal, {'true': 'یا اس کے برابر', 'other': ''},
+        desc: 'No description provided in @isTimeBefore');
+
+    return 'آپ کو ${selectString}';
+  }
+
+  @override
+  String isTimeBetween(bool equal, DateTime value, DateTime min, DateTime max) {
+    final String selectString = intl.Intl.select(
+        equal, {'true': 'یا ایک کے برابر', 'other': ''},
+        desc: 'No description provided in @isTimeBetween');
+
+    return 'آپ کو ${selectString}';
   }
 
   @override
@@ -343,15 +379,6 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String isCreditCard(String value) {
     return 'آپ کو ایک درست کریڈٹ کارڈ نمبر درج کرنا ہوگا';
-  }
-
-  @override
-  String isDateBetween(bool equal, DateTime value, DateTime min, DateTime max) {
-    final String selectString = intl.Intl.select(
-        equal, {'true': 'یا ایک کے برابر', 'other': ''},
-        desc: 'No description provided in @isDateBetween');
-
-    return 'آپ کے ${selectString}';
   }
 
   @override

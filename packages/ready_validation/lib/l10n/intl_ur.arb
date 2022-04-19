@@ -408,8 +408,8 @@
       }
     }
   },
-  "isAfter": "آپ کے {other}لئے ایک بعد کی تاریخ درج کرنا ضروری ہے, {equal, select, true {یا برابر} other{}}",
-  "@isAfter": {
+  "isDateAfter": "آپ کو {other} کے بعد کی تاریخ درج کرنی ہوگی, {equal, select, true {یا برابر} other{}}",
+  "@isDateAfter": {
     "placeholders": {
       "equal": {
         "type": "bool"
@@ -418,14 +418,14 @@
         "type": "DateTime",
         "format": "yMEd"
       },
-      "date": {
+      "other": {
         "type": "DateTime",
         "format": "yMEd"
       }
     }
   },
-  "isBefore": "آپ سے پہلے ایک تاریخ درج کرنا ضروری {other}ہے, {equal, select, true {یا اس کے برابر} other{}}",
-  "@isBefore": {
+  "isDateBefore": "آپ کو {other} سے پہلے کی تاریخ درج کرنی ہوگی, {equal, select, true {یا اس کے برابر} other{}}",
+  "@isDateBefore": {
     "placeholders": {
       "equal": {
         "type": "bool"
@@ -434,9 +434,81 @@
         "type": "DateTime",
         "format": "yMEd"
       },
-      "date": {
+      "other": {
         "type": "DateTime",
         "format": "yMEd"
+      }
+    }
+  },
+  "isDateBetween": "آپ کو {min} اور {max} کے درمیان تاریخ درج کرنی ہوگی, {equal, select, true {یا ایک کے برابر} other{}}",
+  "@isDateBetween": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "min": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "max": {
+        "type": "DateTime",
+        "format": "yMEd"
+      }
+    }
+  },
+  "isTimeAfter": "آپ کو {other} کے بعد کا وقت درج کرنا ہوگا, {equal, select, true {یا برابر} other{}}",
+  "@isTimeAfter": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "other": {
+        "type": "DateTime",
+        "format": "jm"
+      }
+    }
+  },
+  "isTimeBefore": "آپ کو {other} سے پہلے کا وقت درج کرنا ہوگا, {equal, select, true {یا اس کے برابر} other{}}",
+  "@isTimeBefore": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "other": {
+        "type": "DateTime",
+        "format": "jm"
+      }
+    }
+  },
+  "isTimeBetween": "آپ کو {min} اور {max} کے درمیان وقت درج کرنا ہوگا, {equal, select, true {یا ایک کے برابر} other{}}",
+  "@isTimeBetween": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "min": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "max": {
+        "type": "DateTime",
+        "format": "jm"
       }
     }
   },
@@ -465,26 +537,6 @@
     "placeholders": {
       "value": {
         "type": "String"
-      }
-    }
-  },
-  "isDateBetween": "آپ کے {min}{max}درمیان ایک تاریخ درج کرنا ضروری ہے اور, {equal, select, true {یا ایک کے برابر} other{}}",
-  "@isDateBetween": {
-    "placeholders": {
-      "equal": {
-        "type": "bool"
-      },
-      "value": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
-      "min": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
-      "max": {
-        "type": "DateTime",
-        "format": "yMEd"
       }
     }
   },

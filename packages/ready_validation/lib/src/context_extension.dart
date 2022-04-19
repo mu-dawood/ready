@@ -11,6 +11,7 @@ part './field_validators/list_extensions.dart';
 part './field_validators/map_extensions.dart';
 part './field_validators/number_extension.dart';
 part './field_validators/string_validation.dart';
+part './field_validators/time_of_day_extensions.dart';
 part 'field_validator.dart';
 part 'type_extension.dart';
 
@@ -197,9 +198,10 @@ extension SharedValidationExtensions<T, R> on FieldValidator<T, R> {
   }
 
   /// check is the value is not in [values]
-  FieldValidator<T, R> validateWith(String? Function(R value) validator) {
+  FieldValidator<T, R> validateWith(
+      String? Function(R value, ReadyValidationMessages messages) validator) {
     return next((messages, value) {
-      return validator(value);
+      return validator(value, messages);
     });
   }
 }

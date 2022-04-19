@@ -292,17 +292,41 @@ abstract class ReadyValidationMessages {
   /// **'Sorry! you have to enter a valid youtube video {id, select, _{url} other{with id: {id}}}.'**
   String invalidYoutubeVideoUrl(String value, String id);
 
-  /// No description provided for @isAfter.
+  /// No description provided for @isDateAfter.
   ///
   /// In en, this message translates to:
-  /// **'You must enter a later date {other}for, {equal, select, true {or equal to} other{}}'**
-  String isAfter(bool equal, DateTime value, DateTime date);
+  /// **'You must enter a  date after {other}, {equal, select, true {or equal to} other{}}'**
+  String isDateAfter(bool equal, DateTime value, DateTime other);
 
-  /// No description provided for @isBefore.
+  /// No description provided for @isDateBefore.
   ///
   /// In en, this message translates to:
-  /// **'You must enter a date prior {other}to, {equal, select, true {or equal to} other{}}'**
-  String isBefore(bool equal, DateTime value, DateTime date);
+  /// **'You must enter a date before {other}, {equal, select, true {or equal to} other{}}'**
+  String isDateBefore(bool equal, DateTime value, DateTime other);
+
+  /// No description provided for @isDateBetween.
+  ///
+  /// In en, this message translates to:
+  /// **'You must enter a date between {min} and {max}, {equal, select, true {or equal to one} other{}}'**
+  String isDateBetween(bool equal, DateTime value, DateTime min, DateTime max);
+
+  /// No description provided for @isTimeAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'You must enter a time after {other}, {equal, select, true {or equal to} other{}}'**
+  String isTimeAfter(bool equal, DateTime value, DateTime other);
+
+  /// No description provided for @isTimeBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'You must enter a time before {other}, {equal, select, true {or equal to} other{}}'**
+  String isTimeBefore(bool equal, DateTime value, DateTime other);
+
+  /// No description provided for @isTimeBetween.
+  ///
+  /// In en, this message translates to:
+  /// **'You must enter a time between {min} and {max}, {equal, select, true {or equal to one} other{}}'**
+  String isTimeBetween(bool equal, DateTime value, DateTime min, DateTime max);
 
   /// No description provided for @isBetween.
   ///
@@ -315,12 +339,6 @@ abstract class ReadyValidationMessages {
   /// In en, this message translates to:
   /// **'You must enter the credit card number'**
   String isCreditCard(String value);
-
-  /// No description provided for @isDateBetween.
-  ///
-  /// In en, this message translates to:
-  /// **'You must enter a date {min}{max}between and, {equal, select, true {or equal to one} other{}}'**
-  String isDateBetween(bool equal, DateTime value, DateTime min, DateTime max);
 
   /// No description provided for @isDateTime.
   ///

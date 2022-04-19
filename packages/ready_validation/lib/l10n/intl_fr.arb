@@ -408,8 +408,8 @@
       }
     }
   },
-  "isAfter": "Vous devez entrer une date ultérieure {other}pour, {equal, select, true {ou égal à} other{}}",
-  "@isAfter": {
+  "isDateAfter": "Vous devez entrer une date après {other}, {equal, select, true {ou égal à} other{}}",
+  "@isDateAfter": {
     "placeholders": {
       "equal": {
         "type": "bool"
@@ -418,14 +418,14 @@
         "type": "DateTime",
         "format": "yMEd"
       },
-      "date": {
+      "other": {
         "type": "DateTime",
         "format": "yMEd"
       }
     }
   },
-  "isBefore": "Vous devez entrer une date antérieure {other}à, {equal, select, true {ou égal à} other{}}",
-  "@isBefore": {
+  "isDateBefore": "Vous devez entrer une date avant le {other}, {equal, select, true {ou égal à} other{}}",
+  "@isDateBefore": {
     "placeholders": {
       "equal": {
         "type": "bool"
@@ -434,9 +434,81 @@
         "type": "DateTime",
         "format": "yMEd"
       },
-      "date": {
+      "other": {
         "type": "DateTime",
         "format": "yMEd"
+      }
+    }
+  },
+  "isDateBetween": "Vous devez entrer une date entre {min} et {max}, {equal, select, true{ou égal à un} other{}}",
+  "@isDateBetween": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "min": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "max": {
+        "type": "DateTime",
+        "format": "yMEd"
+      }
+    }
+  },
+  "isTimeAfter": "Vous devez saisir une heure après {other}, {equal, select, true {ou égal à} other{}}",
+  "@isTimeAfter": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "other": {
+        "type": "DateTime",
+        "format": "jm"
+      }
+    }
+  },
+  "isTimeBefore": "Vous devez saisir une heure avant {other}, {equal, select, true {ou égal à} other{}}",
+  "@isTimeBefore": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "other": {
+        "type": "DateTime",
+        "format": "jm"
+      }
+    }
+  },
+  "isTimeBetween": "Vous devez saisir un temps compris entre {min} et {max}, {equal, select, true{ou égal à un} other{}}",
+  "@isTimeBetween": {
+    "placeholders": {
+      "equal": {
+        "type": "bool"
+      },
+      "value": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "min": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "max": {
+        "type": "DateTime",
+        "format": "jm"
       }
     }
   },
@@ -465,26 +537,6 @@
     "placeholders": {
       "value": {
         "type": "String"
-      }
-    }
-  },
-  "isDateBetween": "Vous devez entrer une date {min}{max}comprise entre et, {equal, select, true{ou égal à un} other{}}",
-  "@isDateBetween": {
-    "placeholders": {
-      "equal": {
-        "type": "bool"
-      },
-      "value": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
-      "min": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
-      "max": {
-        "type": "DateTime",
-        "format": "yMEd"
       }
     }
   },
