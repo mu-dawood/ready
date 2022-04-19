@@ -1,5 +1,3 @@
-
-
 import 'package:intl/intl.dart' as intl;
 import 'messages.dart';
 
@@ -30,13 +28,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String greaterThan(bool equal, num value, num min) {
     final String selectString = intl.Intl.select(
-      equal,
-      {
-        'true': 'یا برابر',
-        'other': ''
-      },
-      desc: 'No description provided in @greaterThan'
-    );
+        equal, {'true': 'یا برابر', 'other': ''},
+        desc: 'No description provided in @greaterThan');
 
     return 'قیمت سے زیادہ ہونا چاہئے, ${selectString}';
   }
@@ -64,13 +57,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String invalidAngelCompanyUrl(String value, String company) {
     final String selectString = intl.Intl.select(
-      company,
-      {
-        '_': ' url ',
-        'other': ' name: ${company}'
-      },
-      desc: 'No description provided in @invalidAngelCompanyUrl'
-    );
+        company, {'_': ' url ', 'other': ' name: ${company}'},
+        desc: 'No description provided in @invalidAngelCompanyUrl');
 
     return 'معذرت! آپ کو ایک درست فرشتہ کمپنی درج کرنی ہوگی $selectString کے ساتھ۔';
   }
@@ -78,27 +66,17 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String invalidAngelJobUrl(String value, String jobId) {
     final String selectString = intl.Intl.select(
-      jobId,
-      {
-        '_': ' url ',
-        'other': ' id کے ساتھ: ${jobId}'
-      },
-      desc: 'No description provided in @invalidAngelJobUrl'
-    );
+        jobId, {'_': ' url ', 'other': ' id کے ساتھ: ${jobId}'},
+        desc: 'No description provided in @invalidAngelJobUrl');
 
     return 'معذرت! آپ کو ایک درست فرشتہ جاب درج کرنا ہوگا $selectString ۔';
   }
 
   @override
   String invalidCrunchbaseOrganizationUrl(String value, String organization) {
-    final String selectString = intl.Intl.select(
-      organization,
-      {
-        '_': ' url ',
-        'other': ' نام کے ساتھ درج کرنا ہوگا: ${organization}'
-      },
-      desc: 'No description provided in @invalidCrunchbaseOrganizationUrl'
-    );
+    final String selectString = intl.Intl.select(organization,
+        {'_': ' url ', 'other': ' نام کے ساتھ درج کرنا ہوگا: ${organization}'},
+        desc: 'No description provided in @invalidCrunchbaseOrganizationUrl');
 
     return 'معذرت! آپ کو ایک درست کرنچبیس تنظیم $selectString ۔';
   }
@@ -106,13 +84,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String invalidCrunchbasePersonUrl(String value, String person) {
     final String selectString = intl.Intl.select(
-      person,
-      {
-        '_': ' url ',
-        'other': ' نام کے ساتھ: ${person}'
-      },
-      desc: 'No description provided in @invalidCrunchbasePersonUrl'
-    );
+        person, {'_': ' url ', 'other': ' نام کے ساتھ: ${person}'},
+        desc: 'No description provided in @invalidCrunchbasePersonUrl');
 
     return 'معذرت! آپ کو ایک درست crunchbase person $selectString درج کرنا ہوگا۔';
   }
@@ -120,14 +93,13 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String invalidFacebookUrl(String value, String name, String id) {
     final String selectString = intl.Intl.select(
-      name,
-      {
-        '_': '{id, select, _{ url ',
-        'other': ' user آئی ڈی کے ساتھ: ${id}',
-        'other': ' user نام کے ساتھ: ${name}'
-      },
-      desc: 'No description provided in @invalidFacebookUrl'
-    );
+        name,
+        {
+          '_': '{id, select, _{ url ',
+          'other': ' user آئی ڈی کے ساتھ: ${id}',
+          'other': ' user نام کے ساتھ: ${name}'
+        },
+        desc: 'No description provided in @invalidFacebookUrl');
 
     return 'معذرت! آپ کو ایک درست facebook $selectString کرنا ہوگا۔';
   }
@@ -135,16 +107,15 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String invalidGitHubUrl(String value, String user, String repository) {
     final String selectString = intl.Intl.select(
-      user,
-      {
-        '_': '{repository, select, _{ url ',
-        'other': ' repository: $repository',
-        'other': ' user نام کے ساتھ: $user {repository, select, _{',
-        'other': ' درج کرنا ہوگا۔ {repository, select, _{',
-        'other': ' اور repository: ${repository}'
-      },
-      desc: 'No description provided in @invalidGitHubUrl'
-    );
+        user,
+        {
+          '_': '{repository, select, _{ url ',
+          'other': ' repository: $repository',
+          'other': ' user نام کے ساتھ: $user {repository, select, _{',
+          'other': ' درج کرنا ہوگا۔ {repository, select, _{',
+          'other': ' اور repository: ${repository}'
+        },
+        desc: 'No description provided in @invalidGitHubUrl');
 
     return 'معذرت! آپ کو ایک درست gitHub $selectString ۔';
   }
@@ -152,13 +123,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String invalidGooglePlusUrl(String value, String userName, String id) {
     final String selectString = intl.Intl.select(
-      userName,
-      {
-        '_': ' url ',
-        'other': ' صارف نام کے ساتھ: ${userName}'
-      },
-      desc: 'No description provided in @invalidGooglePlusUrl'
-    );
+        userName, {'_': ' url ', 'other': ' صارف نام کے ساتھ: ${userName}'},
+        desc: 'No description provided in @invalidGooglePlusUrl');
 
     return 'معذرت! آپ کو ایک درست گوگل پلس درج کرنا ہوگا $selectString ۔';
   }
@@ -166,13 +132,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String invalidHackerNewsItemUrl(String value, String id) {
     final String selectString = intl.Intl.select(
-      id,
-      {
-        '_': ' url ',
-        'other': ' id کے ساتھ: $id'
-      },
-      desc: 'No description provided in @invalidHackerNewsItemUrl'
-    );
+        id, {'_': ' url ', 'other': ' id کے ساتھ: $id'},
+        desc: 'No description provided in @invalidHackerNewsItemUrl');
 
     return 'معذرت! آپ کو ایک درست ہیکر نیوز آئٹم درج کرنا ہوگا $selectString ۔';
   }
@@ -180,13 +141,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String invalidHackerNewsUserUrl(String value, String id) {
     final String selectString = intl.Intl.select(
-      id,
-      {
-        '_': ' url ',
-        'other': ' id کے ساتھ درج کرنا ہوگا: $id'
-      },
-      desc: 'No description provided in @invalidHackerNewsUserUrl'
-    );
+        id, {'_': ' url ', 'other': ' id کے ساتھ درج کرنا ہوگا: $id'},
+        desc: 'No description provided in @invalidHackerNewsUserUrl');
 
     return 'معذرت! آپ کو ایک درست ہیکر نیوز صارف $selectString ۔';
   }
@@ -194,13 +150,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String invalidInstagramUrl(String value, String user) {
     final String selectString = intl.Intl.select(
-      user,
-      {
-        '_': ' url ',
-        'other': ' user: $user'
-      },
-      desc: 'No description provided in @invalidInstagramUrl'
-    );
+        user, {'_': ' url ', 'other': ' user: $user'},
+        desc: 'No description provided in @invalidInstagramUrl');
 
     return 'معذرت! آپ کو ایک درست انسٹاگرام درج کرنا ہوگا $selectString کے ساتھ۔';
   }
@@ -212,14 +163,9 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
 
   @override
   String invalidLinkedInPostUrl(String value, String id) {
-    final String selectString = intl.Intl.select(
-      id,
-      {
-        '_': ' url ',
-        'other': ' id کے ساتھ ایک درست لنک درج کرنا ہوگا: $id'
-      },
-      desc: 'No description provided in @invalidLinkedInPostUrl'
-    );
+    final String selectString = intl.Intl.select(id,
+        {'_': ' url ', 'other': ' id کے ساتھ ایک درست لنک درج کرنا ہوگا: $id'},
+        desc: 'No description provided in @invalidLinkedInPostUrl');
 
     return 'معذرت! آپ کو پوسٹ ${selectString}';
   }
@@ -232,13 +178,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String invalidMediumPostUrl(String value, String postId) {
     final String selectString = intl.Intl.select(
-      postId,
-      {
-        '_': ' url ',
-        'other': ' درج کرنا ہوگا: ${postId}'
-      },
-      desc: 'No description provided in @invalidMediumPostUrl'
-    );
+        postId, {'_': ' url ', 'other': ' درج کرنا ہوگا: ${postId}'},
+        desc: 'No description provided in @invalidMediumPostUrl');
 
     return 'معذرت! آپ کو id کے ساتھ ایک درست میڈیم پوسٹ $selectString ۔';
   }
@@ -246,14 +187,13 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String invalidMediumUserUrl(String value, String userName, String id) {
     final String selectString = intl.Intl.select(
-      userName,
-      {
-        '_': '{id, select, _{ url ',
-        'other': ' id کے ساتھ: $id',
-        'other': ' user name: ${userName}'
-      },
-      desc: 'No description provided in @invalidMediumUserUrl'
-    );
+        userName,
+        {
+          '_': '{id, select, _{ url ',
+          'other': ' id کے ساتھ: $id',
+          'other': ' user name: ${userName}'
+        },
+        desc: 'No description provided in @invalidMediumUserUrl');
 
     return 'معذرت! آپ کو ایک درست میڈیم صارف درج کرنا ہوگا $selectString کے ساتھ۔';
   }
@@ -261,13 +201,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String invalidRedditUrl(String value, String user) {
     final String selectString = intl.Intl.select(
-      user,
-      {
-        '_': ' url ',
-        'other': ' user: $user'
-      },
-      desc: 'No description provided in @invalidRedditUrl'
-    );
+        user, {'_': ' url ', 'other': ' user: $user'},
+        desc: 'No description provided in @invalidRedditUrl');
 
     return 'معذرت! آپ کو ایک درست reddit درج کرنا ہوگا $selectString کے ساتھ۔';
   }
@@ -275,13 +210,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String invalidSnapchatUrl(String value, String user) {
     final String selectString = intl.Intl.select(
-      user,
-      {
-        '_': ' url ',
-        'other': ' user: $user'
-      },
-      desc: 'No description provided in @invalidSnapchatUrl'
-    );
+        user, {'_': ' url ', 'other': ' user: $user'},
+        desc: 'No description provided in @invalidSnapchatUrl');
 
     return 'معذرت! آپ کو ایک درست اسنیپ چیٹ درج کرنا ہوگا $selectString کے ساتھ۔';
   }
@@ -289,14 +219,13 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String invalidStackexchangeUrl(String value, String user, String id) {
     final String selectString = intl.Intl.select(
-      user,
-      {
-        '_': '{id, select, _{ url ',
-        'other': ' id کے ساتھ: $id',
-        'other': ' user name: $user'
-      },
-      desc: 'No description provided in @invalidStackexchangeUrl'
-    );
+        user,
+        {
+          '_': '{id, select, _{ url ',
+          'other': ' id کے ساتھ: $id',
+          'other': ' user name: $user'
+        },
+        desc: 'No description provided in @invalidStackexchangeUrl');
 
     return 'معذرت! آپ کو ایک درست stackexchange درج کرنا ہوگا $selectString کے ساتھ۔';
   }
@@ -304,13 +233,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String invalidStackoverflowQuestionUrl(String value, String id) {
     final String selectString = intl.Intl.select(
-      id,
-      {
-        '_': ' url ',
-        'other': ' id کے ساتھ: $id'
-      },
-      desc: 'No description provided in @invalidStackoverflowQuestionUrl'
-    );
+        id, {'_': ' url ', 'other': ' id کے ساتھ: $id'},
+        desc: 'No description provided in @invalidStackoverflowQuestionUrl');
 
     return 'معذرت! آپ کو ایک درست اسٹیک اوور فلو سوال درج کرنا ہوگا $selectString ۔';
   }
@@ -318,13 +242,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String invalidStackoverflowUserUrl(String value, String id) {
     final String selectString = intl.Intl.select(
-      id,
-      {
-        '_': ' url ',
-        'other': ' id: $id'
-      },
-      desc: 'No description provided in @invalidStackoverflowUserUrl'
-    );
+        id, {'_': ' url ', 'other': ' id: $id'},
+        desc: 'No description provided in @invalidStackoverflowUserUrl');
 
     return 'معذرت! آپ کو ایک درست اسٹیک اوور فلو صارف $selectString کے ساتھ درج کرنا ہوگا۔';
   }
@@ -332,43 +251,33 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String invalidTelegramProfileUrl(String value, String userName) {
     final String selectString = intl.Intl.select(
-      userName,
-      {
-        '_': ' url ',
-        'other': ' صارف نام کے ساتھ: ${userName}'
-      },
-      desc: 'No description provided in @invalidTelegramProfileUrl'
-    );
+        userName, {'_': ' url ', 'other': ' صارف نام کے ساتھ: ${userName}'},
+        desc: 'No description provided in @invalidTelegramProfileUrl');
 
     return 'معذرت! آپ کو ایک درست ٹیلیگرام پروفائل درج کرنا ہوگا $selectString ۔';
   }
 
   @override
-  String invalidTwitterStatusUrl(String value, String userName, String tweetId) {
+  String invalidTwitterStatusUrl(
+      String value, String userName, String tweetId) {
     final String selectString = intl.Intl.select(
-      tweetId,
-      {
-        '_': ' url ',
-        'other': ' id کے ساتھ: ${tweetId}',
-        '_': '',
-        'other': ' user name: ${userName}'
-      },
-      desc: 'No description provided in @invalidTwitterStatusUrl'
-    );
+        tweetId,
+        {
+          '_': ' url ',
+          'other': ' id کے ساتھ: ${tweetId}',
+          '_': '',
+          'other': ' user name: ${userName}'
+        },
+        desc: 'No description provided in @invalidTwitterStatusUrl');
 
     return 'معذرت! آپ کو ایک درست ٹویٹر اسٹیٹس درج کرنا ہوگا $selectString کے ساتھ۔';
   }
 
   @override
   String invalidTwitterUserUrl(String value, String userName) {
-    final String selectString = intl.Intl.select(
-      userName,
-      {
-        '_': ' url ',
-        'other': ' صارف نام کے ساتھ درج کرنا ہوگا: ${userName}'
-      },
-      desc: 'No description provided in @invalidTwitterUserUrl'
-    );
+    final String selectString = intl.Intl.select(userName,
+        {'_': ' url ', 'other': ' صارف نام کے ساتھ درج کرنا ہوگا: ${userName}'},
+        desc: 'No description provided in @invalidTwitterUserUrl');
 
     return 'معذرت! آپ کو ایک درست ٹویٹر صارف $selectString ۔';
   }
@@ -376,13 +285,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String invalidYoutubeChannelUrl(String value, String id) {
     final String selectString = intl.Intl.select(
-      id,
-      {
-        '_': ' url ',
-        'other': ' id: $id'
-      },
-      desc: 'No description provided in @invalidYoutubeChannelUrl'
-    );
+        id, {'_': ' url ', 'other': ' id: $id'},
+        desc: 'No description provided in @invalidYoutubeChannelUrl');
 
     return 'معذرت! آپ کو ایک درست یوٹیوب چینل $selectString کے ساتھ درج کرنا ہوگا۔';
   }
@@ -390,13 +294,12 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String invalidYoutubeUserUrl(String value, String userName) {
     final String selectString = intl.Intl.select(
-      userName,
-      {
-        '_': ' url ',
-        'other': ' صارف کے نام کے ساتھ درج کرنا ہوگا: ${userName}'
-      },
-      desc: 'No description provided in @invalidYoutubeUserUrl'
-    );
+        userName,
+        {
+          '_': ' url ',
+          'other': ' صارف کے نام کے ساتھ درج کرنا ہوگا: ${userName}'
+        },
+        desc: 'No description provided in @invalidYoutubeUserUrl');
 
     return 'معذرت! آپ کو ایک درست یوٹیوب صارف $selectString ۔';
   }
@@ -404,13 +307,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String invalidYoutubeVideoUrl(String value, String id) {
     final String selectString = intl.Intl.select(
-      id,
-      {
-        '_': ' url ',
-        'other': ' id: $id'
-      },
-      desc: 'No description provided in @invalidYoutubeVideoUrl'
-    );
+        id, {'_': ' url ', 'other': ' id: $id'},
+        desc: 'No description provided in @invalidYoutubeVideoUrl');
 
     return 'معذرت! آپ کو ایک درست یوٹیوب ویڈیو $selectString کے ساتھ درج کرنا ہوگا۔';
   }
@@ -418,13 +316,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String isAfter(bool equal, DateTime value, DateTime date) {
     final String selectString = intl.Intl.select(
-      equal,
-      {
-        'true': 'یا برابر',
-        'other': ''
-      },
-      desc: 'No description provided in @isAfter'
-    );
+        equal, {'true': 'یا برابر', 'other': ''},
+        desc: 'No description provided in @isAfter');
 
     return 'آپ کے ${selectString}';
   }
@@ -432,13 +325,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String isBefore(bool equal, DateTime value, DateTime date) {
     final String selectString = intl.Intl.select(
-      equal,
-      {
-        'true': 'یا اس کے برابر',
-        'other': ''
-      },
-      desc: 'No description provided in @isBefore'
-    );
+        equal, {'true': 'یا اس کے برابر', 'other': ''},
+        desc: 'No description provided in @isBefore');
 
     return 'آپ سے پہلے ایک تاریخ درج کرنا ضروری ${selectString}';
   }
@@ -446,13 +334,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String isBetween(bool equal, num value, num min, num max) {
     final String selectString = intl.Intl.select(
-      equal,
-      {
-        'true': 'یا برابر',
-        'other': ''
-      },
-      desc: 'No description provided in @isBetween'
-    );
+        equal, {'true': 'یا برابر', 'other': ''},
+        desc: 'No description provided in @isBetween');
 
     return 'قیمت $selectString سے زیادہ اور کم ہونا ضروری ہے';
   }
@@ -465,13 +348,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String isDateBetween(bool equal, DateTime value, DateTime min, DateTime max) {
     final String selectString = intl.Intl.select(
-      equal,
-      {
-        'true': 'یا ایک کے برابر',
-        'other': ''
-      },
-      desc: 'No description provided in @isDateBetween'
-    );
+        equal, {'true': 'یا ایک کے برابر', 'other': ''},
+        desc: 'No description provided in @isDateBetween');
 
     return 'آپ کے ${selectString}';
   }
@@ -488,9 +366,11 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
 
   @override
   String isDivisibleBy(num value, num division) {
-    final intl.NumberFormat valueNumberFormat = intl.NumberFormat.decimalPattern(localeName);
+    final intl.NumberFormat valueNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
     final String valueString = valueNumberFormat.format(value);
-    final intl.NumberFormat divisionNumberFormat = intl.NumberFormat.decimalPattern(localeName);
+    final intl.NumberFormat divisionNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
     final String divisionString = divisionNumberFormat.format(division);
 
     return 'ان پٹ ویلیو کی طرف سے تقسیم ہونا ضروری ہے $divisionString';
@@ -503,7 +383,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
 
   @override
   String isEven(num value) {
-    final intl.NumberFormat valueNumberFormat = intl.NumberFormat.decimalPattern(localeName);
+    final intl.NumberFormat valueNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
     final String valueString = valueNumberFormat.format(value);
 
     return 'قدر ایک بھی عدد ہونا ضروری ہے';
@@ -521,7 +402,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
 
   @override
   String isNegative(num value) {
-    final intl.NumberFormat valueNumberFormat = intl.NumberFormat.decimalPattern(localeName);
+    final intl.NumberFormat valueNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
     final String valueString = valueNumberFormat.format(value);
 
     return 'قدر منفی ہونا ضروری ہے';
@@ -539,7 +421,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
 
   @override
   String isOdd(num value) {
-    final intl.NumberFormat valueNumberFormat = intl.NumberFormat.decimalPattern(localeName);
+    final intl.NumberFormat valueNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
     final String valueString = valueNumberFormat.format(value);
 
     return 'قدر ایک عجیب عدد ہونا ضروری ہے';
@@ -547,7 +430,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
 
   @override
   String isPositive(num value) {
-    final intl.NumberFormat valueNumberFormat = intl.NumberFormat.decimalPattern(localeName);
+    final intl.NumberFormat valueNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
     final String valueString = valueNumberFormat.format(value);
 
     return 'قدر مثبت ہونا چاہئے';
@@ -561,13 +445,8 @@ class ReadyValidationMessagesUr extends ReadyValidationMessages {
   @override
   String lessThan(bool equal, num value, num max) {
     final String selectString = intl.Intl.select(
-      equal,
-      {
-        'true': 'یا برابر',
-        'other': ''
-      },
-      desc: 'No description provided in @lessThan'
-    );
+        equal, {'true': 'یا برابر', 'other': ''},
+        desc: 'No description provided in @lessThan');
 
     return 'قیمت سے کم ہونا ضروری ہے, ${selectString}';
   }

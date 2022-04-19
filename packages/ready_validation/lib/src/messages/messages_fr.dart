@@ -1,5 +1,3 @@
-
-
 import 'package:intl/intl.dart' as intl;
 import 'messages.dart';
 
@@ -30,14 +28,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String greaterThan(bool equal, num value, num min) {
     final String selectString = intl.Intl.select(
-      equal,
-      {
-        'true': 'ou égal à',
-        'autre': '',
-        'other': ''
-      },
-      desc: 'No description provided in @greaterThan'
-    );
+        equal, {'true': 'ou égal à', 'autre': '', 'other': ''},
+        desc: 'No description provided in @greaterThan');
 
     return 'La valeur doit être supérieure à, ${selectString}';
   }
@@ -65,13 +57,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String invalidAngelCompanyUrl(String value, String company) {
     final String selectString = intl.Intl.select(
-      company,
-      {
-        '_': ' url ',
-        'other': ' avec nom: ${company}'
-      },
-      desc: 'No description provided in @invalidAngelCompanyUrl'
-    );
+        company, {'_': ' url ', 'other': ' avec nom: ${company}'},
+        desc: 'No description provided in @invalidAngelCompanyUrl');
 
     return 'Pardon! vous devez entrer une société providentielle valide $selectString .';
   }
@@ -79,13 +66,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String invalidAngelJobUrl(String value, String jobId) {
     final String selectString = intl.Intl.select(
-      jobId,
-      {
-        '_': ' url ',
-        'other': ' avec identifiant: ${jobId}'
-      },
-      desc: 'No description provided in @invalidAngelJobUrl'
-    );
+        jobId, {'_': ' url ', 'other': ' avec identifiant: ${jobId}'},
+        desc: 'No description provided in @invalidAngelJobUrl');
 
     return 'Pardon! vous devez saisir un job providentiel valide $selectString .';
   }
@@ -93,13 +75,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String invalidCrunchbaseOrganizationUrl(String value, String organization) {
     final String selectString = intl.Intl.select(
-      organization,
-      {
-        '_': ' url ',
-        'other': ' avec nom: ${organization}'
-      },
-      desc: 'No description provided in @invalidCrunchbaseOrganizationUrl'
-    );
+        organization, {'_': ' url ', 'other': ' avec nom: ${organization}'},
+        desc: 'No description provided in @invalidCrunchbaseOrganizationUrl');
 
     return 'Pardon! vous devez entrer une organisation crunchbase valide $selectString .';
   }
@@ -107,13 +84,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String invalidCrunchbasePersonUrl(String value, String person) {
     final String selectString = intl.Intl.select(
-      person,
-      {
-        '_': ' url ',
-        'other': ' avec nom: ${person}'
-      },
-      desc: 'No description provided in @invalidCrunchbasePersonUrl'
-    );
+        person, {'_': ' url ', 'other': ' avec nom: ${person}'},
+        desc: 'No description provided in @invalidCrunchbasePersonUrl');
 
     return 'Pardon! vous devez entrer une personne crunchbase valide $selectString .';
   }
@@ -121,14 +93,13 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String invalidFacebookUrl(String value, String name, String id) {
     final String selectString = intl.Intl.select(
-      name,
-      {
-        '_': '{id, select, _{ url ',
-        'other': ' user avec identifiant: ${id}',
-        'other': ' user avec nom: ${name}'
-      },
-      desc: 'No description provided in @invalidFacebookUrl'
-    );
+        name,
+        {
+          '_': '{id, select, _{ url ',
+          'other': ' user avec identifiant: ${id}',
+          'other': ' user avec nom: ${name}'
+        },
+        desc: 'No description provided in @invalidFacebookUrl');
 
     return 'Pardon! vous devez entrer un $selectString .';
   }
@@ -136,29 +107,23 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String invalidGitHubUrl(String value, String user, String repository) {
     final String selectString = intl.Intl.select(
-      user,
-      {
-        '_': '{repository, select, _{ url ',
-        'other': ' repository: $repository',
-        'other': ' user avec nom: $user {repository, select, _{',
-        'other': ' et dépôt : ${repository}'
-      },
-      desc: 'No description provided in @invalidGitHubUrl'
-    );
+        user,
+        {
+          '_': '{repository, select, _{ url ',
+          'other': ' repository: $repository',
+          'other': ' user avec nom: $user {repository, select, _{',
+          'other': ' et dépôt : ${repository}'
+        },
+        desc: 'No description provided in @invalidGitHubUrl');
 
     return 'Pardon! vous devez saisir un gitHub $selectString .';
   }
 
   @override
   String invalidGooglePlusUrl(String value, String userName, String id) {
-    final String selectString = intl.Intl.select(
-      userName,
-      {
-        '_': ' url ',
-        'other': ' avec le nom d\'utilisateur : ${userName}'
-      },
-      desc: 'No description provided in @invalidGooglePlusUrl'
-    );
+    final String selectString = intl.Intl.select(userName,
+        {'_': ' url ', 'other': ' avec le nom d\'utilisateur : ${userName}'},
+        desc: 'No description provided in @invalidGooglePlusUrl');
 
     return 'Pardon! vous devez entrer un google plus valide $selectString .';
   }
@@ -166,13 +131,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String invalidHackerNewsItemUrl(String value, String id) {
     final String selectString = intl.Intl.select(
-      id,
-      {
-        '_': ' url ',
-        'other': ' avec identifiant: ${id}'
-      },
-      desc: 'No description provided in @invalidHackerNewsItemUrl'
-    );
+        id, {'_': ' url ', 'other': ' avec identifiant: ${id}'},
+        desc: 'No description provided in @invalidHackerNewsItemUrl');
 
     return 'Pardon! vous devez saisir un article de hacker valide $selectString .';
   }
@@ -180,13 +140,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String invalidHackerNewsUserUrl(String value, String id) {
     final String selectString = intl.Intl.select(
-      id,
-      {
-        '_': ' url ',
-        'other': ' avec identifiant: ${id}'
-      },
-      desc: 'No description provided in @invalidHackerNewsUserUrl'
-    );
+        id, {'_': ' url ', 'other': ' avec identifiant: ${id}'},
+        desc: 'No description provided in @invalidHackerNewsUserUrl');
 
     return 'Pardon! vous devez saisir un utilisateur de hacker news valide $selectString .';
   }
@@ -194,13 +149,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String invalidInstagramUrl(String value, String user) {
     final String selectString = intl.Intl.select(
-      user,
-      {
-        '_': ' url ',
-        'other': ' avec l\'utilisateur: ${user}'
-      },
-      desc: 'No description provided in @invalidInstagramUrl'
-    );
+        user, {'_': ' url ', 'other': ' avec l\'utilisateur: ${user}'},
+        desc: 'No description provided in @invalidInstagramUrl');
 
     return 'Pardon! vous devez entrer un instagram valide $selectString .';
   }
@@ -213,13 +163,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String invalidLinkedInPostUrl(String value, String id) {
     final String selectString = intl.Intl.select(
-      id,
-      {
-        '_': ' url ',
-        'other': ' avec identifiant: ${id}'
-      },
-      desc: 'No description provided in @invalidLinkedInPostUrl'
-    );
+        id, {'_': ' url ', 'other': ' avec identifiant: ${id}'},
+        desc: 'No description provided in @invalidLinkedInPostUrl');
 
     return 'Pardon! vous devez saisir un lien valide dans la publication ${selectString}';
   }
@@ -232,13 +177,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String invalidMediumPostUrl(String value, String postId) {
     final String selectString = intl.Intl.select(
-      postId,
-      {
-        '_': ' url ',
-        'other': ' avec identifiant: ${postId}'
-      },
-      desc: 'No description provided in @invalidMediumPostUrl'
-    );
+        postId, {'_': ' url ', 'other': ' avec identifiant: ${postId}'},
+        desc: 'No description provided in @invalidMediumPostUrl');
 
     return 'Pardon! vous devez saisir une publication de support valide $selectString .';
   }
@@ -246,14 +186,13 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String invalidMediumUserUrl(String value, String userName, String id) {
     final String selectString = intl.Intl.select(
-      userName,
-      {
-        '_': '{id, select, _{ url ',
-        'other': ' avec identifiant: ${id}',
-        'other': ' avec l\'utilisateur name: ${userName}'
-      },
-      desc: 'No description provided in @invalidMediumUserUrl'
-    );
+        userName,
+        {
+          '_': '{id, select, _{ url ',
+          'other': ' avec identifiant: ${id}',
+          'other': ' avec l\'utilisateur name: ${userName}'
+        },
+        desc: 'No description provided in @invalidMediumUserUrl');
 
     return 'Pardon! vous devez saisir un utilisateur de support valide $selectString .';
   }
@@ -261,13 +200,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String invalidRedditUrl(String value, String user) {
     final String selectString = intl.Intl.select(
-      user,
-      {
-        '_': ' url ',
-        'other': ' avec l\'utilisateur: ${user}'
-      },
-      desc: 'No description provided in @invalidRedditUrl'
-    );
+        user, {'_': ' url ', 'other': ' avec l\'utilisateur: ${user}'},
+        desc: 'No description provided in @invalidRedditUrl');
 
     return 'Pardon! vous devez entrer un reddit valide $selectString .';
   }
@@ -275,13 +209,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String invalidSnapchatUrl(String value, String user) {
     final String selectString = intl.Intl.select(
-      user,
-      {
-        '_': ' url ',
-        'other': ' avec l\'utilisateur: ${user}'
-      },
-      desc: 'No description provided in @invalidSnapchatUrl'
-    );
+        user, {'_': ' url ', 'other': ' avec l\'utilisateur: ${user}'},
+        desc: 'No description provided in @invalidSnapchatUrl');
 
     return 'Pardon! vous devez saisir un snapchat valide $selectString .';
   }
@@ -289,14 +218,13 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String invalidStackexchangeUrl(String value, String user, String id) {
     final String selectString = intl.Intl.select(
-      user,
-      {
-        '_': '{id, select, _{ url ',
-        'other': ' avec identifiant: ${id}',
-        'other': ' avec l\'utilisateur name: ${user}'
-      },
-      desc: 'No description provided in @invalidStackexchangeUrl'
-    );
+        user,
+        {
+          '_': '{id, select, _{ url ',
+          'other': ' avec identifiant: ${id}',
+          'other': ' avec l\'utilisateur name: ${user}'
+        },
+        desc: 'No description provided in @invalidStackexchangeUrl');
 
     return 'Pardon! vous devez entrer un stackexchange valide $selectString .';
   }
@@ -304,13 +232,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String invalidStackoverflowQuestionUrl(String value, String id) {
     final String selectString = intl.Intl.select(
-      id,
-      {
-        '_': ' url ',
-        'other': ' avec identifiant: ${id}'
-      },
-      desc: 'No description provided in @invalidStackoverflowQuestionUrl'
-    );
+        id, {'_': ' url ', 'other': ' avec identifiant: ${id}'},
+        desc: 'No description provided in @invalidStackoverflowQuestionUrl');
 
     return 'Pardon! vous devez saisir une question stackoverflow valide $selectString .';
   }
@@ -318,57 +241,42 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String invalidStackoverflowUserUrl(String value, String id) {
     final String selectString = intl.Intl.select(
-      id,
-      {
-        '_': ' url ',
-        'other': ' avec identifiant: ${id}'
-      },
-      desc: 'No description provided in @invalidStackoverflowUserUrl'
-    );
+        id, {'_': ' url ', 'other': ' avec identifiant: ${id}'},
+        desc: 'No description provided in @invalidStackoverflowUserUrl');
 
     return 'Pardon! vous devez entrer un utilisateur stackoverflow valide $selectString .';
   }
 
   @override
   String invalidTelegramProfileUrl(String value, String userName) {
-    final String selectString = intl.Intl.select(
-      userName,
-      {
-        '_': ' url ',
-        'other': ' avec le nom d\'utilisateur : ${userName}'
-      },
-      desc: 'No description provided in @invalidTelegramProfileUrl'
-    );
+    final String selectString = intl.Intl.select(userName,
+        {'_': ' url ', 'other': ' avec le nom d\'utilisateur : ${userName}'},
+        desc: 'No description provided in @invalidTelegramProfileUrl');
 
     return 'Pardon! vous devez entrer un profil de télégramme valide $selectString .';
   }
 
   @override
-  String invalidTwitterStatusUrl(String value, String userName, String tweetId) {
+  String invalidTwitterStatusUrl(
+      String value, String userName, String tweetId) {
     final String selectString = intl.Intl.select(
-      tweetId,
-      {
-        '_': ' url ',
-        'other': ' avec identifiant: ${tweetId}',
-        '_': '',
-        'other': ' avec l\'utilisateur name: ${userName}'
-      },
-      desc: 'No description provided in @invalidTwitterStatusUrl'
-    );
+        tweetId,
+        {
+          '_': ' url ',
+          'other': ' avec identifiant: ${tweetId}',
+          '_': '',
+          'other': ' avec l\'utilisateur name: ${userName}'
+        },
+        desc: 'No description provided in @invalidTwitterStatusUrl');
 
     return 'Pardon! vous devez saisir un statut Twitter valide $selectString .';
   }
 
   @override
   String invalidTwitterUserUrl(String value, String userName) {
-    final String selectString = intl.Intl.select(
-      userName,
-      {
-        '_': ' url ',
-        'other': ' avec l\'utilisateur name: ${userName}'
-      },
-      desc: 'No description provided in @invalidTwitterUserUrl'
-    );
+    final String selectString = intl.Intl.select(userName,
+        {'_': ' url ', 'other': ' avec l\'utilisateur name: ${userName}'},
+        desc: 'No description provided in @invalidTwitterUserUrl');
 
     return 'Pardon! vous devez saisir un utilisateur Twitter valide $selectString .';
   }
@@ -376,27 +284,17 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String invalidYoutubeChannelUrl(String value, String id) {
     final String selectString = intl.Intl.select(
-      id,
-      {
-        '_': ' url ',
-        'other': ' avec identifiant: ${id}'
-      },
-      desc: 'No description provided in @invalidYoutubeChannelUrl'
-    );
+        id, {'_': ' url ', 'other': ' avec identifiant: ${id}'},
+        desc: 'No description provided in @invalidYoutubeChannelUrl');
 
     return 'Pardon! vous devez saisir une chaîne youtube valide $selectString .';
   }
 
   @override
   String invalidYoutubeUserUrl(String value, String userName) {
-    final String selectString = intl.Intl.select(
-      userName,
-      {
-        '_': ' url ',
-        'other': ' avec l\'utilisateur name: ${userName}'
-      },
-      desc: 'No description provided in @invalidYoutubeUserUrl'
-    );
+    final String selectString = intl.Intl.select(userName,
+        {'_': ' url ', 'other': ' avec l\'utilisateur name: ${userName}'},
+        desc: 'No description provided in @invalidYoutubeUserUrl');
 
     return 'Pardon! vous devez saisir un utilisateur youtube valide $selectString .';
   }
@@ -404,13 +302,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String invalidYoutubeVideoUrl(String value, String id) {
     final String selectString = intl.Intl.select(
-      id,
-      {
-        '_': ' url ',
-        'other': ' avec identifiant: ${id}'
-      },
-      desc: 'No description provided in @invalidYoutubeVideoUrl'
-    );
+        id, {'_': ' url ', 'other': ' avec identifiant: ${id}'},
+        desc: 'No description provided in @invalidYoutubeVideoUrl');
 
     return 'Pardon! vous devez entrer une vidéo youtube valide $selectString .';
   }
@@ -418,13 +311,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String isAfter(bool equal, DateTime value, DateTime date) {
     final String selectString = intl.Intl.select(
-      equal,
-      {
-        'true': 'ou égal à',
-        'other': ''
-      },
-      desc: 'No description provided in @isAfter'
-    );
+        equal, {'true': 'ou égal à', 'other': ''},
+        desc: 'No description provided in @isAfter');
 
     return 'Vous devez entrer une date ultérieure ${selectString}';
   }
@@ -432,13 +320,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String isBefore(bool equal, DateTime value, DateTime date) {
     final String selectString = intl.Intl.select(
-      equal,
-      {
-        'true': 'ou égal à',
-        'other': ''
-      },
-      desc: 'No description provided in @isBefore'
-    );
+        equal, {'true': 'ou égal à', 'other': ''},
+        desc: 'No description provided in @isBefore');
 
     return 'Vous devez entrer une date antérieure ${selectString}';
   }
@@ -446,13 +329,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String isBetween(bool equal, num value, num min, num max) {
     final String selectString = intl.Intl.select(
-      equal,
-      {
-        'true': 'ou égal',
-        'other': ''
-      },
-      desc: 'No description provided in @isBetween'
-    );
+        equal, {'true': 'ou égal', 'other': ''},
+        desc: 'No description provided in @isBetween');
 
     return 'La valeur doit être ${selectString}';
   }
@@ -465,13 +343,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String isDateBetween(bool equal, DateTime value, DateTime min, DateTime max) {
     final String selectString = intl.Intl.select(
-      equal,
-      {
-        'true': 'ou égal à un',
-        'other': ''
-      },
-      desc: 'No description provided in @isDateBetween'
-    );
+        equal, {'true': 'ou égal à un', 'other': ''},
+        desc: 'No description provided in @isDateBetween');
 
     return 'Vous devez entrer une date ${selectString}';
   }
@@ -488,9 +361,11 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
 
   @override
   String isDivisibleBy(num value, num division) {
-    final intl.NumberFormat valueNumberFormat = intl.NumberFormat.decimalPattern(localeName);
+    final intl.NumberFormat valueNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
     final String valueString = valueNumberFormat.format(value);
-    final intl.NumberFormat divisionNumberFormat = intl.NumberFormat.decimalPattern(localeName);
+    final intl.NumberFormat divisionNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
     final String divisionString = divisionNumberFormat.format(division);
 
     return 'La valeur d\'entrée doit être divisible par $divisionString';
@@ -503,7 +378,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
 
   @override
   String isEven(num value) {
-    final intl.NumberFormat valueNumberFormat = intl.NumberFormat.decimalPattern(localeName);
+    final intl.NumberFormat valueNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
     final String valueString = valueNumberFormat.format(value);
 
     return 'La valeur doit être un nombre pair';
@@ -521,7 +397,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
 
   @override
   String isNegative(num value) {
-    final intl.NumberFormat valueNumberFormat = intl.NumberFormat.decimalPattern(localeName);
+    final intl.NumberFormat valueNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
     final String valueString = valueNumberFormat.format(value);
 
     return 'La valeur doit être négative';
@@ -539,7 +416,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
 
   @override
   String isOdd(num value) {
-    final intl.NumberFormat valueNumberFormat = intl.NumberFormat.decimalPattern(localeName);
+    final intl.NumberFormat valueNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
     final String valueString = valueNumberFormat.format(value);
 
     return 'La valeur doit être un nombre impair';
@@ -547,7 +425,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
 
   @override
   String isPositive(num value) {
-    final intl.NumberFormat valueNumberFormat = intl.NumberFormat.decimalPattern(localeName);
+    final intl.NumberFormat valueNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
     final String valueString = valueNumberFormat.format(value);
 
     return 'La valeur doit être positive';
@@ -561,14 +440,8 @@ class ReadyValidationMessagesFr extends ReadyValidationMessages {
   @override
   String lessThan(bool equal, num value, num max) {
     final String selectString = intl.Intl.select(
-      equal,
-      {
-        'true': 'ou égal à',
-        'autre': '',
-        'other': ''
-      },
-      desc: 'No description provided in @lessThan'
-    );
+        equal, {'true': 'ou égal à', 'autre': '', 'other': ''},
+        desc: 'No description provided in @lessThan');
 
     return 'La valeur doit être inférieure à, ${selectString}';
   }

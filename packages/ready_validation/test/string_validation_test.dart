@@ -2,6 +2,27 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:ready_validation/ready_validation.dart';
 
 void main() {
+  test('when', () {
+    expect(
+        "".isValid(
+            validate: (v) => v.required().isEmail().when((value) => true)),
+        false);
+    String? test1 = "";
+    expect(
+        test1.isValid(
+            validate: (v) => v.required().isEmail().when((value) => true)),
+        false);
+
+    expect(
+        test1.isValid(
+            validate: (v) => v.required().isEmail().when((value) => false)),
+        true);
+    expect(
+        test1.isValid(
+            validate: (v) => v.required().isEmail().allWhen((value) => false)),
+        true);
+  });
+
   test('required', () {
     String? test1;
     expect(test1.isValid(validate: (v) => v.required()), false);
