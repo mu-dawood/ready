@@ -20,36 +20,54 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check if the value starts with [pattern]
-  FieldValidator<T, String> startsWith(Pattern pattern,
+  FieldValidator<T, String> startsWithFn(ValueGetter<Pattern> pattern,
       [MessageCallBack<String>? message]) {
-    return next(
-      (messages, value) => !value.startsWith(pattern)
+    return next((messages, value) {
+      var _pattern = pattern();
+      return !value.startsWith(_pattern)
           ? message?.call(messages, value) ??
-              messages.startsWith(value, pattern.toString())
-          : null,
-    );
+              messages.startsWith(value, _pattern.toString())
+          : null;
+    });
+  }
+
+  /// check if the value starts with [pattern]
+  FieldValidator<T, String> startsWith(Pattern pattern,
+          [MessageCallBack<String>? message]) =>
+      startsWithFn(() => pattern, message);
+
+  /// check if the value contains [pattern]
+  FieldValidator<T, String> containsFn(ValueGetter<Pattern> pattern,
+      [MessageCallBack<String>? message]) {
+    return next((messages, value) {
+      var _pattern = pattern();
+      return !value.contains(_pattern)
+          ? message?.call(messages, value) ??
+              messages.contains(value, _pattern.toString())
+          : null;
+    });
   }
 
   /// check if the value contains [pattern]
   FieldValidator<T, String> contains(Pattern pattern,
+          [MessageCallBack<String>? message]) =>
+      containsFn(() => pattern, message);
+
+  /// check if the value ends with [other]
+  FieldValidator<T, String> endsWithFn(ValueGetter<String> other,
       [MessageCallBack<String>? message]) {
-    return next(
-      (messages, value) => !value.contains(pattern)
-          ? message?.call(messages, value) ??
-              messages.contains(value, pattern.toString())
-          : null,
-    );
+    return next((messages, value) {
+      var _other = other();
+      return !value.endsWith(_other)
+          ? message?.call(messages, value) ?? messages.startsWith(value, _other)
+          : null;
+    });
   }
 
   /// check if the value ends with [other]
   FieldValidator<T, String> endsWith(String other,
-      [MessageCallBack<String>? message]) {
-    return next(
-      (messages, value) => !value.endsWith(other)
-          ? message?.call(messages, value) ?? messages.startsWith(value, other)
-          : null,
-    );
-  }
+          [MessageCallBack<String>? message]) =>
+      endsWithFn(() => other, message);
 
   /// check if the value is not empty
   FieldValidator<T, String> notEmpty([MessageCallBack<String>? message]) {
@@ -71,11 +89,30 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check is the value matches [regExp]
-  FieldValidator<T, String> matches(RegExp regExp,
+  FieldValidator<T, String> matchesFn(ValueGetter<RegExp> regExp,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
-      if (!regExp.hasMatch(value)) {
+      var _regExp = regExp();
+      if (!_regExp.hasMatch(value)) {
         return message?.call(messages, value) ?? messages.regexp;
+      }
+      return null;
+    });
+  }
+
+  /// check is the value matches [regExp]
+  FieldValidator<T, String> matches(RegExp regExp,
+          [MessageCallBack<String>? message]) =>
+      matchesFn(() => regExp, message);
+
+  /// check is the value has  length of [length]
+  FieldValidator<T, String> hasLengthFn(ValueGetter<int> length,
+      [MessageCallBack<String>? message]) {
+    return next((messages, value) {
+      var _length = length();
+      if (value.length != _length) {
+        return message?.call(messages, value) ??
+            messages.hasLength(value, _length);
       }
       return null;
     });
@@ -83,11 +120,17 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
 
   /// check is the value has  length of [length]
   FieldValidator<T, String> hasLength(int length,
+          [MessageCallBack<String>? message]) =>
+      hasLengthFn(() => length, message);
+
+  /// check is the value has min length of [min]
+  FieldValidator<T, String> hasMinLengthFn(ValueGetter<int> min,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
-      if (value.length != length) {
+      var _min = min();
+      if (value.length < _min) {
         return message?.call(messages, value) ??
-            messages.hasLength(value, length);
+            messages.hasMinLength(value, _min);
       }
       return null;
     });
@@ -95,11 +138,17 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
 
   /// check is the value has min length of [min]
   FieldValidator<T, String> hasMinLength(int min,
+          [MessageCallBack<String>? message]) =>
+      hasMinLengthFn(() => min, message);
+
+  /// check is the value has max length of [max]
+  FieldValidator<T, String> hasMaxLengthFn(ValueGetter<int> max,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
-      if (value.length < min) {
+      var _max = max();
+      if (value.length > _max) {
         return message?.call(messages, value) ??
-            messages.hasMinLength(value, min);
+            messages.hasMaxLength(value, _max);
       }
       return null;
     });
@@ -107,11 +156,19 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
 
   /// check is the value has max length of [max]
   FieldValidator<T, String> hasMaxLength(int max,
+          [MessageCallBack<String>? message]) =>
+      hasMaxLengthFn(() => max, message);
+
+  /// check is the value length is between [min] and [max]
+  FieldValidator<T, String> hasRangeFn(
+      ValueGetter<int> min, ValueGetter<int> max,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
-      if (value.length > max) {
+      var _min = min();
+      var _max = max();
+      if (value.length < _min || value.length > _max) {
         return message?.call(messages, value) ??
-            messages.hasMaxLength(value, max);
+            messages.hasRange(value, _min, _max);
       }
       return null;
     });
@@ -119,15 +176,8 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
 
   /// check is the value length is between [min] and [max]
   FieldValidator<T, String> hasRange(int min, int max,
-      [MessageCallBack<String>? message]) {
-    return next((messages, value) {
-      if (value.length < min || value.length > max) {
-        return message?.call(messages, value) ??
-            messages.hasRange(value, min, max);
-      }
-      return null;
-    });
-  }
+          [MessageCallBack<String>? message]) =>
+      hasRangeFn(() => min, () => max, message);
 
   /// check is the value is number
   FieldValidator<T, num> isNumber([MessageCallBack<String>? message]) {
@@ -179,6 +229,9 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     }).transform((value) => value.toTimeOfDay()!);
   }
 
+  ///TODO: create fn validations fo social media
+  ///
+  ///
   /// check string is angel company valid url
   FieldValidator<T, String> isAngelCompany({
     MessageCallBack<String>? message,

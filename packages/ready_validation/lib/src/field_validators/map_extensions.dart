@@ -3,12 +3,32 @@ part of '../context_extension.dart';
 extension MapValidationExtension<T, TKey, TValue>
     on FieldValidator<T, Map<TKey, TValue>> {
   /// check is the map contains [length] of elements
-  FieldValidator<T, Map<TKey, TValue>> hasLength(int length,
+  FieldValidator<T, Map<TKey, TValue>> hasLengthFn(ValueGetter<int> length,
       [MessageCallBack<Map<TKey, TValue>>? message]) {
     return next((messages, value) {
-      if (value.length != length) {
+      var _length = length();
+      if (value.length != _length) {
         return message?.call(messages, value) ??
-            messages.listHasLength(value.entries, length);
+            messages.listHasLength(value.entries, _length);
+      }
+      return null;
+    });
+  }
+
+  /// check is the map contains [length] of elements
+  FieldValidator<T, Map<TKey, TValue>> hasLength(int length,
+      [MessageCallBack<Map<TKey, TValue>>? message]) {
+    return hasLengthFn(() => length, message);
+  }
+
+  /// check is the map contains  elements less than or equal [max]
+  FieldValidator<T, Map<TKey, TValue>> hasMaxLengthFn(ValueGetter<int> max,
+      [MessageCallBack<Map<TKey, TValue>>? message]) {
+    return next((messages, value) {
+      var _max = max();
+      if (value.length > _max) {
+        return message?.call(messages, value) ??
+            messages.listMaxLength(value.entries, _max);
       }
       return null;
     });
@@ -17,10 +37,17 @@ extension MapValidationExtension<T, TKey, TValue>
   /// check is the map contains  elements less than or equal [max]
   FieldValidator<T, Map<TKey, TValue>> hasMaxLength(int max,
       [MessageCallBack<Map<TKey, TValue>>? message]) {
+    return hasMaxLengthFn(() => max, message);
+  }
+
+  /// check is the map contains  elements greater than or equal [min]
+  FieldValidator<T, Map<TKey, TValue>> hasMinLengthFn(ValueGetter<int> min,
+      [MessageCallBack<Map<TKey, TValue>>? message]) {
     return next((messages, value) {
-      if (value.length > max) {
+      var _min = min();
+      if (value.length < _min) {
         return message?.call(messages, value) ??
-            messages.listMaxLength(value.entries, max);
+            messages.listMinLength(value.entries, _min);
       }
       return null;
     });
@@ -29,10 +56,19 @@ extension MapValidationExtension<T, TKey, TValue>
   /// check is the map contains  elements greater than or equal [min]
   FieldValidator<T, Map<TKey, TValue>> hasMinLength(int min,
       [MessageCallBack<Map<TKey, TValue>>? message]) {
+    return hasMinLengthFn(() => min, message);
+  }
+
+  /// check is the map contains  elements greater than or equal [min] and  less than or equal [max]
+  FieldValidator<T, Map<TKey, TValue>> hasRangeFn(
+      ValueGetter<int> min, ValueGetter<int> max,
+      [MessageCallBack<Map<TKey, TValue>>? message]) {
     return next((messages, value) {
-      if (value.length < min) {
+      var _min = min();
+      var _max = max();
+      if (value.length < _min || value.length > _max) {
         return message?.call(messages, value) ??
-            messages.listMinLength(value.entries, min);
+            messages.listRange(value.entries, _min, _max);
       }
       return null;
     });
@@ -41,13 +77,7 @@ extension MapValidationExtension<T, TKey, TValue>
   /// check is the map contains  elements greater than or equal [min] and  less than or equal [max]
   FieldValidator<T, Map<TKey, TValue>> hasRange(int min, int max,
       [MessageCallBack<Map<TKey, TValue>>? message]) {
-    return next((messages, value) {
-      if (value.length < min || value.length > max) {
-        return message?.call(messages, value) ??
-            messages.listRange(value.entries, min, max);
-      }
-      return null;
-    });
+    return hasRangeFn(() => min, () => max, message);
   }
 
   /// check if the value is not empty
@@ -61,46 +91,76 @@ extension MapValidationExtension<T, TKey, TValue>
   }
 
   /// check if the value contains [key]
+  FieldValidator<T, Map<TKey, TValue>> containsKeyFn(ValueGetter<TKey> key,
+      [MessageCallBack<Map<TKey, TValue>>? message]) {
+    return next((messages, value) {
+      var _key = key();
+      return !value.containsKey(_key)
+          ? message?.call(messages, value) ??
+              messages.containsItem(value.entries, _key)
+          : null;
+    });
+  }
+
+  /// check if the value contains [key]
   FieldValidator<T, Map<TKey, TValue>> containsKey(TKey key,
       [MessageCallBack<Map<TKey, TValue>>? message]) {
-    return next(
-      (messages, value) => !value.containsKey(key)
+    return containsKeyFn(() => key, message);
+  }
+
+  /// check if the value not contains [key]
+  FieldValidator<T, Map<TKey, TValue>> notContainsKeyFn(ValueGetter<TKey> key,
+      [MessageCallBack<Map<TKey, TValue>>? message]) {
+    return next((messages, value) {
+      var _key = key();
+      return value.containsKey(_key)
           ? message?.call(messages, value) ??
-              messages.containsItem(value.entries, key)
-          : null,
-    );
+              messages.notContainsItem(value.entries, _key)
+          : null;
+    });
   }
 
   /// check if the value not contains [key]
   FieldValidator<T, Map<TKey, TValue>> notContainsKey(TKey key,
       [MessageCallBack<Map<TKey, TValue>>? message]) {
-    return next(
-      (messages, value) => value.containsKey(key)
-          ? message?.call(messages, value) ??
-              messages.notContainsItem(value.entries, key)
-          : null,
-    );
+    return notContainsKeyFn(() => key, message);
+  }
+
+  /// check if the value contains [value]
+  FieldValidator<T, Map<TKey, TValue>> containsValueFn(
+      ValueGetter<TValue> value,
+      [MessageCallBack<Map<TKey, TValue>>? message]) {
+    return next((messages, v) {
+      var _value = value();
+      return !v.containsValue(_value)
+          ? message?.call(messages, v) ??
+              messages.containsItem(v.entries, _value)
+          : null;
+    });
   }
 
   /// check if the value contains [value]
   FieldValidator<T, Map<TKey, TValue>> containsValue(TValue value,
       [MessageCallBack<Map<TKey, TValue>>? message]) {
-    return next(
-      (messages, v) => !v.containsValue(value)
+    return containsValueFn(() => value, message);
+  }
+
+  /// check if the value not contains [value]
+  FieldValidator<T, Map<TKey, TValue>> notContainsValueFn(
+      ValueGetter<TValue> value,
+      [MessageCallBack<Map<TKey, TValue>>? message]) {
+    return next((messages, v) {
+      var _value = value();
+      return v.containsValue(_value)
           ? message?.call(messages, v) ??
-              messages.containsItem(v.entries, value)
-          : null,
-    );
+              messages.notContainsItem(v.entries, _value)
+          : null;
+    });
   }
 
   /// check if the value not contains [value]
   FieldValidator<T, Map<TKey, TValue>> notContainsValue(TValue value,
       [MessageCallBack<Map<TKey, TValue>>? message]) {
-    return next(
-      (messages, v) => v.containsValue(value)
-          ? message?.call(messages, v) ??
-              messages.notContainsItem(v.entries, value)
-          : null,
-    );
+    return notContainsValueFn(() => value, message);
   }
 }

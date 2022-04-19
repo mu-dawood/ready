@@ -2,22 +2,49 @@ part of '../context_extension.dart';
 
 extension NumberValidationExtension<T> on FieldValidator<T, num> {
   /// check if the value is less than [max]
-  FieldValidator<T, num> lessThan(num max, [MessageCallBack<num>? message]) {
+  FieldValidator<T, num> lessThanFn(ValueGetter<num> max,
+      [MessageCallBack<num>? message]) {
     return next((messages, value) {
-      if (value >= max) {
+      var _max = max();
+      if (value >= _max) {
         return message?.call(messages, value) ??
-            messages.lessThan(false, value, max);
+            messages.lessThan(false, value, _max);
+      }
+      return null;
+    });
+  }
+
+  /// check if the value is less than [max]
+  FieldValidator<T, num> lessThan(num max, [MessageCallBack<num>? message]) =>
+      lessThanFn(() => max, message);
+
+  /// check if the value is greater than  [min]
+  FieldValidator<T, num> greaterThanFn(ValueGetter<num> min,
+      [MessageCallBack<num>? message]) {
+    return next((messages, value) {
+      var _min = min();
+      if (value <= _min) {
+        return message?.call(messages, value) ??
+            messages.greaterThan(false, value, _min);
       }
       return null;
     });
   }
 
   /// check if the value is greater than  [min]
-  FieldValidator<T, num> greaterThan(num min, [MessageCallBack<num>? message]) {
+  FieldValidator<T, num> greaterThan(num min,
+          [MessageCallBack<num>? message]) =>
+      greaterThanFn(() => min, message);
+
+  /// check if the value is between [min] and [max]
+  FieldValidator<T, num> isBetweenFn(ValueGetter<num> min, ValueGetter<num> max,
+      [MessageCallBack<num>? message]) {
     return next((messages, value) {
-      if (value <= min) {
+      var _max = max();
+      var _min = min();
+      if (value <= _min || value >= _max) {
         return message?.call(messages, value) ??
-            messages.greaterThan(false, value, min);
+            messages.isBetween(false, value, _min, _max);
       }
       return null;
     });
@@ -25,11 +52,17 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
 
   /// check if the value is between [min] and [max]
   FieldValidator<T, num> isBetween(num min, num max,
+          [MessageCallBack<num>? message]) =>
+      isBetweenFn(() => min, () => max, message);
+
+  /// check if the value is greater than or equal [max]
+  FieldValidator<T, num> lessThanOrEqualFn(ValueGetter<num> max,
       [MessageCallBack<num>? message]) {
     return next((messages, value) {
-      if (value <= min || value >= max) {
+      var _max = max();
+      if (value > _max) {
         return message?.call(messages, value) ??
-            messages.isBetween(false, value, min, max);
+            messages.lessThan(true, value, _max);
       }
       return null;
     });
@@ -37,11 +70,17 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
 
   /// check if the value is greater than or equal [max]
   FieldValidator<T, num> lessThanOrEqual(num max,
+          [MessageCallBack<num>? message]) =>
+      lessThanOrEqualFn(() => max, message);
+
+  /// check if the value is less than or equal [min]
+  FieldValidator<T, num> greaterThanOrEqualFn(ValueGetter<num> min,
       [MessageCallBack<num>? message]) {
     return next((messages, value) {
-      if (value > max) {
+      var _min = min();
+      if (value < _min) {
         return message?.call(messages, value) ??
-            messages.lessThan(true, value, max);
+            messages.greaterThan(true, value, _min);
       }
       return null;
     });
@@ -49,11 +88,19 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
 
   /// check if the value is less than or equal [min]
   FieldValidator<T, num> greaterThanOrEqual(num min,
+          [MessageCallBack<num>? message]) =>
+      greaterThanOrEqualFn(() => min, message);
+
+  /// check if the value is between [min] and [max] and equal them
+  FieldValidator<T, num> isBetweenOrEqualFn(
+      ValueGetter<num> min, ValueGetter<num> max,
       [MessageCallBack<num>? message]) {
     return next((messages, value) {
-      if (value < min) {
+      var _max = max();
+      var _min = min();
+      if (value < _min || value > _max) {
         return message?.call(messages, value) ??
-            messages.greaterThan(true, value, min);
+            messages.isBetween(true, value, _min, _max);
       }
       return null;
     });
@@ -61,11 +108,17 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
 
   /// check if the value is between [min] and [max] and equal them
   FieldValidator<T, num> isBetweenOrEqual(num min, num max,
+          [MessageCallBack<num>? message]) =>
+      isBetweenOrEqualFn(() => min, () => max, message);
+
+  /// check if the value is divisible by [other]
+  FieldValidator<T, num> isDivisibleByFn(ValueGetter<num> other,
       [MessageCallBack<num>? message]) {
     return next((messages, value) {
-      if (value < min || value > max) {
+      var _other = other();
+      if (value % _other != 0) {
         return message?.call(messages, value) ??
-            messages.isBetween(true, value, min, max);
+            messages.isDivisibleBy(value, _other);
       }
       return null;
     });
@@ -73,15 +126,8 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
 
   /// check if the value is divisible by [other]
   FieldValidator<T, num> isDivisibleBy(num other,
-      [MessageCallBack<num>? message]) {
-    return next((messages, value) {
-      if (value % other != 0) {
-        return message?.call(messages, value) ??
-            messages.isDivisibleBy(value, other);
-      }
-      return null;
-    });
-  }
+          [MessageCallBack<num>? message]) =>
+      isDivisibleByFn(() => other, message);
 
   /// check if the value is negative
   FieldValidator<T, num> isNegative([MessageCallBack<num>? message]) {

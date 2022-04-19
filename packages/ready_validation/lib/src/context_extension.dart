@@ -10,6 +10,7 @@ part './field_validators/date_time_extensions.dart';
 part './field_validators/list_extensions.dart';
 part './field_validators/map_extensions.dart';
 part './field_validators/number_extension.dart';
+part './field_validators/shared_validations.dart';
 part './field_validators/string_validation.dart';
 part './field_validators/time_of_day_extensions.dart';
 part 'field_validator.dart';
@@ -17,6 +18,8 @@ part 'type_extension.dart';
 
 typedef MessageCallBack<T> = String Function(
     ReadyValidationMessages messages, T value);
+
+typedef ValueGetter<T> = T Function();
 
 extension ValidationExtensions on BuildContext {
   ReadyValidationMessages get _messages =>
@@ -139,69 +142,5 @@ extension ValidationExtensions on BuildContext {
       prevErrors: (v) => [],
       validate: (value) => validate?.call(value),
     );
-  }
-}
-
-extension NullableStringValidationExtension<T> on FieldValidator<T?, T?> {
-  /// check if the value is required
-  FieldValidator<T?, T> required([MessageCallBack<T?>? message]) {
-    return next(
-      (messages, value) {
-        return value == null
-            ? message?.call(messages, value) ?? messages.required
-            : null;
-      },
-    ).transform((value) => value!);
-  }
-}
-
-extension SharedValidationExtensions<T, R> on FieldValidator<T, R> {
-  /// check is the value is not  equal [value]
-  FieldValidator<T, R> notEqual(R value, [MessageCallBack<R>? message]) {
-    return next((messages, value) {
-      if (value == value) {
-        return message?.call(messages, value) ?? messages.notEqual(value);
-      }
-      return null;
-    });
-  }
-
-  /// check is the value is equal [value]
-  FieldValidator<T, R> equal(R value, [MessageCallBack<R>? message]) {
-    return next((messages, value) {
-      if (value != value) {
-        return message?.call(messages, value) ?? messages.equal(value);
-      }
-      return null;
-    });
-  }
-
-  /// check is the value is in [values]
-  FieldValidator<T, R> isIn(List<R> values, [MessageCallBack<R>? message]) {
-    return next((messages, value) {
-      if (!values.contains(value)) {
-        return message?.call(messages, value) ?? messages.isIn(value, values);
-      }
-      return null;
-    });
-  }
-
-  /// check is the value is not in [values]
-  FieldValidator<T, R> notIn(List<R> values, [MessageCallBack<R>? message]) {
-    return next((messages, value) {
-      if (values.contains(value)) {
-        return message?.call(messages, value) ??
-            messages.isNotIn(value, values);
-      }
-      return null;
-    });
-  }
-
-  /// check is the value is not in [values]
-  FieldValidator<T, R> validateWith(
-      String? Function(R value, ReadyValidationMessages messages) validator) {
-    return next((messages, value) {
-      return validator(value, messages);
-    });
   }
 }

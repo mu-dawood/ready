@@ -94,6 +94,9 @@ this is also supported and this time you don't need to validate required is the 
 ### dates 
 
 * `isAfter`  `isAfterOrEqual`  `isBefore`  `isBeforeOrEqual`  `isBetween`  `isBetweenOrEqual`
+
+> note : most of the validators has an alternatives with prefix `Fn` like `startsWithFn` which accepts function instead of value
+
 # validators
 
 ```dart
@@ -151,7 +154,7 @@ now we need to transform it number validator
 
 now you can use any number validation like `greaterThan` but you cant use `hasMaxLength` as it for string till you transform its again to the string validator
 
-# when & whenNot
+# when , whenNot , allWhen , allWhenNot
 
 ```dart
 context
