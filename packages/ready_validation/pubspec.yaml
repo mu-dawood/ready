@@ -1,6 +1,6 @@
 name: ready_validation
 description: Collection of extension methods to make validation simple , clean and fast
-version: 0.0.7
+version: 0.0.8
 homepage: https://github.com/mo-ah-dawood/ready/tree/main/packages/ready_validation
 repository: https://github.com/mo-ah-dawood/ready
 issue_tracker: https://github.com/mo-ah-dawood/ready/issues

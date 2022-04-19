@@ -84,7 +84,7 @@ extension SharedValidationExtensions<T, R> on FieldValidator<T, R> {
   }
 
   /// check is the value is not in [values]
-  FieldValidator<T, R> validateFn(
+  FieldValidator<T, R> validateWith(
       String? Function(R value, ReadyValidationMessages messages) validator) {
     return next((messages, value) {
       return validator(value, messages);
