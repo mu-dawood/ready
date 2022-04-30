@@ -1,6 +1,17 @@
 part of 'context_extension.dart';
 
 extension StringValidateCreatorExtension<T> on T {
+  FieldValidator<T, T> createValidator({
+    required ReadyValidationMessages messages,
+    String? Function(T value)? validate,
+  }) {
+    return FieldValidator<T, T>._(
+      messages: messages,
+      convert: (v) => v,
+      validate: (value) => validate?.call(value.value),
+    );
+  }
+
   /// check is the value is valid
   bool isValid<R>({
     ReadyValidationMessages? messages,

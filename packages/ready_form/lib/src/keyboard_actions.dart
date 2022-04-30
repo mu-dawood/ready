@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../ready_form.dart';
+import 'ready_form/ready_form.dart';
 
 class KeyboardActions extends StatefulWidget {
   final Widget child;

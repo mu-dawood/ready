@@ -1,8 +1,8 @@
 part of '../context_extension.dart';
 
-extension NullableStringValidationExtension<T> on FieldValidator<T?, T?> {
+extension NullableStringValidationExtension<T, R> on FieldValidator<T?, R?> {
   /// check if the value is required
-  FieldValidator<T?, T> required([MessageCallBack<T?>? message]) {
+  FieldValidator<T?, R> required([MessageCallBack<R?>? message]) {
     return next(
       (messages, value) {
         return value == null

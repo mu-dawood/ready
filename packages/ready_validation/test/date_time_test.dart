@@ -1,7 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ready_validation/ready_validation.dart';
+import 'package:ready_validation/src/messages/messages_ar.dart';
 
 void main() {
+  test('isAftesr', () {
+    var x = DateTime(2000, 10, 1);
+    print(x
+        .createValidator(messages: ReadyValidationMessagesAr())
+        .required()
+        .isAfter(DateTime.now())
+        .call(x));
+  });
   test('isAfter', () {
     expect(
       DateTime(2000, 10, 1)

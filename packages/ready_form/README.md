@@ -15,6 +15,7 @@ widget that wrap flutter form to simplify working with it
      return ReadyForm(
       onPostData: () async {
         /// submit your data
+       return OnPostDataResult();
       },
       child: ListView(
         children: [
@@ -42,6 +43,7 @@ final ReadyFormKey formKey=ReadyFormKey();
      return ReadyForm(
       onPostData: () async {
         /// submit your data
+         return OnPostDataResult();
       },
       child: ListView(
         children: [
@@ -69,6 +71,7 @@ final ReadyFormKey formKey=ReadyFormKey();
      return ReadyForm(
       onPostData: () async {
         /// submit your data
+        return OnPostDataResult();
       },
       child: ListView(
         children: [
@@ -126,24 +129,116 @@ without any configuration this package scrolls to the first invalid field when [
 
 but some time you want to override this behavior
 
-to do that you have to use `ensureFieldVisible` property
-
 ```dart
-EnsureFieldVisible(
-  after:(field) async{
+EnsureContextVisible(
+  after:(context) async{
      /// this will be called after the default behaviour
   }
-  before:(field) async{
+  before:(context) async{
      /// this will be called after the default behaviour
   }
 );
 ```
 
 ```dart
-EnsureFieldVisible.override((field) async{
+EnsureContextVisible.override(
+  ensureVisible:(context) async{
      /// this will override the default behaviour
   }
 );
 ```
 
 * if your wrap a single field
+# Submit errors
+
+## some time you want to show custom errors after calling onPostData
+
+> as you ca see `onPostData` can return `OnPostDataResult` which may contains error map
+> the errors returned from `onPostData` not affect the cycle but they ca be shown by user in two ways
+
+* the first one is `ReadyFormErrorMessages`
+
+this widget can show the submit error messages and you may use the custom builder
+to make your own ui , 
+
+if you used the builder you also have an access to the invalid fields 
+
+```dart
+
+    return ReadyForm(
+      onPostData: () async {
+        /// submit your data
+       return OnPostDataResult({
+         "email":"The email already exist"
+       });
+      },
+      child: ListView(
+        children: [
+          ReadyFormErrorMessages(),
+          TextFormField(),
+          TextFormField(),
+          TextFormField(),
+          TextFormField(),
+          ProgressButton(child: Text(TR.of(context).login)),
+        ],
+      ),
+    );
+```
+
+* the second one is `SubmitErrorMessageFor` which show an error for specified key
+
+```dart
+
+    return ReadyForm(
+      onPostData: () async {
+        /// submit your data
+       return OnPostDataResult({
+         "email":"The email already exist"
+       });
+      },
+      child: ListView(
+        children: [
+          TextFormField(),
+          SubmitErrorMessageFor(messageFor:'email')
+          TextFormField(),
+          TextFormField(),
+          TextFormField(),
+          ProgressButton(child: Text(TR.of(context).login)),
+        ],
+      ),
+    );
+
+    /// or if you need to show it with other errors of the field
+
+    return ReadyForm(
+      onPostData: () async {
+       return OnPostDataResult({ "email":"The email already exist" });
+      },
+      child: ListView(
+        children: [
+          SubmitErrorMessageFor(
+              messageFor: 'email',
+              builder: (form, error) {
+                return TextFormField(
+                  decoration: InputDecoration(
+                    errorText: error,
+                    hintText: "Email",
+                  ),
+                );
+              },
+          ),
+          TextFormField(),
+          TextFormField(),
+          TextFormField(),
+          ProgressButton(child: Text(TR.of(context).login)),
+        ],
+      ),
+    );
+```
+
+See the other packages in ready
+
+[![N|Ready][pubPadge]][pubUrl]
+
+[pubUrl]: https://pub.dev/packages/ready
+[pubPadge]: https://img.shields.io/pub/v/ready.svg?style=for-the-badge

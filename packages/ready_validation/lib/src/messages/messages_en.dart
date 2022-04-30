@@ -26,12 +26,27 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String greaterThan(bool equal, num value, num min) {
-    final String selectString = intl.Intl.select(
-        equal, {'true': 'or equal to', 'other': ''},
-        desc: 'No description provided in @greaterThan');
+  String greaterThan(num value, num min) {
+    final intl.NumberFormat valueNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String valueString = valueNumberFormat.format(value);
+    final intl.NumberFormat minNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String minString = minNumberFormat.format(min);
 
-    return 'The value should be greater than, ${selectString}';
+    return 'The value should be greater than $minString.';
+  }
+
+  @override
+  String greaterThanOrEqual(num value, num min) {
+    final intl.NumberFormat valueNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String valueString = valueNumberFormat.format(value);
+    final intl.NumberFormat minNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String minString = minNumberFormat.format(min);
+
+    return 'The value should be greater than or equal $minString.';
   }
 
   @override
@@ -157,7 +172,11 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
 
   @override
   String invalidLinkedInCompanyUrl(String value, String permalink) {
-    return 'Sorry! you have to enter a valid linked in company url. $permalink';
+    final String selectString = intl.Intl.select(
+        permalink, {'_': 'company url', 'other': 'company with $permalink url'},
+        desc: 'No description provided in @invalidLinkedInCompanyUrl');
+
+    return 'Sorry! you have to enter a valid inked in ${selectString}.';
   }
 
   @override
@@ -171,7 +190,11 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
 
   @override
   String invalidLinkedInProfileUrl(String value, String permalink) {
-    return 'Sorry! you have to enter a valid linked in profile url. $permalink';
+    final String selectString = intl.Intl.select(
+        permalink, {'_': 'profile url', 'other': 'profile with $permalink url'},
+        desc: 'No description provided in @invalidLinkedInProfileUrl');
+
+    return 'Sorry! you have to enter a valid inked in ${selectString}.';
   }
 
   @override
@@ -309,71 +332,102 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String isDateAfter(bool equal, DateTime value, DateTime other) {
-    final String selectString = intl.Intl.select(
-        equal, {'true': 'or equal to', 'other': ''},
-        desc: 'No description provided in @isDateAfter');
+  String isBetween(num value, num min, num max) {
+    final intl.NumberFormat valueNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String valueString = valueNumberFormat.format(value);
+    final intl.NumberFormat minNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String minString = minNumberFormat.format(min);
+    final intl.NumberFormat maxNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String maxString = maxNumberFormat.format(max);
 
-    return 'You must enter a  date after ${selectString}';
+    return 'Value must be greater than $minString and less than $maxString';
   }
 
   @override
-  String isDateBefore(bool equal, DateTime value, DateTime other) {
-    final String selectString = intl.Intl.select(
-        equal, {'true': 'or equal to', 'other': ''},
-        desc: 'No description provided in @isDateBefore');
+  String isBetweenOrEqual(num value, num min, num max) {
+    final intl.NumberFormat valueNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String valueString = valueNumberFormat.format(value);
+    final intl.NumberFormat minNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String minString = minNumberFormat.format(min);
+    final intl.NumberFormat maxNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String maxString = maxNumberFormat.format(max);
 
-    return 'You must enter a date before ${selectString}';
-  }
-
-  @override
-  String isDateBetween(bool equal, DateTime value, DateTime min, DateTime max) {
-    final String selectString = intl.Intl.select(
-        equal, {'true': 'or equal to one', 'other': ''},
-        desc: 'No description provided in @isDateBetween');
-
-    return 'You must enter a date between ${selectString}';
-  }
-
-  @override
-  String isTimeAfter(bool equal, DateTime value, DateTime other) {
-    final String selectString = intl.Intl.select(
-        equal, {'true': 'or equal to', 'other': ''},
-        desc: 'No description provided in @isTimeAfter');
-
-    return 'You must enter a time after ${selectString}';
-  }
-
-  @override
-  String isTimeBefore(bool equal, DateTime value, DateTime other) {
-    final String selectString = intl.Intl.select(
-        equal, {'true': 'or equal to', 'other': ''},
-        desc: 'No description provided in @isTimeBefore');
-
-    return 'You must enter a time before ${selectString}';
-  }
-
-  @override
-  String isTimeBetween(bool equal, DateTime value, DateTime min, DateTime max) {
-    final String selectString = intl.Intl.select(
-        equal, {'true': 'or equal to one', 'other': ''},
-        desc: 'No description provided in @isTimeBetween');
-
-    return 'You must enter a time between ${selectString}';
-  }
-
-  @override
-  String isBetween(bool equal, num value, num min, num max) {
-    final String selectString = intl.Intl.select(
-        equal, {'true': 'or equal', 'other': ''},
-        desc: 'No description provided in @isBetween');
-
-    return 'Value must be greater ${selectString}';
+    return 'Value must be greater than or equal $minString and less than or equal $maxString';
   }
 
   @override
   String isCreditCard(String value) {
-    return 'You must enter the credit card number';
+    return 'You must enter a valid credit card number';
+  }
+
+  @override
+  String isDateAfter(DateTime value, DateTime other) {
+    final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
+    final String valueString = valueDateFormat.format(value);
+    final intl.DateFormat otherDateFormat = intl.DateFormat.yMEd(localeName);
+    final String otherString = otherDateFormat.format(other);
+
+    return 'You must enter a date after $otherString.';
+  }
+
+  @override
+  String isDateAfterOrEqual(DateTime value, DateTime other) {
+    final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
+    final String valueString = valueDateFormat.format(value);
+    final intl.DateFormat otherDateFormat = intl.DateFormat.yMEd(localeName);
+    final String otherString = otherDateFormat.format(other);
+
+    return 'You must enter a date after or at the same time as $otherString.';
+  }
+
+  @override
+  String isDateBefore(DateTime value, DateTime other) {
+    final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
+    final String valueString = valueDateFormat.format(value);
+    final intl.DateFormat otherDateFormat = intl.DateFormat.yMEd(localeName);
+    final String otherString = otherDateFormat.format(other);
+
+    return 'You must enter a date before $otherString.';
+  }
+
+  @override
+  String isDateBeforeOrEqual(DateTime value, DateTime other) {
+    final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
+    final String valueString = valueDateFormat.format(value);
+    final intl.DateFormat otherDateFormat = intl.DateFormat.yMEd(localeName);
+    final String otherString = otherDateFormat.format(other);
+
+    return 'You must enter a date before or at the same time as $otherString.';
+  }
+
+  @override
+  String isDateBetween(DateTime value, DateTime min, DateTime max) {
+    final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
+    final String valueString = valueDateFormat.format(value);
+    final intl.DateFormat minDateFormat = intl.DateFormat.yMEd(localeName);
+    final String minString = minDateFormat.format(min);
+    final intl.DateFormat maxDateFormat = intl.DateFormat.yMEd(localeName);
+    final String maxString = maxDateFormat.format(max);
+
+    return 'You must enter a date between $minString and $maxString.';
+  }
+
+  @override
+  String isDateBetweenOrEqual(DateTime value, DateTime min, DateTime max) {
+    final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
+    final String valueString = valueDateFormat.format(value);
+    final intl.DateFormat minDateFormat = intl.DateFormat.yMEd(localeName);
+    final String minString = minDateFormat.format(min);
+    final intl.DateFormat maxDateFormat = intl.DateFormat.yMEd(localeName);
+    final String maxString = maxDateFormat.format(max);
+
+    return 'You must enter a date between  $minString and $maxString or at the same time as any of them.';
   }
 
   @override
@@ -400,7 +454,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
 
   @override
   String isEmail(String value) {
-    return 'You must enter a valid isEmail';
+    return 'You must enter a valid email address';
   }
 
   @override
@@ -460,17 +514,96 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
+  String isTimeAfter(DateTime value, DateTime other) {
+    final intl.DateFormat valueDateFormat = intl.DateFormat.jm(localeName);
+    final String valueString = valueDateFormat.format(value);
+    final intl.DateFormat otherDateFormat = intl.DateFormat.jm(localeName);
+    final String otherString = otherDateFormat.format(other);
+
+    return 'You must enter a date after $otherString.';
+  }
+
+  @override
+  String isTimeAfterOrEqual(DateTime value, DateTime other) {
+    final intl.DateFormat valueDateFormat = intl.DateFormat.jm(localeName);
+    final String valueString = valueDateFormat.format(value);
+    final intl.DateFormat otherDateFormat = intl.DateFormat.jm(localeName);
+    final String otherString = otherDateFormat.format(other);
+
+    return 'You must enter time after or at the same time as $otherString.';
+  }
+
+  @override
+  String isTimeBefore(DateTime value, DateTime other) {
+    final intl.DateFormat valueDateFormat = intl.DateFormat.jm(localeName);
+    final String valueString = valueDateFormat.format(value);
+    final intl.DateFormat otherDateFormat = intl.DateFormat.jm(localeName);
+    final String otherString = otherDateFormat.format(other);
+
+    return 'You must enter time before $otherString.';
+  }
+
+  @override
+  String isTimeBeforeOrEqual(DateTime value, DateTime other) {
+    final intl.DateFormat valueDateFormat = intl.DateFormat.jm(localeName);
+    final String valueString = valueDateFormat.format(value);
+    final intl.DateFormat otherDateFormat = intl.DateFormat.jm(localeName);
+    final String otherString = otherDateFormat.format(other);
+
+    return 'You must enter time before or at the same time as $otherString.';
+  }
+
+  @override
+  String isTimeBetween(DateTime value, DateTime min, DateTime max) {
+    final intl.DateFormat valueDateFormat = intl.DateFormat.jm(localeName);
+    final String valueString = valueDateFormat.format(value);
+    final intl.DateFormat minDateFormat = intl.DateFormat.jm(localeName);
+    final String minString = minDateFormat.format(min);
+    final intl.DateFormat maxDateFormat = intl.DateFormat.jm(localeName);
+    final String maxString = maxDateFormat.format(max);
+
+    return 'You must enter time between $minString and $maxString.';
+  }
+
+  @override
+  String isTimeBetweenOrEqual(DateTime value, DateTime min, DateTime max) {
+    final intl.DateFormat valueDateFormat = intl.DateFormat.jm(localeName);
+    final String valueString = valueDateFormat.format(value);
+    final intl.DateFormat minDateFormat = intl.DateFormat.jm(localeName);
+    final String minString = minDateFormat.format(min);
+    final intl.DateFormat maxDateFormat = intl.DateFormat.jm(localeName);
+    final String maxString = maxDateFormat.format(max);
+
+    return 'You must enter time between  $minString and $maxString or at the same time any of them';
+  }
+
+  @override
   String isTimeOfDay(Object value) {
     return 'You must enter a valid time';
   }
 
   @override
-  String lessThan(bool equal, num value, num max) {
-    final String selectString = intl.Intl.select(
-        equal, {'true': 'or equal to', 'other': ''},
-        desc: 'No description provided in @lessThan');
+  String lessThan(num value, num max) {
+    final intl.NumberFormat valueNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String valueString = valueNumberFormat.format(value);
+    final intl.NumberFormat maxNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String maxString = maxNumberFormat.format(max);
 
-    return 'Value must be less than, ${selectString}';
+    return 'Value must be less than $maxString.';
+  }
+
+  @override
+  String lessThanOrEqual(num value, num max) {
+    final intl.NumberFormat valueNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String valueString = valueNumberFormat.format(value);
+    final intl.NumberFormat maxNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String maxString = maxNumberFormat.format(max);
+
+    return 'Value must be less than or equal $maxString.';
   }
 
   @override
@@ -480,22 +613,22 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
 
   @override
   String listMaxLength(Iterable value, int max) {
-    return 'The number of items should not be more than $max';
+    return 'The number of elements should not be more than $max';
   }
 
   @override
   String listMinLength(Iterable value, int min) {
-    return 'The number of items should not be less than $min';
+    return 'The number of elements should not be less than {max}';
   }
 
   @override
   String listRange(Iterable value, int min, int max) {
-    return 'The number of items must be at least ${min}and no more than $max';
+    return 'The number of elements  must be between $min and $max';
   }
 
   @override
   String notContainsItem(Iterable value, dynamic res) {
-    return 'The list does not have to contain $res';
+    return 'The list should not to contain $res';
   }
 
   @override

@@ -2,11 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'circular_reveal.dart';
-import 'config.dart';
-import 'keyboard_actions.dart';
+import '../circular_reveal.dart';
+import '../config.dart';
+import '../keyboard_actions.dart';
 
-typedef OnPostDataCallBack = Future<dynamic> Function();
+part 'ensure_visible.dart';
+part 'listeners.dart';
+part 'ready_form_error_messages.dart';
+part 'submit_error_message_for.dart';
 
 /// Form key to allow accessing [validate] [onSubmit] [invalidFields] methods
 class ReadyFormKey implements ReadyFormState {
@@ -23,18 +26,13 @@ class ReadyFormKey implements ReadyFormState {
   @override
   Future<bool> onSubmit() => _key.currentState!.onSubmit();
 
-  /// detect if form is now submitting
-  @override
-  bool get submitting => _key.currentState?.submitting ?? false;
-
   /// get invalid fields in the current form
   @override
   List<FormFieldState> invalidFields() =>
       _key.currentState?.invalidFields() ?? [];
 
   @override
-  List<SubmitActions> get submitActions =>
-      _key.currentState?.submitActions ?? [];
+  FormSubmitState get submitState => _key.currentState!.submitState;
 
   @override
   Future makeFieldVisible(FormFieldState field) async {
@@ -74,10 +72,13 @@ class ReadyForm extends StatefulWidget {
   /// if [true] then it will add keyboard actions , enabled by default
   final KeyBoardActionConfig keyBoardActionConfig;
 
+  /// called before validation
+  final ValueChanged<ReadyFormState>? beforeValidate;
   ReadyForm({
     ReadyFormKey? key,
     required this.onPostData,
     required this.child,
+    this.beforeValidate,
     this.revealConfig = const RevealConfig(),
     this.onCancelRequest,
     this.cancelRequestTitle,
@@ -92,8 +93,10 @@ class ReadyForm extends StatefulWidget {
   factory ReadyForm.builder({
     ReadyFormKey? key,
     required OnPostDataCallBack onPostData,
-    required Widget Function(BuildContext context, bool submitting) builder,
+    required Widget Function(BuildContext context, FormSubmitState state)
+        builder,
     RevealConfig revealConfig = const RevealConfig(),
+    ValueChanged<ReadyFormState>? beforeValidate,
     Widget? cancelRequestTitle,
     Widget? cancelRequestContent,
     Widget? yes,
@@ -108,14 +111,15 @@ class ReadyForm extends StatefulWidget {
         cancelRequestContent: cancelRequestContent,
         cancelRequestTitle: cancelRequestTitle,
         yes: yes,
+        beforeValidate: beforeValidate,
         disableEditingOnSubmit: false,
         no: no,
         keyBoardActionConfig: keyBoardActionConfig,
         onPostData: onPostData,
         autoValidateMode: autoValidateMode,
-        child: FormSubmitListener(
-          builder: (BuildContext context, bool submitting) {
-            return builder(context, submitting);
+        child: FormStateListener(
+          builder: (BuildContext context, FormSubmitState state) {
+            return builder(context, state);
           },
         ),
       );
@@ -139,15 +143,20 @@ class ReadyForm extends StatefulWidget {
 
 class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final List<SubmitActions> _submitActions = [];
-  @override
-  List<SubmitActions> get submitActions =>
-      _submitActions.map((e) => e).toList();
   CircularRevealController? controller;
   ReadyFormConfig? get config => ReadyFormConfig.of(context);
-  final ValueNotifier<bool> _submitting = ValueNotifier<bool>(false);
+
+  final ValueNotifier<FormSubmitState> _state = ValueNotifier<FormSubmitState>(
+    FormSubmitState(
+      submitActions: [],
+      submitErrors: {},
+      submitting: false,
+    ),
+  );
+
   @override
-  bool get submitting => _submitting.value;
+  FormSubmitState get submitState => _state.value;
+
   @override
   bool validate() {
     return formKey.currentState!.validate();
@@ -157,14 +166,11 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
       widget.disableEditingOnSubmit ?? config?.disableEditingOnSubmit ?? false;
 
   void _visitElements(
-      Element element, bool Function(FormFieldState field) check) {
+      Element element, bool Function(StatefulElement element) check) {
     element.visitChildren((element) {
       if (element is StatefulElement) {
-        var _state = element.state;
-        if (_state is FormFieldState) {
-          if (check(_state)) {
-            return;
-          }
+        if (check(element)) {
+          return;
         }
       }
       _visitElements(element, check);
@@ -175,9 +181,35 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
   List<FormFieldState> invalidFields() {
     List<FormFieldState> list = [];
     context.visitChildElements((element) {
-      _visitElements(element, (field) {
-        if (!field.isValid) {
-          list.add(field);
+      _visitElements(element, (e) {
+        var _state = e.state;
+        if (_state is FormFieldState) {
+          if (!_state.isValid) {
+            list.add(_state);
+            return false;
+          }
+        }
+
+        return false;
+      });
+    });
+    return list;
+  }
+
+  List<State> invalidErrorMessages() {
+    var errors = _state.value.submitErrors;
+    if (errors.isEmpty) return [];
+    List<State> list = [];
+    context.visitChildElements((element) {
+      _visitElements(element, (e) {
+        var _state = e.state;
+        if (_state is _ReadyFormErrorMessagesState) {
+          list.add(_state);
+        } else if (_state is _SubmitErrorMessageForState) {
+          if (errors.containsKey(_state.widget.messageFor)) {
+            list.add(_state);
+            return false;
+          }
         }
         return false;
       });
@@ -187,21 +219,27 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
 
   @override
   Future makeFieldVisible(FormFieldState field) async {
-    var ensureVisible = field.context
-        .findAncestorStateOfType<_EnsureFieldVisibleState>()
-        ?.widget;
+    return _makeContextVisible(field.context);
+  }
+
+  Future _makeContextVisible(BuildContext context) async {
+    var ensureVisible =
+        context.findAncestorStateOfType<_EnsureContextVisibleState>()?.widget;
     if (ensureVisible != null && ensureVisible._ensureVisible != null) {
-      return ensureVisible._ensureVisible!(field);
+      return ensureVisible._ensureVisible!(context);
     }
     if (ensureVisible != null && ensureVisible.before != null) {
-      await ensureVisible.before!(field);
+      await ensureVisible.before!(context);
     }
-    var scope = FocusScope.of(field.context);
+    var scope = FocusScope.of(context);
     if (scope.hasFocus) {
       var focus = _firstOrDefault<FocusNode>(
         scope.children,
         (element) =>
-            element.context?.findAncestorStateOfType<FormFieldState>() == field,
+            element.context
+                ?.findAncestorStateOfType<FormFieldState>()
+                ?.context ==
+            context,
       );
       if (focus != null && focus != scope.focusedChild) {
         scope.requestFocus(focus);
@@ -209,72 +247,88 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
       }
     }
     await Scrollable.ensureVisible(
-      field.context,
+      context,
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInCubic,
       alignment: 1.0,
       alignmentPolicy: ScrollPositionAlignmentPolicy.explicit,
     );
     if (ensureVisible != null && ensureVisible.after != null) {
-      await ensureVisible.after!(field);
+      await ensureVisible.after!(context);
+    }
+  }
+
+  Future _moveToFirstInvalid() async {
+    var items = invalidFields();
+    if (items.isNotEmpty) {
+      await makeFieldVisible(items.first);
     }
   }
 
   @override
   Future<bool> onSubmit() async {
-    var action = SubmitActions(isValid: true, isSubmitting: submitting);
-    if (submitting) {
-      setState(() {
-        _submitActions.add(action);
-      });
+    var action =
+        SubmitActions(isValid: true, isSubmitting: _state.value.submitting);
+    if (action.isSubmitting) {
+      _state.value = _state.value
+          .copyWith(submitActions: [..._state.value.submitActions, action]);
       return false;
     }
     action = action.copyWith(isSubmitting: false);
+    widget.beforeValidate?.call(this);
+    _state.value = _state.value.copyWith(submitErrors: {});
     if (validate()) {
-      setState(() {
-        _submitActions.add(action);
-      });
       formKey.currentState!.save();
-      await _validationSuccess();
-      return true;
+      var res = await _validationSuccess(action);
+      return res.errors.isEmpty;
     } else {
-      setState(() {
-        _submitActions.add(action.copyWith(isValid: false));
-      });
-      var items = invalidFields();
-      if (items.isNotEmpty) {
-        await makeFieldVisible(items.first);
-      }
+      _state.value = _state.value.copyWith(submitActions: [
+        ..._state.value.submitActions,
+        action.copyWith(isValid: false)
+      ]);
+
+      await _moveToFirstInvalid();
       return false;
     }
   }
 
-  Future<dynamic> _validationSuccess() async {
+  Future<OnPostDataResult> _validationSuccess(SubmitActions action) async {
     var currentFocus = FocusScope.of(formKey.currentContext!);
     if (!currentFocus.hasPrimaryFocus) {
       currentFocus.unfocus();
     }
-    setState(() {
-      _submitting.value = true;
-    });
+    _state.value = _state.value.copyWith(submitting: true);
     try {
       if (_disableEditingOnSubmit) FocusScope.of(context).unfocus();
-      var result = await widget.onPostData();
-      setState(() {
-        _submitting.value = false;
-      });
-      if (controller != null) {
+      var res = await widget.onPostData();
+      _state.value = _state.value.copyWith(
+        submitting: false,
+        submitActions: [
+          ..._state.value.submitActions,
+          action.copyWith(isValid: res.errors.isEmpty)
+        ],
+        submitErrors: res.errors,
+      );
+
+      var _invalidMessages = invalidErrorMessages();
+      if (_invalidMessages.isNotEmpty) {
+        _makeContextVisible(_invalidMessages[0].context);
+      }
+      if (controller != null && res.errors.isEmpty) {
         await controller!.reveal().then((value) async {
           await Future.delayed(const Duration(milliseconds: 300));
           await controller?.unReveal();
         });
       }
-
-      return result;
+      return res;
     } catch (e) {
-      setState(() {
-        _submitting.value = false;
-      });
+      _state.value = _state.value.copyWith(
+        submitting: false,
+        submitActions: [
+          ..._state.value.submitActions,
+          action.copyWith(isValid: false)
+        ],
+      );
       rethrow;
     }
   }
@@ -321,7 +375,7 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
       case FormAutoValidateMode.onUserInteraction:
         return AutovalidateMode.onUserInteraction;
       case FormAutoValidateMode.onSubmit:
-        return submitActions.isEmpty
+        return _state.value.submitActions.isEmpty
             ? AutovalidateMode.disabled
             : AutovalidateMode.always;
     }
@@ -338,12 +392,13 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
 
   Widget _buildForm(BuildContext context) {
     return AbsorbPointer(
-      absorbing: _disableEditingOnSubmit && _submitting.value,
+      absorbing: _disableEditingOnSubmit && _state.value.submitting,
       child: Form(
         key: formKey,
         onWillPop: () async {
-          if (!submitting || widget.onCancelRequest == null) return true;
-
+          if (!_state.value.submitting || widget.onCancelRequest == null) {
+            return true;
+          }
           var res = await showDialog(
               context: context,
               builder: (context) {
@@ -380,57 +435,5 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
         child: widget.child,
       ),
     );
-  }
-}
-
-/// listen for form submit event
-class FormSubmitListener extends StatelessWidget {
-  final Widget Function(BuildContext context, bool submitting) builder;
-  const FormSubmitListener({Key? key, required this.builder}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: ReadyForm._of(context)!._submitting,
-      builder: (BuildContext ctx, bool v, c) => builder(ctx, v),
-    );
-  }
-}
-
-/// wrap your fields with this widget will override the default behaviour of
-/// field visibility
-///
-/// for [EnsureFieldVisible] constructor the [ensureVisible] callback will be called after the default behaviour
-/// for [EnsureFieldVisible.override] constructor the [ensureVisible] callback will override the default behaviour
-
-class EnsureFieldVisible extends StatefulWidget {
-  final Future Function(FormFieldState field)? after;
-  final Future Function(FormFieldState field)? before;
-  final Future Function(FormFieldState field)? _ensureVisible;
-  final Widget child;
-  const EnsureFieldVisible({
-    Key? key,
-    this.after,
-    this.before,
-    required this.child,
-  })  : _ensureVisible = null,
-        super(key: key);
-  const EnsureFieldVisible.override({
-    Key? key,
-    required Future Function(FormFieldState field) ensureVisible,
-    required this.child,
-  })  : _ensureVisible = ensureVisible,
-        after = null,
-        before = null,
-        super(key: key);
-
-  @override
-  State<EnsureFieldVisible> createState() => _EnsureFieldVisibleState();
-}
-
-class _EnsureFieldVisibleState extends State<EnsureFieldVisible> {
-  @override
-  Widget build(BuildContext context) {
-    return widget.child;
   }
 }

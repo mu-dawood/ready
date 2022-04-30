@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ready_extensions/ready_extensions.dart';
+import 'package:ready_validation/src/messages/messages_en.dart';
 
 import 'config.dart';
 import 'messages/messages.dart';
@@ -25,7 +26,7 @@ extension ValidationExtensions on BuildContext {
   ReadyValidationMessages get _messages =>
       ValidationMessagesConfig.of(this) ??
       ReadyValidationMessages.of(this) ??
-      ReadyValidationMessagesAr();
+      ReadyValidationMessagesEn();
 
   /// create [FieldValidator] for [String]
   FieldValidator<String?, String?> string(
@@ -33,9 +34,7 @@ extension ValidationExtensions on BuildContext {
     return FieldValidator<String?, String?>._(
       messages: _messages,
       convert: (v) => v,
-      validatePrev: (v) => null,
-      prevErrors: (v) => [],
-      validate: (value) => validate?.call(value),
+      validate: (value) => validate?.call(value.value),
     );
   }
 
@@ -44,9 +43,7 @@ extension ValidationExtensions on BuildContext {
     return FieldValidator<num?, num?>._(
       messages: _messages,
       convert: (v) => v,
-      validatePrev: (v) => null,
-      prevErrors: (v) => [],
-      validate: (value) => validate?.call(value),
+      validate: (value) => validate?.call(value.value),
     );
   }
 
@@ -55,9 +52,7 @@ extension ValidationExtensions on BuildContext {
     return FieldValidator<int?, int?>._(
       messages: _messages,
       convert: (v) => v,
-      validatePrev: (v) => null,
-      prevErrors: (v) => [],
-      validate: (value) => validate?.call(value),
+      validate: (value) => validate?.call(value.value),
     );
   }
 
@@ -67,9 +62,7 @@ extension ValidationExtensions on BuildContext {
     return FieldValidator<double?, double?>._(
       messages: _messages,
       convert: (v) => v,
-      validatePrev: (v) => null,
-      prevErrors: (v) => [],
-      validate: (value) => validate?.call(value),
+      validate: (value) => validate?.call(value.value),
     );
   }
 
@@ -79,9 +72,7 @@ extension ValidationExtensions on BuildContext {
     return FieldValidator<bool?, bool?>._(
       messages: _messages,
       convert: (v) => v,
-      validatePrev: (v) => null,
-      prevErrors: (v) => [],
-      validate: (value) => validate?.call(value),
+      validate: (value) => validate?.call(value.value),
     );
   }
 
@@ -91,9 +82,7 @@ extension ValidationExtensions on BuildContext {
     return FieldValidator<DateTime?, DateTime?>._(
       messages: _messages,
       convert: (v) => v,
-      validatePrev: (v) => null,
-      prevErrors: (v) => [],
-      validate: (value) => validate?.call(value),
+      validate: (value) => validate?.call(value.value),
     );
   }
 
@@ -103,9 +92,7 @@ extension ValidationExtensions on BuildContext {
     return FieldValidator<TimeOfDay?, TimeOfDay?>._(
       messages: _messages,
       convert: (v) => v,
-      validatePrev: (v) => null,
-      prevErrors: (v) => [],
-      validate: (value) => validate?.call(value),
+      validate: (value) => validate?.call(value.value),
     );
   }
 
@@ -115,9 +102,7 @@ extension ValidationExtensions on BuildContext {
     return FieldValidator<List<T>?, List<T>?>._(
       messages: _messages,
       convert: (v) => v,
-      validatePrev: (v) => null,
-      prevErrors: (v) => [],
-      validate: (value) => validate?.call(value),
+      validate: (value) => validate?.call(value.value),
     );
   }
 
@@ -127,9 +112,7 @@ extension ValidationExtensions on BuildContext {
     return FieldValidator<Map<K, V>?, Map<K, V>?>._(
       messages: _messages,
       convert: (v) => v,
-      validatePrev: (v) => null,
-      prevErrors: (v) => [],
-      validate: (value) => validate?.call(value),
+      validate: (value) => validate?.call(value.value),
     );
   }
 
@@ -138,9 +121,7 @@ extension ValidationExtensions on BuildContext {
     return FieldValidator<T, T>._(
       messages: _messages,
       convert: (v) => v,
-      validatePrev: (v) => null,
-      prevErrors: (v) => [],
-      validate: (value) => validate?.call(value),
+      validate: (value) => validate?.call(value.value),
     );
   }
 }

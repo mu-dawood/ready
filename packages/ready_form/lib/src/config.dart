@@ -1,4 +1,57 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+
+typedef OnPostDataCallBack = Future<OnPostDataResult> Function();
+
+class OnPostDataResult {
+  final Map<String, String> errors;
+  OnPostDataResult([this.errors = const {}]);
+}
+
+class FormSubmitState {
+  /// detect if form is submitting
+  final bool submitting;
+
+  /// the list of times [onSubmit] method called
+  final List<SubmitActions> submitActions;
+
+  /// get the extra errors for the form that may be added by users
+  /// May be used for remote errors
+  final Map<String, String> submitErrors;
+
+  FormSubmitState({
+    required this.submitting,
+    required this.submitActions,
+    required this.submitErrors,
+  });
+
+  FormSubmitState copyWith({
+    bool? submitting,
+    List<SubmitActions>? submitActions,
+    Map<String, String>? submitErrors,
+  }) {
+    return FormSubmitState(
+      submitting: submitting ?? this.submitting,
+      submitActions: submitActions ?? this.submitActions,
+      submitErrors: submitErrors ?? this.submitErrors,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    final collectionEquals = const DeepCollectionEquality().equals;
+
+    return other is FormSubmitState &&
+        other.submitting == submitting &&
+        collectionEquals(other.submitActions, submitActions) &&
+        collectionEquals(other.submitErrors, submitErrors);
+  }
+
+  @override
+  int get hashCode =>
+      submitting.hashCode ^ submitActions.hashCode ^ submitErrors.hashCode;
+}
 
 abstract class ReadyFormState {
   /// validate form field
@@ -7,11 +60,7 @@ abstract class ReadyFormState {
   /// call this to submit form
   Future<bool> onSubmit();
 
-  /// detect if form is submitting
-  bool get submitting;
-
-  /// the list of times [onSubmit] method called
-  List<SubmitActions> get submitActions;
+  FormSubmitState get submitState;
 
   /// get the invalid fields of the form
   List<FormFieldState> invalidFields();

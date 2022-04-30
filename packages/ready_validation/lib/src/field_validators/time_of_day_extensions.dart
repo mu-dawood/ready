@@ -14,7 +14,7 @@ extension TimeOfDayValidationExtension<T> on FieldValidator<T, TimeOfDay> {
       var _other = other();
       if (!value.isAfter(_other)) {
         return message?.call(messages, value) ??
-            messages.isDateAfter(false, _dateTime(value), _dateTime(_other));
+            messages.isTimeAfter(_dateTime(value), _dateTime(_other));
       }
       return null;
     });
@@ -34,7 +34,7 @@ extension TimeOfDayValidationExtension<T> on FieldValidator<T, TimeOfDay> {
 
       if (!value.isAfter(_other) && !value.isAtSameMomentAs(_other)) {
         return message?.call(messages, value) ??
-            messages.isDateAfter(true, _dateTime(value), _dateTime(_other));
+            messages.isTimeAfterOrEqual(_dateTime(value), _dateTime(_other));
       }
       return null;
     });
@@ -53,7 +53,7 @@ extension TimeOfDayValidationExtension<T> on FieldValidator<T, TimeOfDay> {
       var _other = other();
       if (!value.isBefore(_other)) {
         return message?.call(messages, value) ??
-            messages.isDateBefore(false, _dateTime(value), _dateTime(_other));
+            messages.isTimeBefore(_dateTime(value), _dateTime(_other));
       }
       return null;
     });
@@ -72,7 +72,7 @@ extension TimeOfDayValidationExtension<T> on FieldValidator<T, TimeOfDay> {
       var _other = other();
       if (!value.isBefore(_other) && !value.isAtSameMomentAs(_other)) {
         return message?.call(messages, value) ??
-            messages.isDateBefore(true, _dateTime(value), _dateTime(_other));
+            messages.isTimeBeforeOrEqual(_dateTime(value), _dateTime(_other));
       }
       return null;
     });
@@ -94,8 +94,8 @@ extension TimeOfDayValidationExtension<T> on FieldValidator<T, TimeOfDay> {
 
       if (!value.isAfter(_min) || !value.isBefore(_max)) {
         return message?.call(messages, value) ??
-            messages.isDateBetween(
-                false, _dateTime(value), _dateTime(_min), _dateTime(_max));
+            messages.isTimeBetween(
+                _dateTime(value), _dateTime(_min), _dateTime(_max));
       }
       return null;
     });
@@ -116,8 +116,8 @@ extension TimeOfDayValidationExtension<T> on FieldValidator<T, TimeOfDay> {
       var _max = max();
       if (value.isBefore(_min) || value.isAfter(_max)) {
         return message?.call(messages, value) ??
-            messages.isDateBetween(
-                true, _dateTime(value), _dateTime(_min), _dateTime(_max));
+            messages.isTimeBetweenOrEqual(
+                _dateTime(value), _dateTime(_min), _dateTime(_max));
       }
       return null;
     });

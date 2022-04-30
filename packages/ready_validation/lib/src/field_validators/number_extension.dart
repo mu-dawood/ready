@@ -7,8 +7,7 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
     return next((messages, value) {
       var _max = max();
       if (value >= _max) {
-        return message?.call(messages, value) ??
-            messages.lessThan(false, value, _max);
+        return message?.call(messages, value) ?? messages.lessThan(value, _max);
       }
       return null;
     });
@@ -25,7 +24,7 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
       var _min = min();
       if (value <= _min) {
         return message?.call(messages, value) ??
-            messages.greaterThan(false, value, _min);
+            messages.greaterThan(value, _min);
       }
       return null;
     });
@@ -44,7 +43,7 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
       var _min = min();
       if (value <= _min || value >= _max) {
         return message?.call(messages, value) ??
-            messages.isBetween(false, value, _min, _max);
+            messages.isBetween(value, _min, _max);
       }
       return null;
     });
@@ -62,7 +61,7 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
       var _max = max();
       if (value > _max) {
         return message?.call(messages, value) ??
-            messages.lessThan(true, value, _max);
+            messages.lessThanOrEqual(value, _max);
       }
       return null;
     });
@@ -80,7 +79,7 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
       var _min = min();
       if (value < _min) {
         return message?.call(messages, value) ??
-            messages.greaterThan(true, value, _min);
+            messages.greaterThanOrEqual(value, _min);
       }
       return null;
     });
@@ -100,7 +99,7 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
       var _min = min();
       if (value < _min || value > _max) {
         return message?.call(messages, value) ??
-            messages.isBetween(true, value, _min, _max);
+            messages.isBetweenOrEqual(value, _min, _max);
       }
       return null;
     });

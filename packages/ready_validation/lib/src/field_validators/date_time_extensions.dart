@@ -8,7 +8,7 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
       var _other = other();
       if (!value.isAfter(_other)) {
         return message?.call(messages, value) ??
-            messages.isDateAfter(false, value, _other);
+            messages.isDateAfter(value, _other);
       }
       return null;
     });
@@ -28,7 +28,7 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
 
       if (!value.isAfter(_other) && !value.isAtSameMomentAs(_other)) {
         return message?.call(messages, value) ??
-            messages.isDateAfter(true, value, _other);
+            messages.isDateAfterOrEqual(value, _other);
       }
       return null;
     });
@@ -47,7 +47,7 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
       var _other = other();
       if (!value.isBefore(_other)) {
         return message?.call(messages, value) ??
-            messages.isDateBefore(false, value, _other);
+            messages.isDateBefore(value, _other);
       }
       return null;
     });
@@ -66,7 +66,7 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
       var _other = other();
       if (!value.isBefore(_other) && !value.isAtSameMomentAs(_other)) {
         return message?.call(messages, value) ??
-            messages.isDateBefore(true, value, _other);
+            messages.isDateBeforeOrEqual(value, _other);
       }
       return null;
     });
@@ -88,7 +88,7 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
 
       if (!value.isAfter(_min) || !value.isBefore(_max)) {
         return message?.call(messages, value) ??
-            messages.isDateBetween(false, value, _min, _max);
+            messages.isDateBetween(value, _min, _max);
       }
       return null;
     });
@@ -109,7 +109,7 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
       var _max = max();
       if (value.isBefore(_min) || value.isAfter(_max)) {
         return message?.call(messages, value) ??
-            messages.isDateBetween(true, value, _min, _max);
+            messages.isDateBetweenOrEqual(value, _min, _max);
       }
       return null;
     });

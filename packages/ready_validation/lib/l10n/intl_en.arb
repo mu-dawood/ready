@@ -41,12 +41,22 @@
       }
     }
   },
-  "greaterThan": "The value should be greater than, {equal, select, true {or equal to}  other {}} {min}",
+  "greaterThan": "The value should be greater than {min}.",
   "@greaterThan": {
     "placeholders": {
-      "equal": {
-        "type": "bool"
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
       },
+      "min": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "greaterThanOrEqual": "The value should be greater than or equal {min}.",
+  "@greaterThanOrEqual": {
+    "placeholders": {
       "value": {
         "type": "num",
         "format": "decimalPattern"
@@ -223,7 +233,7 @@
       }
     }
   },
-  "invalidLinkedInCompanyUrl": "Sorry! you have to enter a valid linked in company url. {permalink}",
+  "invalidLinkedInCompanyUrl": "Sorry! you have to enter a valid inked in {permalink, select, _{company url} other{company with {permalink} url}}.",
   "@invalidLinkedInCompanyUrl": {
     "placeholders": {
       "value": {
@@ -245,7 +255,7 @@
       }
     }
   },
-  "invalidLinkedInProfileUrl": "Sorry! you have to enter a valid linked in profile url. {permalink}",
+  "invalidLinkedInProfileUrl": "Sorry! you have to enter a valid inked in {permalink, select, _{profile url} other{profile with {permalink} url}}.",
   "@invalidLinkedInProfileUrl": {
     "placeholders": {
       "value": {
@@ -408,116 +418,9 @@
       }
     }
   },
-  "isDateAfter": "You must enter a  date after {other}, {equal, select, true {or equal to} other{}}",
-  "@isDateAfter": {
-    "placeholders": {
-      "equal": {
-        "type": "bool"
-      },
-      "value": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
-      "other": {
-        "type": "DateTime",
-        "format": "yMEd"
-      }
-    }
-  },
-  "isDateBefore": "You must enter a date before {other}, {equal, select, true {or equal to} other{}}",
-  "@isDateBefore": {
-    "placeholders": {
-      "equal": {
-        "type": "bool"
-      },
-      "value": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
-      "other": {
-        "type": "DateTime",
-        "format": "yMEd"
-      }
-    }
-  },
-  "isDateBetween": "You must enter a date between {min} and {max}, {equal, select, true {or equal to one} other{}}",
-  "@isDateBetween": {
-    "placeholders": {
-      "equal": {
-        "type": "bool"
-      },
-      "value": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
-      "min": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
-      "max": {
-        "type": "DateTime",
-        "format": "yMEd"
-      }
-    }
-  },
-  "isTimeAfter": "You must enter a time after {other}, {equal, select, true {or equal to} other{}}",
-  "@isTimeAfter": {
-    "placeholders": {
-      "equal": {
-        "type": "bool"
-      },
-      "value": {
-        "type": "DateTime",
-        "format": "jm"
-      },
-      "other": {
-        "type": "DateTime",
-        "format": "jm"
-      }
-    }
-  },
-  "isTimeBefore": "You must enter a time before {other}, {equal, select, true {or equal to} other{}}",
-  "@isTimeBefore": {
-    "placeholders": {
-      "equal": {
-        "type": "bool"
-      },
-      "value": {
-        "type": "DateTime",
-        "format": "jm"
-      },
-      "other": {
-        "type": "DateTime",
-        "format": "jm"
-      }
-    }
-  },
-  "isTimeBetween": "You must enter a time between {min} and {max}, {equal, select, true {or equal to one} other{}}",
-  "@isTimeBetween": {
-    "placeholders": {
-      "equal": {
-        "type": "bool"
-      },
-      "value": {
-        "type": "DateTime",
-        "format": "jm"
-      },
-      "min": {
-        "type": "DateTime",
-        "format": "jm"
-      },
-      "max": {
-        "type": "DateTime",
-        "format": "jm"
-      }
-    }
-  },
-  "isBetween": "Value must be greater {min}than and less than {max}{equal, select, true {or equal} other{}}",
+  "isBetween": "Value must be greater than {min} and less than {max}",
   "@isBetween": {
     "placeholders": {
-      "equal": {
-        "type": "bool"
-      },
       "value": {
         "type": "num",
         "format": "decimalPattern"
@@ -532,11 +435,114 @@
       }
     }
   },
-  "isCreditCard": "You must enter the credit card number",
+  "isBetweenOrEqual": "Value must be greater than or equal {min} and less than or equal {max}",
+  "@isBetweenOrEqual": {
+    "placeholders": {
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "min": {
+        "type": "num",
+        "format": "decimalPattern"
+      },
+      "max": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "isCreditCard": "You must enter a valid credit card number",
   "@isCreditCard": {
     "placeholders": {
       "value": {
         "type": "String"
+      }
+    }
+  },
+  "isDateAfter": "You must enter a date after {other}.",
+  "@isDateAfter": {
+    "placeholders": {
+      "value": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "other": {
+        "type": "DateTime",
+        "format": "yMEd"
+      }
+    }
+  },
+  "isDateAfterOrEqual": "You must enter a date after or at the same time as {other}.",
+  "@isDateAfterOrEqual": {
+    "placeholders": {
+      "value": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "other": {
+        "type": "DateTime",
+        "format": "yMEd"
+      }
+    }
+  },
+  "isDateBefore": "You must enter a date before {other}.",
+  "@isDateBefore": {
+    "placeholders": {
+      "value": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "other": {
+        "type": "DateTime",
+        "format": "yMEd"
+      }
+    }
+  },
+  "isDateBeforeOrEqual": "You must enter a date before or at the same time as {other}.",
+  "@isDateBeforeOrEqual": {
+    "placeholders": {
+      "value": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "other": {
+        "type": "DateTime",
+        "format": "yMEd"
+      }
+    }
+  },
+  "isDateBetween": "You must enter a date between {min} and {max}.",
+  "@isDateBetween": {
+    "placeholders": {
+      "value": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "min": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "max": {
+        "type": "DateTime",
+        "format": "yMEd"
+      }
+    }
+  },
+  "isDateBetweenOrEqual": "You must enter a date between  {min} and {max} or at the same time as any of them.",
+  "@isDateBetweenOrEqual": {
+    "placeholders": {
+      "value": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "min": {
+        "type": "DateTime",
+        "format": "yMEd"
+      },
+      "max": {
+        "type": "DateTime",
+        "format": "yMEd"
       }
     }
   },
@@ -565,7 +571,7 @@
       }
     }
   },
-  "isEmail": "You must enter a valid isEmail",
+  "isEmail": "You must enter a valid email address",
   "@isEmail": {
     "placeholders": {
       "value": {
@@ -643,18 +649,114 @@
       }
     }
   },
+  "isTimeAfter": "You must enter a date after {other}.",
+  "@isTimeAfter": {
+    "placeholders": {
+      "value": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "other": {
+        "type": "DateTime",
+        "format": "jm"
+      }
+    }
+  },
+  "isTimeAfterOrEqual": "You must enter time after or at the same time as {other}.",
+  "@isTimeAfterOrEqual": {
+    "placeholders": {
+      "value": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "other": {
+        "type": "DateTime",
+        "format": "jm"
+      }
+    }
+  },
+  "isTimeBefore": "You must enter time before {other}.",
+  "@isTimeBefore": {
+    "placeholders": {
+      "value": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "other": {
+        "type": "DateTime",
+        "format": "jm"
+      }
+    }
+  },
+  "isTimeBeforeOrEqual": "You must enter time before or at the same time as {other}.",
+  "@isTimeBeforeOrEqual": {
+    "placeholders": {
+      "value": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "other": {
+        "type": "DateTime",
+        "format": "jm"
+      }
+    }
+  },
+  "isTimeBetween": "You must enter time between {min} and {max}.",
+  "@isTimeBetween": {
+    "placeholders": {
+      "value": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "min": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "max": {
+        "type": "DateTime",
+        "format": "jm"
+      }
+    }
+  },
+  "isTimeBetweenOrEqual": "You must enter time between  {min} and {max} or at the same time any of them",
+  "@isTimeBetweenOrEqual": {
+    "placeholders": {
+      "value": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "min": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "max": {
+        "type": "DateTime",
+        "format": "jm"
+      }
+    }
+  },
   "isTimeOfDay": "You must enter a valid time",
   "@isTimeOfDay": {
     "placeholders": {
       "value": {}
     }
   },
-  "lessThan": "Value must be less than, {equal, select, true {or equal to}  other {}} {max}",
+  "lessThan": "Value must be less than {max}.",
   "@lessThan": {
     "placeholders": {
-      "equal": {
-        "type": "bool"
+      "value": {
+        "type": "num",
+        "format": "decimalPattern"
       },
+      "max": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "lessThanOrEqual": "Value must be less than or equal {max}.",
+  "@lessThanOrEqual": {
+    "placeholders": {
       "value": {
         "type": "num",
         "format": "decimalPattern"
@@ -676,7 +778,7 @@
       }
     }
   },
-  "listMaxLength": "The number of items should not be more than {max}",
+  "listMaxLength": "The number of elements should not be more than {max}",
   "@listMaxLength": {
     "placeholders": {
       "value": {
@@ -687,7 +789,7 @@
       }
     }
   },
-  "listMinLength": "The number of items should not be less than {min}",
+  "listMinLength": "The number of elements should not be less than {max}",
   "@listMinLength": {
     "placeholders": {
       "value": {
@@ -698,7 +800,7 @@
       }
     }
   },
-  "listRange": "The number of items must be at least {min}and no more than {max}",
+  "listRange": "The number of elements  must be between {min} and {max}",
   "@listRange": {
     "placeholders": {
       "value": {
@@ -712,7 +814,7 @@
       }
     }
   },
-  "notContainsItem": "The list does not have to contain {res}",
+  "notContainsItem": "The list should not to contain {res}",
   "@notContainsItem": {
     "placeholders": {
       "value": {

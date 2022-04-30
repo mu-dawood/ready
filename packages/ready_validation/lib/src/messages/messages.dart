@@ -6,8 +6,6 @@ import 'package:intl/intl.dart' as intl;
 
 import 'messages_ar.dart';
 import 'messages_en.dart';
-import 'messages_fr.dart';
-import 'messages_ur.dart';
 
 /// Callers can lookup localized strings with an instance of ReadyValidationMessages returned
 /// by `ReadyValidationMessages.of(context)`.
@@ -77,9 +75,7 @@ abstract class ReadyValidationMessages {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('ar'),
-    Locale('en'),
-    Locale('fr'),
-    Locale('ur')
+    Locale('en')
   ];
 
   /// No description provided for @contains.
@@ -109,8 +105,14 @@ abstract class ReadyValidationMessages {
   /// No description provided for @greaterThan.
   ///
   /// In en, this message translates to:
-  /// **'The value should be greater than, {equal, select, true {or equal to}  other {}} {min}'**
-  String greaterThan(bool equal, num value, num min);
+  /// **'The value should be greater than {min}.'**
+  String greaterThan(num value, num min);
+
+  /// No description provided for @greaterThanOrEqual.
+  ///
+  /// In en, this message translates to:
+  /// **'The value should be greater than or equal {min}.'**
+  String greaterThanOrEqual(num value, num min);
 
   /// No description provided for @hasLength.
   ///
@@ -199,7 +201,7 @@ abstract class ReadyValidationMessages {
   /// No description provided for @invalidLinkedInCompanyUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid linked in company url. {permalink}'**
+  /// **'Sorry! you have to enter a valid inked in {permalink, select, _{company url} other{company with {permalink} url}}.'**
   String invalidLinkedInCompanyUrl(String value, String permalink);
 
   /// No description provided for @invalidLinkedInPostUrl.
@@ -211,7 +213,7 @@ abstract class ReadyValidationMessages {
   /// No description provided for @invalidLinkedInProfileUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid linked in profile url. {permalink}'**
+  /// **'Sorry! you have to enter a valid inked in {permalink, select, _{profile url} other{profile with {permalink} url}}.'**
   String invalidLinkedInProfileUrl(String value, String permalink);
 
   /// No description provided for @invalidMediumPostUrl.
@@ -292,53 +294,59 @@ abstract class ReadyValidationMessages {
   /// **'Sorry! you have to enter a valid youtube video {id, select, _{url} other{with id: {id}}}.'**
   String invalidYoutubeVideoUrl(String value, String id);
 
-  /// No description provided for @isDateAfter.
-  ///
-  /// In en, this message translates to:
-  /// **'You must enter a  date after {other}, {equal, select, true {or equal to} other{}}'**
-  String isDateAfter(bool equal, DateTime value, DateTime other);
-
-  /// No description provided for @isDateBefore.
-  ///
-  /// In en, this message translates to:
-  /// **'You must enter a date before {other}, {equal, select, true {or equal to} other{}}'**
-  String isDateBefore(bool equal, DateTime value, DateTime other);
-
-  /// No description provided for @isDateBetween.
-  ///
-  /// In en, this message translates to:
-  /// **'You must enter a date between {min} and {max}, {equal, select, true {or equal to one} other{}}'**
-  String isDateBetween(bool equal, DateTime value, DateTime min, DateTime max);
-
-  /// No description provided for @isTimeAfter.
-  ///
-  /// In en, this message translates to:
-  /// **'You must enter a time after {other}, {equal, select, true {or equal to} other{}}'**
-  String isTimeAfter(bool equal, DateTime value, DateTime other);
-
-  /// No description provided for @isTimeBefore.
-  ///
-  /// In en, this message translates to:
-  /// **'You must enter a time before {other}, {equal, select, true {or equal to} other{}}'**
-  String isTimeBefore(bool equal, DateTime value, DateTime other);
-
-  /// No description provided for @isTimeBetween.
-  ///
-  /// In en, this message translates to:
-  /// **'You must enter a time between {min} and {max}, {equal, select, true {or equal to one} other{}}'**
-  String isTimeBetween(bool equal, DateTime value, DateTime min, DateTime max);
-
   /// No description provided for @isBetween.
   ///
   /// In en, this message translates to:
-  /// **'Value must be greater {min}than and less than {max}{equal, select, true {or equal} other{}}'**
-  String isBetween(bool equal, num value, num min, num max);
+  /// **'Value must be greater than {min} and less than {max}'**
+  String isBetween(num value, num min, num max);
+
+  /// No description provided for @isBetweenOrEqual.
+  ///
+  /// In en, this message translates to:
+  /// **'Value must be greater than or equal {min} and less than or equal {max}'**
+  String isBetweenOrEqual(num value, num min, num max);
 
   /// No description provided for @isCreditCard.
   ///
   /// In en, this message translates to:
-  /// **'You must enter the credit card number'**
+  /// **'You must enter a valid credit card number'**
   String isCreditCard(String value);
+
+  /// No description provided for @isDateAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'You must enter a date after {other}.'**
+  String isDateAfter(DateTime value, DateTime other);
+
+  /// No description provided for @isDateAfterOrEqual.
+  ///
+  /// In en, this message translates to:
+  /// **'You must enter a date after or at the same time as {other}.'**
+  String isDateAfterOrEqual(DateTime value, DateTime other);
+
+  /// No description provided for @isDateBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'You must enter a date before {other}.'**
+  String isDateBefore(DateTime value, DateTime other);
+
+  /// No description provided for @isDateBeforeOrEqual.
+  ///
+  /// In en, this message translates to:
+  /// **'You must enter a date before or at the same time as {other}.'**
+  String isDateBeforeOrEqual(DateTime value, DateTime other);
+
+  /// No description provided for @isDateBetween.
+  ///
+  /// In en, this message translates to:
+  /// **'You must enter a date between {min} and {max}.'**
+  String isDateBetween(DateTime value, DateTime min, DateTime max);
+
+  /// No description provided for @isDateBetweenOrEqual.
+  ///
+  /// In en, this message translates to:
+  /// **'You must enter a date between  {min} and {max} or at the same time as any of them.'**
+  String isDateBetweenOrEqual(DateTime value, DateTime min, DateTime max);
 
   /// No description provided for @isDateTime.
   ///
@@ -361,7 +369,7 @@ abstract class ReadyValidationMessages {
   /// No description provided for @isEmail.
   ///
   /// In en, this message translates to:
-  /// **'You must enter a valid isEmail'**
+  /// **'You must enter a valid email address'**
   String isEmail(String value);
 
   /// No description provided for @isEven.
@@ -412,6 +420,42 @@ abstract class ReadyValidationMessages {
   /// **'The value should be positive'**
   String isPositive(num value);
 
+  /// No description provided for @isTimeAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'You must enter a date after {other}.'**
+  String isTimeAfter(DateTime value, DateTime other);
+
+  /// No description provided for @isTimeAfterOrEqual.
+  ///
+  /// In en, this message translates to:
+  /// **'You must enter time after or at the same time as {other}.'**
+  String isTimeAfterOrEqual(DateTime value, DateTime other);
+
+  /// No description provided for @isTimeBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'You must enter time before {other}.'**
+  String isTimeBefore(DateTime value, DateTime other);
+
+  /// No description provided for @isTimeBeforeOrEqual.
+  ///
+  /// In en, this message translates to:
+  /// **'You must enter time before or at the same time as {other}.'**
+  String isTimeBeforeOrEqual(DateTime value, DateTime other);
+
+  /// No description provided for @isTimeBetween.
+  ///
+  /// In en, this message translates to:
+  /// **'You must enter time between {min} and {max}.'**
+  String isTimeBetween(DateTime value, DateTime min, DateTime max);
+
+  /// No description provided for @isTimeBetweenOrEqual.
+  ///
+  /// In en, this message translates to:
+  /// **'You must enter time between  {min} and {max} or at the same time any of them'**
+  String isTimeBetweenOrEqual(DateTime value, DateTime min, DateTime max);
+
   /// No description provided for @isTimeOfDay.
   ///
   /// In en, this message translates to:
@@ -421,8 +465,14 @@ abstract class ReadyValidationMessages {
   /// No description provided for @lessThan.
   ///
   /// In en, this message translates to:
-  /// **'Value must be less than, {equal, select, true {or equal to}  other {}} {max}'**
-  String lessThan(bool equal, num value, num max);
+  /// **'Value must be less than {max}.'**
+  String lessThan(num value, num max);
+
+  /// No description provided for @lessThanOrEqual.
+  ///
+  /// In en, this message translates to:
+  /// **'Value must be less than or equal {max}.'**
+  String lessThanOrEqual(num value, num max);
 
   /// No description provided for @listHasLength.
   ///
@@ -433,25 +483,25 @@ abstract class ReadyValidationMessages {
   /// No description provided for @listMaxLength.
   ///
   /// In en, this message translates to:
-  /// **'The number of items should not be more than {max}'**
+  /// **'The number of elements should not be more than {max}'**
   String listMaxLength(Iterable value, int max);
 
   /// No description provided for @listMinLength.
   ///
   /// In en, this message translates to:
-  /// **'The number of items should not be less than {min}'**
+  /// **'The number of elements should not be less than {max}'**
   String listMinLength(Iterable value, int min);
 
   /// No description provided for @listRange.
   ///
   /// In en, this message translates to:
-  /// **'The number of items must be at least {min}and no more than {max}'**
+  /// **'The number of elements  must be between {min} and {max}'**
   String listRange(Iterable value, int min, int max);
 
   /// No description provided for @notContainsItem.
   ///
   /// In en, this message translates to:
-  /// **'The list does not have to contain {res}'**
+  /// **'The list should not to contain {res}'**
   String notContainsItem(Iterable value, dynamic res);
 
   /// No description provided for @notEmpty.
@@ -497,7 +547,7 @@ class _ReadyValidationMessagesDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['ar', 'en', 'fr', 'ur'].contains(locale.languageCode);
+      <String>['ar', 'en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_ReadyValidationMessagesDelegate old) => false;
@@ -510,10 +560,6 @@ ReadyValidationMessages lookupReadyValidationMessages(Locale locale) {
       return ReadyValidationMessagesAr();
     case 'en':
       return ReadyValidationMessagesEn();
-    case 'fr':
-      return ReadyValidationMessagesFr();
-    case 'ur':
-      return ReadyValidationMessagesUr();
   }
 
   throw FlutterError(
