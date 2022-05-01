@@ -63,7 +63,7 @@ class ReadyImage extends StatelessWidget {
 
   /// if true will ignore the foreground radius and copy the radius from decoration
   final bool? forceForegroundRadiusSameAsBackground;
-  final Widget Function(ReadyImageDefaults config)? _builder;
+  final Widget Function(ReadyImageDefaults config, Widget image)? _builder;
   const ReadyImage({
     Key? key,
     required this.path,
@@ -89,7 +89,7 @@ class ReadyImage extends StatelessWidget {
   /// in case of you need local image with respect of global decorations
   const ReadyImage.custom({
     Key? key,
-    required Widget Function(ReadyImageDefaults config) builder,
+    required Widget Function(ReadyImageDefaults config, Widget image) builder,
     this.foregroundDecoration,
     this.decoration,
     this.outerDecoration,
@@ -132,18 +132,18 @@ class ReadyImage extends StatelessWidget {
 
   Widget _build(BuildContext context) {
     var p = config(context);
-    var child = _builder?.call(p) ??
-        CachedNetworkImage(
-          imageUrl: p.resolveUrl(context, path).toString(),
-          width: width,
-          height: height,
-          imageRenderMethodForWeb: p.imageRenderMethodForWeb,
-          httpHeaders: p.headers(context),
-          errorWidget: p.errorPlaceholder,
-          fit: p.fit,
-          cacheManager: p.cacheManager,
-          progressIndicatorBuilder: p.loadingPlaceholder,
-        );
+    Widget child = CachedNetworkImage(
+      imageUrl: p.resolveUrl(context, path).toString(),
+      width: width,
+      height: height,
+      imageRenderMethodForWeb: p.imageRenderMethodForWeb,
+      httpHeaders: p.headers(context),
+      errorWidget: p.errorPlaceholder,
+      fit: p.fit,
+      cacheManager: p.cacheManager,
+      progressIndicatorBuilder: p.loadingPlaceholder,
+    );
+    child = _builder?.call(p, child) ?? child;
     var decoration = p.decoration ?? const BoxDecoration();
     var foreground = p.foregroundDecoration;
     var force = p.forceForegroundRadiusSameAsBackground == true;

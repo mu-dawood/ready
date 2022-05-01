@@ -67,3 +67,10 @@ CircleAvatar(
       backgroundImage: context.readyImageProvider(path: 'path'),
     );
 ```
+
+See the other packages in ready
+
+[![N|Ready][pubPadge]][pubUrl]
+
+[pubUrl]: https://pub.dev/packages/ready
+[pubPadge]: https://img.shields.io/pub/v/ready.svg?style=for-the-badge
