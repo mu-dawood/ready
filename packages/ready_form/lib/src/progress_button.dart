@@ -47,6 +47,24 @@ class ProgressButton extends StatefulWidget {
 
   /// whether or not to submit parent form
   final bool? autoSubmitForm;
+
+  /// title for the  cancel dialog
+  final Widget? cancelRequestTitle;
+
+  /// content for the  cancel dialog
+  final Widget? cancelRequestContent;
+
+  /// disable taping and editing form fields while submitting defaults to [false]
+  final bool? disableEditingOnSubmit;
+
+  /// override yes button
+  final Widget? yes;
+
+  /// override no button
+  final Widget? no;
+
+  /// if specified will show a dialog when user try to pop and the form is [submitting]
+  final VoidCallback? onCancelRequest;
   ProgressButton({
     ProgressButtonKey? key,
     this.onPressed,
@@ -54,6 +72,12 @@ class ProgressButton extends StatefulWidget {
     this.alignment,
     this.duration,
     this.clipBehavior,
+    this.onCancelRequest,
+    this.cancelRequestTitle,
+    this.cancelRequestContent,
+    this.disableEditingOnSubmit,
+    this.yes,
+    this.no,
     this.style,
     this.autoSubmitForm,
     this.type,
@@ -186,7 +210,28 @@ class _ProgressButtonState extends State<ProgressButton>
   @override
   Widget build(BuildContext context) {
     var config = ProgressButtonConfig.of(context);
-    return _build(context, config);
+    return WillPopScope(
+      onWillPop: () async {
+        if (state != _ButtonState.loading || widget.onCancelRequest == null) {
+          return true;
+        }
+        var res = await showDialog(
+          context: context,
+          builder: (ctx) {
+            return CancelDialog(
+              cancelRequestContent: widget.cancelRequestContent,
+              cancelRequestTitle: widget.cancelRequestTitle,
+              yes: widget.yes,
+              no: widget.no,
+              config: ReadyFormConfig.of(context),
+              onCancelRequest: widget.onCancelRequest!,
+            );
+          },
+        );
+        return res == "yes";
+      },
+      child: _build(context, config),
+    );
   }
 
   VoidCallback? _getCallBack(ProgressButtonConfig? config) {
@@ -220,8 +265,7 @@ class _ProgressButtonState extends State<ProgressButton>
             style: _style,
             child: buttonChild,
           );
-        }
-        if (type == ButtonType.text) {
+        } else if (type == ButtonType.text) {
           child = TextButton(
             key: key,
             onPressed: _getCallBack(config),

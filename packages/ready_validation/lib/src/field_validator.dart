@@ -59,6 +59,19 @@ class FieldValidator<T, R> {
     ];
   }
 
+  /// replace the messages
+  /// all the next validations will use the new messages
+  /// the old messages will be kept in the _prevErrors
+  FieldValidator<T, R> withMessages(ReadyValidationMessagesAr messages) {
+    return FieldValidator<T, R>._(
+      validate: _validate,
+      prevErrors: _prevErrors,
+      validatePrev: _validatePrev,
+      convert: _convert,
+      messages: messages,
+    );
+  }
+
   /// add the next validation to the validations tree
   FieldValidator<T, R> next(
       String? Function(ReadyValidationMessages messages, R value) next) {

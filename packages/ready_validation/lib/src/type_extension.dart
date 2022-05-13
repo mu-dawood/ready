@@ -1,98 +1,58 @@
 part of 'context_extension.dart';
 
 extension StringValidateCreatorExtension<T> on T {
-  FieldValidator<T, T> createValidator({
-    required ReadyValidationMessages messages,
-    String? Function(T value)? validate,
-  }) {
-    return FieldValidator<T, T>._(
-      messages: messages,
-      convert: (v) => v,
-      validate: (value) => validate?.call(value.value),
+  _Validator<T, R> validateWith<R>(
+      FieldValidator<T, R> Function(FieldValidator<T, T>) callback) {
+    return _Validator<T, R>(
+      this,
+      callback(FieldValidator<T, T>._(
+        messages: ReadyValidationMessagesAr(),
+        convert: (v) => v,
+        validate: (value) => null,
+      )),
     );
   }
+}
 
-  /// check is the value is valid
-  bool isValid<R>({
-    ReadyValidationMessages? messages,
-    required FieldValidator<T?, R> Function(FieldValidator<T, T> validator)
-        validate,
-  }) {
-    var validator = validate(FieldValidator<T, T>._(
-      messages: messages ?? ReadyValidationMessagesAr(),
-      convert: (v) => v,
-      validatePrev: (v) => null,
-      prevErrors: (v) => [],
-      validate: (value) => null,
-    ));
+class _Validator<T, R> {
+  final T value;
+  final FieldValidator<T, R> _validator;
+  _Validator(this.value, this._validator);
 
-    return validator.isValid(this);
+  /// add validator to the current tree
+  _Validator<T, X> validateWith<X>(
+      FieldValidator<T, X> Function(FieldValidator<T, R>) callback) {
+    return _Validator<T, X>(value, callback(_validator));
+  }
+
+  /// check if the value is valid
+  _Validator<T, R> and(ValidateWithCallback<R> validator) {
+    return _Validator<T, R>(value, _validator.validateWith(validator));
+  }
+
+  /// replace the messages
+  /// all the next validations will use the new messages
+  /// the old messages will be kept in the _prevErrors
+  _Validator<T, R> withMessages(ReadyValidationMessagesAr messages) {
+    return _Validator<T, R>(value, _validator.withMessages(messages));
   }
 
   /// check is the value is valid
-  bool isValidOf<R>({
-    required BuildContext context,
-    required FieldValidator<T?, R> Function(FieldValidator<T, T> validator)
-        validate,
-  }) {
-    var validator = validate(context.validatorFor());
+  bool isValid() {
+    return _validator.isValid(value);
+  }
 
-    return validator.isValid(this);
+  bool call() {
+    return isValid();
   }
 
   /// returns the error message if exists
-  String? errorMessage<R>({
-    ReadyValidationMessages? messages,
-    required FieldValidator<T?, R> Function(FieldValidator<T, T> validator)
-        validate,
-  }) {
-    var validator = validate(FieldValidator<T, T>._(
-      messages: messages ?? ReadyValidationMessagesAr(),
-      convert: (v) => v,
-      validatePrev: (v) => null,
-      prevErrors: (v) => [],
-      validate: (value) => null,
-    ));
-
-    return validator(this);
-  }
-
-  /// returns the error message if exists
-  String? errorMessageOf<R>({
-    required BuildContext context,
-    required FieldValidator<T?, R> Function(FieldValidator<T, T> validator)
-        validate,
-  }) {
-    var validator = validate(context.validatorFor());
-
-    return validator(this);
+  String? errorMessage() {
+    return _validator(value);
   }
 
   /// returns the list of error messages
-  List<String> errorMessages<R>({
-    ReadyValidationMessages? messages,
-    required FieldValidator<T?, R> Function(FieldValidator<T, T> validator)
-        validate,
-  }) {
-    var validator = validate(FieldValidator<T, T>._(
-      messages: messages ?? ReadyValidationMessagesAr(),
-      convert: (v) => v,
-      validatePrev: (v) => null,
-      prevErrors: (v) => [],
-      validate: (value) => null,
-    ));
-
-    return validator.errors(this);
-  }
-
-  /// returns the list of error messages
-  List<String> errorMessagesOf<R>({
-    required BuildContext context,
-    required FieldValidator<T?, R> Function(FieldValidator<T, T> validator)
-        validate,
-  }) {
-    var validator = validate(context.validatorFor());
-
-    return validator.errors(this);
+  List<String> errorMessages() {
+    return _validator.errors(value);
   }
 }

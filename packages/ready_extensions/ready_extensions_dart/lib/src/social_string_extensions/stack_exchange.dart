@@ -7,10 +7,14 @@ class StackexchangeUrl {
 
   StackexchangeUrl._(this.userName, this.community, this.id);
   static StackexchangeUrl? parse(String url) {
-    var matches = RegExp(r'(?:https?:)?\/\/(?:www\.)?stackexchange\.com\/users\/(?<id>[0-9]+)\/(?<username>[A-z0-9-_.]+)\/?').allMatches(url);
+    var matches = RegExp(
+            r'(?:https?:)?\/\/(?:www\.)?stackexchange\.com\/users\/(?<id>[0-9]+)\/(?<username>[A-z0-9-_.]+)\/?')
+        .allMatches(url);
     var _id = matches.getValue("id");
     if (_id == null) {
-      matches = RegExp(r'(?:https?:)?\/\/(?:(?<community>[a-z]+(?!www))\.)?stackexchange\.com\/users\/(?<id>[0-9]+)\/(?<username>[A-z0-9-_.]+)\/?').allMatches(url);
+      matches = RegExp(
+              r'(?:https?:)?\/\/(?:(?<community>[a-z]+(?!www))\.)?stackexchange\.com\/users\/(?<id>[0-9]+)\/(?<username>[A-z0-9-_.]+)\/?')
+          .allMatches(url);
       _id = matches.getValue("id");
     }
     if (_id == null) return null;

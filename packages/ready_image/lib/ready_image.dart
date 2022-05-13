@@ -90,24 +90,25 @@ class ReadyImage extends StatelessWidget {
   const ReadyImage.custom({
     Key? key,
     required Widget Function(ReadyImageDefaults config, Widget image) builder,
+    String? path,
+    this.width,
+    this.height,
+    this.queryParameters,
+    this.resolveUrl,
+    this.imageRenderMethodForWeb,
+    this.errorPlaceholder,
+    this.loadingPlaceholder,
     this.foregroundDecoration,
     this.decoration,
     this.outerDecoration,
     this.outerPadding,
     this.innerPadding,
+    this.fit,
+    this.headers,
+    this.cacheManager,
     this.forceForegroundRadiusSameAsBackground,
   })  : _builder = builder,
-        path = '',
-        width = null,
-        height = null,
-        queryParameters = null,
-        fit = null,
-        headers = null,
-        cacheManager = null,
-        imageRenderMethodForWeb = null,
-        errorPlaceholder = null,
-        loadingPlaceholder = null,
-        resolveUrl = null,
+        path = path ?? '',
         super(key: key);
 
   ReadyImageDefaults config(BuildContext context) =>
@@ -132,17 +133,27 @@ class ReadyImage extends StatelessWidget {
 
   Widget _build(BuildContext context) {
     var p = config(context);
-    Widget child = CachedNetworkImage(
-      imageUrl: p.resolveUrl(context, path).toString(),
-      width: width,
-      height: height,
-      imageRenderMethodForWeb: p.imageRenderMethodForWeb,
-      httpHeaders: p.headers(context),
-      errorWidget: p.errorPlaceholder,
-      fit: p.fit,
-      cacheManager: p.cacheManager,
-      progressIndicatorBuilder: p.loadingPlaceholder,
-    );
+    var imageUrl = p.resolveUrl(context, path).toString();
+    Widget child;
+    if (imageUrl.isEmpty) {
+      child = SizedBox(
+        width: width,
+        height: height,
+        child: p.errorPlaceholder(context, "Url is empty", StackTrace.current),
+      );
+    } else {
+      child = CachedNetworkImage(
+        imageUrl: imageUrl,
+        width: width,
+        height: height,
+        imageRenderMethodForWeb: p.imageRenderMethodForWeb,
+        httpHeaders: p.headers(context),
+        errorWidget: p.errorPlaceholder,
+        fit: p.fit,
+        cacheManager: p.cacheManager,
+        progressIndicatorBuilder: p.loadingPlaceholder,
+      );
+    }
     child = _builder?.call(p, child) ?? child;
     var decoration = p.decoration ?? const BoxDecoration();
     var foreground = p.foregroundDecoration;

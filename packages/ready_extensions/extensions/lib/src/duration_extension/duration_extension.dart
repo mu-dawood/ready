@@ -36,4 +36,16 @@ extension FlutterDurationExtensions on Duration {
       formatter: TranslatedDurationFormatter.of(context),
     );
   }
+
+  /// convert the duration to  [TimeOfDay]
+  /// if duration is greater than 24 hours it will throw an exception
+  TimeOfDay toTimeOfDay() {
+    var delta = inMinutes;
+    var hours = (delta / 60).floor();
+    var minutes = delta % 60;
+    if (hours > 23) {
+      throw FlutterError('Hours cannot be greater than 23');
+    }
+    return TimeOfDay(hour: hours, minute: minutes);
+  }
 }

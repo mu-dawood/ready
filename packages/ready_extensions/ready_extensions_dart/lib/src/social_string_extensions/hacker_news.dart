@@ -19,7 +19,9 @@ class HackerNewsItemUrl {
 
   HackerNewsItemUrl._(this.id);
   static HackerNewsItemUrl? parse(String url) {
-    var matches = RegExp(r'(?:https?:)?\/\/news\.ycombinator\.com\/item\?id=(?<item>[0-9]+)').allMatches(url);
+    var matches = RegExp(
+            r'(?:https?:)?\/\/news\.ycombinator\.com\/item\?id=(?<item>[0-9]+)')
+        .allMatches(url);
     var _id = matches.getValue("item");
     if (_id == null) return null;
     return HackerNewsItemUrl._(_id);
@@ -31,7 +33,9 @@ class HackerNewsUserUrl {
 
   HackerNewsUserUrl._(this.id);
   static HackerNewsUserUrl? parse(String url) {
-    var matches = RegExp(r'(?:https?:)?\/\/news\.ycombinator\.com\/user\?id=(?<user>[A-z0-9_-]+)').allMatches(url);
+    var matches = RegExp(
+            r'(?:https?:)?\/\/news\.ycombinator\.com\/user\?id=(?<user>[A-z0-9_-]+)')
+        .allMatches(url);
     var _id = matches.getValue("user");
     if (_id == null) return null;
     return HackerNewsUserUrl._(_id);

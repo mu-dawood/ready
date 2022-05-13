@@ -1,5 +1,3 @@
-
-
 import 'package:intl/intl.dart' as intl;
 import 'ready_extension_localizations.dart';
 

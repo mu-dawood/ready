@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
@@ -400,40 +401,79 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
             return true;
           }
           var res = await showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: widget.cancelRequestTitle ??
-                      config?.cancelRequestTitle ??
-                      const Text("Cancel request"),
-                  content: widget.cancelRequestContent ??
-                      config?.cancelRequestContent ??
-                      const Text(
-                          "Do you want to leave and cancel the current action?"),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        widget.onCancelRequest?.call();
-                        Navigator.of(context).pop("yes");
-                      },
-                      child: widget.yes ?? config?.yes ?? const Text("Yes"),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop("no");
-                      },
-                      style: TextButton.styleFrom(
-                          primary: Theme.of(context).errorColor),
-                      child: widget.no ?? config?.no ?? const Text("No"),
-                    )
-                  ],
-                );
-              });
+            context: context,
+            builder: (context) {
+              return CancelDialog(
+                cancelRequestContent: widget.cancelRequestContent,
+                cancelRequestTitle: widget.cancelRequestTitle,
+                yes: widget.yes,
+                no: widget.no,
+                config: config,
+                onCancelRequest: widget.onCancelRequest!,
+              );
+            },
+          );
           return res == "yes";
         },
         autovalidateMode: _getAutoValidateMode(),
         child: widget.child,
       ),
+    );
+  }
+}
+
+class CancelDialog extends StatelessWidget {
+  const CancelDialog({
+    Key? key,
+    this.cancelRequestContent,
+    this.cancelRequestTitle,
+    this.yes,
+    this.no,
+    this.config,
+    required this.onCancelRequest,
+  }) : super(key: key);
+
+  /// cancel dialog title
+  final Widget? cancelRequestTitle;
+
+  /// cancel dialog content
+  final Widget? cancelRequestContent;
+
+  /// yes button
+  final Widget? yes;
+
+  /// yes button
+  final Widget? no;
+  final ReadyFormConfig? config;
+
+  /// if specified will show a dialog when user try to pop and the form is [submitting]
+  final VoidCallback onCancelRequest;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: cancelRequestTitle ??
+          config?.cancelRequestTitle ??
+          const Text("Cancel request"),
+      content: cancelRequestContent ??
+          config?.cancelRequestContent ??
+          const Text("Do you want to leave and cancel the current action?"),
+      actions: [
+        TextButton(
+          onPressed: () {
+            onCancelRequest.call();
+            Navigator.of(context).pop("yes");
+          },
+          child: yes ?? config?.yes ?? const Text("Yes"),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop("no");
+          },
+          style: TextButton.styleFrom(primary: Theme.of(context).errorColor),
+          child: no ?? config?.no ?? const Text("No"),
+        )
+      ],
     );
   }
 }

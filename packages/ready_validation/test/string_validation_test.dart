@@ -3,253 +3,273 @@ import 'package:ready_validation/ready_validation.dart';
 
 void main() {
   test('when', () {
+    String? nullTest;
     expect(
-        "".isValid(
-            validate: (v) => v.required().isEmail().when((value) => true)),
+        nullTest
+            .validateWith((v) => v.required().isEmail().when((value) => true))
+            .isValid(),
         false);
     String? test1 = "";
     expect(
-        test1.isValid(
-            validate: (v) => v.required().isEmail().when((value) => true)),
+        test1
+            .validateWith((v) => v.required().isEmail().when((value) => true))
+            .isValid(),
         false);
 
     expect(
-        test1.isValid(
-            validate: (v) => v.required().isEmail().when((value) => false)),
+        test1.validateWith((v) => v.isEmail().when((value) => false)).isValid(),
         true);
     expect(
-        test1.isValid(
-            validate: (v) => v.required().isEmail().allWhen((value) => false)),
+        test1
+            .validateWith((v) => v.isEmail().allWhen((value) => false))
+            .isValid(),
         true);
   });
 
   test('required', () {
     String? test1;
-    expect(test1.isValid(validate: (v) => v.required()), false);
+    expect(test1.validateWith((v) => v.required()).isValid(), false);
   });
 
   test('matches', () {
     String test2 = "test";
-    expect(test2.isValid(validate: (v) => v.matches(RegExp(r'^te'))), true);
-    expect(test2.isValid(validate: (v) => v.matches(RegExp(r'^ss'))), false);
+    expect(
+        test2.validateWith((v) => v.matches(RegExp(r'^te'))).isValid(), true);
+    expect(
+        test2.validateWith((v) => v.matches(RegExp(r'^ss'))).isValid(), false);
   });
 
   test('notEmptyOrWhiteSpace', () {
     String test2 = "test";
-    expect(test2.isValid(validate: (v) => v.notEmptyOrWhiteSpace()), true);
-    expect(''.isValid(validate: (v) => v.notEmptyOrWhiteSpace()), false);
-    expect(''.isValid(validate: (v) => v.notEmptyOrWhiteSpace()), false);
+    expect(test2.validateWith((v) => v.notEmptyOrWhiteSpace()).isValid(), true);
+    expect(''.validateWith((v) => v.notEmptyOrWhiteSpace()).isValid(), false);
+    expect(''.validateWith((v) => v.notEmptyOrWhiteSpace()).isValid(), false);
   });
 
   test('notEmpty', () {
     String test2 = "test";
-    expect(test2.isValid(validate: (v) => v.notEmpty()), true);
-    expect(''.isValid(validate: (v) => v.notEmpty()), false);
+    expect(test2.validateWith((v) => v.notEmpty()).isValid(), true);
+    expect(''.validateWith((v) => v.notEmpty()).isValid(), false);
   });
 
   test('contains', () {
     String test2 = "test";
-    expect(test2.isValid(validate: (v) => v.contains("te")), true);
-    expect(test2.isValid(validate: (v) => v.contains("sw")), false);
+    expect(test2.validateWith((v) => v.contains("te")).isValid(), true);
+    expect(test2.validateWith((v) => v.contains("sw")).isValid(), false);
   });
 
   test('startsWith', () {
     String test2 = "test";
-    expect(test2.isValid(validate: (v) => v.startsWith("te")), true);
-    expect(test2.isValid(validate: (v) => v.startsWith("sw")), false);
+    expect(test2.validateWith((v) => v.startsWith("te")).isValid(), true);
+    expect(test2.validateWith((v) => v.startsWith("sw")).isValid(), false);
   });
 
   test('endsWith', () {
     String test2 = "test";
-    expect(test2.isValid(validate: (v) => v.endsWith("st")), true);
-    expect(test2.isValid(validate: (v) => v.endsWith("sw")), false);
+    expect(test2.validateWith((v) => v.endsWith("st")).isValid(), true);
+    expect(test2.validateWith((v) => v.endsWith("sw")).isValid(), false);
   });
 
   test('hasMaxLength', () {
     String test2 = "test";
-    expect(test2.isValid(validate: (v) => v.hasMaxLength(10)), true);
-    expect(test2.isValid(validate: (v) => v.hasMaxLength(2)), false);
+    expect(test2.validateWith((v) => v.hasMaxLength(10)).isValid(), true);
+    expect(test2.validateWith((v) => v.hasMaxLength(2)).isValid(), false);
   });
 
   test('hasMinLength', () {
     String test2 = "test";
-    expect(test2.isValid(validate: (v) => v.hasMinLength(3)), true);
-    expect(test2.isValid(validate: (v) => v.hasMinLength(10)), false);
+    expect(test2.validateWith((v) => v.hasMinLength(3)).isValid(), true);
+    expect(test2.validateWith((v) => v.hasMinLength(10)).isValid(), false);
   });
 
   test('hasLength', () {
     String test2 = "test";
-    expect(test2.isValid(validate: (v) => v.hasLength(4)), true);
-    expect(test2.isValid(validate: (v) => v.hasLength(5)), false);
+    expect(test2.validateWith((v) => v.hasLength(4)).isValid(), true);
+    expect(test2.validateWith((v) => v.hasLength(5)).isValid(), false);
   });
 
   test('hasRange', () {
     String test2 = "test";
-    expect(test2.isValid(validate: (v) => v.hasRange(3, 7)), true);
-    expect(test2.isValid(validate: (v) => v.hasRange(5, 7)), false);
-    expect(test2.isValid(validate: (v) => v.hasRange(1, 3)), false);
+    expect(test2.validateWith((v) => v.hasRange(3, 7)).isValid(), true);
+    expect(test2.validateWith((v) => v.hasRange(5, 7)).isValid(), false);
+    expect(test2.validateWith((v) => v.hasRange(1, 3)).isValid(), false);
   });
   test('isNumber', () {
-    expect('-555'.isValid(validate: (v) => v.isNumber()), true);
-    expect('555'.isValid(validate: (v) => v.isNumber()), true);
-    expect('555.00'.isValid(validate: (v) => v.isNumber()), true);
-    expect('-555.00'.isValid(validate: (v) => v.isNumber()), true);
-    expect('test'.isValid(validate: (v) => v.isNumber()), false);
+    expect('-555'.validateWith((v) => v.isNumber()).isValid(), true);
+    expect('555'.validateWith((v) => v.isNumber()).isValid(), true);
+    expect('555.00'.validateWith((v) => v.isNumber()).isValid(), true);
+    expect('-555.00'.validateWith((v) => v.isNumber()).isValid(), true);
+    expect('test'.validateWith((v) => v.isNumber()).isValid(), false);
   });
 
   test('isInteger', () {
-    expect('-555'.isValid(validate: (v) => v.isInteger()), true);
-    expect('555'.isValid(validate: (v) => v.isInteger()), true);
-    expect('555.00'.isValid(validate: (v) => v.isInteger()), false);
-    expect('-555.00'.isValid(validate: (v) => v.isInteger()), false);
-    expect('test'.isValid(validate: (v) => v.isInteger()), false);
+    expect('-555'.validateWith((v) => v.isInteger()).isValid(), true);
+    expect('555'.validateWith((v) => v.isInteger()).isValid(), true);
+    expect('555.00'.validateWith((v) => v.isInteger()).isValid(), false);
+    expect('-555.00'.validateWith((v) => v.isInteger()).isValid(), false);
+    expect('test'.validateWith((v) => v.isInteger()).isValid(), false);
   });
 
   test('isDecimal', () {
-    expect('-555'.isValid(validate: (v) => v.isDecimal()), true);
-    expect('555'.isValid(validate: (v) => v.isDecimal()), true);
-    expect('555.00'.isValid(validate: (v) => v.isDecimal()), true);
-    expect('-555.00'.isValid(validate: (v) => v.isDecimal()), true);
-    expect('test'.isValid(validate: (v) => v.isDecimal()), false);
+    expect('-555'.validateWith((v) => v.isDecimal()).isValid(), true);
+    expect('555'.validateWith((v) => v.isDecimal()).isValid(), true);
+    expect('555.00'.validateWith((v) => v.isDecimal()).isValid(), true);
+    expect('-555.00'.validateWith((v) => v.isDecimal()).isValid(), true);
+    expect('test'.validateWith((v) => v.isDecimal()).isValid(), false);
   });
 
   test('isEmail', () {
-    expect('test'.isValid(validate: (v) => v.isEmail()), false);
-    expect('test@test'.isValid(validate: (v) => v.isEmail()), false);
-    expect('test@test.com'.isValid(validate: (v) => v.isEmail()), true);
+    expect('test'.validateWith((v) => v.isEmail()).isValid(), false);
+    expect('test@test'.validateWith((v) => v.isEmail()).isValid(), false);
+    expect('test@test.com'.validateWith((v) => v.isEmail()).isValid(), true);
   });
 
   test('isCreditCard', () {
-    expect('test'.isValid(validate: (v) => v.isCreditCard()), false);
-    expect('76167617'.isValid(validate: (v) => v.isCreditCard()), false);
-    expect('4988141966577868'.isValid(validate: (v) => v.isCreditCard()), true);
+    expect('test'.validateWith((v) => v.isCreditCard()).isValid(), false);
+    expect('76167617'.validateWith((v) => v.isCreditCard()).isValid(), false);
+    expect('4988141966577868'.validateWith((v) => v.isCreditCard()).isValid(),
+        true);
   });
 
   test('isAngelCompany', () {
     expect(
         'https://angel.co/company/twitter'
-            .isValid(validate: (v) => v.isAngelCompany()),
+            .validateWith((v) => v.isAngelCompany())
+            .isValid(),
         true);
   });
 
   test('isAngelJob', () {
     expect(
         'https://angel.co/company/twitter/jobs/576275-engineering-manager'
-            .isValid(validate: (v) => v.isAngelJob()),
+            .validateWith((v) => v.isAngelJob())
+            .isValid(),
         true);
     expect(
         'https://angel.co/company/twitter'
-            .isValid(validate: (v) => v.isAngelJob()),
+            .validateWith((v) => v.isAngelJob())
+            .isValid(),
         false);
   });
 
   test('isCrunchbaseOrganization', () {
     expect(
         'http://crunchbase.com/organization/twitter'
-            .isValid(validate: (v) => v.isCrunchbaseOrganization()),
+            .validateWith((v) => v.isCrunchbaseOrganization())
+            .isValid(),
         true);
   });
   test('isCrunchbasePerson', () {
     expect(
         'http://crunchbase.com/person/dawood'
-            .isValid(validate: (v) => v.isCrunchbasePerson()),
+            .validateWith((v) => v.isCrunchbasePerson())
+            .isValid(),
         true);
   });
   test('isFacebookUrl', () {
     expect(
         'http://fb.com/peter_parker-miller'
-            .isValid(validate: (v) => v.isFacebookUrl()),
+            .validateWith((v) => v.isFacebookUrl())
+            .isValid(),
         true);
   });
   test('isGitHubUrl', () {
     expect(
         'https://github.com/lorey/socials'
-            .isValid(validate: (v) => v.isGitHubUrl()),
+            .validateWith((v) => v.isGitHubUrl())
+            .isValid(),
         true);
   });
   test('isGooglePlusUrl', () {
     expect(
         'https://plus.google.com/+googleplususername'
-            .isValid(validate: (v) => v.isGooglePlusUrl()),
+            .validateWith((v) => v.isGooglePlusUrl())
+            .isValid(),
         true);
   });
   test('isHackerNewsUserUrl', () {
     expect(
         'https://news.ycombinator.com/user?id=CamelCaps'
-            .isValid(validate: (v) => v.isHackerNewsUserUrl()),
+            .validateWith((v) => v.isHackerNewsUserUrl())
+            .isValid(),
         true);
   });
   test('isHackerNewsItemUrl', () {
     expect(
         'https://news.ycombinator.com/item?id=23290375'
-            .isValid(validate: (v) => v.isHackerNewsItemUrl()),
+            .validateWith((v) => v.isHackerNewsItemUrl())
+            .isValid(),
         true);
   });
 
   test('isInstagramUrl', () {
     expect(
         '-https://instagram.com/__disco__dude'
-            .isValid(validate: (v) => v.isInstagramUrl()),
+            .validateWith((v) => v.isInstagramUrl())
+            .isValid(),
         true);
   });
 
   test('isLinkedInProfile', () {
     expect(
         'https://de.linkedin.com/in/peter-m%C3%BCller-81a8/'
-            .isValid(validate: (v) => v.isLinkedInProfile()),
+            .validateWith((v) => v.isLinkedInProfile())
+            .isValid(),
         true);
   });
   test('isLinkedInCompany', () {
     expect(
         'https://linkedin.com/company/dash-company.io'
-            .isValid(validate: (v) => v.isLinkedInCompany()),
+            .validateWith((v) => v.isLinkedInCompany())
+            .isValid(),
         true);
   });
   test('isLinkedInPost', () {
     expect(
         'https://www.linkedin.com/feed/update/urn:li:activity:6665508550111912345/'
-            .isValid(validate: (v) => v.isLinkedInPost()),
+            .validateWith((v) => v.isLinkedInPost())
+            .isValid(),
         true);
   });
 
   // test('isRedditUrl', () {
-  //   expect('-555'.isValid(validate: (v) => v.isRedditUrl()), true);
+  //   expect('-555'.validateWith((v) => v.isRedditUrl()).isValid(), true);
   // });
   // test('isSnapchatUrl', () {
-  //   expect('-555'.isValid(validate: (v) => v.isSnapchatUrl()), true);
+  //   expect('-555'.validateWith((v) => v.isSnapchatUrl()).isValid(), true);
   // });
   // test('isStackexchangeUrl', () {
-  //   expect('-555'.isValid(validate: (v) => v.isStackexchangeUrl()), true);
+  //   expect('-555'.validateWith((v) => v.isStackexchangeUrl()).isValid(), true);
   // });
   // test('isStackoverflowQuestionUrl', () {
   //   expect(
-  //       '-555'.isValid(validate: (v) => v.isStackoverflowQuestionUrl()), true);
+  //       '-555'.validateWith((v) => v.isStackoverflowQuestionUrl()).isValid(), true);
   // });
   // test('isStackoverflowUserUrl', () {
-  //   expect('-555'.isValid(validate: (v) => v.isStackoverflowUserUrl()), true);
+  //   expect('-555'.validateWith((v) => v.isStackoverflowUserUrl()).isValid(), true);
   // });
   // test('isTelegramProfileUrl', () {
-  //   expect('-555'.isValid(validate: (v) => v.isTelegramProfileUrl()), true);
+  //   expect('-555'.validateWith((v) => v.isTelegramProfileUrl()).isValid(), true);
   // });
   // test('isMediumPostUrl', () {
-  //   expect('-555'.isValid(validate: (v) => v.isMediumPostUrl()), true);
+  //   expect('-555'.validateWith((v) => v.isMediumPostUrl()).isValid(), true);
   // });
   // test('isMediumUserUrl', () {
-  //   expect('-555'.isValid(validate: (v) => v.isMediumUserUrl()), true);
+  //   expect('-555'.validateWith((v) => v.isMediumUserUrl()).isValid(), true);
   // });
   // test('isTwitterStatusUrl', () {
-  //   expect('-555'.isValid(validate: (v) => v.isTwitterStatusUrl()), true);
+  //   expect('-555'.validateWith((v) => v.isTwitterStatusUrl()).isValid(), true);
   // });
   // test('isTwitterUserUrl', () {
-  //   expect('-555'.isValid(validate: (v) => v.isTwitterUserUrl()), true);
+  //   expect('-555'.validateWith((v) => v.isTwitterUserUrl()).isValid(), true);
   // });
   // test('isYoutubeChannelUrl', () {
-  //   expect('-555'.isValid(validate: (v) => v.isYoutubeChannelUrl()), true);
+  //   expect('-555'.validateWith((v) => v.isYoutubeChannelUrl()).isValid(), true);
   // });
   // test('isYoutubeVideoUrl', () {
-  //   expect('-555'.isValid(validate: (v) => v.isYoutubeVideoUrl()), true);
+  //   expect('-555'.validateWith((v) => v.isYoutubeVideoUrl()).isValid(), true);
   // });
   // test('isYoutubeUserUrl', () {
-  //   expect('-555'.isValid(validate: (v) => v.isYoutubeUserUrl()), true);
+  //   expect('-555'.validateWith((v) => v.isYoutubeUserUrl()).isValid(), true);
   // });
 }

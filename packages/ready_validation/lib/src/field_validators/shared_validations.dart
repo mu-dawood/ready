@@ -1,8 +1,11 @@
 part of '../context_extension.dart';
 
-extension NullableStringValidationExtension<T, R> on FieldValidator<T?, R?> {
+typedef ValidateWithCallback<T> = String? Function(
+    T value, ReadyValidationMessages messages);
+
+extension NullableStringValidationExtension<T, R> on FieldValidator<T, R?> {
   /// check if the value is required
-  FieldValidator<T?, R> required([MessageCallBack<R?>? message]) {
+  FieldValidator<T, R> required([MessageCallBack<R?>? message]) {
     return next(
       (messages, value) {
         return value == null
@@ -84,8 +87,7 @@ extension SharedValidationExtensions<T, R> on FieldValidator<T, R> {
   }
 
   /// check is the value is not in [values]
-  FieldValidator<T, R> validateWith(
-      String? Function(R value, ReadyValidationMessages messages) validator) {
+  FieldValidator<T, R> validateWith(ValidateWithCallback<R> validator) {
     return next((messages, value) {
       return validator(value, messages);
     });

@@ -1,5 +1,7 @@
 library duration_extension;
 
+import '../num_extension.dart';
+
 part 'default_formatter.dart';
 part 'formatter_base.dart';
 
@@ -152,4 +154,7 @@ extension DurationExtensions on Duration {
   Duration plusDays([int v = 1]) {
     return this + Duration(days: v);
   }
+
+  /// convert duration to  ISO_8601  format
+  String toIso() => inSeconds.toISODuration();
 }

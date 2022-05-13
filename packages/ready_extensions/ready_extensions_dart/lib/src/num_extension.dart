@@ -140,3 +140,46 @@ extension NumExtensions on num? {
     ).format(this!);
   }
 }
+
+extension NotNullNumExtensions on num {
+  /// convert duration to  ISO_8601  format
+  String toISODuration() {
+    var delta = toDouble();
+    if (delta == 0) {
+      return 'PT0S';
+    }
+    if (isNegative) {
+      delta *= -1;
+    }
+
+    var years = (delta ~/ 31536000);
+    delta = delta % 31536000;
+    var months = ((delta ~/ 2592000) % 12);
+    delta = delta % 2592000;
+    var weeks = (delta ~/ 604800);
+    delta = delta % 604800;
+    var days = (delta ~/ 86400 % 365);
+    delta = delta % 86400;
+    var hours = (delta ~/ 3600 % 24);
+    delta = delta % 3600;
+    var minutes = (delta ~/ 60 % 60);
+    delta = delta % 60;
+    var seconds = (delta % 60).toInt();
+
+    final strBuffer = StringBuffer('${isNegative ? '-' : ''}P');
+
+    if (years != 0) strBuffer.write('${years}Y');
+    if (months != 0) strBuffer.write('${months}M');
+    if (weeks != 0) strBuffer.write('${weeks}W');
+    if (days != 0) strBuffer.write('${days}D');
+
+    if (<int>[hours, minutes, seconds].any((e) => e != 0)) {
+      strBuffer.write('T');
+
+      if (hours != 0) strBuffer.write('${hours}H');
+      if (minutes != 0) strBuffer.write('${minutes}M');
+      if (seconds != 0) strBuffer.write('${seconds}S');
+    }
+    return strBuffer.toString();
+  }
+}

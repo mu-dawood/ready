@@ -1,6 +1,9 @@
 import 'dart:ui' as ui show TextHeightBehavior;
 
 import 'package:flutter/material.dart';
+import 'package:ready_extensions_dart/ready_extensions_dart.dart';
+
+import './duration_extension/duration_extension.dart';
 
 extension FlutterStringExtensions on String? {
   /// will parse string to time of days
@@ -60,4 +63,14 @@ extension FlutterStringExtensions on String? {
         textHeightBehavior: textHeightBehavior,
         textWidthBasis: textWidthBasis,
       );
+
+  /// convert  ISO_8601 duration to dart duration
+  /// copied from iso_duration_parser package
+  TimeOfDay parseIsoTimeOfDay() {
+    var res = parseIsoDuration();
+    if (res == null) {
+      throw Exception('$this is not a valid ISO_8601 duration');
+    }
+    return res.toTimeOfDay();
+  }
 }

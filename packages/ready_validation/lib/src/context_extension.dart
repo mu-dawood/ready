@@ -117,7 +117,7 @@ extension ValidationExtensions on BuildContext {
   }
 
   /// create [FieldValidator] for any type of [T]
-  FieldValidator<T, T> validatorFor<T>([String? Function(T? value)? validate]) {
+  FieldValidator<T, T> validator<T>([String? Function(T? value)? validate]) {
     return FieldValidator<T, T>._(
       messages: _messages,
       convert: (v) => v,

@@ -62,14 +62,18 @@ TextFormField(
 this is also supported and this time you don't need to validate required is the value is non nullable as we already know its not null
 
 ```dart
- var testValue = "test";
-  bool isValid = testValue.isValid(
-    validate: (v) => v
-        .hasMaxLength(10)
-        .hasMinLength(11)
-        .isNumber()
-        .greaterThan(100),
-  );
+ var number = "7";
+
+  var isValid = number
+      .validateWith((v) => v.isNumber())
+      .validateWith((v) => v.isBetween(5, 10))
+      .isValid();
+
+  /// or
+  isValid = number.validateWith((v) => v.isNumber().isBetween(5, 10)).isValid();
+
+  // ignore: avoid_print
+  print(isValid);
 ```
 
 # Available validations
@@ -128,7 +132,7 @@ this is also supported and this time you don't need to validate required is the 
   context.map<K,V>(); 
 
   /// other validators
-  context.validatorFor<T>(); 
+  context.validator<T>(); 
 ```
 
 # transforming 

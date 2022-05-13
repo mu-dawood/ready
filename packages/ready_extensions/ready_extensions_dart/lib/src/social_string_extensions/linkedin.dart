@@ -21,7 +21,9 @@ class LinkedInCompaneyUrl {
 
   LinkedInCompaneyUrl._(this.type, this.permalink);
   static LinkedInCompaneyUrl? parse(String url) {
-    var matches = RegExp(r'^(?:https?:)?\/\/(?:[\w]+\.)?linkedin\.com\/(?<company_type>(company)|(school))\/(?<company_permalink>[A-z0-9-À-ÿ\.]+)\/?$').allMatches(url);
+    var matches = RegExp(
+            r'^(?:https?:)?\/\/(?:[\w]+\.)?linkedin\.com\/(?<company_type>(company)|(school))\/(?<company_permalink>[A-z0-9-À-ÿ\.]+)\/?$')
+        .allMatches(url);
     var _type = matches.getValue("company_type");
     var _permalink = matches.getValue("company_permalink");
     if (_type == null || _permalink == null) return null;
@@ -34,7 +36,9 @@ class LinkedInPostUrl {
 
   LinkedInPostUrl._(this.id);
   static LinkedInPostUrl? parse(String url) {
-    var matches = RegExp(r'^(?:https?:)?\/\/(?:[\w]+\.)?linkedin\.com\/feed\/update\/urn:li:activity:(?<activity_id>[0-9]+)\/?$').allMatches(url);
+    var matches = RegExp(
+            r'^(?:https?:)?\/\/(?:[\w]+\.)?linkedin\.com\/feed\/update\/urn:li:activity:(?<activity_id>[0-9]+)\/?$')
+        .allMatches(url);
     var _id = matches.getValue("activity_id");
     if (_id == null) return null;
     return LinkedInPostUrl._(_id);
@@ -46,10 +50,14 @@ class LinkedInProfileUrl {
 
   LinkedInProfileUrl._(this.permalink);
   static LinkedInProfileUrl? parse(String url) {
-    var matches = RegExp(r'(?:https?:)?\/\/(?:[\w]+\.)?linkedin\.com\/in\/(?<permalink>[\w\-\_À-ÿ%]+)\/?').allMatches(url);
+    var matches = RegExp(
+            r'(?:https?:)?\/\/(?:[\w]+\.)?linkedin\.com\/in\/(?<permalink>[\w\-\_À-ÿ%]+)\/?')
+        .allMatches(url);
     var _permalink = matches.getValue("permalink");
     if (_permalink == null) {
-      matches = RegExp(r'(?:https?:)?\/\/(?:[\w]+\.)?linkedin\.com\/pub\/(?<permalink_pub>[A-z0-9_-]+)(?:\/[A-z0-9]+){3}\/?').allMatches(url);
+      matches = RegExp(
+              r'(?:https?:)?\/\/(?:[\w]+\.)?linkedin\.com\/pub\/(?<permalink_pub>[A-z0-9_-]+)(?:\/[A-z0-9]+){3}\/?')
+          .allMatches(url);
       _permalink = matches.getValue("permalink_pub");
     }
     if (_permalink == null) return null;
