@@ -38,7 +38,7 @@ class _ShimmerScopeState extends State<_ShimmerScope>
     _shimmerScopeController = AnimationController.unbounded(vsync: this)
       ..repeat(min: -0.5, max: 1.5, period: const Duration(milliseconds: 1000));
 
-    SchedulerBinding.instance!.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       var box = context.findRenderObject();
       if (box != null && box is RenderBox) {
         if (_size != box.size) {
