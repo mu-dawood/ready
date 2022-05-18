@@ -27,20 +27,20 @@ class _KeyboardActionsState extends State<KeyboardActions>
   void initState() {
     FocusManager.instance.addListener(_onFocusChanged);
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
     FocusManager.instance.removeListener(_onFocusChanged);
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
   @override
   void didChangeMetrics() {
     if (mounted) {
-      var data = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
+      var data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
       var opened = data.viewInsets.bottom > 0;
       if (opened != _keyboardOpened) {
         setState(() {

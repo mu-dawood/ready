@@ -104,7 +104,7 @@ class _ProgressButtonState extends State<ProgressButton>
       vsync: this,
       duration: duration(ProgressButtonConfig.of(context)),
     );
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _afterFirstFrame(_);
       setState(() {});
     });
@@ -123,7 +123,7 @@ class _ProgressButtonState extends State<ProgressButton>
       _controller.duration = duration(ProgressButtonConfig.of(context));
     }
     if (oldWidget.child != widget.child) {
-      WidgetsBinding.instance!.addPostFrameCallback(_afterFirstFrame);
+      WidgetsBinding.instance.addPostFrameCallback(_afterFirstFrame);
     }
     super.didUpdateWidget(oldWidget);
   }
