@@ -1,7 +1,6 @@
 library duration_extension;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:ready_extensions_dart/ready_extensions_dart.dart';
 
 import '../messages/ready_extension_localizations.dart';

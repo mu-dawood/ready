@@ -205,7 +205,7 @@ class HeroReadyImage extends StatelessWidget {
     Key? key,
     required this.child,
     required this.tag,
-    required this.disableHero,
+    this.disableHero,
   }) : super(key: key);
 
   @override
