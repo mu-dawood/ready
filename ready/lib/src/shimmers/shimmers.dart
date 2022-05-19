@@ -16,11 +16,11 @@ class _ShimmerScope extends StatefulWidget {
   const _ShimmerScope({
     Key? key,
     required this.gradient,
-    this.child,
+    required this.child,
   }) : super(key: key);
 
   final GradientGetterCallback gradient;
-  final Widget? child;
+  final Widget child;
 
   @override
   _ShimmerScopeState createState() => _ShimmerScopeState();
@@ -30,7 +30,7 @@ class _ShimmerScopeState extends State<_ShimmerScope>
     with SingleTickerProviderStateMixin {
   late AnimationController _shimmerScopeController;
   Size? _size;
-  Size get size => _size!;
+  Size? get size => _size!;
 
   @override
   void initState() {
@@ -69,8 +69,7 @@ class _ShimmerScopeState extends State<_ShimmerScope>
 
   @override
   Widget build(BuildContext context) {
-    if (_size == null) return const SizedBox();
-    return widget.child ?? const SizedBox();
+    return widget.child;
   }
 }
 

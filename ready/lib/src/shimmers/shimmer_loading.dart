@@ -60,15 +60,22 @@ class _ShimmerState extends State<Shimmer> {
     if (shimmer == null) {
       return widget.child;
     }
+    final shimmerSize = shimmer.size;
+    if (shimmerSize == null) {
+      return Opacity(
+        opacity: 0,
+        child: widget.child,
+      );
+    }
 
     var box = context.findRenderObject() as RenderBox?;
+
     if (box == null || !box.hasSize) {
       return Opacity(
         opacity: 0,
         child: widget.child,
       );
     }
-    final shimmerSize = shimmer.size;
     final gradient = shimmer.gradient;
     final offsetWithinShimmer = shimmer.getDescendantOffset(descendant: box);
 
