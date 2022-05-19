@@ -437,13 +437,13 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
     );
   }
 
-  _ReadyScreenLoader _buildRScreenLoading(
+  ReadyScreenLoader _buildRScreenLoading(
     _ReadyListConfigOptionsDefaults _config,
     bool loading,
     String? error,
   ) {
     var ctrl = widget.controller;
-    return _ReadyScreenLoader(
+    return ReadyScreenLoader(
       loading: loading,
       error: error,
       config: _config.placeholdersConfig,

@@ -1,11 +1,11 @@
 part of ready_list;
 
-class _ReadyScreenLoader extends StatelessWidget {
+class ReadyScreenLoader extends StatelessWidget {
   final bool loading;
   final String? error;
   final VoidCallback? onReload;
-  final PlaceholdersConfig config;
-  const _ReadyScreenLoader({
+  final PlaceholdersConfig? config;
+  const ReadyScreenLoader({
     Key? key,
     required this.error,
     required this.loading,
@@ -14,14 +14,17 @@ class _ReadyScreenLoader extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    if (config.builder != null) return config.builder!(loading, error);
+    var conf = config ??
+        _ReadyListConfigOptionsDefaults.effective(null, context)
+            .placeholdersConfig;
+    if (conf.builder != null) return conf.builder!(loading, error);
     var tr = Ready.localization(context);
     String message;
     bool hasError = error != null;
     if (loading == true) {
-      message = config.loadingText ?? tr.loading;
+      message = conf.loadingText ?? tr.loading;
     } else {
-      message = error ?? config.emptyText ?? tr.emptyList;
+      message = error ?? conf.emptyText ?? tr.emptyList;
     }
     return Container(
       padding: const EdgeInsets.all(20),
@@ -37,14 +40,14 @@ class _ReadyScreenLoader extends StatelessWidget {
                 duration: const Duration(milliseconds: 300),
                 child: SizedBox(
                   key: Key('$loading$hasError'),
-                  child: _getPlaceHolder(context, loading, config),
+                  child: _getPlaceHolder(context, loading, conf),
                 ),
               ),
-              SizedBox(height: config.spaceBetweenIconAndText),
+              SizedBox(height: conf.spaceBetweenIconAndText),
               Text(message),
-              SizedBox(height: config.spaceBetweenTextAndButton),
+              SizedBox(height: conf.spaceBetweenTextAndButton),
               if (onReload != null && !loading)
-                _getTextButton(context, loading, onReload!, config),
+                _getTextButton(context, loading, onReload!, conf),
             ],
           ),
         ),
@@ -63,9 +66,9 @@ class _ReadyScreenLoader extends StatelessWidget {
   }
 
   Widget _getPlaceHolder(
-      BuildContext context, bool loading, PlaceholdersConfig _config) {
+      BuildContext context, bool loading, PlaceholdersConfig config) {
     if (loading == true) {
-      return _getLoader(context, _config);
+      return _getLoader(context, config);
     } else {
       return IconTheme.merge(
         data: const IconThemeData(size: 100),
