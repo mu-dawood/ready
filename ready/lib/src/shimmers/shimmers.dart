@@ -30,7 +30,7 @@ class _ShimmerScopeState extends State<_ShimmerScope>
     with SingleTickerProviderStateMixin {
   late AnimationController _shimmerScopeController;
   Size? _size;
-  Size? get size => _size!;
+  Size? get size => _size;
 
   @override
   void initState() {
