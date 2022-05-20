@@ -10,13 +10,13 @@ class ReadyScreenLoader extends StatelessWidget {
     required this.error,
     required this.loading,
     this.onReload,
-    required this.config,
+    this.config,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    var conf = config ??
-        _ReadyListConfigOptionsDefaults.effective(null, context)
-            .placeholdersConfig;
+    var conf = _ReadyListConfigOptionsDefaults.effective(null, context)
+        .placeholdersConfig
+        .copyWith(config);
     if (conf.builder != null) return conf.builder!(loading, error);
     var tr = Ready.localization(context);
     String message;

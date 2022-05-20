@@ -30,6 +30,16 @@ class PlaceholdersConfig {
   final String? reload;
   final double spaceBetweenIconAndText;
   final double spaceBetweenTextAndButton;
+  PlaceholdersConfig._({
+    this.loadingText,
+    this.emptyText,
+    this.builder,
+    this.reload,
+    this.icon,
+    this.loadingIndicator,
+    this.spaceBetweenIconAndText = 10,
+    this.spaceBetweenTextAndButton = 5,
+  });
   PlaceholdersConfig({
     this.loadingText,
     this.emptyText,
@@ -49,6 +59,21 @@ class PlaceholdersConfig {
         spaceBetweenTextAndButton = 0,
         spaceBetweenIconAndText = 0,
         emptyText = '';
+
+  PlaceholdersConfig copyWith(PlaceholdersConfig? other) {
+    return PlaceholdersConfig._(
+      builder: other?.builder ?? builder,
+      emptyText: other?.emptyText ?? emptyText,
+      loadingText: other?.loadingText ?? loadingText,
+      icon: other?.icon ?? icon,
+      loadingIndicator: other?.loadingIndicator ?? loadingIndicator,
+      reload: other?.reload ?? reload,
+      spaceBetweenIconAndText:
+          other?.spaceBetweenIconAndText ?? spaceBetweenIconAndText,
+      spaceBetweenTextAndButton:
+          other?.spaceBetweenTextAndButton ?? spaceBetweenTextAndButton,
+    );
+  }
 }
 
 abstract class ReadyListConfigOptions {
