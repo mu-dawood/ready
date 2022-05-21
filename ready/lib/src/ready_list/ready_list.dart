@@ -32,6 +32,8 @@ class ReadyList<T, TController extends ReadyListController<T>>
   final TController controller;
   final bool keepAlive;
   @override
+  final bool? handleNestedScrollViewOverlap;
+  @override
   final PlaceholdersConfig? placeholdersConfig;
   @override
   final bool? showNoMoreText;
@@ -80,6 +82,7 @@ class ReadyList<T, TController extends ReadyListController<T>>
     this.noMoreText,
     this.loadMoreText,
     this.reverse,
+    this.handleNestedScrollViewOverlap,
     this.keepAlive = true,
     this.shrinkWrap,
     this.pageSize,
@@ -107,6 +110,7 @@ class ReadyList<T, TController extends ReadyListController<T>>
     ReorderOptions? reorderOptions,
     required this.controller,
     this.filterItems,
+    this.handleNestedScrollViewOverlap,
     this.placeholdersConfig,
     this.showNoMoreText,
     this.allowRefresh,
@@ -137,6 +141,7 @@ class ReadyList<T, TController extends ReadyListController<T>>
     Key? key,
     this.scrollController,
     this.headerSlivers,
+    this.handleNestedScrollViewOverlap,
     this.innerFooterSlivers,
     this.footerSlivers,
     required ReadyListItemBuilder<T> buildItem,
@@ -310,7 +315,8 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
           shrinkWrap: shrinkWrap,
           reverse: _config.reverse,
           slivers: [
-            if (absorber != null) SliverOverlapInjector(handle: absorber),
+            if (absorber != null && _config.handleNestedScrollViewOverlap)
+              SliverOverlapInjector(handle: absorber),
             if (widget.topLevelHeaderSlivers != null)
               ...widget.topLevelHeaderSlivers!,
             if (widget.headerSlivers != null) ...widget.headerSlivers!(state),

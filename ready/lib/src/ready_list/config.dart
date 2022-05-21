@@ -77,6 +77,10 @@ class PlaceholdersConfig {
 }
 
 abstract class ReadyListConfigOptions {
+  /// if true it will add [SliverOverlapInjector] if the list placed inside [NestedScrollView]
+  /// defaults to true
+  bool? get handleNestedScrollViewOverlap;
+
   /// if false we will not show 'No more text' at the end of the list
   bool? get showNoMoreText;
 
@@ -133,6 +137,8 @@ abstract class ReadyListConfigOptions {
 class ReadyListConfig extends InheritedWidget
     implements ReadyListConfigOptions {
   @override
+  final bool? handleNestedScrollViewOverlap;
+  @override
   final PlaceholdersConfig? placeholdersConfig;
   @override
   final bool? showNoMoreText;
@@ -169,6 +175,7 @@ class ReadyListConfig extends InheritedWidget
     Key? key,
     required Widget child,
     this.placeholdersConfig,
+    this.handleNestedScrollViewOverlap,
     this.showNoMoreText,
     this.topLevelFooterSlivers,
     this.topLevelHeaderSlivers,
@@ -196,6 +203,8 @@ class ReadyListConfig extends InheritedWidget
         oldWidget.showNoMoreText != showNoMoreText ||
         oldWidget.padding != padding ||
         oldWidget.pageSize != pageSize ||
+        oldWidget.handleNestedScrollViewOverlap !=
+            handleNestedScrollViewOverlap ||
         oldWidget.physics != physics ||
         oldWidget.axis != axis ||
         oldWidget.shrinkWrap != shrinkWrap ||
@@ -211,6 +220,8 @@ class ReadyListConfig extends InheritedWidget
 }
 
 class _ReadyListConfigOptionsDefaults implements ReadyListConfigOptions {
+  @override
+  final bool handleNestedScrollViewOverlap;
   @override
   final PlaceholdersConfig placeholdersConfig;
   @override
@@ -261,6 +272,7 @@ class _ReadyListConfigOptionsDefaults implements ReadyListConfigOptions {
     required this.physics,
     required this.pageSize,
     required this.allowFakeItems,
+    required this.handleNestedScrollViewOverlap,
   });
 
   static _ReadyListConfigOptionsDefaults effective(
@@ -276,6 +288,9 @@ class _ReadyListConfigOptionsDefaults implements ReadyListConfigOptions {
       topLevelHeaderSlivers:
           options?.topLevelHeaderSlivers ?? config?.topLevelHeaderSlivers,
       showNoMoreText: options?.showNoMoreText ?? config?.showNoMoreText ?? true,
+      handleNestedScrollViewOverlap: options?.handleNestedScrollViewOverlap ??
+          config?.handleNestedScrollViewOverlap ??
+          true,
       allowRefresh: options?.allowRefresh ?? config?.allowRefresh ?? true,
       allowLoadNext: options?.allowLoadNext ?? config?.allowLoadNext ?? true,
       noMoreText: options?.noMoreText ?? config?.noMoreText ?? tr.noMoreItems,

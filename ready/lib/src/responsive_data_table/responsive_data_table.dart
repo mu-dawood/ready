@@ -266,6 +266,8 @@ class __ResponsiveDataTableState<T, TController extends ReadyListController<T>>
                   topLevelFooterSlivers: listOptions.topLevelFooterSlivers,
                   topLevelHeaderSlivers: listOptions.topLevelHeaderSlivers,
                   pageSize: listOptions.pageSize,
+                  handleNestedScrollViewOverlap:
+                      listOptions.handleNestedScrollViewOverlap,
                   key: Key('$layout'),
                   keepAlive: false,
                   controller: widget.controller,
@@ -382,16 +384,17 @@ class __ResponsiveDataTableState<T, TController extends ReadyListController<T>>
 class _Info extends StatelessWidget {
   final Widget title;
   final Widget body;
-  final CrossAxisAlignment? alignment;
-  const _Info(
-      {Key? key, required this.title, required this.body, this.alignment})
-      : super(key: key);
+  const _Info({
+    Key? key,
+    required this.title,
+    required this.body,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
       child: Row(
-        crossAxisAlignment: alignment ?? CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           title,
           const SizedBox(width: 20),

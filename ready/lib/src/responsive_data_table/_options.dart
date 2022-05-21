@@ -114,7 +114,8 @@ class ListOptions<T> implements ReadyListConfigOptions {
 
   /// [ReadyList.innerFooterSlivers]
   final ReadyListWidgetBuilder<T>? innerFooterSlivers;
-
+  @override
+  final bool? handleNestedScrollViewOverlap;
   @override
   final PlaceholdersConfig? placeholdersConfig;
   @override
@@ -159,6 +160,7 @@ class ListOptions<T> implements ReadyListConfigOptions {
     this.placeholdersConfig,
     this.showNoMoreText,
     this.allowRefresh,
+    this.handleNestedScrollViewOverlap,
     this.allowLoadNext,
     this.noMoreText,
     this.loadMoreText,
@@ -182,6 +184,7 @@ class ListOptions<T> implements ReadyListConfigOptions {
     this.scrollController,
     this.headerSlivers,
     this.footerSlivers,
+    this.handleNestedScrollViewOverlap,
     this.innerFooterSlivers,
     this.placeholdersConfig,
     this.showNoMoreText,
