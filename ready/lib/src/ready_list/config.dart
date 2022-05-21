@@ -1,6 +1,6 @@
 part of ready_list;
 
-typedef ShrinkWrapCallback = bool Function(ReadyListState controller);
+typedef StateResultCallBack<T> = T Function(ReadyListState controller);
 typedef ReadyListWidgetBuilder<T> = List<Widget> Function(
     ReadyListState<T> state);
 typedef GridDelegateCallback = SliverStaggeredGridDelegate Function({
@@ -79,7 +79,7 @@ class PlaceholdersConfig {
 abstract class ReadyListConfigOptions {
   /// if true it will add [SliverOverlapInjector] if the list placed inside [NestedScrollView]
   /// defaults to true
-  bool? get handleNestedScrollViewOverlap;
+  StateResultCallBack<bool>? get handleNestedScrollViewOverlap;
 
   /// if false we will not show 'No more text' at the end of the list
   bool? get showNoMoreText;
@@ -114,7 +114,7 @@ abstract class ReadyListConfigOptions {
   bool? get allowFakeItems;
 
   /// whether to shrink-wrap or not
-  ShrinkWrapCallback? get shrinkWrap;
+  StateResultCallBack<bool>? get shrinkWrap;
 
   /// axis of the list
   Axis? get axis;
@@ -137,7 +137,7 @@ abstract class ReadyListConfigOptions {
 class ReadyListConfig extends InheritedWidget
     implements ReadyListConfigOptions {
   @override
-  final bool? handleNestedScrollViewOverlap;
+  final StateResultCallBack<bool>? handleNestedScrollViewOverlap;
   @override
   final PlaceholdersConfig? placeholdersConfig;
   @override
@@ -159,7 +159,7 @@ class ReadyListConfig extends InheritedWidget
   @override
   final GradientGetterCallback? shimmerScopeGradient;
   @override
-  final ShrinkWrapCallback? shrinkWrap;
+  final StateResultCallBack<bool>? shrinkWrap;
   @override
   final Axis? axis;
   @override
@@ -221,7 +221,7 @@ class ReadyListConfig extends InheritedWidget
 
 class _ReadyListConfigOptionsDefaults implements ReadyListConfigOptions {
   @override
-  final bool handleNestedScrollViewOverlap;
+  final StateResultCallBack<bool> handleNestedScrollViewOverlap;
   @override
   final PlaceholdersConfig placeholdersConfig;
   @override
@@ -242,7 +242,7 @@ class _ReadyListConfigOptionsDefaults implements ReadyListConfigOptions {
   @override
   final GradientGetterCallback? shimmerScopeGradient;
   @override
-  final ShrinkWrapCallback? shrinkWrap;
+  final StateResultCallBack<bool>? shrinkWrap;
   @override
   final Axis axis;
   @override
@@ -290,7 +290,7 @@ class _ReadyListConfigOptionsDefaults implements ReadyListConfigOptions {
       showNoMoreText: options?.showNoMoreText ?? config?.showNoMoreText ?? true,
       handleNestedScrollViewOverlap: options?.handleNestedScrollViewOverlap ??
           config?.handleNestedScrollViewOverlap ??
-          true,
+          (_) => true,
       allowRefresh: options?.allowRefresh ?? config?.allowRefresh ?? true,
       allowLoadNext: options?.allowLoadNext ?? config?.allowLoadNext ?? true,
       noMoreText: options?.noMoreText ?? config?.noMoreText ?? tr.noMoreItems,

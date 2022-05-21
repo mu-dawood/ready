@@ -115,7 +115,7 @@ class ListOptions<T> implements ReadyListConfigOptions {
   /// [ReadyList.innerFooterSlivers]
   final ReadyListWidgetBuilder<T>? innerFooterSlivers;
   @override
-  final bool? handleNestedScrollViewOverlap;
+  final StateResultCallBack<bool>? handleNestedScrollViewOverlap;
   @override
   final PlaceholdersConfig? placeholdersConfig;
   @override
@@ -135,7 +135,7 @@ class ListOptions<T> implements ReadyListConfigOptions {
   @override
   final GradientGetterCallback? shimmerScopeGradient;
   @override
-  final ShrinkWrapCallback? shrinkWrap;
+  final StateResultCallBack<bool>? shrinkWrap;
   @override
   final Axis? axis;
   @override

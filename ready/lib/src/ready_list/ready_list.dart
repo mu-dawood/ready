@@ -32,7 +32,7 @@ class ReadyList<T, TController extends ReadyListController<T>>
   final TController controller;
   final bool keepAlive;
   @override
-  final bool? handleNestedScrollViewOverlap;
+  final StateResultCallBack<bool>? handleNestedScrollViewOverlap;
   @override
   final PlaceholdersConfig? placeholdersConfig;
   @override
@@ -54,7 +54,7 @@ class ReadyList<T, TController extends ReadyListController<T>>
   @override
   final GradientGetterCallback? shimmerScopeGradient;
   @override
-  final ShrinkWrapCallback? shrinkWrap;
+  final StateResultCallBack<bool>? shrinkWrap;
   @override
   final Axis? axis;
   @override
@@ -315,7 +315,8 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
           shrinkWrap: shrinkWrap,
           reverse: _config.reverse,
           slivers: [
-            if (absorber != null && _config.handleNestedScrollViewOverlap)
+            if (absorber != null &&
+                _config.handleNestedScrollViewOverlap(state))
               SliverOverlapInjector(handle: absorber),
             if (widget.topLevelHeaderSlivers != null)
               ...widget.topLevelHeaderSlivers!,
