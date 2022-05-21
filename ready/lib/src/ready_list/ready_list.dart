@@ -25,7 +25,7 @@ class ReadyList<T, TController extends ReadyListController<T>>
   final ReadyListWidgetBuilder<T>? headerSlivers;
   final ReadyListWidgetBuilder<T>? footerSlivers;
   final ReadyListWidgetBuilder<T>? innerFooterSlivers;
-  final ReadyListWidgetBuilder<T>? _slivers;
+  final ReadyListSliverBuilder<T>? _slivers;
   final Iterable<T> Function(Iterable<T> items)? filterItems;
   final ReadyListItemBuilder<T>? _buildItem;
   final GridDelegateCallback? _gridDelegate;
@@ -73,7 +73,7 @@ class ReadyList<T, TController extends ReadyListController<T>>
     this.headerSlivers,
     this.innerFooterSlivers,
     this.footerSlivers,
-    required ReadyListWidgetBuilder<T> slivers,
+    required ReadyListSliverBuilder<T> slivers,
     required this.controller,
     this.placeholdersConfig,
     this.showNoMoreText,
@@ -323,17 +323,35 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
             if (widget.headerSlivers != null) ...widget.headerSlivers!(state),
             if (widget._slivers != null)
               ...state.when(
-                empty: () => [
-                  _buildPlaceholders(shrinkWrap, _config, false, null),
-                ],
-                error: (error) =>
-                    [_buildPlaceholders(shrinkWrap, _config, false, error)],
-                firstLoading: (_) => widget._slivers!(state),
-                refreshing: (items, total, _) => widget._slivers!(state),
-                loadingNext: (items, total, _) => widget._slivers!(state),
-                loaded: (items, total) => widget._slivers!(state),
-                needFirstLoading: (_) => widget._slivers!(state),
-                initializing: () => widget._slivers!(state),
+                empty: () => widget._slivers!(state,
+                    () => _buildPlaceholders(shrinkWrap, _config, false, null)),
+                error: (error) => widget._slivers!(
+                    state,
+                    () =>
+                        _buildPlaceholders(shrinkWrap, _config, false, error)),
+                firstLoading: (_) => widget._slivers!(
+                  state,
+                  () => !_config.allowFakeItems
+                      ? _buildPlaceholders(shrinkWrap, _config, true, null)
+                      : null,
+                ),
+                needFirstLoading: (_) => widget._slivers!(
+                  state,
+                  () => !_config.allowFakeItems
+                      ? _buildPlaceholders(shrinkWrap, _config, true, null)
+                      : null,
+                ),
+                initializing: () => widget._slivers!(
+                  state,
+                  () => !_config.allowFakeItems
+                      ? _buildPlaceholders(shrinkWrap, _config, true, null)
+                      : null,
+                ),
+                refreshing: (items, total, _) =>
+                    widget._slivers!(state, () => null),
+                loadingNext: (items, total, _) =>
+                    widget._slivers!(state, () => null),
+                loaded: (items, total) => widget._slivers!(state, () => null),
               )
             else
               state.when(

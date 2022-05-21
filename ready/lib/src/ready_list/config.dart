@@ -3,6 +3,9 @@ part of ready_list;
 typedef StateResultCallBack<T> = T Function(ReadyListState controller);
 typedef ReadyListWidgetBuilder<T> = List<Widget> Function(
     ReadyListState<T> state);
+
+typedef ReadyListSliverBuilder<T> = List<Widget> Function(
+    ReadyListState<T> state, Widget? Function() defaultPlaceHolder);
 typedef GridDelegateCallback = SliverStaggeredGridDelegate Function({
   required double width,
   required int? length,
