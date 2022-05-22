@@ -44,7 +44,10 @@ class ReadyScreenLoader extends StatelessWidget {
                 ),
               ),
               SizedBox(height: conf.spaceBetweenIconAndText),
-              Text(message),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+              ),
               SizedBox(height: conf.spaceBetweenTextAndButton),
               if (onReload != null && !loading)
                 _getTextButton(context, loading, onReload!, conf),
