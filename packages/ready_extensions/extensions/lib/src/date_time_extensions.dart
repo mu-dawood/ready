@@ -62,6 +62,7 @@ extension DateTimeExtensions on DateTime {
   String MMMMd(BuildContext context) =>
       _format(context, (locale) => DateFormat.MMMMd(locale));
 
+  // cSpell: ignore MMMMEEEEd
   /// Format date with DateFormat.MMMMEEEEd intl format
   String MMMMEEEEd(BuildContext context) =>
       _format(context, (locale) => DateFormat.MMMMEEEEd(locale));

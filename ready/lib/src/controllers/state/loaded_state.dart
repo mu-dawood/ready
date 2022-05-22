@@ -19,7 +19,7 @@ class _Loaded<T> extends ReadyListState<T> {
     TResult Function()? empty,
     TResult Function(ICancelToken? cancelToken)? firstLoading,
     TResult Function(Iterable<T> items, int total)? loaded,
-    TResult Function(String message)? error,
+    TResult Function(ErrorDisplayCallBack display)? error,
     TResult Function(Iterable<T> items, int total, ICancelToken? cancelToken)?
         loadingNext,
     TResult Function(Iterable<T> items, int total, ICancelToken? cancelToken)?
@@ -39,7 +39,7 @@ class _Loaded<T> extends ReadyListState<T> {
     required TResult Function() empty,
     required TResult Function(ICancelToken? cancelToken) firstLoading,
     required TResult Function(Iterable<T> items, int total) loaded,
-    required TResult Function(String message) error,
+    required TResult Function(ErrorDisplayCallBack display) error,
     required TResult Function(
             Iterable<T> items, int total, ICancelToken? cancelToken)
         loadingNext,
@@ -57,7 +57,7 @@ class _Loaded<T> extends ReadyListState<T> {
     TResult Function()? empty,
     TResult Function(ICancelToken? cancelToken)? firstLoading,
     TResult Function(Iterable<T> items, int total)? loaded,
-    TResult Function(String message)? error,
+    TResult Function(ErrorDisplayCallBack display)? error,
     TResult Function(Iterable<T> items, int total, ICancelToken? cancelToken)?
         loadingNext,
     TResult Function(Iterable<T> items, int total, ICancelToken? cancelToken)?

@@ -45,7 +45,7 @@ extension SocialStringExtensions on String? {
   CrunchbasePersonUrl? get crunchbasePersonUrl =>
       CrunchbasePersonUrl.parse(this ?? '');
 
-  /// check string is runchbase organization url
+  /// check string is crunchbase organization url
   bool isCrunchbaseOrganization([String? organization]) {
     var o = crunchbaseOrganization;
     if (o == null) return false;
@@ -73,11 +73,11 @@ extension SocialStringExtensions on String? {
   GitHubUrl? get gitHubUrl => GitHubUrl.parse(this ?? '');
 
   /// Check string is github url
-  bool isGitHubUrl({String? user, String? repositry}) {
+  bool isGitHubUrl({String? user, String? repository}) {
     var o = gitHubUrl;
     if (o == null) return false;
     return (user == null || o.user == user) &&
-        (repositry == null || o.repositry == repositry);
+        (repository == null || o.repository == repository);
   }
 
   /// Parse string to google plus url
@@ -132,9 +132,9 @@ extension SocialStringExtensions on String? {
     return (permalink == null || o.permalink == permalink);
   }
 
-  /// Check string is linkedin companey url
-  bool isLinkedInCompaney({String? permalink}) {
-    var o = linkedInUrl?.companeyUrl;
+  /// Check string is linkedin company url
+  bool isLinkedInCompany({String? permalink}) {
+    var o = linkedInUrl?.companyUrl;
     if (o == null) return false;
     return (permalink == null || o.permalink == permalink);
   }
@@ -257,7 +257,7 @@ extension SocialStringExtensions on String? {
   YoutubeChannelUrl? get youtubeChannelUrl =>
       YoutubeChannelUrl.parse(this ?? '');
 
-  /// Check string is youtube channelr  url
+  /// Check string is youtube channel  url
   bool isYoutubeChannelUrl({String? id}) {
     var o = youtubeChannelUrl;
     if (o == null) return false;
@@ -285,13 +285,12 @@ extension SocialStringExtensions on String? {
   }
 }
 
-extension RegExpMatchsExtensions on Iterable<RegExpMatch> {
+extension RegExpMatchExtensions on Iterable<RegExpMatch> {
   String? getValue(String name) {
-    var matches = this
-        .where((element) => element.groupNames.contains(name))
+    var matches = where((element) => element.groupNames.contains(name))
         .map((e) => e.namedGroup(name))
         .where((element) => element != null);
-    if (matches.length == 0) return null;
+    if (matches.isEmpty) return null;
     return matches.first;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:ready_extensions_dart/ready_extensions_dart.dart';
 import 'package:test/test.dart';
+// cSpell: disable
 
 void main() {
   test('bool extension test', () {
@@ -56,7 +57,7 @@ void main() {
   test('Angel url string extensions', () {
     expect("https://angel.co/company/twitter".angelCompany?.company, "twitter");
     expect(
-        "https://angel.co/company/twitter/test".angelCompany?.subpage, "test");
+        "https://angel.co/company/twitter/test".angelCompany?.subPage, "test");
     expect("https://angel.co/company/twitter".isAngelCompany(), true);
     expect(
         "https://angel.co/company/twitter/jobs/576275-engineering-manager"
@@ -91,6 +92,7 @@ void main() {
     expect("https://facebook.com/peter.parker".isFacebookUrl(), true);
     expect("https://facebook.com/peterparker".isFacebookUrl(), true);
     expect("https://dkdj.com/peterparker".isFacebookUrl(), false);
+    // cSpell:ignore peterparker
     expect("https://facebook.com/peterparker".facebookUrl?.name, "peterparker");
     expect("https://www.facebook.com/100004123456789".isFacebookUrl(), true);
     expect(
@@ -110,7 +112,7 @@ void main() {
   test('other string extensions', () {
     expect(
         "https://github.com/lorey/socials"
-            .isGitHubUrl(user: "lorey", repositry: "socials"),
+            .isGitHubUrl(user: "lorey", repository: "socials"),
         true);
     expect("https://github.com/lorey".isGitHubUrl(user: "lorey"), true);
     expect(
@@ -140,15 +142,15 @@ void main() {
         true);
     expect(
         "https://fr.linkedin.com/school/université-grenoble-alpes"
-            .isLinkedInCompaney(permalink: "université-grenoble-alpes"),
+            .isLinkedInCompany(permalink: "université-grenoble-alpes"),
         true);
     expect(
         "https://linkedin.com/company/dash-company.io"
-            .isLinkedInCompaney(permalink: "dash-company.io"),
+            .isLinkedInCompany(permalink: "dash-company.io"),
         true);
     expect(
         "https://www.linkedin.com/company/1234567"
-            .isLinkedInCompaney(permalink: "1234567"),
+            .isLinkedInCompany(permalink: "1234567"),
         true);
     expect(
         "https://www.linkedin.com/feed/update/urn:li:activity:6665508550111912345/"

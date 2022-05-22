@@ -5,9 +5,10 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
   FieldValidator<T, num> lessThanFn(ValueGetter<num> max,
       [MessageCallBack<num>? message]) {
     return next((messages, value) {
-      var _max = max();
-      if (value >= _max) {
-        return message?.call(messages, value) ?? messages.lessThan(value, _max);
+      var maximum = max();
+      if (value >= maximum) {
+        return message?.call(messages, value) ??
+            messages.lessThan(value, maximum);
       }
       return null;
     });
@@ -21,10 +22,10 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
   FieldValidator<T, num> greaterThanFn(ValueGetter<num> min,
       [MessageCallBack<num>? message]) {
     return next((messages, value) {
-      var _min = min();
-      if (value <= _min) {
+      var minimum = min();
+      if (value <= minimum) {
         return message?.call(messages, value) ??
-            messages.greaterThan(value, _min);
+            messages.greaterThan(value, minimum);
       }
       return null;
     });
@@ -39,11 +40,11 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
   FieldValidator<T, num> isBetweenFn(ValueGetter<num> min, ValueGetter<num> max,
       [MessageCallBack<num>? message]) {
     return next((messages, value) {
-      var _max = max();
-      var _min = min();
-      if (value <= _min || value >= _max) {
+      var maximum = max();
+      var minimum = min();
+      if (value <= minimum || value >= maximum) {
         return message?.call(messages, value) ??
-            messages.isBetween(value, _min, _max);
+            messages.isBetween(value, minimum, maximum);
       }
       return null;
     });
@@ -58,10 +59,10 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
   FieldValidator<T, num> lessThanOrEqualFn(ValueGetter<num> max,
       [MessageCallBack<num>? message]) {
     return next((messages, value) {
-      var _max = max();
-      if (value > _max) {
+      var maximum = max();
+      if (value > maximum) {
         return message?.call(messages, value) ??
-            messages.lessThanOrEqual(value, _max);
+            messages.lessThanOrEqual(value, maximum);
       }
       return null;
     });
@@ -76,10 +77,10 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
   FieldValidator<T, num> greaterThanOrEqualFn(ValueGetter<num> min,
       [MessageCallBack<num>? message]) {
     return next((messages, value) {
-      var _min = min();
-      if (value < _min) {
+      var minimum = min();
+      if (value < minimum) {
         return message?.call(messages, value) ??
-            messages.greaterThanOrEqual(value, _min);
+            messages.greaterThanOrEqual(value, minimum);
       }
       return null;
     });
@@ -95,11 +96,11 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
       ValueGetter<num> min, ValueGetter<num> max,
       [MessageCallBack<num>? message]) {
     return next((messages, value) {
-      var _max = max();
-      var _min = min();
-      if (value < _min || value > _max) {
+      var maximum = max();
+      var minimum = min();
+      if (value < minimum || value > maximum) {
         return message?.call(messages, value) ??
-            messages.isBetweenOrEqual(value, _min, _max);
+            messages.isBetweenOrEqual(value, minimum, maximum);
       }
       return null;
     });
@@ -114,10 +115,10 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
   FieldValidator<T, num> isDivisibleByFn(ValueGetter<num> other,
       [MessageCallBack<num>? message]) {
     return next((messages, value) {
-      var _other = other();
-      if (value % _other != 0) {
+      var oth = other();
+      if (value % oth != 0) {
         return message?.call(messages, value) ??
-            messages.isDivisibleBy(value, _other);
+            messages.isDivisibleBy(value, oth);
       }
       return null;
     });

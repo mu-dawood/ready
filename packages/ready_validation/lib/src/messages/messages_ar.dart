@@ -1,4 +1,8 @@
+// cSpell: disable
+// ignore_for_file: unused_local_variable, unnecessary_brace_in_string_interps, equal_keys_in_map, unnecessary_string_interpolations
+
 import 'package:intl/intl.dart' as intl;
+
 import 'messages.dart';
 
 /// The translations for Arabic (`ar`).

@@ -12,7 +12,7 @@ class ValidationMessagesConfig extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ValidationMessagesConfigState createState() =>
+  State<ValidationMessagesConfig> createState() =>
       _ValidationMessagesConfigState();
 
   static ReadyValidationMessages? of(BuildContext context) => context

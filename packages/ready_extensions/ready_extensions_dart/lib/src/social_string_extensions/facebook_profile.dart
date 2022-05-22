@@ -7,10 +7,10 @@ class FacebookUrl {
   String? get id => profileIdUrl?.profileId;
   FacebookUrl._(this.profileUrl, this.profileIdUrl);
   static FacebookUrl? parse(String url) {
-    var _profile = FacebookProfileUrl.parse(url);
-    var _id = FacebookProfileIdUrl.parse(url);
-    if (_profile == null && _id == null) return null;
-    return FacebookUrl._(_profile, _id);
+    var profile = FacebookProfileUrl.parse(url);
+    var id = FacebookProfileIdUrl.parse(url);
+    if (profile == null && id == null) return null;
+    return FacebookUrl._(profile, id);
   }
 }
 
@@ -22,9 +22,9 @@ class FacebookProfileUrl {
     var matches = RegExp(
             r'(?:https?:)?\/\/(?:www\.)?(?:facebook|fb)\.com\/(?<profile>(?![A-z]+\.php)(?!marketplace|gaming|watch|me|messages|help|search|groups)[A-z0-9_\-\.]+)\/?')
         .allMatches(url);
-    var _profile = matches.getValue("profile");
-    if (_profile == null) return null;
-    return FacebookProfileUrl._(_profile);
+    var profile = matches.getValue("profile");
+    if (profile == null) return null;
+    return FacebookProfileUrl._(profile);
   }
 }
 
@@ -36,8 +36,8 @@ class FacebookProfileIdUrl {
     var matches = RegExp(
             r'(?:https?:)?\/\/(?:www\.)facebook.com/(?:profile.php\?id=)?(?<id>[0-9]+)')
         .allMatches(url);
-    var _id = matches.getValue("id");
-    if (_id == null) return null;
-    return FacebookProfileIdUrl._(_id);
+    var id = matches.getValue("id");
+    if (id == null) return null;
+    return FacebookProfileIdUrl._(id);
   }
 }

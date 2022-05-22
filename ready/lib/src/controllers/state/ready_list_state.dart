@@ -1,6 +1,7 @@
 library ready_list_state;
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 part 'empty_list_state.dart';
 part 'error_list_state.dart';
@@ -31,7 +32,8 @@ abstract class ReadyListState<T> extends Equatable {
   const factory ReadyListState.empty() = _Empty<T>;
 
   /// when there is any error
-  const factory ReadyListState.error(String message) = _ErrorState<T>;
+  const factory ReadyListState.error(ErrorDisplayCallBack display) =
+      _ErrorState<T>;
 
   /// loading first time
   const factory ReadyListState.firstLoading([ICancelToken? cancelToken]) =
@@ -64,7 +66,7 @@ abstract class ReadyListState<T> extends Equatable {
     TResult Function()? empty,
     TResult Function(ICancelToken? cancelToken)? firstLoading,
     TResult Function(Iterable<T> items, int total)? loaded,
-    TResult Function(String message)? error,
+    TResult Function(ErrorDisplayCallBack display)? error,
     TResult Function(Iterable<T> items, int total, ICancelToken? cancelToken)?
         loadingNext,
     TResult Function(Iterable<T> items, int total, ICancelToken? cancelToken)?
@@ -77,7 +79,7 @@ abstract class ReadyListState<T> extends Equatable {
     required TResult Function() empty,
     required TResult Function(ICancelToken? cancelToken) firstLoading,
     required TResult Function(Iterable<T> items, int total) loaded,
-    required TResult Function(String message) error,
+    required TResult Function(ErrorDisplayCallBack display) error,
     required TResult Function(
             Iterable<T> items, int total, ICancelToken? cancelToken)
         loadingNext,
@@ -92,7 +94,7 @@ abstract class ReadyListState<T> extends Equatable {
     TResult Function()? empty,
     TResult Function(ICancelToken? cancelToken)? firstLoading,
     TResult Function(Iterable<T> items, int total)? loaded,
-    TResult Function(String message)? error,
+    TResult Function(ErrorDisplayCallBack display)? error,
     TResult Function(Iterable<T> items, int total, ICancelToken? cancelToken)?
         loadingNext,
     TResult Function(Iterable<T> items, int total, ICancelToken? cancelToken)?

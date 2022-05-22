@@ -1,6 +1,6 @@
 name: ready_extensions_dart
 description: Collection of extension methods to make your code simple , clean and fast
-version: 1.0.3
+version: 1.0.7
 homepage: https://github.com/mo-ah-dawood/ready/tree/main/packages/ready_extensions_dart
 repository: https://github.com/mo-ah-dawood/ready
 issue_tracker: https://github.com/mo-ah-dawood/ready/issues
@@ -13,4 +13,4 @@ dependencies:
 
 dev_dependencies:
   test: any
-  flutter_lints: ^1.0.4
+  flutter_lints: ^2.0.1

@@ -8,9 +8,9 @@ class TwitterUserUrl {
     var matches = RegExp(
             r'(?:https?:)?\/\/(?:[A-z]+\.)?twitter\.com\/@?(?!home|share|privacy|tos)(?<username>[A-z0-9_]+)\/?')
         .allMatches(url);
-    var _username = matches.getValue("username");
-    if (_username == null) return null;
-    return TwitterUserUrl._(_username);
+    var username = matches.getValue("username");
+    if (username == null) return null;
+    return TwitterUserUrl._(username);
   }
 }
 
@@ -23,9 +23,9 @@ class TwitterStatusUrl {
     var matches = RegExp(
             r'(?:https?:)?\/\/(?:[A-z]+\.)?twitter\.com\/@?(?<username>[A-z0-9_]+)\/status\/(?<tweet_id>[0-9]+)\/?')
         .allMatches(url);
-    var _username = matches.getValue("username");
-    var _tweetId = matches.getValue("tweet_id");
-    if (_username == null || _tweetId == null) return null;
-    return TwitterStatusUrl._(_username, _tweetId);
+    var username = matches.getValue("username");
+    var tweetId = matches.getValue("tweet_id");
+    if (username == null || tweetId == null) return null;
+    return TwitterStatusUrl._(username, tweetId);
   }
 }

@@ -7,10 +7,10 @@ class GooglePlusUrl {
   String? get id => idUrl?.id;
   GooglePlusUrl._(this.idUrl, this.userNameUrl);
   static GooglePlusUrl? parse(String url) {
-    var _userName = GooglePlusUserNameUrl.parse(url);
-    var _id = GooglePlusIdUrl.parse(url);
-    if (_userName == null && _id == null) return null;
-    return GooglePlusUrl._(_id, _userName);
+    var userName = GooglePlusUserNameUrl.parse(url);
+    var id = GooglePlusIdUrl.parse(url);
+    if (userName == null && id == null) return null;
+    return GooglePlusUrl._(id, userName);
   }
 }
 
@@ -21,9 +21,9 @@ class GooglePlusIdUrl {
   static GooglePlusIdUrl? parse(String url) {
     var matches = RegExp(r'(?:https?:)?\/\/plus\.google\.com\/(?<id>[0-9]{21})')
         .allMatches(url);
-    var _id = matches.getValue("id");
-    if (_id == null) return null;
-    return GooglePlusIdUrl._(_id);
+    var id = matches.getValue("id");
+    if (id == null) return null;
+    return GooglePlusIdUrl._(id);
   }
 }
 
@@ -35,8 +35,8 @@ class GooglePlusUserNameUrl {
     var matches =
         RegExp(r'(?:https?:)?\/\/plus\.google\.com\/\+(?<username>[A-z0-9+]+)')
             .allMatches(url);
-    var _username = matches.getValue("username");
-    if (_username == null) return null;
-    return GooglePlusUserNameUrl._(_username);
+    var username = matches.getValue("username");
+    if (username == null) return null;
+    return GooglePlusUserNameUrl._(username);
   }
 }

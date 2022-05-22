@@ -52,10 +52,10 @@ class FieldValidator<T, R> {
   }
 
   List<String> _errors(TransformedValue<T, R> transformed) {
-    var _error = _call(transformed);
+    var error = _call(transformed);
     return [
       ...(_prevErrors?.call(transformed) ?? []),
-      if (_error != null) _error,
+      if (error != null) error,
     ];
   }
 
@@ -224,10 +224,10 @@ class FieldValidator<T, R> {
   FieldValidator<T, R> multiValidate(
       List<ValidatorForCallBack<T, R>> validators) {
     var validator = this;
-    for (var _validator in validators) {
+    for (var v in validators) {
       validator = FieldValidator<T, R>._(
         validate: (value) {
-          return _validator(this, value.value)._call(value);
+          return v(this, value.value)._call(value);
         },
         prevErrors: validator._prevErrors,
         validatePrev: validator._call,

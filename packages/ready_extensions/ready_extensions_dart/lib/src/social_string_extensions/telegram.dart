@@ -5,11 +5,12 @@ class TelegramProfileUrl {
 
   TelegramProfileUrl._(this.userName);
   static TelegramProfileUrl? parse(String url) {
+    // cSpell: ignore elegram
     var matches = RegExp(
             r'(?:https?:)?\/\/(?:t(?:elegram)?\.me|telegram\.org)\/(?<username>[a-z0-9\_]{5,32})\/?')
         .allMatches(url);
-    var _username = matches.getValue("username");
-    if (_username == null) return null;
-    return TelegramProfileUrl._(_username);
+    var username = matches.getValue("username");
+    if (username == null) return null;
+    return TelegramProfileUrl._(username);
   }
 }

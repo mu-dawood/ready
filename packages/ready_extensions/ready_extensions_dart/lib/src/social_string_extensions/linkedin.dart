@@ -1,33 +1,33 @@
 part of 'social_string_extensions.dart';
 
 class LinkedInUrl {
-  final LinkedInCompaneyUrl? companeyUrl;
+  final LinkedInCompanyUrl? companyUrl;
   final LinkedInPostUrl? postUrl;
   final LinkedInProfileUrl? profileUrl;
 
-  LinkedInUrl._(this.companeyUrl, this.postUrl, this.profileUrl);
+  LinkedInUrl._(this.companyUrl, this.postUrl, this.profileUrl);
   static LinkedInUrl? parse(String url) {
-    var _company = LinkedInCompaneyUrl.parse(url);
-    var _post = LinkedInPostUrl.parse(url);
-    var _profile = LinkedInProfileUrl.parse(url);
-    if (_company == null && _post == null && _profile == null) return null;
-    return LinkedInUrl._(_company, _post, _profile);
+    var company = LinkedInCompanyUrl.parse(url);
+    var post = LinkedInPostUrl.parse(url);
+    var profile = LinkedInProfileUrl.parse(url);
+    if (company == null && post == null && profile == null) return null;
+    return LinkedInUrl._(company, post, profile);
   }
 }
 
-class LinkedInCompaneyUrl {
+class LinkedInCompanyUrl {
   final String type;
   final String permalink;
 
-  LinkedInCompaneyUrl._(this.type, this.permalink);
-  static LinkedInCompaneyUrl? parse(String url) {
+  LinkedInCompanyUrl._(this.type, this.permalink);
+  static LinkedInCompanyUrl? parse(String url) {
     var matches = RegExp(
             r'^(?:https?:)?\/\/(?:[\w]+\.)?linkedin\.com\/(?<company_type>(company)|(school))\/(?<company_permalink>[A-z0-9-À-ÿ\.]+)\/?$')
         .allMatches(url);
-    var _type = matches.getValue("company_type");
-    var _permalink = matches.getValue("company_permalink");
-    if (_type == null || _permalink == null) return null;
-    return LinkedInCompaneyUrl._(_type, _permalink);
+    var type = matches.getValue("company_type");
+    var permalink = matches.getValue("company_permalink");
+    if (type == null || permalink == null) return null;
+    return LinkedInCompanyUrl._(type, permalink);
   }
 }
 
@@ -39,9 +39,9 @@ class LinkedInPostUrl {
     var matches = RegExp(
             r'^(?:https?:)?\/\/(?:[\w]+\.)?linkedin\.com\/feed\/update\/urn:li:activity:(?<activity_id>[0-9]+)\/?$')
         .allMatches(url);
-    var _id = matches.getValue("activity_id");
-    if (_id == null) return null;
-    return LinkedInPostUrl._(_id);
+    var id = matches.getValue("activity_id");
+    if (id == null) return null;
+    return LinkedInPostUrl._(id);
   }
 }
 
@@ -53,14 +53,14 @@ class LinkedInProfileUrl {
     var matches = RegExp(
             r'(?:https?:)?\/\/(?:[\w]+\.)?linkedin\.com\/in\/(?<permalink>[\w\-\_À-ÿ%]+)\/?')
         .allMatches(url);
-    var _permalink = matches.getValue("permalink");
-    if (_permalink == null) {
+    var permalink = matches.getValue("permalink");
+    if (permalink == null) {
       matches = RegExp(
               r'(?:https?:)?\/\/(?:[\w]+\.)?linkedin\.com\/pub\/(?<permalink_pub>[A-z0-9_-]+)(?:\/[A-z0-9]+){3}\/?')
           .allMatches(url);
-      _permalink = matches.getValue("permalink_pub");
+      permalink = matches.getValue("permalink_pub");
     }
-    if (_permalink == null) return null;
-    return LinkedInProfileUrl._(_permalink);
+    if (permalink == null) return null;
+    return LinkedInProfileUrl._(permalink);
   }
 }

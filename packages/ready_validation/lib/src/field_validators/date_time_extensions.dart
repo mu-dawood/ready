@@ -5,10 +5,10 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
   FieldValidator<T, DateTime> isAfterFn(ValueGetter<DateTime> other,
       [MessageCallBack<DateTime>? message]) {
     return next((messages, value) {
-      var _other = other();
-      if (!value.isAfter(_other)) {
+      var oth = other();
+      if (!value.isAfter(oth)) {
         return message?.call(messages, value) ??
-            messages.isDateAfter(value, _other);
+            messages.isDateAfter(value, oth);
       }
       return null;
     });
@@ -24,11 +24,11 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
   FieldValidator<T, DateTime> isAfterOrEqualFn(ValueGetter<DateTime> other,
       [MessageCallBack<DateTime>? message]) {
     return next((messages, value) {
-      var _other = other();
+      var oth = other();
 
-      if (!value.isAfter(_other) && !value.isAtSameMomentAs(_other)) {
+      if (!value.isAfter(oth) && !value.isAtSameMomentAs(oth)) {
         return message?.call(messages, value) ??
-            messages.isDateAfterOrEqual(value, _other);
+            messages.isDateAfterOrEqual(value, oth);
       }
       return null;
     });
@@ -44,10 +44,10 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
   FieldValidator<T, DateTime> isBeforeFn(ValueGetter<DateTime> other,
       [MessageCallBack<DateTime>? message]) {
     return next((messages, value) {
-      var _other = other();
-      if (!value.isBefore(_other)) {
+      var oth = other();
+      if (!value.isBefore(oth)) {
         return message?.call(messages, value) ??
-            messages.isDateBefore(value, _other);
+            messages.isDateBefore(value, oth);
       }
       return null;
     });
@@ -63,10 +63,10 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
   FieldValidator<T, DateTime> isBeforeOrEqualFn(ValueGetter<DateTime> other,
       [MessageCallBack<DateTime>? message]) {
     return next((messages, value) {
-      var _other = other();
-      if (!value.isBefore(_other) && !value.isAtSameMomentAs(_other)) {
+      var oth = other();
+      if (!value.isBefore(oth) && !value.isAtSameMomentAs(oth)) {
         return message?.call(messages, value) ??
-            messages.isDateBeforeOrEqual(value, _other);
+            messages.isDateBeforeOrEqual(value, oth);
       }
       return null;
     });
@@ -83,12 +83,12 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
       ValueGetter<DateTime> min, ValueGetter<DateTime> max,
       [MessageCallBack<DateTime>? message]) {
     return next((messages, value) {
-      var _min = min();
-      var _max = max();
+      var minimum = min();
+      var maximum = max();
 
-      if (!value.isAfter(_min) || !value.isBefore(_max)) {
+      if (!value.isAfter(minimum) || !value.isBefore(maximum)) {
         return message?.call(messages, value) ??
-            messages.isDateBetween(value, _min, _max);
+            messages.isDateBetween(value, minimum, maximum);
       }
       return null;
     });
@@ -105,11 +105,11 @@ extension DateTimeValidationExtension<T> on FieldValidator<T, DateTime> {
       ValueGetter<DateTime> min, ValueGetter<DateTime> max,
       [MessageCallBack<DateTime>? message]) {
     return next((messages, value) {
-      var _min = min();
-      var _max = max();
-      if (value.isBefore(_min) || value.isAfter(_max)) {
+      var minimum = min();
+      var maximum = max();
+      if (value.isBefore(minimum) || value.isAfter(maximum)) {
         return message?.call(messages, value) ??
-            messages.isDateBetweenOrEqual(value, _min, _max);
+            messages.isDateBetweenOrEqual(value, minimum, maximum);
       }
       return null;
     });

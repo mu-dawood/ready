@@ -10,18 +10,18 @@ class StackexchangeUrl {
     var matches = RegExp(
             r'(?:https?:)?\/\/(?:www\.)?stackexchange\.com\/users\/(?<id>[0-9]+)\/(?<username>[A-z0-9-_.]+)\/?')
         .allMatches(url);
-    var _id = matches.getValue("id");
-    if (_id == null) {
+    var id = matches.getValue("id");
+    if (id == null) {
       matches = RegExp(
               r'(?:https?:)?\/\/(?:(?<community>[a-z]+(?!www))\.)?stackexchange\.com\/users\/(?<id>[0-9]+)\/(?<username>[A-z0-9-_.]+)\/?')
           .allMatches(url);
-      _id = matches.getValue("id");
+      id = matches.getValue("id");
     }
-    if (_id == null) return null;
+    if (id == null) return null;
 
-    var _username = matches.getValue("username");
-    var _community = matches.getValue("community");
-    if (_username == null) return null;
-    return StackexchangeUrl._(_username, _community, _id);
+    var username = matches.getValue("username");
+    var community = matches.getValue("community");
+    if (username == null) return null;
+    return StackexchangeUrl._(username, community, id);
   }
 }

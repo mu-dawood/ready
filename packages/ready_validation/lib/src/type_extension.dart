@@ -1,9 +1,9 @@
 part of 'context_extension.dart';
 
 extension StringValidateCreatorExtension<T> on T {
-  _Validator<T, R> validateWith<R>(
+  ValidatorOf<T, R> validateWith<R>(
       FieldValidator<T, R> Function(FieldValidator<T, T>) callback) {
-    return _Validator<T, R>(
+    return ValidatorOf<T, R>._(
       this,
       callback(FieldValidator<T, T>._(
         messages: ReadyValidationMessagesAr(),
@@ -14,27 +14,27 @@ extension StringValidateCreatorExtension<T> on T {
   }
 }
 
-class _Validator<T, R> {
+class ValidatorOf<T, R> {
   final T value;
   final FieldValidator<T, R> _validator;
-  _Validator(this.value, this._validator);
+  ValidatorOf._(this.value, this._validator);
 
   /// add validator to the current tree
-  _Validator<T, X> validateWith<X>(
+  ValidatorOf<T, X> validateWith<X>(
       FieldValidator<T, X> Function(FieldValidator<T, R>) callback) {
-    return _Validator<T, X>(value, callback(_validator));
+    return ValidatorOf<T, X>._(value, callback(_validator));
   }
 
   /// check if the value is valid
-  _Validator<T, R> and(ValidateWithCallback<R> validator) {
-    return _Validator<T, R>(value, _validator.validateWith(validator));
+  ValidatorOf<T, R> and(ValidateWithCallback<R> validator) {
+    return ValidatorOf<T, R>._(value, _validator.validateWith(validator));
   }
 
   /// replace the messages
   /// all the next validations will use the new messages
   /// the old messages will be kept in the _prevErrors
-  _Validator<T, R> withMessages(ReadyValidationMessagesAr messages) {
-    return _Validator<T, R>(value, _validator.withMessages(messages));
+  ValidatorOf<T, R> withMessages(ReadyValidationMessagesAr messages) {
+    return ValidatorOf<T, R>._(value, _validator.withMessages(messages));
   }
 
   /// check is the value is valid

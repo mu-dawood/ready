@@ -9,10 +9,10 @@ class StackoverflowQuestionUrl {
     var matches = RegExp(
             r'^(?:https?:)?\/\/(?:www\.)?stackoverflow\.com\/questions\/(?<id>[0-9]+)\/(?<title>[A-z0-9-_.]+)\/?$')
         .allMatches(url);
-    var _id = matches.getValue("id");
-    var _title = matches.getValue("title");
-    if (_id == null) return null;
-    return StackoverflowQuestionUrl._(_id, _title);
+    var id = matches.getValue("id");
+    var title = matches.getValue("title");
+    if (id == null) return null;
+    return StackoverflowQuestionUrl._(id, title);
   }
 }
 
@@ -25,9 +25,9 @@ class StackoverflowUserUrl {
     var matches = RegExp(
             r'(?:https?:)?\/\/(?:www\.)?stackoverflow\.com\/users\/(?<id>[0-9]+)\/(?<username>[A-z0-9-_.]+)\/?')
         .allMatches(url);
-    var _id = matches.getValue("id");
-    var _username = matches.getValue("username");
-    if (_id == null) return null;
-    return StackoverflowUserUrl._(_id, _username);
+    var id = matches.getValue("id");
+    var username = matches.getValue("username");
+    if (id == null) return null;
+    return StackoverflowUserUrl._(id, username);
   }
 }

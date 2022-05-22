@@ -23,10 +23,10 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   FieldValidator<T, String> startsWithFn(ValueGetter<Pattern> pattern,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
-      var _pattern = pattern();
-      return !value.startsWith(_pattern)
+      var ptr = pattern();
+      return !value.startsWith(ptr)
           ? message?.call(messages, value) ??
-              messages.startsWith(value, _pattern.toString())
+              messages.startsWith(value, ptr.toString())
           : null;
     });
   }
@@ -40,10 +40,10 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   FieldValidator<T, String> containsFn(ValueGetter<Pattern> pattern,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
-      var _pattern = pattern();
-      return !value.contains(_pattern)
+      var ptr = pattern();
+      return !value.contains(ptr)
           ? message?.call(messages, value) ??
-              messages.contains(value, _pattern.toString())
+              messages.contains(value, ptr.toString())
           : null;
     });
   }
@@ -57,9 +57,9 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   FieldValidator<T, String> endsWithFn(ValueGetter<String> other,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
-      var _other = other();
-      return !value.endsWith(_other)
-          ? message?.call(messages, value) ?? messages.startsWith(value, _other)
+      var oth = other();
+      return !value.endsWith(oth)
+          ? message?.call(messages, value) ?? messages.startsWith(value, oth)
           : null;
     });
   }
@@ -92,8 +92,8 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   FieldValidator<T, String> matchesFn(ValueGetter<RegExp> regExp,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
-      var _regExp = regExp();
-      if (!_regExp.hasMatch(value)) {
+      var rgEx = regExp();
+      if (!rgEx.hasMatch(value)) {
         return message?.call(messages, value) ?? messages.regexp;
       }
       return null;
@@ -109,10 +109,9 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   FieldValidator<T, String> hasLengthFn(ValueGetter<int> length,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
-      var _length = length();
-      if (value.length != _length) {
-        return message?.call(messages, value) ??
-            messages.hasLength(value, _length);
+      var len = length();
+      if (value.length != len) {
+        return message?.call(messages, value) ?? messages.hasLength(value, len);
       }
       return null;
     });
@@ -127,10 +126,10 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   FieldValidator<T, String> hasMinLengthFn(ValueGetter<int> min,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
-      var _min = min();
-      if (value.length < _min) {
+      var minimum = min();
+      if (value.length < minimum) {
         return message?.call(messages, value) ??
-            messages.hasMinLength(value, _min);
+            messages.hasMinLength(value, minimum);
       }
       return null;
     });
@@ -145,10 +144,10 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   FieldValidator<T, String> hasMaxLengthFn(ValueGetter<int> max,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
-      var _max = max();
-      if (value.length > _max) {
+      var maximum = max();
+      if (value.length > maximum) {
         return message?.call(messages, value) ??
-            messages.hasMaxLength(value, _max);
+            messages.hasMaxLength(value, maximum);
       }
       return null;
     });
@@ -164,11 +163,11 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
       ValueGetter<int> min, ValueGetter<int> max,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
-      var _min = min();
-      var _max = max();
-      if (value.length < _min || value.length > _max) {
+      var minimum = min();
+      var maximum = max();
+      if (value.length < minimum || value.length > maximum) {
         return message?.call(messages, value) ??
-            messages.hasRange(value, _min, _max);
+            messages.hasRange(value, minimum, maximum);
       }
       return null;
     });
@@ -320,7 +319,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     return next((messages, value) {
       if (!value.isGitHubUrl(
         user: user,
-        repositry: repository,
+        repository: repository,
       )) {
         return message?.call(messages, value) ??
             messages.invalidGitHubUrl(
@@ -417,7 +416,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     String? permalink,
   }) {
     return next((messages, value) {
-      if (!value.isLinkedInCompaney(permalink: permalink)) {
+      if (!value.isLinkedInCompany(permalink: permalink)) {
         return message?.call(messages, value) ??
             messages.invalidAngelCompanyUrl(value, permalink ?? '_');
       }

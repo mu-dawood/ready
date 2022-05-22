@@ -8,9 +8,9 @@ class CrunchbaseOrganizationUrl {
     var matches = RegExp(
             r'(?:https?:)?\/\/crunchbase\.com\/organization\/(?<organization>[A-z0-9_-]+)')
         .allMatches(url);
-    var _organization = matches.getValue("organization");
-    if (_organization == null) return null;
-    return CrunchbaseOrganizationUrl._(_organization);
+    var organization = matches.getValue("organization");
+    if (organization == null) return null;
+    return CrunchbaseOrganizationUrl._(organization);
   }
 }
 
@@ -22,8 +22,8 @@ class CrunchbasePersonUrl {
     var matches = RegExp(
             r'(?:https?:)?\/\/crunchbase\.com\/person\/(?<person>[A-z0-9_-]+)')
         .allMatches(url);
-    var _person = matches.getValue("person");
-    if (_person == null) return null;
-    return CrunchbasePersonUrl._(_person);
+    var person = matches.getValue("person");
+    if (person == null) return null;
+    return CrunchbasePersonUrl._(person);
   }
 }

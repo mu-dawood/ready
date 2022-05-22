@@ -58,7 +58,7 @@ class DefaultListLoadingHandler<T> extends ListLoadingHandler<T> {
     } else if (result is _Cancel<T>) {
       emit(previousState);
     } else if (result is _Error<T>) {
-      emit(ReadyListState.error(result.error));
+      emit(ReadyListState.error((context) => result.error));
     } else {
       throw UnsupportedError('Unsupported response');
     }

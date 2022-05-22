@@ -6,10 +6,10 @@ extension MapValidationExtension<T, TKey, TValue>
   FieldValidator<T, Map<TKey, TValue>> hasLengthFn(ValueGetter<int> length,
       [MessageCallBack<Map<TKey, TValue>>? message]) {
     return next((messages, value) {
-      var _length = length();
-      if (value.length != _length) {
+      var len = length();
+      if (value.length != len) {
         return message?.call(messages, value) ??
-            messages.listHasLength(value.entries, _length);
+            messages.listHasLength(value.entries, len);
       }
       return null;
     });
@@ -25,10 +25,10 @@ extension MapValidationExtension<T, TKey, TValue>
   FieldValidator<T, Map<TKey, TValue>> hasMaxLengthFn(ValueGetter<int> max,
       [MessageCallBack<Map<TKey, TValue>>? message]) {
     return next((messages, value) {
-      var _max = max();
-      if (value.length > _max) {
+      var maximum = max();
+      if (value.length > maximum) {
         return message?.call(messages, value) ??
-            messages.listMaxLength(value.entries, _max);
+            messages.listMaxLength(value.entries, maximum);
       }
       return null;
     });
@@ -44,10 +44,10 @@ extension MapValidationExtension<T, TKey, TValue>
   FieldValidator<T, Map<TKey, TValue>> hasMinLengthFn(ValueGetter<int> min,
       [MessageCallBack<Map<TKey, TValue>>? message]) {
     return next((messages, value) {
-      var _min = min();
-      if (value.length < _min) {
+      var minimum = min();
+      if (value.length < minimum) {
         return message?.call(messages, value) ??
-            messages.listMinLength(value.entries, _min);
+            messages.listMinLength(value.entries, minimum);
       }
       return null;
     });
@@ -64,11 +64,11 @@ extension MapValidationExtension<T, TKey, TValue>
       ValueGetter<int> min, ValueGetter<int> max,
       [MessageCallBack<Map<TKey, TValue>>? message]) {
     return next((messages, value) {
-      var _min = min();
-      var _max = max();
-      if (value.length < _min || value.length > _max) {
+      var minimum = min();
+      var maximum = max();
+      if (value.length < minimum || value.length > maximum) {
         return message?.call(messages, value) ??
-            messages.listRange(value.entries, _min, _max);
+            messages.listRange(value.entries, minimum, maximum);
       }
       return null;
     });
@@ -94,10 +94,10 @@ extension MapValidationExtension<T, TKey, TValue>
   FieldValidator<T, Map<TKey, TValue>> containsKeyFn(ValueGetter<TKey> key,
       [MessageCallBack<Map<TKey, TValue>>? message]) {
     return next((messages, value) {
-      var _key = key();
-      return !value.containsKey(_key)
+      var k = key();
+      return !value.containsKey(k)
           ? message?.call(messages, value) ??
-              messages.containsItem(value.entries, _key)
+              messages.containsItem(value.entries, k)
           : null;
     });
   }
@@ -112,10 +112,10 @@ extension MapValidationExtension<T, TKey, TValue>
   FieldValidator<T, Map<TKey, TValue>> notContainsKeyFn(ValueGetter<TKey> key,
       [MessageCallBack<Map<TKey, TValue>>? message]) {
     return next((messages, value) {
-      var _key = key();
-      return value.containsKey(_key)
+      var k = key();
+      return value.containsKey(k)
           ? message?.call(messages, value) ??
-              messages.notContainsItem(value.entries, _key)
+              messages.notContainsItem(value.entries, k)
           : null;
     });
   }
@@ -131,10 +131,9 @@ extension MapValidationExtension<T, TKey, TValue>
       ValueGetter<TValue> value,
       [MessageCallBack<Map<TKey, TValue>>? message]) {
     return next((messages, v) {
-      var _value = value();
-      return !v.containsValue(_value)
-          ? message?.call(messages, v) ??
-              messages.containsItem(v.entries, _value)
+      var val = value();
+      return !v.containsValue(val)
+          ? message?.call(messages, v) ?? messages.containsItem(v.entries, val)
           : null;
     });
   }
@@ -150,10 +149,10 @@ extension MapValidationExtension<T, TKey, TValue>
       ValueGetter<TValue> value,
       [MessageCallBack<Map<TKey, TValue>>? message]) {
     return next((messages, v) {
-      var _value = value();
-      return v.containsValue(_value)
+      var val = value();
+      return v.containsValue(val)
           ? message?.call(messages, v) ??
-              messages.notContainsItem(v.entries, _value)
+              messages.notContainsItem(v.entries, val)
           : null;
     });
   }

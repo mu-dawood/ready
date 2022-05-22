@@ -3,9 +3,9 @@ import 'package:intl/intl.dart';
 extension NumExtensions on num? {
   /// format the current number using NumberFormat
   /// ex. #.0#
-  String format(String _format) {
+  String format(String format) {
     if (this == null) return '';
-    return formatWith(NumberFormat(_format));
+    return formatWith(NumberFormat(format));
   }
 
   /// format the current number using NumberFormat
@@ -26,13 +26,13 @@ extension NumExtensions on num? {
     String? locale,
   }) {
     if (this == null) return '';
-    var _format = grouping ? '#,##0.' : '#.';
+    var format = grouping ? '#,##0.' : '#.';
     if (fractionDigits == null) {
-      _format += '#############';
+      format += '#############';
     } else {
-      _format += List.filled(fractionDigits, '0').join();
+      format += List.filled(fractionDigits, '0').join();
     }
-    return formatWith(NumberFormat(_format, locale));
+    return formatWith(NumberFormat(format, locale));
   }
 
   /// format number with intl currency format

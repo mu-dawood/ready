@@ -34,7 +34,8 @@ class __DismissState extends State<_Dismiss> {
   }
 }
 
-class _Observer extends NavigatorObserver {
+class SnackBarObserver extends NavigatorObserver {
+  SnackBarObserver._();
   final ValueNotifier<Route?> _currentRoute = ValueNotifier(null);
   bool get isPopupRoute {
     if (_currentRoute.value == null && kDebugMode) {
@@ -78,8 +79,8 @@ class _Observer extends NavigatorObserver {
 }
 
 extension SnackBarExtension on BuildContext {
-  static final _observer = _Observer();
-  _Observer get snackBarObserver => SnackBarExtension._observer;
+  static final _observer = SnackBarObserver._();
+  SnackBarObserver get snackBarObserver => SnackBarExtension._observer;
   Future waitForDialogToClose() {
     if (!snackBarObserver.isDialog || snackBarObserver.navigator == null) {
       return Future.value();
@@ -130,14 +131,14 @@ extension SnackBarExtension on BuildContext {
     bool waitPopupRouteToPop = false,
   }) async {
     var observer = snackBarObserver;
-    var _showModalSheet = !waitPopupRouteToPop && observer.isPopupRoute;
+    var showModalSheet = !waitPopupRouteToPop && observer.isPopupRoute;
     var manager = ScaffoldMessenger.maybeOf(this);
     var snackBarTheme = Theme.of(this).snackBarTheme;
     var navigator = Navigator.of(this);
     if (waitDialogToPop) await waitForDialogToClose();
     if (waitPopupRouteToPop) await waitForPopupRouteToClose();
 
-    if (_showModalSheet) {
+    if (showModalSheet) {
       var future = showModalBottomSheet(
         context: navigator.context,
         backgroundColor: Colors.transparent,

@@ -5,10 +5,10 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
   FieldValidator<T, List<TItem>> hasLengthFn(ValueGetter<int> length,
       [MessageCallBack<List<TItem>>? message]) {
     return next((messages, value) {
-      var _length = length();
-      if (value.length != _length) {
+      var len = length();
+      if (value.length != len) {
         return message?.call(messages, value) ??
-            messages.listHasLength(value, _length);
+            messages.listHasLength(value, len);
       }
       return null;
     });
@@ -24,10 +24,10 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
   FieldValidator<T, List<TItem>> hasMaxLengthFn(ValueGetter<int> max,
       [MessageCallBack<List<TItem>>? message]) {
     return next((messages, value) {
-      var _max = max();
-      if (value.length > _max) {
+      var maximum = max();
+      if (value.length > maximum) {
         return message?.call(messages, value) ??
-            messages.listMaxLength(value, _max);
+            messages.listMaxLength(value, maximum);
       }
       return null;
     });
@@ -43,10 +43,10 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
   FieldValidator<T, List<TItem>> hasMinLengthFn(ValueGetter<int> min,
       [MessageCallBack<List<TItem>>? message]) {
     return next((messages, value) {
-      var _min = min();
-      if (value.length < _min) {
+      var minimum = min();
+      if (value.length < minimum) {
         return message?.call(messages, value) ??
-            messages.listMinLength(value, _min);
+            messages.listMinLength(value, minimum);
       }
       return null;
     });
@@ -63,12 +63,12 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
       ValueGetter<int> min, ValueGetter<int> max,
       [MessageCallBack<List<TItem>>? message]) {
     return next((messages, value) {
-      var _min = min();
-      var _max = max();
+      var minimum = min();
+      var maximum = max();
 
-      if (value.length < _min || value.length > _max) {
+      if (value.length < minimum || value.length > maximum) {
         return message?.call(messages, value) ??
-            messages.listRange(value, _min, _max);
+            messages.listRange(value, minimum, maximum);
       }
       return null;
     });
@@ -95,10 +95,10 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
       [MessageCallBack<List<TItem>>? message]) {
     return next(
       (messages, value) {
-        var _item = item();
-        return !value.any((a) => a == _item)
+        var itm = item();
+        return !value.any((a) => a == itm)
             ? message?.call(messages, value) ??
-                messages.containsItem(value, _item)
+                messages.containsItem(value, itm)
             : null;
       },
     );
@@ -114,10 +114,10 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
   FieldValidator<T, List<TItem>> notContainsFn(ValueGetter<TItem> item,
       [MessageCallBack<List<TItem>>? message]) {
     return next((messages, value) {
-      var _item = item();
-      return value.any((a) => a == _item)
+      var itm = item();
+      return value.any((a) => a == itm)
           ? message?.call(messages, value) ??
-              messages.notContainsItem(value, _item)
+              messages.notContainsItem(value, itm)
           : null;
     });
   }

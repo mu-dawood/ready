@@ -325,10 +325,10 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
               ...state.when(
                 empty: () => widget._slivers!(state,
                     () => _buildPlaceholders(shrinkWrap, _config, false, null)),
-                error: (error) => widget._slivers!(
+                error: (display) => widget._slivers!(
                     state,
-                    () =>
-                        _buildPlaceholders(shrinkWrap, _config, false, error)),
+                    () => _buildPlaceholders(
+                        shrinkWrap, _config, false, display.call(context))),
                 firstLoading: (_) => widget._slivers!(
                   state,
                   () => !_config.allowFakeItems
@@ -357,8 +357,8 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
               state.when(
                 empty: () =>
                     _buildPlaceholders(shrinkWrap, _config, false, null),
-                error: (message) =>
-                    _buildPlaceholders(shrinkWrap, _config, false, message),
+                error: (display) => _buildPlaceholders(
+                    shrinkWrap, _config, false, display.call(context)),
                 firstLoading: (_) => !_config.allowFakeItems
                     ? _buildPlaceholders(shrinkWrap, _config, true, null)
                     : _buildBody(constraints, _config),

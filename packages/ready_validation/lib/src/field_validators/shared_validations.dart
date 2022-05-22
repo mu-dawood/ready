@@ -21,8 +21,8 @@ extension SharedValidationExtensions<T, R> on FieldValidator<T, R> {
   FieldValidator<T, R> notEqualFn(ValueGetter<R> value,
       [MessageCallBack<R>? message]) {
     return next((messages, v) {
-      var _value = value();
-      if (v == _value) {
+      var val = value();
+      if (v == val) {
         return message?.call(messages, v) ?? messages.notEqual(v);
       }
       return null;
@@ -38,8 +38,8 @@ extension SharedValidationExtensions<T, R> on FieldValidator<T, R> {
   FieldValidator<T, R> equalFn(ValueGetter<R> value,
       [MessageCallBack<R>? message]) {
     return next((messages, v) {
-      var _value = value();
-      if (v != _value) {
+      var val = value();
+      if (v != val) {
         return message?.call(messages, v) ?? messages.equal(v);
       }
       return null;
@@ -55,9 +55,10 @@ extension SharedValidationExtensions<T, R> on FieldValidator<T, R> {
   FieldValidator<T, R> isInFn(ValueGetter<List<R>> values,
       [MessageCallBack<R>? message]) {
     return next((messages, value) {
-      var _values = values();
-      if (!_values.contains(value)) {
-        return message?.call(messages, value) ?? messages.isIn(value, _values);
+      // cSpell: ignore valsx
+      var val = values();
+      if (!val.contains(value)) {
+        return message?.call(messages, value) ?? messages.isIn(value, val);
       }
       return null;
     });
@@ -72,10 +73,9 @@ extension SharedValidationExtensions<T, R> on FieldValidator<T, R> {
   FieldValidator<T, R> notInFn(ValueGetter<List<R>> values,
       [MessageCallBack<R>? message]) {
     return next((messages, value) {
-      var _values = values();
-      if (_values.contains(value)) {
-        return message?.call(messages, value) ??
-            messages.isNotIn(value, _values);
+      var val = values();
+      if (val.contains(value)) {
+        return message?.call(messages, value) ?? messages.isNotIn(value, val);
       }
       return null;
     });
