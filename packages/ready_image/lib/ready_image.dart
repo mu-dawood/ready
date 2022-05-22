@@ -190,6 +190,7 @@ class _DecorationClipper extends CustomClipper<Path> {
   }
 
   @override
+  // cSpell:disable-next-line
   bool shouldReclip(covariant _DecorationClipper oldClipper) =>
       decoration != oldClipper.decoration;
 }
@@ -233,38 +234,38 @@ class HeroReadyImage extends StatelessWidget {
     var toImage = (((toHeroContext.widget as Hero).child as ReadyImage));
 
     var isPush = flightDirection == HeroFlightDirection.push;
-    var _animation = Tween(begin: isPush ? 0.0 : 1.0, end: isPush ? 1.0 : 0.0)
+    var anim = Tween(begin: isPush ? 0.0 : 1.0, end: isPush ? 1.0 : 0.0)
         .animate(animation);
     var fromP = fromImage.config(fromHeroContext);
     var toP = toImage.config(toHeroContext);
-    var _decorationTween = _animation.drive(
+    var decorationTween = anim.drive(
       DecorationTween(
         begin: fromP.decoration ?? const BoxDecoration(),
         end: toP.decoration ?? const BoxDecoration(),
       ),
     );
-    var _foregroundDecorationTween = _animation.drive(DecorationTween(
+    var foregroundDecorationTween = anim.drive(DecorationTween(
       begin: fromP.foregroundDecoration ?? const BoxDecoration(),
       end: toP.foregroundDecoration ?? const BoxDecoration(),
     ));
 
-    var _wrapperDecorationTween = _animation.drive(
+    var wrapperDecorationTween = anim.drive(
       DecorationTween(
         begin: fromP.outerDecoration ?? const BoxDecoration(),
         end: toP.outerDecoration ?? const BoxDecoration(),
       ),
     );
-    var _warperPaddingTween = _animation.drive(
+    var warperPaddingTween = anim.drive(
       EdgeInsetsGeometryTween(
           begin: fromP.outerPadding ?? EdgeInsets.zero,
           end: toP.outerPadding ?? EdgeInsets.zero),
     );
-    var _innerPaddingTween = _animation.drive(EdgeInsetsGeometryTween(
+    var innerPaddingTween = anim.drive(EdgeInsetsGeometryTween(
       begin: fromP.innerPadding ?? EdgeInsets.zero,
       end: toP.innerPadding ?? EdgeInsets.zero,
     ));
     return AnimatedBuilder(
-      animation: _animation,
+      animation: anim,
       child: child,
       builder: (BuildContext context, Widget? c) {
         return ReadyImage(
@@ -273,11 +274,11 @@ class HeroReadyImage extends StatelessWidget {
           imageRenderMethodForWeb: child.imageRenderMethodForWeb,
           errorPlaceholder: child.errorPlaceholder,
           loadingPlaceholder: child.loadingPlaceholder,
-          foregroundDecoration: _foregroundDecorationTween.value,
-          decoration: _decorationTween.value,
-          outerDecoration: _wrapperDecorationTween.value,
-          outerPadding: _warperPaddingTween.value,
-          innerPadding: _innerPaddingTween.value,
+          foregroundDecoration: foregroundDecorationTween.value,
+          decoration: decorationTween.value,
+          outerDecoration: wrapperDecorationTween.value,
+          outerPadding: warperPaddingTween.value,
+          innerPadding: innerPaddingTween.value,
           fit: child.fit,
           headers: child.headers,
           cacheManager: child.cacheManager,

@@ -2,9 +2,9 @@ part of ready_list_state;
 
 typedef ErrorDisplayCallBack = String Function(BuildContext context);
 
-class _ErrorState<T> extends ReadyListState<T> {
+class ErrorState<T> extends ReadyListState<T> {
   final ErrorDisplayCallBack display;
-  const _ErrorState(this.display) : super._();
+  const ErrorState(this.display) : super._();
 
   @override
   List<Object?> get props => [display];

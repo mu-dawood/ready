@@ -137,17 +137,17 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
   }
 
   Widget iconButton(BuildContext context, DashboardItem item,
-      DashboardItem selected, List<DashboardItem> _expanded) {
-    var _selected = item == selected;
+      DashboardItem selected, List<DashboardItem> expanded) {
+    var sel = item == selected;
     return Align(
       alignment: AlignmentGeometryTween(
         begin: AlignmentDirectional.centerStart,
         end: AlignmentDirectional.center,
       ).transform(widget.controller.value)!,
       child: IconButton(
-        color: _selected ? Theme.of(context).colorScheme.secondary : null,
+        color: sel ? Theme.of(context).colorScheme.secondary : null,
         onPressed: () {
-          DefaultTabController.of(context)?.index = _expanded.indexOf(item);
+          DefaultTabController.of(context)?.index = expanded.indexOf(item);
           var hasDrawer = Scaffold.maybeOf(context)?.hasDrawer == true;
           var isDrawerOpen = hasDrawer && Scaffold.of(context).isDrawerOpen;
           if (isDrawerOpen) {
@@ -160,15 +160,16 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
   }
 
   Widget buildTile(
-      DrawerOptions options,
-      BuildContext context,
-      DashboardItem item,
-      DashboardItem selected,
-      List<DashboardItem> _expanded) {
+    DrawerOptions options,
+    BuildContext context,
+    DashboardItem item,
+    DashboardItem selected,
+    List<DashboardItem> exp,
+  ) {
     if (item.builder != null) {
       return ListTile(
         onTap: () {
-          DefaultTabController.of(context)?.index = _expanded.indexOf(item);
+          DefaultTabController.of(context)?.index = exp.indexOf(item);
           var hasDrawer = Scaffold.maybeOf(context)?.hasDrawer == true;
           var isDrawerOpen = hasDrawer && Scaffold.of(context).isDrawerOpen;
           if (isDrawerOpen) {
@@ -189,7 +190,7 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
         leading: item.icon,
         children: [
           for (var sub in item.subItems)
-            buildTile(options, context, sub, selected, _expanded),
+            buildTile(options, context, sub, selected, exp),
         ],
       );
     }
@@ -197,18 +198,18 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
 
   Widget _tileListView(
       BuildContext context, List<DashboardItem> items, DrawerOptions options) {
-    var _expanded = expanded(items);
+    var exp = expanded(items);
     return TabControllerListener(
       builder: (int index) {
-        var selectedItem = _expanded[index];
+        var selectedItem = exp[index];
         if (options.buildDesktop != null && widget.isDesktop) {
           return options.buildDesktop!(
-              _buildScroll(options, context, _expanded, selectedItem, items),
+              _buildScroll(options, context, exp, selectedItem, items),
               widget.collapsed);
         }
         if (options.buildMobile != null && !widget.isDesktop) {
           return options.buildMobile!(
-              _buildScroll(options, context, _expanded, selectedItem, items));
+              _buildScroll(options, context, exp, selectedItem, items));
         }
         return Drawer(
           backgroundColor: options.backgroundColor,
@@ -218,8 +219,7 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
               image: options.image,
               gradient: options.gradient,
             ),
-            child:
-                _buildScroll(options, context, _expanded, selectedItem, items),
+            child: _buildScroll(options, context, exp, selectedItem, items),
           ),
         );
       },
@@ -227,11 +227,12 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
   }
 
   CustomScrollView _buildScroll(
-      DrawerOptions options,
-      BuildContext context,
-      List<DashboardItem> _expanded,
-      DashboardItem selectedItem,
-      List<DashboardItem> items) {
+    DrawerOptions options,
+    BuildContext context,
+    List<DashboardItem> expanded,
+    DashboardItem selectedItem,
+    List<DashboardItem> items,
+  ) {
     return CustomScrollView(
       // padding: const EdgeInsets.only(bottom: 15),
       slivers: [
@@ -257,11 +258,11 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
             delegate: SliverChildListDelegate([
           ...options.headers,
           if (widget.collapsed)
-            for (var item in _expanded)
-              iconButton(context, item, selectedItem, _expanded)
+            for (var item in expanded)
+              iconButton(context, item, selectedItem, expanded)
           else
             for (var item in items)
-              buildTile(options, context, item, selectedItem, _expanded),
+              buildTile(options, context, item, selectedItem, expanded),
         ])),
         if (options.footer != null)
           SliverFillRemaining(

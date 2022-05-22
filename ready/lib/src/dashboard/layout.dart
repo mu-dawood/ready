@@ -31,7 +31,7 @@ class ReadyDashboard extends StatefulWidget {
   static AppBarOptions _appBarOptions(bool phone) => const AppBarOptions();
   static bool _wrapPageWithCard(bool phone) => false;
   @override
-  _ReadyDashboardState createState() => _ReadyDashboardState();
+  State<ReadyDashboard> createState() => _ReadyDashboardState();
 
   static ReadyDashboard? of(BuildContext context) =>
       context.findAncestorStateOfType<_ReadyDashboardState>()?.widget;

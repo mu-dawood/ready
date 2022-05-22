@@ -91,10 +91,10 @@ class DefaultListLoadingHandler<T> extends ListLoadingHandler<T> {
   Future firstLoad(int pageSize) async {
     _checkDuplicatedLoading();
     var previousState = state.asNeedFirstLoading();
-    var _cancelToken = generateCancelToken?.call();
-    emit(ReadyListState.firstLoading(_cancelToken));
+    var cancelToken = generateCancelToken?.call();
+    emit(ReadyListState.firstLoading(cancelToken));
     try {
-      var results = await loadData(0, pageSize, _cancelToken);
+      var results = await loadData(0, pageSize, cancelToken);
       _emitResults(
           results, previousState?.oldState ?? const ReadyListState.empty());
     } catch (e) {
@@ -111,15 +111,15 @@ class DefaultListLoadingHandler<T> extends ListLoadingHandler<T> {
       throw Exception(
           "Refreshing must be called when state is Loaded try call firstLoad");
     }
-    var _cancelToken = generateCancelToken?.call();
+    var cancelToken = generateCancelToken?.call();
 
     emit(ReadyListState.refreshing(
       items: previousState.items,
       total: previousState.total,
-      cancelToken: _cancelToken,
+      cancelToken: cancelToken,
     ));
     try {
-      var results = await loadData(0, pageSize, _cancelToken);
+      var results = await loadData(0, pageSize, cancelToken);
       _emitResults(results, previousState);
     } catch (e) {
       emit(previousState);
@@ -139,16 +139,16 @@ class DefaultListLoadingHandler<T> extends ListLoadingHandler<T> {
     if (previousState.items.length >= previousState.total) {
       throw Exception("There is no data to load");
     }
-    var _cancelToken = generateCancelToken?.call();
+    var cancelToken = generateCancelToken?.call();
 
     emit(ReadyListState.loadingNext(
       items: previousState.items,
       total: previousState.total,
-      cancelToken: _cancelToken,
+      cancelToken: cancelToken,
     ));
     try {
       var results =
-          await loadData(previousState.items.length, pageSize, _cancelToken);
+          await loadData(previousState.items.length, pageSize, cancelToken);
       _emitResults(results, previousState);
     } catch (e) {
       emit(previousState);

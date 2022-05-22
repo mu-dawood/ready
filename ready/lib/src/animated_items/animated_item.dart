@@ -79,21 +79,21 @@ class _AnimatedState extends State<Animated> with TickerProviderStateMixin {
   @override
   void didUpdateWidget(covariant Animated oldWidget) {
     super.didUpdateWidget(oldWidget);
-    var _oldTransforms = oldWidget.transforms;
-    var _transforms = widget.transforms;
+    var oldTransforms = oldWidget.transforms;
+    var transforms = widget.transforms;
 
-    var _oldFade = oldWidget.fade;
-    var _fade = widget.fade;
+    var oldFade = oldWidget.fade;
+    var fade = widget.fade;
 
-    var _oldDuration = oldWidget.duration;
-    var _duration = widget.duration;
+    var oldDuration = oldWidget.duration;
+    var duration = widget.duration;
 
-    var _oldAlign = oldWidget.alignment;
-    var _align = widget.alignment;
-    if (_oldAlign != _align ||
-        _oldDuration != _duration ||
-        _oldFade != _fade ||
-        !listEquals(_oldTransforms, _transforms)) {
+    var oldAlign = oldWidget.alignment;
+    var align = widget.alignment;
+    if (oldAlign != align ||
+        oldDuration != duration ||
+        oldFade != fade ||
+        !listEquals(oldTransforms, transforms)) {
       _controller.duration = widget.duration;
       _setAnimation();
       _controller.value = 0.0;
@@ -105,11 +105,11 @@ class _AnimatedState extends State<Animated> with TickerProviderStateMixin {
   @override
   void didChangeDependencies() {
     _scope = AnimatedItemsScope.of(context);
-    var _duration = widget.duration;
+    var duration = widget.duration;
     _controller = AnimationController(
       vsync: this,
-      duration: _duration,
-      reverseDuration: _duration,
+      duration: duration,
+      reverseDuration: duration,
     );
     _setAnimation();
     if (_scope != null) {
@@ -135,8 +135,8 @@ class _AnimatedState extends State<Animated> with TickerProviderStateMixin {
         var t = _animation.value;
         var transform = Matrix4.identity();
         transform.setEntry(3, 2, 0.001);
-        for (var _transform in widget.transforms) {
-          _transform.handle(transform, t);
+        for (var tr in widget.transforms) {
+          tr.handle(transform, t);
         }
         return Opacity(
           opacity: widget.fade == null

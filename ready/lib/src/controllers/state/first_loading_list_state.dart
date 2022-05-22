@@ -1,8 +1,8 @@
 part of ready_list_state;
 
-class _FirstLoading<T> extends ReadyListState<T> {
+class FirstLoading<T> extends ReadyListState<T> {
   final ICancelToken? cancelToken;
-  const _FirstLoading([this.cancelToken]) : super._();
+  const FirstLoading([this.cancelToken]) : super._();
 
   @override
   List<Object?> get props => [cancelToken];

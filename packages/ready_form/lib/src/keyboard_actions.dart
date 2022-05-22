@@ -12,14 +12,14 @@ class KeyboardActions extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _KeyboardActionsState createState() => _KeyboardActionsState();
+  State<KeyboardActions> createState() => KeyboardActionsState();
 
-  static _KeyboardActionsState? of(BuildContext context) {
-    return context.findAncestorStateOfType<_KeyboardActionsState>();
+  static KeyboardActionsState? of(BuildContext context) {
+    return context.findAncestorStateOfType<KeyboardActionsState>();
   }
 }
 
-class _KeyboardActionsState extends State<KeyboardActions>
+class KeyboardActionsState extends State<KeyboardActions>
     with WidgetsBindingObserver {
   var _keyboardOpened = false;
 

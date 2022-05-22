@@ -56,12 +56,12 @@ class ReadyScreenLoader extends StatelessWidget {
   }
 
   TextButton _getTextButton(BuildContext context, bool loading,
-      VoidCallback action, PlaceholdersConfig _config) {
+      VoidCallback action, PlaceholdersConfig config) {
     var tr = Ready.localization(context);
 
     return TextButton(
       onPressed: loading ? null : action,
-      child: Text(_config.reload ?? tr.reload, textAlign: TextAlign.center),
+      child: Text(config.reload ?? tr.reload, textAlign: TextAlign.center),
     );
   }
 

@@ -16,7 +16,7 @@ class CircularReveal extends StatefulWidget {
   const CircularReveal({Key? key, required this.build, this.revealColor})
       : super(key: key);
   @override
-  _CircularRevealState createState() => _CircularRevealState();
+  State<CircularReveal> createState() => _CircularRevealState();
 }
 
 class _CircularRevealState extends State<CircularReveal>

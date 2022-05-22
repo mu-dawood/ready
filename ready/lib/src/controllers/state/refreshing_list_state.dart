@@ -1,10 +1,10 @@
 part of ready_list_state;
 
-class _Refreshing<T> extends ReadyListState<T> {
+class Refreshing<T> extends ReadyListState<T> {
   final ICancelToken? cancelToken;
   final Iterable<T> items;
   final int total;
-  const _Refreshing({
+  const Refreshing({
     this.cancelToken,
     required this.items,
     required this.total,

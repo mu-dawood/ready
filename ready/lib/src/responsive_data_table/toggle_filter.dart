@@ -18,18 +18,18 @@ class ToggleFilter extends StatelessWidget implements _DataTableFilter<bool> {
 
   @override
   Widget build(BuildContext context) {
-    var _value = value;
+    var val = value;
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
       child: ActionChip(
-        key: Key('$_value'),
-        avatar: Icon(_value == true ? Icons.check_circle : Icons.remove_circle),
-        backgroundColor: _value == true ? Colors.greenAccent : Colors.redAccent,
-        label: Text(_value == true
+        key: Key('$val'),
+        avatar: Icon(val == true ? Icons.check_circle : Icons.remove_circle),
+        backgroundColor: val == true ? Colors.greenAccent : Colors.redAccent,
+        label: Text(val == true
             ? (activeText ?? Ready.localization(context).active)
             : (notActiveText ?? Ready.localization(context).notActive)),
         onPressed: () {
-          onChange(!_value);
+          onChange(!val);
         },
       ),
     );

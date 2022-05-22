@@ -16,8 +16,8 @@ class _FooterLoading<T, TController extends ReadyListController<T>>
 
   @override
   Widget build(BuildContext context) {
-    var _state = controller.state;
-    return _state.when(
+    var state = controller.state;
+    return state.when(
       empty: () => _buildNone(),
       error: (error) => _buildNone(),
       firstLoading: (_) => _buildNone(),

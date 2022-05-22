@@ -64,9 +64,9 @@ class TranslateAnimation extends TransformAnimation {
 
   @override
   void handle(Matrix4 transform, double t) {
-    var _x = Tween(begin: fromX, end: toX).transform(t);
-    var _y = Tween(begin: fromY, end: toY).transform(t);
-    var _z = Tween(begin: fromZ, end: toZ).transform(t);
-    transform.translate(_x, _y, _z);
+    var x = Tween(begin: fromX, end: toX).transform(t);
+    var y = Tween(begin: fromY, end: toY).transform(t);
+    var z = Tween(begin: fromZ, end: toZ).transform(t);
+    transform.translate(x, y, z);
   }
 }

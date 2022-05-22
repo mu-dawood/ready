@@ -129,7 +129,7 @@ class ReadyForm extends StatefulWidget {
   static _ReadyFormState? _of(BuildContext context) =>
       context.findAncestorStateOfType<_ReadyFormState>();
 
-  static Set<_ReadyFormState> listOf(BuildContext context) {
+  static Set<ReadyFormState> formsOf(BuildContext context) {
     return FocusScope.of(context)
         .children
         .map((e) => e.context == null ? null : ReadyForm.of(e.context!))
@@ -138,7 +138,7 @@ class ReadyForm extends StatefulWidget {
   }
 
   @override
-  _ReadyFormState createState() => _ReadyFormState();
+  State<ReadyForm> createState() => _ReadyFormState();
 }
 
 class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
@@ -182,10 +182,10 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
     List<FormFieldState> list = [];
     context.visitChildElements((element) {
       _visitElements(element, (e) {
-        var _state = e.state;
-        if (_state is FormFieldState) {
-          if (!_state.isValid) {
-            list.add(_state);
+        var state = e.state;
+        if (state is FormFieldState) {
+          if (!state.isValid) {
+            list.add(state);
             return false;
           }
         }
@@ -202,12 +202,12 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
     List<State> list = [];
     context.visitChildElements((element) {
       _visitElements(element, (e) {
-        var _state = e.state;
-        if (_state is _ReadyFormErrorMessagesState) {
-          list.add(_state);
-        } else if (_state is _SubmitErrorMessageForState) {
-          if (errors.containsKey(_state.widget.messageFor)) {
-            list.add(_state);
+        var state = e.state;
+        if (state is _ReadyFormErrorMessagesState) {
+          list.add(state);
+        } else if (state is _SubmitErrorMessageForState) {
+          if (errors.containsKey(state.widget.messageFor)) {
+            list.add(state);
             return false;
           }
         }
@@ -231,6 +231,7 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
     if (ensureVisible != null && ensureVisible.before != null) {
       await ensureVisible.before!(context);
     }
+    if (!mounted) return;
     var scope = FocusScope.of(context);
     if (scope.hasFocus) {
       var focus = _firstOrDefault<FocusNode>(
@@ -254,6 +255,7 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
       alignmentPolicy: ScrollPositionAlignmentPolicy.explicit,
     );
     if (ensureVisible != null && ensureVisible.after != null) {
+      if (!mounted) return;
       await ensureVisible.after!(context);
     }
   }
@@ -310,9 +312,9 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
         submitErrors: res.errors,
       );
 
-      var _invalidMessages = invalidErrorMessages();
-      if (_invalidMessages.isNotEmpty) {
-        _makeContextVisible(_invalidMessages[0].context);
+      var invalidMessages = invalidErrorMessages();
+      if (invalidMessages.isNotEmpty) {
+        _makeContextVisible(invalidMessages[0].context);
       }
       if (controller != null && res.errors.isEmpty) {
         await controller!.reveal().then((value) async {

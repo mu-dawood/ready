@@ -11,7 +11,7 @@ class TabControllerListener extends StatefulWidget {
     required this.builder,
   }) : super(key: key);
   @override
-  _TabControllerListenerState createState() => _TabControllerListenerState();
+  State<TabControllerListener> createState() => _TabControllerListenerState();
 }
 
 class _TabControllerListenerState extends State<TabControllerListener> {

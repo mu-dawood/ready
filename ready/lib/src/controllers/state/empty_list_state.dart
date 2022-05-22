@@ -1,7 +1,7 @@
 part of ready_list_state;
 
-class _Empty<T> extends ReadyListState<T> {
-  const _Empty() : super._();
+class Empty<T> extends ReadyListState<T> {
+  const Empty() : super._();
 
   @override
   List<Object?> get props => [];

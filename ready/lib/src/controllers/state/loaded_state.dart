@@ -1,9 +1,9 @@
 part of ready_list_state;
 
-class _Loaded<T> extends ReadyListState<T> {
+class Loaded<T> extends ReadyListState<T> {
   final Iterable<T> items;
   final int total;
-  const _Loaded({
+  const Loaded({
     required this.items,
     required this.total,
   }) : super._();

@@ -46,13 +46,13 @@ extension DataColumnSingleExtension on String {
 
 /// options of DataTable
 class DataTableOptions<T> {
-  static List<int> _availableRowsCount(int _preferred) {
-    var list = [_preferred, 10, 25, 50, 100];
+  static List<int> _availableRowsCount(int preferred) {
+    var list = [preferred, 10, 25, 50, 100];
     list.sort();
     return list;
   }
 
-  static int _initialRowsPerPage(int _preferred) => _preferred;
+  static int _initialRowsPerPage(int preferred) => preferred;
 
   /// DataTable headers
   ///

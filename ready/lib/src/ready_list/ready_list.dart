@@ -172,7 +172,7 @@ class ReadyList<T, TController extends ReadyListController<T>>
         super(key: key);
 
   @override
-  _ReadyListState<T, TController> createState() =>
+  State<ReadyList<T, TController>> createState() =>
       _ReadyListState<T, TController>();
 }
 
@@ -188,11 +188,12 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
   Stream<ReadyListState<T>> get stream => widget.controller.stream;
 
   void _checkState(ReadyListState<T> state) {
-    var _config = _ReadyListConfigOptionsDefaults.effective(widget, context);
+    var configuration =
+        _ReadyListConfigOptionsDefaults.effective(widget, context);
     state.whenOrNull(
       needFirstLoading: (_) {
         if (widget.controller.hasHandler) {
-          widget.controller.handler!.firstLoad(_config.pageSize);
+          widget.controller.handler!.firstLoad(configuration.pageSize);
         }
       },
     );
@@ -231,12 +232,12 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
         stream: stream,
         builder:
             (BuildContext context, AsyncSnapshot<ReadyListState<T>> snapshot) {
-          var _config =
+          var configuration =
               _ReadyListConfigOptionsDefaults.effective(widget, context);
 
           return NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
-              if (_config.allowLoadNext) {
+              if (configuration.allowLoadNext) {
                 state.whenOrNull(
                   loaded: (items, total) {
                     if (items.length < total) {
@@ -245,7 +246,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
                             scrollInfo.metrics.maxScrollExtent - 200) {
                           if (widget.controller.hasHandler) {
                             widget.controller.handler!
-                                .nextData(_config.pageSize);
+                                .nextData(configuration.pageSize);
                           }
                         }
                       }
@@ -256,10 +257,10 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
               return false;
             },
             child: ShimmerScope(
-              gradient: _config.shimmerScopeGradient,
-              child: _config.allowRefresh
-                  ? _buildRefresh(_config, absorber)
-                  : _buildCustomScrollView(_config, absorber),
+              gradient: configuration.shimmerScopeGradient,
+              child: configuration.allowRefresh
+                  ? _buildRefresh(configuration, absorber)
+                  : _buildCustomScrollView(configuration, absorber),
             ),
           );
         },
@@ -267,7 +268,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
     );
   }
 
-  Future _onRefresh(_ReadyListConfigOptionsDefaults _config) async {
+  Future _onRefresh(_ReadyListConfigOptionsDefaults configuration) async {
     if (widget.controller.hasHandler) {
       if (state.mayWhen(
         orElse: () => true,
@@ -277,22 +278,22 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
       }
       var isVisible = Ready.isVisible(context);
       if (isVisible) {
-        await (widget.controller.handler!).refreshData(_config.pageSize);
+        await (widget.controller.handler!).refreshData(configuration.pageSize);
       }
     }
   }
 
-  _buildRefresh(_ReadyListConfigOptionsDefaults _config,
+  _buildRefresh(_ReadyListConfigOptionsDefaults configuration,
       SliverOverlapAbsorberHandle? absorber) {
     double edgeOffset = absorber?.layoutExtent ?? 0;
     if (widget.controller.hasHandler) {
       return RefreshIndicator(
-        onRefresh: () => _onRefresh(_config),
+        onRefresh: () => _onRefresh(configuration),
         edgeOffset: edgeOffset,
-        child: _buildCustomScrollView(_config, absorber),
+        child: _buildCustomScrollView(configuration, absorber),
       );
     } else {
-      return _buildCustomScrollView(_config, absorber);
+      return _buildCustomScrollView(configuration, absorber);
     }
   }
 
@@ -300,51 +301,56 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
     return widget.filterItems?.call(list) ?? list;
   }
 
-  Widget _buildCustomScrollView(_ReadyListConfigOptionsDefaults _config,
+  Widget _buildCustomScrollView(_ReadyListConfigOptionsDefaults configuration,
       SliverOverlapAbsorberHandle? absorber) {
-    var shrinkWrap = _config.shrinkWrap?.call(state) ?? false;
-    var showFooterLoading = _config.allowLoadNext;
+    var shrinkWrap = configuration.shrinkWrap?.call(state) ?? false;
+    var showFooterLoading = configuration.allowLoadNext;
 
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return CustomScrollView(
-          physics: _config.physics,
-          scrollDirection: _config.axis,
+          physics: configuration.physics,
+          scrollDirection: configuration.axis,
           scrollBehavior: ScrollConfiguration.of(context)
               .copyWith(dragDevices: PointerDeviceKind.values.toSet()),
           shrinkWrap: shrinkWrap,
-          reverse: _config.reverse,
+          reverse: configuration.reverse,
           slivers: [
             if (absorber != null &&
-                _config.handleNestedScrollViewOverlap(state))
+                configuration.handleNestedScrollViewOverlap(state))
               SliverOverlapInjector(handle: absorber),
             if (widget.topLevelHeaderSlivers != null)
               ...widget.topLevelHeaderSlivers!,
             if (widget.headerSlivers != null) ...widget.headerSlivers!(state),
             if (widget._slivers != null)
               ...state.when(
-                empty: () => widget._slivers!(state,
-                    () => _buildPlaceholders(shrinkWrap, _config, false, null)),
-                error: (display) => widget._slivers!(
+                empty: () => widget._slivers!(
                     state,
                     () => _buildPlaceholders(
-                        shrinkWrap, _config, false, display.call(context))),
+                        shrinkWrap, configuration, false, null)),
+                error: (display) => widget._slivers!(
+                    state,
+                    () => _buildPlaceholders(shrinkWrap, configuration, false,
+                        display.call(context))),
                 firstLoading: (_) => widget._slivers!(
                   state,
-                  () => !_config.allowFakeItems
-                      ? _buildPlaceholders(shrinkWrap, _config, true, null)
+                  () => !configuration.allowFakeItems
+                      ? _buildPlaceholders(
+                          shrinkWrap, configuration, true, null)
                       : null,
                 ),
                 needFirstLoading: (_) => widget._slivers!(
                   state,
-                  () => !_config.allowFakeItems
-                      ? _buildPlaceholders(shrinkWrap, _config, true, null)
+                  () => !configuration.allowFakeItems
+                      ? _buildPlaceholders(
+                          shrinkWrap, configuration, true, null)
                       : null,
                 ),
                 initializing: () => widget._slivers!(
                   state,
-                  () => !_config.allowFakeItems
-                      ? _buildPlaceholders(shrinkWrap, _config, true, null)
+                  () => !configuration.allowFakeItems
+                      ? _buildPlaceholders(
+                          shrinkWrap, configuration, true, null)
                       : null,
                 ),
                 refreshing: (items, total, _) =>
@@ -356,36 +362,36 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
             else
               state.when(
                 empty: () =>
-                    _buildPlaceholders(shrinkWrap, _config, false, null),
+                    _buildPlaceholders(shrinkWrap, configuration, false, null),
                 error: (display) => _buildPlaceholders(
-                    shrinkWrap, _config, false, display.call(context)),
-                firstLoading: (_) => !_config.allowFakeItems
-                    ? _buildPlaceholders(shrinkWrap, _config, true, null)
-                    : _buildBody(constraints, _config),
-                refreshing: (items, _, __) =>
-                    _buildBody(constraints, _config, _filteredItems(items)),
-                loadingNext: (items, _, __) =>
-                    _buildBody(constraints, _config, _filteredItems(items)),
-                loaded: (items, _) =>
-                    _buildBody(constraints, _config, _filteredItems(items)),
-                needFirstLoading: (_) => !_config.allowFakeItems
-                    ? _buildPlaceholders(shrinkWrap, _config, true, null)
-                    : _buildBody(constraints, _config),
-                initializing: () => !_config.allowFakeItems
-                    ? _buildPlaceholders(shrinkWrap, _config, true, null)
-                    : _buildBody(constraints, _config),
+                    shrinkWrap, configuration, false, display.call(context)),
+                firstLoading: (_) => !configuration.allowFakeItems
+                    ? _buildPlaceholders(shrinkWrap, configuration, true, null)
+                    : _buildBody(constraints, configuration),
+                refreshing: (items, _, __) => _buildBody(
+                    constraints, configuration, _filteredItems(items)),
+                loadingNext: (items, _, __) => _buildBody(
+                    constraints, configuration, _filteredItems(items)),
+                loaded: (items, _) => _buildBody(
+                    constraints, configuration, _filteredItems(items)),
+                needFirstLoading: (_) => !configuration.allowFakeItems
+                    ? _buildPlaceholders(shrinkWrap, configuration, true, null)
+                    : _buildBody(constraints, configuration),
+                initializing: () => !configuration.allowFakeItems
+                    ? _buildPlaceholders(shrinkWrap, configuration, true, null)
+                    : _buildBody(constraints, configuration),
               ),
             if (widget.innerFooterSlivers != null)
               ...widget.innerFooterSlivers!(state),
             if (showFooterLoading && widget.controller.hasHandler)
               _FooterLoading<T, TController>(
                 shrinkWrap: shrinkWrap,
-                config: _config,
+                config: configuration,
                 controller: widget.controller,
               ),
             if (widget.footerSlivers != null) ...widget.footerSlivers!(state),
-            if (_config.topLevelFooterSlivers != null)
-              ...(_config.topLevelFooterSlivers!),
+            if (configuration.topLevelFooterSlivers != null)
+              ...(configuration.topLevelFooterSlivers!),
             const SliverToBoxAdapter(child: SizedBox(height: 5))
           ],
         );
@@ -394,11 +400,11 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
   }
 
   Widget _buildBody(
-      BoxConstraints constraints, _ReadyListConfigOptionsDefaults _config,
+      BoxConstraints constraints, _ReadyListConfigOptionsDefaults configuration,
       [Iterable<T>? items]) {
     if (widget._gridDelegate != null) {
       return SliverPadding(
-        padding: _config.padding ?? EdgeInsets.zero,
+        padding: configuration.padding ?? EdgeInsets.zero,
         sliver: SliverStaggeredGrid(
           // spell-checker: disable
           addAutomaticKeepAlives: false,
@@ -409,7 +415,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
           ),
           delegate: SliverChildBuilderDelegate(
             (ctx, i) {
-              return _buildItem(items, _config, i);
+              return _buildItem(items, configuration, i);
             },
             childCount: items?.length,
           ),
@@ -417,11 +423,11 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
       );
     } else if (widget._reorderOptions != null) {
       return SliverPadding(
-        padding: _config.padding ?? EdgeInsets.zero,
+        padding: configuration.padding ?? EdgeInsets.zero,
         sliver: SliverReorderableList(
           itemCount: items?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
-            return _buildItem(items, _config, index);
+            return _buildItem(items, configuration, index);
           },
           onReorder: widget._reorderOptions!.onReorder,
           prototypeItem: widget._reorderOptions!.prototypeItem,
@@ -430,11 +436,11 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
       );
     } else {
       return SliverPadding(
-        padding: _config.padding ?? EdgeInsets.zero,
+        padding: configuration.padding ?? EdgeInsets.zero,
         sliver: SliverList(
           delegate: SliverChildBuilderDelegate(
             (ctx, i) {
-              return _buildItem(items, _config, i);
+              return _buildItem(items, configuration, i);
             },
             childCount: items?.length,
           ),
@@ -445,25 +451,25 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
 
   Widget _buildPlaceholders(
     bool shrinkWrap,
-    _ReadyListConfigOptionsDefaults _config,
+    _ReadyListConfigOptionsDefaults configuration,
     bool loading,
     String? error,
   ) {
     if (shrinkWrap == true) {
       return SliverToBoxAdapter(
-        child: _buildRScreenLoading(_config, loading, error),
+        child: _buildRScreenLoading(configuration, loading, error),
       );
     }
     return SliverFillRemaining(
       hasScrollBody: false,
       child: Center(
-        child: _buildRScreenLoading(_config, loading, error),
+        child: _buildRScreenLoading(configuration, loading, error),
       ),
     );
   }
 
   ReadyScreenLoader _buildRScreenLoading(
-    _ReadyListConfigOptionsDefaults _config,
+    _ReadyListConfigOptionsDefaults configuration,
     bool loading,
     String? error,
   ) {
@@ -471,17 +477,17 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
     return ReadyScreenLoader(
       loading: loading,
       error: error,
-      config: _config.placeholdersConfig,
+      config: configuration.placeholdersConfig,
       onReload: ctrl.hasHandler
-          ? () => ctrl.handler!.firstLoad(_config.pageSize)
+          ? () => ctrl.handler!.firstLoad(configuration.pageSize)
           : null,
     );
   }
 
-  Widget _buildItem(
-      Iterable<T>? items, _ReadyListConfigOptionsDefaults _config, int index) {
+  Widget _buildItem(Iterable<T>? items,
+      _ReadyListConfigOptionsDefaults configuration, int index) {
     if (items == null || index >= items.length) {
-      if (_config.allowFakeItems) {
+      if (configuration.allowFakeItems) {
         return widget._buildItem!(null, index);
       } else {
         return const SizedBox.shrink();

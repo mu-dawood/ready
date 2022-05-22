@@ -165,7 +165,7 @@ class __ReadyPickerState<T, TController extends ReadyPickerController<T>>
                       ? const Text('')
                       : Text(
                           picker.controller
-                              .getDisplay(context, widget.field.value!),
+                              .getDisplay(context, widget.field.value as T),
                           style: style,
                           textAlign: picker.textAlign,
                           maxLines: picker.maxLines,
@@ -184,7 +184,8 @@ class __ReadyPickerState<T, TController extends ReadyPickerController<T>>
       textStyle: options.itemTextStyle,
       activeColor: options.activeColor,
       inActiveColor: options.inActiveColor,
-      selectedItems: widget.field.value == null ? [] : [widget.field.value!],
+      selectedItems:
+          widget.field.value == null ? [] : [widget.field.value as T],
     );
   }
 

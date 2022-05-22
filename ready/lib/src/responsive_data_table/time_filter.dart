@@ -17,17 +17,17 @@ class TimeFilter extends StatelessWidget
   @override
   @override
   Widget build(BuildContext context) {
-    var _display = value == null
+    var text = value == null
         ? display ?? Ready.localization(context).time
         : value!.format(context);
     return TextButton.icon(
       onPressed: () {
-        buildShowTimePicker(context).then((_value) {
-          onChange(_value);
+        buildShowTimePicker(context).then((value) {
+          onChange(value);
         });
       },
       icon: const Icon(Icons.timer),
-      label: Text(_display),
+      label: Text(text),
     );
   }
 

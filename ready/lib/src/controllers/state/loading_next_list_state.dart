@@ -1,10 +1,10 @@
 part of ready_list_state;
 
-class _LoadingNext<T> extends ReadyListState<T> {
+class LoadingNext<T> extends ReadyListState<T> {
   final ICancelToken? cancelToken;
   final Iterable<T> items;
   final int total;
-  const _LoadingNext({
+  const LoadingNext({
     this.cancelToken,
     required this.items,
     required this.total,

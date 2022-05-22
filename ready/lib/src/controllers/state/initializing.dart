@@ -1,7 +1,7 @@
 part of ready_list_state;
 
-class _Initializing<T> extends ReadyListState<T> {
-  const _Initializing() : super._();
+class Initializing<T> extends ReadyListState<T> {
+  const Initializing() : super._();
 
   @override
   List<Object?> get props => [];

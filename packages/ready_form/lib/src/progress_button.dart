@@ -85,7 +85,7 @@ class ProgressButton extends StatefulWidget {
   }) : super(key: key?._key);
 
   @override
-  _ProgressButtonState createState() => _ProgressButtonState();
+  State<ProgressButton> createState() => _ProgressButtonState();
 }
 
 class _ProgressButtonState extends State<ProgressButton>
@@ -135,10 +135,10 @@ class _ProgressButtonState extends State<ProgressButton>
       curve: Curves.easeInCirc,
     );
     if (size != null) {
-      var _size = min(size.width, size.height);
+      var s = min(size.width, size.height);
       _sizeAnimation = SizeTween(
         begin: size,
-        end: Size(_size, _size),
+        end: Size(s, s),
       ).animate(curve);
 
       final ButtonStyle? widgetStyle = key.currentState?.widget.style;
@@ -156,13 +156,13 @@ class _ProgressButtonState extends State<ProgressButton>
         return widgetValue ?? themeValue ?? defaultValue;
       }
 
-      var _padding = effectiveValue((style) => style?.padding);
-      var _shape = effectiveValue((style) => style?.shape);
-      var _visualDensity = effectiveValue((style) => style?.visualDensity);
+      var padding = effectiveValue((style) => style?.padding);
+      var shape = effectiveValue((style) => style?.shape);
+      var visualDensity = effectiveValue((style) => style?.visualDensity);
       _paddingAnimation = _MaterialStatePropertyTween<EdgeInsetsGeometry?>(
         tween: (states) {
           return EdgeInsetsGeometryTween(
-            begin: _padding?.resolve(states),
+            begin: padding?.resolve(states),
             end: const EdgeInsets.all(5),
           );
         },
@@ -170,15 +170,15 @@ class _ProgressButtonState extends State<ProgressButton>
       _shapeAnimation = _MaterialStatePropertyTween<OutlinedBorder?>(
         tween: (states) {
           return OutlinedBorderTween(
-            begin: _shape?.resolve(states),
+            begin: shape?.resolve(states),
             end: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(_size),
+              borderRadius: BorderRadius.circular(s),
             ),
           );
         },
       ).animate(curve);
       _visualDensityAnimation = _VisualDestinyTween(
-        begin: _visualDensity,
+        begin: visualDensity,
         end: const VisualDensity(
           horizontal: VisualDensity.minimumDensity,
           vertical: VisualDensity.minimumDensity,
@@ -236,9 +236,9 @@ class _ProgressButtonState extends State<ProgressButton>
 
   VoidCallback? _getCallBack(ProgressButtonConfig? config) {
     var auto = widget.autoSubmitForm ?? config?.autoSubmitForm ?? true;
-    var _callBack =
+    var callBack =
         widget.onPressed ?? (auto ? ReadyForm.of(context)?.onSubmit : null);
-    if (_callBack != null) return () => _onCallBack(_callBack, config);
+    if (callBack != null) return () => _onCallBack(callBack, config);
     return null;
   }
 
@@ -248,7 +248,7 @@ class _ProgressButtonState extends State<ProgressButton>
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
-        var _style = style(config).copyWith(
+        var resolvedStyle = style(config).copyWith(
           visualDensity: _visualDensityAnimation?.value,
           padding: _paddingAnimation?.value,
           fixedSize: MaterialStateProperty.all(_sizeAnimation?.value),
@@ -262,7 +262,7 @@ class _ProgressButtonState extends State<ProgressButton>
             onPressed: _getCallBack(config),
             clipBehavior:
                 widget.clipBehavior ?? config?.clipBehavior ?? Clip.antiAlias,
-            style: _style,
+            style: resolvedStyle,
             child: buttonChild,
           );
         } else if (type == ButtonType.text) {
@@ -271,7 +271,7 @@ class _ProgressButtonState extends State<ProgressButton>
             onPressed: _getCallBack(config),
             clipBehavior:
                 widget.clipBehavior ?? config?.clipBehavior ?? Clip.antiAlias,
-            style: _style,
+            style: resolvedStyle,
             child: buttonChild,
           );
         } else {
@@ -280,7 +280,7 @@ class _ProgressButtonState extends State<ProgressButton>
             onPressed: _getCallBack(config),
             clipBehavior:
                 widget.clipBehavior ?? config?.clipBehavior ?? Clip.antiAlias,
-            style: _style,
+            style: resolvedStyle,
             child: buttonChild,
           );
         }
@@ -289,15 +289,15 @@ class _ProgressButtonState extends State<ProgressButton>
     );
   }
 
-  void _setButtonState(_ButtonState _state) {
-    if (_state == state) return;
+  void _setButtonState(_ButtonState newState) {
+    if (newState == state) return;
 
     if (mounted == true) {
       setState(() {
-        state = _state;
+        state = newState;
       });
     } else {
-      state = _state;
+      state = newState;
     }
   }
 

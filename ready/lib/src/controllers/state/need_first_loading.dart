@@ -1,8 +1,8 @@
 part of ready_list_state;
 
-class _NeedFirstLoading<T> extends ReadyListState<T> {
+class NeedFirstLoading<T> extends ReadyListState<T> {
   final ReadyListState<T>? oldState;
-  const _NeedFirstLoading([this.oldState]) : super._();
+  const NeedFirstLoading([this.oldState]) : super._();
 
   @override
   List<Object?> get props => [];

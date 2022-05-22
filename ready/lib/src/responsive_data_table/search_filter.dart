@@ -23,7 +23,7 @@ class SearchFilter extends StatefulWidget implements _DataTableFilter<String?> {
     required this.onChange,
   }) : super(key: key);
   @override
-  _SearchFilterState createState() => _SearchFilterState();
+  State<SearchFilter> createState() => _SearchFilterState();
 }
 
 class _SearchFilterState extends State<SearchFilter>

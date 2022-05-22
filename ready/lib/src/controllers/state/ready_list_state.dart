@@ -22,42 +22,42 @@ abstract class ReadyListState<T> extends Equatable {
 
   /// use this if you need to wait for something
   /// and then use needFirstLoading to load the first state
-  const factory ReadyListState.initializing() = _Initializing<T>;
+  const factory ReadyListState.initializing() = Initializing<T>;
 
   /// this will fire first loading
   const factory ReadyListState.needFirstLoading([ReadyListState<T>? oldState]) =
-      _NeedFirstLoading<T>;
+      NeedFirstLoading<T>;
 
   /// when there is no data
-  const factory ReadyListState.empty() = _Empty<T>;
+  const factory ReadyListState.empty() = Empty<T>;
 
   /// when there is any error
   const factory ReadyListState.error(ErrorDisplayCallBack display) =
-      _ErrorState<T>;
+      ErrorState<T>;
 
   /// loading first time
   const factory ReadyListState.firstLoading([ICancelToken? cancelToken]) =
-      _FirstLoading<T>;
+      FirstLoading<T>;
 
   /// when loading next data
   const factory ReadyListState.loadingNext({
     ICancelToken? cancelToken,
     required Iterable<T> items,
     required int total,
-  }) = _LoadingNext<T>;
+  }) = LoadingNext<T>;
 
   /// refreshing data
   const factory ReadyListState.refreshing({
     ICancelToken? cancelToken,
     required Iterable<T> items,
     required int total,
-  }) = _Refreshing<T>;
+  }) = Refreshing<T>;
 
   /// data loaded
   const factory ReadyListState.loaded({
     required Iterable<T> items,
     required int total,
-  }) = _Loaded<T>;
+  }) = Loaded<T>;
 
   TResult mayWhen<TResult>({
     required TResult Function() orElse,
@@ -103,34 +103,34 @@ abstract class ReadyListState<T> extends Equatable {
 }
 
 extension ReadyListStateExtension<T> on ReadyListState<T> {
-  _Initializing<T>? asInitializing() => whenOrNull(
-        initializing: () => this as _Initializing<T>,
+  Initializing<T>? asInitializing() => whenOrNull(
+        initializing: () => this as Initializing<T>,
       );
-  _NeedFirstLoading<T>? asNeedFirstLoading() => whenOrNull(
-        needFirstLoading: (_) => this as _NeedFirstLoading<T>,
-      );
-
-  _Empty<T>? asEmptyState() => whenOrNull(
-        empty: () => this as _Empty<T>,
+  NeedFirstLoading<T>? asNeedFirstLoading() => whenOrNull(
+        needFirstLoading: (_) => this as NeedFirstLoading<T>,
       );
 
-  _ErrorState<T>? asErrorState() => whenOrNull(
-        error: (_) => this as _ErrorState<T>,
+  Empty<T>? asEmptyState() => whenOrNull(
+        empty: () => this as Empty<T>,
       );
 
-  _FirstLoading<T>? asFirstLoading() => whenOrNull(
-        firstLoading: (_) => this as _FirstLoading<T>,
+  ErrorState<T>? asErrorState() => whenOrNull(
+        error: (_) => this as ErrorState<T>,
       );
 
-  _LoadingNext<T>? asLoadingNext() => whenOrNull(
-        loadingNext: (_, __, ___) => this as _LoadingNext<T>,
+  FirstLoading<T>? asFirstLoading() => whenOrNull(
+        firstLoading: (_) => this as FirstLoading<T>,
       );
 
-  _Refreshing<T>? asRefreshing() => whenOrNull(
-        refreshing: (_, __, ___) => this as _Refreshing<T>,
+  LoadingNext<T>? asLoadingNext() => whenOrNull(
+        loadingNext: (_, __, ___) => this as LoadingNext<T>,
       );
 
-  _Loaded<T>? asLoaded() => whenOrNull(
-        loaded: (_, __) => this as _Loaded<T>,
+  Refreshing<T>? asRefreshing() => whenOrNull(
+        refreshing: (_, __, ___) => this as Refreshing<T>,
+      );
+
+  Loaded<T>? asLoaded() => whenOrNull(
+        loaded: (_, __) => this as Loaded<T>,
       );
 }

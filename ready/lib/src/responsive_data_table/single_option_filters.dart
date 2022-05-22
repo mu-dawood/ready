@@ -27,7 +27,7 @@ class SingleOptionFilter<T> extends StatefulWidget
   }) : super(key: key);
 
   @override
-  _SingleOptionFilterState<T> createState() => _SingleOptionFilterState<T>();
+  State<SingleOptionFilter<T>> createState() => _SingleOptionFilterState<T>();
 }
 
 class _SingleOptionFilterState<T> extends State<SingleOptionFilter<T>>

@@ -25,7 +25,7 @@ class SelectorSheet<T, TController extends ReadyPickerController<T>>
     required this.buildItem,
   }) : super(key: key);
   @override
-  _SelectorSheetState<T, TController> createState() =>
+  State<SelectorSheet<T, TController>> createState() =>
       _SelectorSheetState<T, TController>();
 }
 

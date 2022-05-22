@@ -53,7 +53,7 @@ class PageInfo extends StatefulWidget {
       required this.titleSpans})
       : super(key: key);
   @override
-  _PageInfoState createState() => _PageInfoState();
+  State<PageInfo> createState() => _PageInfoState();
 
   static PageInfo? of(BuildContext context) =>
       context.findAncestorStateOfType<_PageInfoState>()?.widget;

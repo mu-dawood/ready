@@ -141,10 +141,10 @@ class __ResponsiveDataTableState<T, TController extends ReadyListController<T>>
   @override
   void initState() {
     var options = widget.options;
-    var _preferredRows = ((widget.constraints.maxHeight - 170) ~/ 48);
+    var preferredRows = ((widget.constraints.maxHeight - 170) ~/ 48);
     var availableRowsPerPage =
-        options.dataTable!.availableRowsCount(_preferredRows).toSet().toList();
-    var rowsPerPage = options.dataTable!.initialRowsPerPage(_preferredRows);
+        options.dataTable!.availableRowsCount(preferredRows).toSet().toList();
+    var rowsPerPage = options.dataTable!.initialRowsPerPage(preferredRows);
     if (!availableRowsPerPage.contains(rowsPerPage)) {
       rowsPerPage = availableRowsPerPage[0];
     }

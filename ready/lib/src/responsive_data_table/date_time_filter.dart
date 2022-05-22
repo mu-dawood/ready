@@ -21,17 +21,17 @@ class DateFilter extends StatelessWidget
   Widget build(BuildContext context) {
     final localizations = MaterialLocalizations.of(context);
 
-    var _display = value == null
+    var text = value == null
         ? display ?? Ready.localization(context).date
         : localizations.formatFullDate(value!);
     return TextButton.icon(
       onPressed: () {
-        buildShowDatePicker(context).then((_value) {
-          onChange(_value);
+        buildShowDatePicker(context).then((value) {
+          onChange(value);
         });
       },
       icon: const Icon(Icons.calendar_today),
-      label: Text(_display),
+      label: Text(text),
     );
   }
 

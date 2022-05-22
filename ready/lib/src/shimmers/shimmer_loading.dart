@@ -15,7 +15,7 @@ class Shimmer extends StatefulWidget {
   final Widget child;
 
   @override
-  _ShimmerState createState() => _ShimmerState();
+  State<Shimmer> createState() => _ShimmerState();
 }
 
 class _ShimmerState extends State<Shimmer> {

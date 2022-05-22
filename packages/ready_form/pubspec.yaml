@@ -1,6 +1,6 @@
 name: ready_form
 description: Package that help to manage forms
-version: 1.0.3
+version: 1.0.5
 homepage: https://github.com/mo-ah-dawood/ready/tree/main/packages/ready_form
 repository: https://github.com/mo-ah-dawood/ready
 issue_tracker: https://github.com/mo-ah-dawood/ready/issues
@@ -17,6 +17,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
 
 flutter:

@@ -238,10 +238,10 @@ class _DashBoardAppBar extends StatelessWidget {
 
     return TabControllerListener(
       builder: (int index) {
-        var _items = [
+        var val = [
           for (var item in options.items) ...items(item),
         ];
-        var selected = _items[index];
+        var selected = val[index];
         var appBar = appBarOptions._copyWith(selected.appBarOptions);
         var theme = Theme.of(context);
         var appBarTheme = appBar.theme ??
@@ -378,8 +378,8 @@ class _MoreMenuRoute extends PopupRoute {
           margin: const EdgeInsetsDirectional.only(
               top: kToolbarHeight, start: 10, end: 10),
           child: Wrap(
-            children: children,
             alignment: WrapAlignment.start,
+            children: children,
           ),
         ),
       ),
