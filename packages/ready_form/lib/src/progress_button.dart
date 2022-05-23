@@ -30,9 +30,6 @@ class ProgressButton extends StatefulWidget {
   /// loading indicator for progress button
   final Widget? loadingIndicator;
 
-  /// button  alignment
-  final AlignmentGeometry? alignment;
-
   /// progress animation duration default is 300 ms
   final Duration? duration;
 
@@ -69,7 +66,6 @@ class ProgressButton extends StatefulWidget {
     ProgressButtonKey? key,
     this.onPressed,
     required this.child,
-    this.alignment,
     this.duration,
     this.clipBehavior,
     this.onCancelRequest,
@@ -90,8 +86,9 @@ class ProgressButton extends StatefulWidget {
 
 class _ProgressButtonState extends State<ProgressButton>
     with TickerProviderStateMixin {
-  GlobalKey<State<ButtonStyleButton>> key =
+  GlobalKey<State<ButtonStyleButton>> buttonKey =
       GlobalKey<State<ButtonStyleButton>>();
+  GlobalKey key = GlobalKey();
   _ButtonState state = _ButtonState.initial;
   late AnimationController _controller;
   Animation<Size?>? _sizeAnimation;
@@ -122,8 +119,10 @@ class _ProgressButtonState extends State<ProgressButton>
     if (oldWidget.duration != widget.duration) {
       _controller.duration = duration(ProgressButtonConfig.of(context));
     }
-    if (oldWidget.child != widget.child) {
-      WidgetsBinding.instance.addPostFrameCallback(_afterFirstFrame);
+    if (oldWidget.child != widget.child || oldWidget.style != widget.style) {
+      _controller.reverse().then((value) {
+        WidgetsBinding.instance.addPostFrameCallback(_afterFirstFrame);
+      });
     }
     super.didUpdateWidget(oldWidget);
   }
@@ -141,13 +140,13 @@ class _ProgressButtonState extends State<ProgressButton>
         end: Size(s, s),
       ).animate(curve);
 
-      final ButtonStyle? widgetStyle = key.currentState?.widget.style;
+      final ButtonStyle? widgetStyle = buttonKey.currentState?.widget.style;
       final ButtonStyle? themeStyle =
           // ignore: invalid_use_of_protected_member
-          key.currentState?.widget.themeStyleOf(context);
+          buttonKey.currentState?.widget.themeStyleOf(context);
       final ButtonStyle? defaultStyle =
           // ignore: invalid_use_of_protected_member
-          key.currentState?.widget.defaultStyleOf(context);
+          buttonKey.currentState?.widget.defaultStyleOf(context);
 
       T? effectiveValue<T>(T? Function(ButtonStyle? style) getProperty) {
         final T? widgetValue = getProperty(widgetStyle);
@@ -243,48 +242,50 @@ class _ProgressButtonState extends State<ProgressButton>
   }
 
   Widget _build(BuildContext context, ProgressButtonConfig? config) {
-    Widget buttonChild = _buildChild(config);
-
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
         var resolvedStyle = style(config).copyWith(
           visualDensity: _visualDensityAnimation?.value,
           padding: _paddingAnimation?.value,
-          fixedSize: MaterialStateProperty.all(_sizeAnimation?.value),
           shape: _shapeAnimation?.value,
         );
         var type = this.type(config);
         late Widget child;
         if (type == ButtonType.outlined) {
           child = OutlinedButton(
-            key: key,
+            key: buttonKey,
             onPressed: _getCallBack(config),
             clipBehavior:
                 widget.clipBehavior ?? config?.clipBehavior ?? Clip.antiAlias,
             style: resolvedStyle,
-            child: buttonChild,
+            child: _buildChild(config),
           );
         } else if (type == ButtonType.text) {
           child = TextButton(
-            key: key,
+            key: buttonKey,
             onPressed: _getCallBack(config),
             clipBehavior:
                 widget.clipBehavior ?? config?.clipBehavior ?? Clip.antiAlias,
             style: resolvedStyle,
-            child: buttonChild,
+            child: _buildChild(config),
           );
         } else {
           child = ElevatedButton(
-            key: key,
+            key: buttonKey,
             onPressed: _getCallBack(config),
             clipBehavior:
                 widget.clipBehavior ?? config?.clipBehavior ?? Clip.antiAlias,
             style: resolvedStyle,
-            child: buttonChild,
+            child: _buildChild(config),
           );
         }
-        return child;
+        return SizedBox(
+          key: key,
+          width: _sizeAnimation?.value?.width,
+          height: _sizeAnimation?.value?.width,
+          child: child,
+        );
       },
     );
   }
