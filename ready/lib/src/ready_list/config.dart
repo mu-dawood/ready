@@ -79,6 +79,19 @@ class PlaceholdersConfig {
   }
 }
 
+class AxisConfig {
+  final Axis axis;
+  final StateResultCallBack<BoxConstraints> constraints;
+
+  AxisConfig._(this.axis, this.constraints);
+
+  const AxisConfig.horizontal(this.constraints) : axis = Axis.horizontal;
+
+  factory AxisConfig.vertical() {
+    return AxisConfig._(Axis.vertical, (state) => const BoxConstraints());
+  }
+}
+
 abstract class ReadyListConfigOptions {
   /// if true it will add [SliverOverlapInjector] if the list placed inside [NestedScrollView]
   /// defaults to true
@@ -120,7 +133,7 @@ abstract class ReadyListConfigOptions {
   StateResultCallBack<bool>? get shrinkWrap;
 
   /// axis of the list
-  Axis? get axis;
+  AxisConfig? get axis;
 
   /// physics of the list
   ScrollPhysics? get physics;
@@ -164,7 +177,7 @@ class ReadyListConfig extends InheritedWidget
   @override
   final StateResultCallBack<bool>? shrinkWrap;
   @override
-  final Axis? axis;
+  final AxisConfig? axis;
   @override
   final ScrollPhysics? physics;
   @override
@@ -247,7 +260,7 @@ class _ReadyListConfigOptionsDefaults implements ReadyListConfigOptions {
   @override
   final StateResultCallBack<bool>? shrinkWrap;
   @override
-  final Axis axis;
+  final AxisConfig axis;
   @override
   final ScrollPhysics? physics;
   @override
@@ -304,7 +317,7 @@ class _ReadyListConfigOptionsDefaults implements ReadyListConfigOptions {
       shimmerScopeGradient:
           options?.shimmerScopeGradient ?? config?.shimmerScopeGradient,
       shrinkWrap: options?.shrinkWrap ?? config?.shrinkWrap ?? (_) => false,
-      axis: options?.axis ?? config?.axis ?? Axis.vertical,
+      axis: options?.axis ?? config?.axis ?? AxisConfig.vertical(),
       physics: options?.physics ?? config?.physics,
       pageSize: options?.pageSize ?? config?.pageSize ?? 20,
       allowFakeItems:

@@ -17,16 +17,14 @@ class _FooterLoading<T, TController extends ReadyListController<T>>
   @override
   Widget build(BuildContext context) {
     var state = controller.state;
-    return state.when(
-      empty: () => _buildNone(),
-      error: (error) => _buildNone(),
-      firstLoading: (_) => _buildNone(),
-      loaded: (items, total) {
-        if (items.length < total) {
+    return state.maybeMap(
+      orElse: () => _buildNone(),
+      isLoaded: (state) {
+        if (state.items.length < state.total) {
           return _buildWidget(
             TextButton(
               onPressed: () {
-                controller.handler?.nextData(config.pageSize);
+                controller.requestNext(config.pageSize);
               },
               child: Text(config.loadMoreText),
             ),
@@ -43,13 +41,12 @@ class _FooterLoading<T, TController extends ReadyListController<T>>
           return _buildNone();
         }
       },
-      loadingNext: (items, _, __) => _buildWidget(const Padding(
-        padding: EdgeInsets.only(top: 20, bottom: 20),
-        child: CupertinoActivityIndicator(),
-      )),
-      refreshing: (items, _, __) => _buildNone(),
-      needFirstLoading: (_) => _buildNone(),
-      initializing: () => _buildNone(),
+      isLoadingNext: (state) => _buildWidget(
+        const Padding(
+          padding: EdgeInsets.only(top: 20, bottom: 20),
+          child: CupertinoActivityIndicator(),
+        ),
+      ),
     );
   }
 

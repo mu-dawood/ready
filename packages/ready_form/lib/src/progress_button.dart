@@ -283,7 +283,7 @@ class _ProgressButtonState extends State<ProgressButton>
         return SizedBox(
           key: key,
           width: _sizeAnimation?.value?.width,
-          height: _sizeAnimation?.value?.width,
+          height: _sizeAnimation?.value?.height,
           child: child,
         );
       },

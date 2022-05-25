@@ -21,27 +21,23 @@ class _DataTableState<T, TController extends ReadyListController<T>>
 
   @override
   void initState() {
-    if (widget.source.controller.hasHandler) {
-      widget.source.controller.state.whenOrNull(
-        needFirstLoading: (_) {
-          widget.source.controller.handler!
-              .firstLoad(widget.source.paging.rowsPerPage);
-        },
-      );
-    }
+    widget.source.controller.state.whenOrNull(
+      initializing: () {
+        widget.source.controller
+            .requestFirstLoading(widget.source.paging.rowsPerPage);
+      },
+    );
     super.initState();
   }
 
   @override
   void didUpdateWidget(covariant _DataTable<T, TController> oldWidget) {
-    if (widget.source.controller.hasHandler) {
-      widget.source.controller.state.whenOrNull(
-        needFirstLoading: (_) {
-          widget.source.controller.handler!
-              .firstLoad(widget.source.paging.rowsPerPage);
-        },
-      );
-    }
+    widget.source.controller.state.whenOrNull(
+      initializing: () {
+        widget.source.controller
+            .requestFirstLoading(widget.source.paging.rowsPerPage);
+      },
+    );
     super.didUpdateWidget(oldWidget);
   }
 
@@ -102,13 +98,21 @@ class _DataTableState<T, TController extends ReadyListController<T>>
       headingRowHeight: 40,
       header: Row(
         children: [
-          ...controller.state.mayWhen(
+          ...controller.state.maybeMap(
             orElse: () => [],
-            firstLoading: (_) => [
+            isLoadingFirst: (_) => [
               const CupertinoActivityIndicator(),
               const SizedBox(width: 10),
             ],
-            loadingNext: (_, __, ___) => [
+            requestFirstLoading: (_) => [
+              const CupertinoActivityIndicator(),
+              const SizedBox(width: 10),
+            ],
+            isLoadingNext: (_) => [
+              const CupertinoActivityIndicator(),
+              const SizedBox(width: 10),
+            ],
+            requestNext: (_) => [
               const CupertinoActivityIndicator(),
               const SizedBox(width: 10),
             ],
@@ -132,28 +136,28 @@ class _DataTableState<T, TController extends ReadyListController<T>>
 
   Widget _buildRefreshIcon() {
     return widget.options.dataTable!.refreshButton!(
-      enabled: controller.state.mayWhen(
+      enabled: controller.state.maybeMap(
         orElse: () => false,
-        loaded: (items, total) => true,
-        empty: () => true,
+        isLoaded: (_) => true,
+        isEmpty: (_) => true,
         error: (message) => true,
       ),
       onRefresh: () {
-        controller.state.whenOrNull(
-          empty: () {
-            controller.handler?.firstLoad(widget.source.paging.rowsPerPage);
+        controller.state.mapOrNull(
+          isEmpty: (_) {
+            controller.requestFirstLoading(widget.source.paging.rowsPerPage);
           },
           error: (e) {
-            controller.handler?.firstLoad(widget.source.paging.rowsPerPage);
+            controller.requestFirstLoading(widget.source.paging.rowsPerPage);
           },
-          loaded: (_, __) {
-            controller.handler?.refreshData(widget.source.paging.rowsPerPage);
+          isLoaded: (_) {
+            controller.requestRefresh(widget.source.paging.rowsPerPage);
           },
         );
       },
-      refreshing: controller.state.mayWhen(
+      refreshing: controller.state.maybeMap(
         orElse: () => false,
-        refreshing: (items, total, cancelToken) => true,
+        isRefreshing: (_) => true,
       ),
     );
   }
@@ -178,8 +182,7 @@ class _DataTableState<T, TController extends ReadyListController<T>>
           controller: widget.source.controller,
         ),
       if (widget.source.paging.firstRow == 0)
-        if (widget.options.dataTable?.refreshButton != null &&
-            controller.hasHandler)
+        if (widget.options.dataTable?.refreshButton != null)
           _buildRefreshIcon(),
     ];
   }

@@ -42,15 +42,16 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
     required this.buildRow,
   }) {
     _subscription = controller.stream.listen((event) {
-      event.whenOrNull(
-        firstLoading: (_) {
+      event.mapOrNull(
+        isLoadingFirst: (_) {
           _selectedItems.clear();
         },
         error: (_) {
           _selectedItems.clear();
         },
-        loaded: (items, __) {
-          _selectedItems.removeWhere((element) => element >= items.length);
+        isLoaded: (state) {
+          _selectedItems
+              .removeWhere((element) => element >= state.items.length);
         },
       );
       notifyListeners();
@@ -58,14 +59,14 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
   }
   List<int> _selectedItems = List<int>.empty(growable: true);
   List<int> get selectedItems => _selectedItems;
-  bool get allSelected => controller.state.mayWhen(
+  bool get allSelected => controller.state.maybeWhen(
         orElse: () => false,
-        loaded: (items, __) => selectedItems.length >= items.length,
+        isLoaded: (items, __, _) => selectedItems.length >= items.length,
       );
 
   void selectAll() {
     controller.state.whenOrNull(
-      loaded: (items, __) {
+      isLoaded: (items, __, _) {
         if (!allSelected) {
           _selectedItems = List.generate(items.length, (index) => index);
           notifyListeners();
@@ -101,11 +102,11 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
     paging = paging.copyWith(firstRow: v);
     notifyListeners();
     controller.state.whenOrNull(
-      loaded: (items, total) {
+      isLoaded: (items, total, _) {
         if (items.length >= total) return;
         var len = paging.rowsPerPage + v - items.length;
         if (len > 0) {
-          controller.handler?.nextData(len);
+          controller.requestNext(len);
         }
       },
     );
@@ -119,10 +120,10 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
     paging = paging.copyWith(rowsPerPage: v);
     notifyListeners();
     controller.state.whenOrNull(
-      loaded: (items, total) {
+      isLoaded: (items, total, _) {
         if (items.length >= total) return;
         if (v > items.length) {
-          controller.handler?.nextData(paging.rowsPerPage);
+          controller.requestNext(paging.rowsPerPage);
         }
       },
     );
@@ -158,17 +159,22 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
     );
   }
 
+  DataRow _getRow(ILoadedState<T> state, int index) =>
+      index < state.items.length
+          ? _realRow(state.items, index)
+          : _fakeRow(true);
   @override
   DataRow getRow(int index) {
-    return controller.state.mayWhen(
+    return controller.state.maybeMap(
       orElse: () => _fakeRow(false),
-      firstLoading: (_) => _fakeRow(true),
-      loaded: (items, _) =>
-          index < items.length ? _realRow(items, index) : _fakeRow(true),
-      refreshing: (items, _, __) =>
-          index < items.length ? _realRow(items, index) : _fakeRow(true),
-      loadingNext: (items, _, __) =>
-          index < items.length ? _realRow(items, index) : _fakeRow(true),
+      isLoadingFirst: (_) => _fakeRow(true),
+      requestFirstLoading: (_) => _fakeRow(true),
+      initializing: (_) => _fakeRow(true),
+      isLoaded: (state) => _getRow(state, index),
+      isRefreshing: (state) => _getRow(state.oldState.oldState, index),
+      isLoadingNext: (state) => _getRow(state.oldState.oldState, index),
+      requestRefresh: (state) => _getRow(state.oldState, index),
+      requestNext: (state) => _getRow(state.oldState, index),
     );
   }
 
@@ -177,11 +183,13 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
 
   @override
   int get rowCount {
-    return controller.state.mayWhen(
+    return controller.state.maybeWhen(
       orElse: () => 0,
-      loaded: (items, total) => total,
-      refreshing: (items, total, ___) => items.length,
-      loadingNext: (items, total, ___) => items.length,
+      isLoaded: (items, total, _) => total,
+      isRefreshing: (items, state) => state.oldState.items.length,
+      isLoadingNext: (items, state) => state.oldState.items.length,
+      requestNext: (items, state) => state.items.length,
+      requestRefresh: (items, state) => state.items.length,
     );
   }
 

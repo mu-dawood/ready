@@ -28,21 +28,29 @@ class ReadyGridExample extends StatelessWidget {
           ),
         );
       },
-      controller: ReadyListCubit(const ReadyListState.needFirstLoading()),
+      controller: ReadyListCubit(const ReadyListState.initializing()),
     );
   }
 }
 
-class ReadyListCubit extends Cubit<ReadyListState<FakeItem>>
+abstract class BaseController extends Cubit<ReadyListState<FakeItem>>
     implements ReadyListController<FakeItem> {
+  BaseController(ReadyListState<FakeItem> initialState) : super(initialState);
+
+  @override
+  void onChange(Change<ReadyListState<FakeItem>> change) {
+    notifyListeners();
+    super.onChange(change);
+  }
+}
+
+class ReadyListCubit extends BaseController with ReadyRemoteController {
   ReadyListCubit(ReadyListState<FakeItem> initialState) : super(initialState);
 
   @override
-  ListLoadingHandler<FakeItem>? get handler => DefaultListLoadingHandler(
-        loadData: (skip, pageSize, cancelToken) async {
-          var list = await FakeRepo.asyncList(pageSize);
-          return ReadyListResponse.success(items: list, total: 100);
-        },
-        controller: this,
-      );
+  Future<IRemoteResult<FakeItem>> loadData(int skip, int? pageSize,
+      [ICancelToken? cancelToken]) async {
+    var list = await FakeRepo.asyncList(pageSize ?? 20);
+    return loaded(items: list, total: 100);
+  }
 }

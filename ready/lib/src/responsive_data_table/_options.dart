@@ -84,6 +84,7 @@ class DataTableOptions<T> {
   /// the initial rows per page
   /// it must be in  [availableRowsCount]
   final EdgeInsetsGeometry padding;
+
   DataTableOptions({
     required this.headers,
     required this.buildItem,
@@ -120,10 +121,7 @@ class ListOptions<T> implements ReadyListConfigOptions {
   final PlaceholdersConfig? placeholdersConfig;
   @override
   final bool? showNoMoreText;
-  @override
-  final bool? allowRefresh;
-  @override
-  final bool? allowLoadNext;
+
   @override
   final String? noMoreText;
   @override
@@ -137,7 +135,7 @@ class ListOptions<T> implements ReadyListConfigOptions {
   @override
   final StateResultCallBack<bool>? shrinkWrap;
   @override
-  final Axis? axis;
+  final AxisConfig? axis;
   @override
   final ScrollPhysics? physics;
   @override
@@ -159,9 +157,7 @@ class ListOptions<T> implements ReadyListConfigOptions {
     this.innerFooterSlivers,
     this.placeholdersConfig,
     this.showNoMoreText,
-    this.allowRefresh,
     this.handleNestedScrollViewOverlap,
-    this.allowLoadNext,
     this.noMoreText,
     this.loadMoreText,
     this.padding,
@@ -188,8 +184,6 @@ class ListOptions<T> implements ReadyListConfigOptions {
     this.innerFooterSlivers,
     this.placeholdersConfig,
     this.showNoMoreText,
-    this.allowRefresh,
-    this.allowLoadNext,
     this.noMoreText,
     this.loadMoreText,
     this.padding,
@@ -206,4 +200,10 @@ class ListOptions<T> implements ReadyListConfigOptions {
   })  : trailing = null,
         _title = null,
         _builder = builder;
+
+  @override
+  bool? get allowLoadNext => null;
+
+  @override
+  bool? get allowRefresh => null;
 }

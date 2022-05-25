@@ -17,14 +17,14 @@ class _FiltersButton<T, TController extends ReadyListController<T>>
     return IconButton(
       icon: Icon(
         Icons.sort,
-        color: controller.state.mayWhen(
+        color: controller.state.maybeMap(
           orElse: () => Theme.of(context).disabledColor,
-          loaded: (_, __) =>
+          isLoaded: (_) =>
               (hasFilters ? Theme.of(context).colorScheme.secondary : null),
         ),
       ),
-      onPressed: controller.state.whenOrNull(
-        loaded: (_, __) {
+      onPressed: controller.state.mapOrNull(
+        isLoaded: (_) {
           return () {
             showModalBottomSheet(
                 context: context,
@@ -57,9 +57,11 @@ class _FiltersButtonSheet<T, TController extends ReadyListController<T>>
       stream: controller().stream,
       builder:
           (BuildContext context, AsyncSnapshot<ReadyListState<T>> snapshot) {
-        var loading = controller().state.whenOrNull(
-              firstLoading: (_) => const LinearProgressIndicator(),
-              refreshing: (_, __, ___) => const LinearProgressIndicator(),
+        var loading = controller().state.mapOrNull(
+              isLoadingFirst: (_) => const LinearProgressIndicator(),
+              requestFirstLoading: (_) => const LinearProgressIndicator(),
+              isRefreshing: (_) => const LinearProgressIndicator(),
+              requestRefresh: (_) => const LinearProgressIndicator(),
             );
 
         return SafeArea(

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ready/ready.dart';
 
 class ResponsiveList extends StatelessWidget {
-  final controller = ReadyListCubit();
+  final controller = ReadyListCubit(const ReadyListState.initializing());
   ResponsiveList({
     Key? key,
   }) : super(key: key);
@@ -35,7 +35,7 @@ class ResponsiveList extends StatelessWidget {
           SearchFilter(
             decoration: const InputDecoration(hintText: 'Search here'),
             onChange: (String? value) {
-              controller.handler?.firstLoad(16);
+              controller.requestFirstLoading(20);
             },
           ),
         ],
@@ -74,16 +74,24 @@ class ResponsiveList extends StatelessWidget {
   }
 }
 
-class ReadyListCubit extends Cubit<ReadyListState<FakeItem>>
+abstract class BaseController extends Cubit<ReadyListState<FakeItem>>
     implements ReadyListController<FakeItem> {
-  ReadyListCubit() : super(const ReadyListState.needFirstLoading());
+  BaseController(ReadyListState<FakeItem> initialState) : super(initialState);
 
   @override
-  ListLoadingHandler<FakeItem>? get handler => DefaultListLoadingHandler(
-        loadData: (skip, pageSize, cancelToken) async {
-          var list = await FakeRepo.asyncList(pageSize);
-          return ReadyListResponse.success(items: list, total: 100);
-        },
-        controller: this,
-      );
+  void onChange(Change<ReadyListState<FakeItem>> change) {
+    notifyListeners();
+    super.onChange(change);
+  }
+}
+
+class ReadyListCubit extends BaseController with ReadyRemoteController {
+  ReadyListCubit(ReadyListState<FakeItem> initialState) : super(initialState);
+
+  @override
+  Future<IRemoteResult<FakeItem>> loadData(int skip, int? pageSize,
+      [ICancelToken? cancelToken]) async {
+    var list = await FakeRepo.asyncList(pageSize ?? 30);
+    return loaded(items: list, total: 100);
+  }
 }
