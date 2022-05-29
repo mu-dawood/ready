@@ -222,7 +222,7 @@ class _DashBoardAppBar extends StatelessWidget {
   }) : super(key: key);
 
   List<DashboardItem> items(DashboardItem e) {
-    if (e.builder != null) {
+    if (e.hasBuilder) {
       return [e];
     } else {
       return e.subItems

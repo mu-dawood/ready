@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'config.dart';
 import 'ready_form/ready_form.dart';
 
-enum _ButtonState { initial, loading }
-
 class ProgressButtonKey {
   final GlobalKey<_ProgressButtonState> _key;
   const ProgressButtonKey._(this._key);
@@ -19,7 +17,7 @@ class ProgressButtonKey {
       : _key.currentState
           ?._getCallBack(ProgressButtonConfig.of(_key.currentContext!))
           ?.call();
-  bool get isLoading => _key.currentState?.state == _ButtonState.loading;
+  bool get isLoading => _key.currentState?._controller.isDismissed == false;
 }
 
 class ProgressButton extends StatefulWidget {
@@ -89,7 +87,7 @@ class _ProgressButtonState extends State<ProgressButton>
   GlobalKey<State<ButtonStyleButton>> buttonKey =
       GlobalKey<State<ButtonStyleButton>>();
   GlobalKey key = GlobalKey();
-  _ButtonState state = _ButtonState.initial;
+
   late AnimationController _controller;
   Animation<Size?>? _sizeAnimation;
   Animation<MaterialStateProperty<EdgeInsetsGeometry?>?>? _paddingAnimation;
@@ -128,6 +126,7 @@ class _ProgressButtonState extends State<ProgressButton>
   }
 
   void _afterFirstFrame(Duration timeStamp) {
+    if (!_controller.isDismissed) return;
     var size = key.currentContext?.size;
     var curve = CurvedAnimation(
       parent: _controller,
@@ -211,7 +210,7 @@ class _ProgressButtonState extends State<ProgressButton>
     var config = ProgressButtonConfig.of(context);
     return WillPopScope(
       onWillPop: () async {
-        if (state != _ButtonState.loading || widget.onCancelRequest == null) {
+        if (!_controller.isDismissed || widget.onCancelRequest == null) {
           return true;
         }
         var res = await showDialog(
@@ -280,69 +279,81 @@ class _ProgressButtonState extends State<ProgressButton>
             child: _buildChild(config),
           );
         }
+
+        if (!_controller.isDismissed) {
+          child = Center(
+            child: SizedBox(
+              width:
+                  _controller.isDismissed ? null : _sizeAnimation?.value?.width,
+              height: _controller.isDismissed
+                  ? null
+                  : _sizeAnimation?.value?.height,
+              child: child,
+            ),
+          );
+        }
         return SizedBox(
           key: key,
-          width: _sizeAnimation?.value?.width,
-          height: _sizeAnimation?.value?.height,
           child: child,
         );
       },
     );
   }
 
-  void _setButtonState(_ButtonState newState) {
-    if (newState == state) return;
+  void _completeAction(
+      Future<dynamic> Function() callBack, ProgressButtonConfig? config) {
+    _controller.forward();
+    callBack().then((d) async {
+      if (mounted) {
+        await _controller.animateTo(0.0);
+        _controller.reset();
 
-    if (mounted == true) {
-      setState(() {
-        state = newState;
-      });
-    } else {
-      state = newState;
-    }
+        _afterFirstFrame(Duration.zero);
+      }
+    }).catchError((c) async {
+      if (mounted) {
+        await _controller.animateTo(0.0);
+        _afterFirstFrame(Duration.zero);
+      }
+    });
   }
 
   void _onCallBack(
       Future<dynamic> Function() callBack, ProgressButtonConfig? config) {
-    if (state != _ButtonState.initial) {
-      _controller.animateTo(0.0);
-      return;
+    if (_controller.value < 1.0 &&
+        _controller.status != AnimationStatus.forward) {
+      _completeAction(callBack, config);
     }
-    _controller.forward();
-    _setButtonState(_ButtonState.loading);
-    callBack().then((d) {
-      _setButtonState(_ButtonState.initial);
-      _controller.animateTo(0.0);
-    }).catchError((c) {
-      _setButtonState(_ButtonState.initial);
-      _controller.animateTo(0.0);
-    });
   }
 
   Widget _buildChild(ProgressButtonConfig? config) {
     return Builder(
       builder: (ctx) {
         var style = DefaultTextStyle.of(ctx).style;
+        List<Widget> children = [
+          Opacity(
+            opacity: _controller.value,
+            child: Center(
+              child: loadingIndicator(config),
+            ),
+          ),
+          Opacity(
+            opacity: 1 - _controller.value,
+            child: widget.child,
+          ),
+        ];
         return ProgressIndicatorTheme(
           data: ProgressIndicatorTheme.of(context).copyWith(
-            circularTrackColor: style.color,
+            circularTrackColor:
+                widget.type == ButtonType.elevated ? style.color : style.color,
           ),
-          child: state == _ButtonState.initial
-              ? _buildInnerChild(config)
-              : Center(child: loadingIndicator(config)),
+          child: Stack(
+            alignment: Alignment.center,
+            children: children,
+          ),
         );
       },
     );
-  }
-
-  Widget _buildInnerChild(ProgressButtonConfig? config) {
-    var circularLoader = loadingIndicator(config);
-
-    if (state == _ButtonState.loading) {
-      return circularLoader;
-    }
-
-    return widget.child;
   }
 }
 

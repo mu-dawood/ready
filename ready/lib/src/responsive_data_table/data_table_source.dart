@@ -106,7 +106,11 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
         if (items.length >= total) return;
         var len = paging.rowsPerPage + v - items.length;
         if (len > 0) {
-          controller.requestNext(len);
+          controller.emit(ReadyListState.requestNext(
+            items: items,
+            totalCount: total,
+            pageSize: len,
+          ));
         }
       },
     );
@@ -123,7 +127,11 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
       isLoaded: (items, total, _) {
         if (items.length >= total) return;
         if (v > items.length) {
-          controller.requestNext(paging.rowsPerPage);
+          controller.emit(ReadyListState.requestNext(
+            items: items,
+            totalCount: total,
+            pageSize: paging.rowsPerPage,
+          ));
         }
       },
     );
@@ -159,10 +167,8 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
     );
   }
 
-  DataRow _getRow(ILoadedState<T> state, int index) =>
-      index < state.items.length
-          ? _realRow(state.items, index)
-          : _fakeRow(true);
+  DataRow _getRow(Iterable<T> items, int index) =>
+      index < items.length ? _realRow(items, index) : _fakeRow(true);
   @override
   DataRow getRow(int index) {
     return controller.state.maybeMap(
@@ -170,11 +176,11 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
       isLoadingFirst: (_) => _fakeRow(true),
       requestFirstLoading: (_) => _fakeRow(true),
       initializing: (_) => _fakeRow(true),
-      isLoaded: (state) => _getRow(state, index),
-      isRefreshing: (state) => _getRow(state.oldState.oldState, index),
-      isLoadingNext: (state) => _getRow(state.oldState.oldState, index),
-      requestRefresh: (state) => _getRow(state.oldState, index),
-      requestNext: (state) => _getRow(state.oldState, index),
+      isLoaded: (state) => _getRow(state.items, index),
+      isRefreshing: (state) => _getRow(state.items, index),
+      isLoadingNext: (state) => _getRow(state.items, index),
+      requestRefresh: (state) => _getRow(state.items, index),
+      requestNext: (state) => _getRow(state.items, index),
     );
   }
 
@@ -183,13 +189,13 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
 
   @override
   int get rowCount {
-    return controller.state.maybeWhen(
+    return controller.state.maybeMap(
       orElse: () => 0,
-      isLoaded: (items, total, _) => total,
-      isRefreshing: (items, state) => state.oldState.items.length,
-      isLoadingNext: (items, state) => state.oldState.items.length,
-      requestNext: (items, state) => state.items.length,
-      requestRefresh: (items, state) => state.items.length,
+      isLoaded: (state) => state.totalCount,
+      isRefreshing: (state) => state.items.length,
+      isLoadingNext: (state) => state.items.length,
+      requestNext: (state) => state.items.length,
+      requestRefresh: (state) => state.items.length,
     );
   }
 

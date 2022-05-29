@@ -58,12 +58,6 @@ class ReadyListExample extends StatelessWidget {
 abstract class BaseController extends Cubit<ReadyListState<FakeItem>>
     implements ReadyListController<FakeItem> {
   BaseController(ReadyListState<FakeItem> initialState) : super(initialState);
-
-  @override
-  void onChange(Change<ReadyListState<FakeItem>> change) {
-    notifyListeners();
-    super.onChange(change);
-  }
 }
 
 class ReadyListCubit extends BaseController with ReadyRemoteController {
@@ -73,6 +67,6 @@ class ReadyListCubit extends BaseController with ReadyRemoteController {
   Future<IRemoteResult<FakeItem>> loadData(int skip, int? pageSize,
       [ICancelToken? cancelToken]) async {
     var list = await FakeRepo.asyncList(30, const Duration(seconds: 3));
-    return loaded(items: list, total: 100);
+    return ReadyListState.createLoaded(items: list, totalCount: 100);
   }
 }

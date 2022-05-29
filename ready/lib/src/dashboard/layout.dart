@@ -9,6 +9,9 @@ class ReadyDashboard extends StatefulWidget {
   final bool Function(bool phone) wrapPageWithCard;
   final bool iconsWhenCollapsedInDesktop;
 
+  /// if passed will add a navigator around the entire dashboard
+  final NavigatorOptions? navigator;
+
   /// {@macro flutter.material.appBar.actions}
   ///
   /// This property is used to configure an [AppBar].
@@ -22,6 +25,7 @@ class ReadyDashboard extends StatefulWidget {
     this.appBarOptions = _appBarOptions,
     this.wrapPageWithCard = _wrapPageWithCard,
     this.iconsWhenCollapsedInDesktop = false,
+    this.navigator,
     this.actions = const [],
   })  : assert(items.isNotEmpty),
         super(key: key);
@@ -30,6 +34,24 @@ class ReadyDashboard extends StatefulWidget {
   static EdgeInsetsGeometry _padding(bool phone) => EdgeInsets.zero;
   static AppBarOptions _appBarOptions(bool phone) => const AppBarOptions();
   static bool _wrapPageWithCard(bool phone) => false;
+  static Widget createPage({
+    required BuildContext context,
+    required Widget child,
+    List<TextSpan> titleSpan = const [],
+  }) {
+    var dashboard = context.findAncestorStateOfType<_ReadyDashboardState>()!;
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return dashboard._buildChild(
+            PageInfo.child(
+              titleSpans: titleSpan,
+              child: child,
+            ),
+            dashboard._isSmall(constraints.maxWidth));
+      },
+    );
+  }
+
   @override
   State<ReadyDashboard> createState() => _ReadyDashboardState();
 
@@ -41,9 +63,10 @@ class _ReadyDashboardState extends State<ReadyDashboard>
     with TickerProviderStateMixin {
   late AnimationController expansionController;
   late FocusNode _focusNode;
-
+  GlobalKey<NavigatorState>? navigatorKey;
   @override
   void initState() {
+    navigatorKey = widget.navigator?.initState?.call();
     _focusNode = FocusNode();
     expansionController = AnimationController(
       vsync: this,
@@ -55,9 +78,28 @@ class _ReadyDashboardState extends State<ReadyDashboard>
 
   @override
   void dispose() {
+    widget.navigator?.dispose?.call();
     _focusNode.dispose();
     expansionController.dispose();
     super.dispose();
+  }
+
+  bool _isSmall(double width) {
+    var layout = Utils.detectLayout(width);
+    late bool small;
+    switch (layout) {
+      case LayoutType.xSmall:
+      case LayoutType.small:
+      case LayoutType.medium:
+        small = true;
+        break;
+      case LayoutType.large:
+      case LayoutType.xLarge:
+      case LayoutType.xxLarge:
+        small = false;
+        break;
+    }
+    return small;
   }
 
   @override
@@ -75,19 +117,8 @@ class _ReadyDashboardState extends State<ReadyDashboard>
             width = MediaQuery.of(context).size.width;
           }
           var layout = Utils.detectLayout(width);
-          late bool small;
-          switch (layout) {
-            case LayoutType.xSmall:
-            case LayoutType.small:
-            case LayoutType.medium:
-              small = true;
-              break;
-            case LayoutType.large:
-            case LayoutType.xLarge:
-            case LayoutType.xxLarge:
-              small = false;
-              break;
-          }
+
+          var small = _isSmall(width);
           bool iconsWhenCollapsed = widget.iconsWhenCollapsedInDesktop;
           return Scaffold(
             drawer: small
@@ -181,7 +212,7 @@ class _ReadyDashboardState extends State<ReadyDashboard>
   }
 
   List<Widget> children(DashboardItem e, [TextSpan? parent]) {
-    if (e.builder != null) {
+    if (e.hasBuilder) {
       return [
         PageInfo(
           item: e,
@@ -194,8 +225,6 @@ class _ReadyDashboardState extends State<ReadyDashboard>
             ],
             TextSpan(text: e.label),
           ],
-          // titleSpans[]: parentTitle == null ? e.label : '$parentTitle / ${e.label}',
-          child: e.builder!(),
         ),
       ];
     } else {
@@ -206,20 +235,52 @@ class _ReadyDashboardState extends State<ReadyDashboard>
     }
   }
 
-  Widget tabView(List<Widget> widgets, bool small) {
-    return TabBarView(
-      physics: const NeverScrollableScrollPhysics(),
-      children: small || !widget.wrapPageWithCard(small)
-          ? widgets
-          : widgets
-              .map((e) => Card(
-                    margin: const EdgeInsets.only(top: 10),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: e,
-                    ),
-                  ))
-              .toList(),
+  Widget _buildChild(Widget child, bool small) {
+    if (small || !widget.wrapPageWithCard(small)) return child;
+
+    return Card(
+      margin: const EdgeInsets.only(top: 10),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: child,
+      ),
     );
   }
+
+  Widget tabView(List<Widget> widgets, bool small) {
+    var tabs = TabBarView(
+      physics: const NeverScrollableScrollPhysics(),
+      children: widgets.map((e) => _buildChild(e, small)).toList(),
+    );
+    if (widget.navigator != null) {
+      return Navigator(
+        onPopPage: widget.navigator!.onPopPage ?? (route, result) => false,
+        key: navigatorKey,
+        pages: [
+          MaterialPage(child: tabs),
+          ...widget.navigator!.pages,
+        ],
+      );
+    } else {
+      return tabs;
+    }
+  }
+}
+
+class NavigatorOptions {
+  final List<Page<dynamic>> pages;
+  final bool reportsRouteUpdateToEngine;
+  final List<NavigatorObserver> observers;
+  final GlobalKey<NavigatorState> Function()? initState;
+  final bool Function(Route<dynamic>, dynamic)? onPopPage;
+  final Function()? dispose;
+
+  NavigatorOptions({
+    this.pages = const [],
+    this.reportsRouteUpdateToEngine = false,
+    this.observers = const [],
+    this.initState,
+    this.onPopPage,
+    this.dispose,
+  });
 }

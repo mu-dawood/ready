@@ -146,16 +146,32 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
   CircularRevealController? controller;
   ReadyFormConfig? get config => ReadyFormConfig.of(context);
 
-  final ValueNotifier<FormSubmitState> _state = ValueNotifier<FormSubmitState>(
-    FormSubmitState(
-      submitActions: [],
-      submitErrors: {},
-      submitting: false,
-    ),
-  );
+  late ValueNotifier<FormSubmitState> _state;
 
   @override
   FormSubmitState get submitState => _state.value;
+
+  @override
+  void initState() {
+    _state = ValueNotifier<FormSubmitState>(FormSubmitState(
+      submitActions: [],
+      submitErrors: {},
+      submitting: false,
+    ));
+    _state.addListener(_onValueChanged);
+    super.initState();
+  }
+
+  void _onValueChanged() {
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _state.removeListener(_onValueChanged);
+    _state.dispose();
+    super.dispose();
+  }
 
   @override
   bool validate() {
@@ -269,8 +285,10 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
 
   @override
   Future<bool> onSubmit() async {
-    var action =
-        SubmitActions(isValid: true, isSubmitting: _state.value.submitting);
+    var action = SubmitActions(
+      isValid: true,
+      isSubmitting: _state.value.submitting,
+    );
     if (action.isSubmitting) {
       _state.value = _state.value
           .copyWith(submitActions: [..._state.value.submitActions, action]);
@@ -288,7 +306,6 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
         ..._state.value.submitActions,
         action.copyWith(isValid: false)
       ]);
-
       await _moveToFirstInvalid();
       return false;
     }
@@ -366,7 +383,7 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
     }
   }
 
-  AutovalidateMode? _getAutoValidateMode() {
+  AutovalidateMode? _getAutoValidateMode(FormSubmitState state) {
     var mode = config?.autoValidateMode ?? widget.autoValidateMode;
     if (mode == null) return null;
     switch (mode) {
@@ -377,7 +394,7 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
       case FormAutoValidateMode.onUserInteraction:
         return AutovalidateMode.onUserInteraction;
       case FormAutoValidateMode.onSubmit:
-        return _state.value.submitActions.isEmpty
+        return state.submitActions.isEmpty
             ? AutovalidateMode.disabled
             : AutovalidateMode.always;
     }
@@ -416,7 +433,7 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
           );
           return res == "yes";
         },
-        autovalidateMode: _getAutoValidateMode(),
+        autovalidateMode: _getAutoValidateMode(_state.value),
         child: widget.child,
       ),
     );

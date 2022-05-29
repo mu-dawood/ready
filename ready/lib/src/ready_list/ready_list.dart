@@ -194,10 +194,14 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
   @override
   void didChangeDependencies() {
     state.whenOrNull(
-      initializing: () {
+      initializing: (value, _) {
+        if (!value) return;
         var configuration =
             _ReadyListConfigOptionsDefaults.effective(widget, context);
-        widget.controller.requestFirstLoading(configuration.pageSize);
+
+        widget.controller.emit(ReadyListState.requestFirstLoading(
+          pageSize: configuration.pageSize,
+        ));
       },
     );
     super.didChangeDependencies();
@@ -206,10 +210,14 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
   @override
   void didUpdateWidget(covariant ReadyList<T, TController> oldWidget) {
     state.whenOrNull(
-      initializing: () {
+      initializing: (value, _) {
+        if (!value) return;
         var configuration =
             _ReadyListConfigOptionsDefaults.effective(widget, context);
-        widget.controller.requestFirstLoading(configuration.pageSize);
+
+        widget.controller.emit(ReadyListState.requestFirstLoading(
+          pageSize: configuration.pageSize,
+        ));
       },
     );
     super.didUpdateWidget(oldWidget);
@@ -250,8 +258,12 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
                         if (scrollInfo.metrics.pixels >=
                             scrollInfo.metrics.maxScrollExtent - 200) {
                           if (configuration.allowLoadNext) {
-                            widget.controller
-                                .requestNext(configuration.pageSize);
+                            widget.controller.emit(
+                              ReadyListState.requestNext(
+                                  pageSize: configuration.pageSize,
+                                  items: items,
+                                  totalCount: total),
+                            );
                           }
                         }
                       }
@@ -273,14 +285,20 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
     );
   }
 
-  Future _onRefresh(_ReadyListConfigOptionsDefaults configuration) async {
-    state.maybeMap(
-      orElse: () => true,
-      isLoaded: (_) {
+  Future _onRefresh(_ReadyListConfigOptionsDefaults configuration) {
+    return state.maybeMap<Future>(
+      orElse: () => Future.value(),
+      isLoaded: (state) {
         var isVisible = Ready.isVisible(context);
         if (isVisible) {
-          (widget.controller).requestRefresh(configuration.pageSize);
+          widget.controller.emit(ReadyListState.requestRefresh(
+            pageSize: configuration.pageSize,
+            items: state.items,
+            totalCount: state.totalCount,
+          ));
+          return widget.controller.stream.first;
         }
+        return Future.value();
       },
     );
   }
@@ -367,17 +385,13 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
                   error: (state) => _buildPlaceholders(
                       shrinkWrap, configuration, false, state.display(context)),
                   isRefreshing: (state) => _buildBody(
-                      constraints,
-                      configuration,
-                      _filteredItems(state.oldState.oldState.items)),
-                  requestRefresh: (state) => _buildBody(constraints,
-                      configuration, _filteredItems(state.oldState.items)),
+                      constraints, configuration, _filteredItems(state.items)),
+                  requestRefresh: (state) => _buildBody(
+                      constraints, configuration, _filteredItems(state.items)),
                   isLoadingNext: (state) => _buildBody(
-                      constraints,
-                      configuration,
-                      _filteredItems(state.oldState.oldState.items)),
-                  requestNext: (state) => _buildBody(constraints, configuration,
-                      _filteredItems(state.oldState.items)),
+                      constraints, configuration, _filteredItems(state.items)),
+                  requestNext: (state) => _buildBody(
+                      constraints, configuration, _filteredItems(state.items)),
                   isLoaded: (state) => _buildBody(
                       constraints, configuration, _filteredItems(state.items)),
                 ),
@@ -481,13 +495,23 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
       config: configuration.placeholdersConfig,
       onReload: ctrl.state.mapOrNull(
         error: (_) {
-          return () => ctrl.requestFirstLoading(configuration.pageSize);
+          return () =>
+              widget.controller.emit(ReadyListState.requestFirstLoading(
+                pageSize: configuration.pageSize,
+              ));
         },
         isEmpty: (_) {
-          return () => ctrl.requestFirstLoading(configuration.pageSize);
+          return () =>
+              widget.controller.emit(ReadyListState.requestFirstLoading(
+                pageSize: configuration.pageSize,
+              ));
         },
-        isLoaded: (_) {
-          return () => ctrl.requestRefresh(configuration.pageSize);
+        isLoaded: (state) {
+          return () => ctrl.emit(ReadyListState.requestRefresh(
+                pageSize: configuration.pageSize,
+                totalCount: state.totalCount,
+                items: state.items,
+              ));
         },
       ),
     );

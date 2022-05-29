@@ -22,9 +22,11 @@ class _DataTableState<T, TController extends ReadyListController<T>>
   @override
   void initState() {
     widget.source.controller.state.whenOrNull(
-      initializing: () {
-        widget.source.controller
-            .requestFirstLoading(widget.source.paging.rowsPerPage);
+      initializing: (value, _) {
+        if (!value) return;
+        widget.source.controller.emit(ReadyListState.requestFirstLoading(
+          pageSize: widget.source.paging.rowsPerPage,
+        ));
       },
     );
     super.initState();
@@ -33,9 +35,11 @@ class _DataTableState<T, TController extends ReadyListController<T>>
   @override
   void didUpdateWidget(covariant _DataTable<T, TController> oldWidget) {
     widget.source.controller.state.whenOrNull(
-      initializing: () {
-        widget.source.controller
-            .requestFirstLoading(widget.source.paging.rowsPerPage);
+      initializing: (value, _) {
+        if (!value) return;
+        widget.source.controller.emit(ReadyListState.requestFirstLoading(
+          pageSize: widget.source.paging.rowsPerPage,
+        ));
       },
     );
     super.didUpdateWidget(oldWidget);
@@ -145,13 +149,21 @@ class _DataTableState<T, TController extends ReadyListController<T>>
       onRefresh: () {
         controller.state.mapOrNull(
           isEmpty: (_) {
-            controller.requestFirstLoading(widget.source.paging.rowsPerPage);
+            widget.source.controller.emit(ReadyListState.requestFirstLoading(
+              pageSize: widget.source.paging.rowsPerPage,
+            ));
           },
           error: (e) {
-            controller.requestFirstLoading(widget.source.paging.rowsPerPage);
+            widget.source.controller.emit(ReadyListState.requestFirstLoading(
+              pageSize: widget.source.paging.rowsPerPage,
+            ));
           },
-          isLoaded: (_) {
-            controller.requestRefresh(widget.source.paging.rowsPerPage);
+          isLoaded: (state) {
+            widget.source.controller.emit(ReadyListState.requestRefresh(
+              pageSize: widget.source.paging.rowsPerPage,
+              items: state.items,
+              totalCount: state.totalCount,
+            ));
           },
         );
       },

@@ -8,150 +8,146 @@ abstract class ICancelToken {
 }
 
 mixin IRemoteResult<T> on ReadyListState<T> {}
-mixin ILoadedState<T> on ReadyListState<T> {
-  Iterable<T> get items;
-  int get total;
-}
-
-mixin IFirstLoadingRequest<T> on ReadyListState<T> {
-  int? get pageSize;
-  ReadyListState<T> get oldState;
-}
-mixin ILoadingNextRequest<T> on ReadyListState<T> {
-  int? get pageSize;
-  ILoadedState<T> get oldState;
-}
-mixin IRefreshRequest<T> on ReadyListState<T> {
-  int? get pageSize;
-  ILoadedState<T> get oldState;
-}
 
 @freezed
 class ReadyListState<T> with _$ReadyListState<T> {
+  /// create a loaded state
+  static IRemoteResult<T> createLoaded<T>({
+    required final Iterable<T> items,
+    required final int totalCount,
+    final ReadyListState<T>? oldState,
+  }) {
+    return Loaded(
+      items: items,
+      totalCount: totalCount,
+      oldState: oldState,
+    );
+  }
+
+  /// creates an empty state
+  static IRemoteResult<T> createEmpty<T>([ReadyListState<T>? oldState]) {
+    return Empty(oldState);
+  }
+
+  /// creates an error state
+  static IRemoteResult<T> createError<T>(String error,
+      [ReadyListState<T>? oldState]) {
+    return ErrorState((ctx) => error, oldState);
+  }
+
+  /// creates an error state
+  static IRemoteResult<T> createErrorWith<T>(
+      String Function(BuildContext) display,
+      [ReadyListState<T>? oldState]) {
+    return ErrorState<T>(display, oldState);
+  }
+
   /// use this if you need to wait for something
   /// and then use needFirstLoading to load the first state
-  const factory ReadyListState.initializing() = Initializing<T>;
+  const factory ReadyListState.initializing({
+    @Default(true) bool requestFirstLoading,
+    dynamic args,
+  }) = Initializing<T>;
 
   /// when there is no data
-  @Implements<IRemoteResult<T>>()
+  /// *************************************************************************
+  /// @Implements<IRemoteResult<T>>()
   const factory ReadyListState.isEmpty([ReadyListState<T>? oldState]) =
       Empty<T>;
 
   /// when there is any error
-  @Implements<IRemoteResult<T>>()
+  /// *************************************************************************
+  /// @Implements<IRemoteResult<T>>()
   const factory ReadyListState.error(ErrorDisplayCallBack display,
       [ReadyListState<T>? oldState]) = ErrorState<T>;
 
   /// loading first time
   const factory ReadyListState.isLoadingFirst({
     ICancelToken? cancelToken,
-    required IFirstLoadingRequest<T> oldState,
+    int? pageSize,
   }) = FirstLoading<T>;
 
   /// when loading next data
   const factory ReadyListState.isLoadingNext({
     ICancelToken? cancelToken,
-    required ILoadingNextRequest<T> oldState,
+    int? pageSize,
+    required Iterable<T> items,
+    required int totalCount,
   }) = LoadingNext<T>;
 
   /// refreshing data
   const factory ReadyListState.isRefreshing({
     ICancelToken? cancelToken,
-    required IRefreshRequest<T> oldState,
+    int? pageSize,
+    required Iterable<T> items,
+    required int totalCount,
   }) = Refreshing<T>;
 
   /// data loaded
-  @Implements<IRemoteResult<T>>()
-  @Implements<ILoadedState<T>>()
+  /// *************************************************************************
+  /// @Implements<IRemoteResult<T>>()
   const factory ReadyListState.isLoaded({
     required Iterable<T> items,
-    required int total,
+    required int totalCount,
     ReadyListState<T>? oldState,
   }) = Loaded<T>;
 
   /// this will fire next loading
-  @Implements<ILoadingNextRequest<T>>()
+  /// *************************************************************************
   const factory ReadyListState.requestNext({
     int? pageSize,
-    required ILoadedState<T> oldState,
+    required Iterable<T> items,
+    required int totalCount,
   }) = RequestNext<T>;
 
   /// this will fire refresh
-  @Implements<IRefreshRequest<T>>()
+  /// *************************************************************************
   const factory ReadyListState.requestRefresh({
     int? pageSize,
-    required ILoadedState<T> oldState,
+    required Iterable<T> items,
+    required int totalCount,
   }) = RequestRefresh<T>;
 
   /// this will fire first loading
-  @Implements<IFirstLoadingRequest<T>>()
+  /// *************************************************************************
   const factory ReadyListState.requestFirstLoading({
     int? pageSize,
-    required ReadyListState<T> oldState,
+    ReadyListState<T>? oldState,
   }) = RequestFirstLoading<T>;
 }
 
 extension ReadyStateExt<T> on ReadyListController<T> {
-  /// emit first loading state
-  void requestFirstLoading([int? pageSize]) {
-    emit(ReadyListState.requestFirstLoading(
-      pageSize: pageSize,
-      oldState: state,
-    ));
-  }
+  // /// creates  first loading state
+  // RequestFirstLoading<T> createRequestFirstLoading([int? pageSize]) {
+  //   return RequestFirstLoading<T>(
+  //     pageSize: pageSize,
+  //     oldState: state,
+  //   );
+  // }
 
-  /// create a loaded state
-  Loaded<T> loaded({
-    required final Iterable<T> items,
-    required final int total,
-    final ReadyListState<T>? oldState,
-  }) {
-    return Loaded(
-      items: items,
-      total: total,
-      oldState: oldState,
-    );
-  }
+  // /// emit refresh state
+  // RequestRefresh<T> createRequestRefresh({
+  //   int? pageSize,
+  //   required Iterable<T> items,
+  //   required int totalCount,
+  // }) {
+  //   return RequestRefresh<T>(
+  //     pageSize: pageSize,
+  //     items: items,
+  //     totalCount: totalCount,
+  //   );
+  // }
 
-  /// creates an empty state
-  Empty<T> empty([ReadyListState<T>? oldState]) {
-    return Empty(oldState);
-  }
-
-  /// creates an error state
-  ErrorState<T> error(String error, [ReadyListState<T>? oldState]) {
-    return ErrorState((ctx) => error, oldState);
-  }
-
-  /// creates an error state
-  ErrorState<T> errorWith(String Function(BuildContext) display,
-      [ReadyListState<T>? oldState]) {
-    return ErrorState(display, oldState);
-  }
-
-  /// emit refresh state
-  void requestRefresh([int? pageSize]) {
-    state.maybeMap(
-      isLoaded: (value) {
-        emit(
-            ReadyListState.requestRefresh(pageSize: pageSize, oldState: value));
-      },
-      orElse: () => throw Exception(
-          'requestRefresh can only be called when state is Loaded'),
-    );
-  }
-
-  /// emit next loading state
-  void requestNext([int? pageSize]) {
-    state.maybeMap(
-      isLoaded: (value) {
-        emit(ReadyListState.requestNext(
-          pageSize: pageSize,
-          oldState: value,
-        ));
-      },
-      orElse: () => throw Exception(
-          'requestRefresh can only be called when state is Loaded'),
-    );
-  }
+  // /// emit next loading state
+  // RequestNext<T> createRequestNext({
+  //   int? pageSize,
+  //   required Iterable<T> items,
+  //   required int totalCount,
+  // }) {
+  //   return RequestNext<T>(
+  //     pageSize: pageSize,
+  //     items: items,
+  //     totalCount: totalCount,
+  //   );
+  // }
 }

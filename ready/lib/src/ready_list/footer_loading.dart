@@ -20,11 +20,15 @@ class _FooterLoading<T, TController extends ReadyListController<T>>
     return state.maybeMap(
       orElse: () => _buildNone(),
       isLoaded: (state) {
-        if (state.items.length < state.total) {
+        if (state.items.length < state.totalCount) {
           return _buildWidget(
             TextButton(
               onPressed: () {
-                controller.requestNext(config.pageSize);
+                controller.emit(ReadyListState.requestNext(
+                  pageSize: config.pageSize,
+                  items: state.items,
+                  totalCount: state.totalCount,
+                ));
               },
               child: Text(config.loadMoreText),
             ),

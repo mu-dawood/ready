@@ -166,7 +166,7 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
     DashboardItem selected,
     List<DashboardItem> exp,
   ) {
-    if (item.builder != null) {
+    if (item.hasBuilder) {
       return ListTile(
         onTap: () {
           DefaultTabController.of(context)?.index = exp.indexOf(item);

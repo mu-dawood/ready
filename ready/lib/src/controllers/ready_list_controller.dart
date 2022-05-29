@@ -4,50 +4,47 @@ abstract class ReadyListController<T> {
   /// The current state
   ReadyListState<T> get state;
 
-  /// The stream to listen
+  /// The stream to listen please use broadcast stream to allow multiple listeners
   Stream<ReadyListState<T>> get stream;
 
   /// emitting new state to stream
   void emit(ReadyListState<T> state);
-
-  /// called on every change of state
-  void notifyListeners();
 }
 
 extension ReadyListControllerExt<T> on ReadyListController<T> {
   void addItem(T item) {
     state.whenOrNull(
-      isLoaded: (items, total, _) {
-        emit(
-            ReadyListState.isLoaded(items: [...items, item], total: total + 1));
+      isLoaded: (items, totalCount, _) {
+        emit(ReadyListState.isLoaded(
+            items: [...items, item], totalCount: totalCount + 1));
       },
     );
   }
 
   void addItems(Iterable<T> items) {
     state.whenOrNull(
-      isLoaded: (itm, total, _) {
+      isLoaded: (itm, totalCount, _) {
         emit(ReadyListState.isLoaded(
-            items: [...itm, ...items], total: total + items.length));
+            items: [...itm, ...items], totalCount: totalCount + items.length));
       },
     );
   }
 
   void insertItem(T item) {
     state.whenOrNull(
-      isLoaded: (items, total, _) {
-        emit(
-            ReadyListState.isLoaded(items: [item, ...items], total: total + 1));
+      isLoaded: (items, totalCount, _) {
+        emit(ReadyListState.isLoaded(
+            items: [item, ...items], totalCount: totalCount + 1));
       },
     );
   }
 
   void insertItems(Iterable<T> items) {
     state.whenOrNull(
-      isLoaded: (itm, total, _) {
+      isLoaded: (itm, totalCount, _) {
         emit(ReadyListState.isLoaded(
           items: [...items, ...itm],
-          total: total + items.length,
+          totalCount: totalCount + items.length,
         ));
       },
     );
@@ -55,12 +52,13 @@ extension ReadyListControllerExt<T> on ReadyListController<T> {
 
   void removeItem(T item) {
     state.whenOrNull(
-      isLoaded: (items, total, _) {
+      isLoaded: (items, totalCount, _) {
         var newValue = items.where((element) => element != item);
         if (newValue.isEmpty) {
           emit(const ReadyListState.isEmpty());
         } else {
-          emit(ReadyListState.isLoaded(items: newValue, total: total - 1));
+          emit(ReadyListState.isLoaded(
+              items: newValue, totalCount: totalCount - 1));
         }
       },
     );
@@ -68,13 +66,13 @@ extension ReadyListControllerExt<T> on ReadyListController<T> {
 
   void removeItems(Iterable<T> items) {
     state.whenOrNull(
-      isLoaded: (itm, total, _) {
+      isLoaded: (itm, totalCount, _) {
         var newValue = itm.where((a) => !items.any((b) => a == b));
         if (newValue.isEmpty) {
           emit(const ReadyListState.isEmpty());
         } else {
           emit(ReadyListState.isLoaded(
-              items: newValue, total: total - items.length));
+              items: newValue, totalCount: totalCount - items.length));
         }
       },
     );
@@ -82,13 +80,14 @@ extension ReadyListControllerExt<T> on ReadyListController<T> {
 
   void removeItemAt(int index) {
     state.whenOrNull(
-      isLoaded: (items, total, _) {
+      isLoaded: (items, totalCount, _) {
         var newValue =
             items.where((element) => element != items.elementAt(index));
         if (newValue.isEmpty) {
           emit(const ReadyListState.isEmpty());
         } else {
-          emit(ReadyListState.isLoaded(items: newValue, total: total - 1));
+          emit(ReadyListState.isLoaded(
+              items: newValue, totalCount: totalCount - 1));
         }
       },
     );
@@ -96,14 +95,14 @@ extension ReadyListControllerExt<T> on ReadyListController<T> {
 
   void removeItemsAt(List<int> indexes) {
     state.whenOrNull(
-      isLoaded: (items, total, _) {
+      isLoaded: (items, totalCount, _) {
         var newValue =
             items.where((a) => !indexes.any((i) => a == items.elementAt(i)));
         if (newValue.isEmpty) {
           emit(const ReadyListState.isEmpty());
         } else {
           emit(ReadyListState.isLoaded(
-              items: newValue, total: total - items.length));
+              items: newValue, totalCount: totalCount - items.length));
         }
       },
     );
@@ -111,13 +110,13 @@ extension ReadyListControllerExt<T> on ReadyListController<T> {
 
   void removeWhere(bool Function(T) test) {
     state.whenOrNull(
-      isLoaded: (items, total, _) {
+      isLoaded: (items, totalCount, _) {
         var newValue = items.where((a) => !test(a));
         if (newValue.isEmpty) {
           emit(const ReadyListState.isEmpty());
         } else {
           emit(ReadyListState.isLoaded(
-              items: newValue, total: total - items.length));
+              items: newValue, totalCount: totalCount - items.length));
         }
       },
     );
@@ -125,21 +124,21 @@ extension ReadyListControllerExt<T> on ReadyListController<T> {
 
   void mapTo(T Function(T) test) {
     state.whenOrNull(
-      isLoaded: (items, total, _) {
+      isLoaded: (items, totalCount, _) {
         var newValue = items.map((a) => test(a));
         if (newValue.isEmpty) {
           emit(const ReadyListState.isEmpty());
         } else {
           emit(ReadyListState.isLoaded(
-              items: newValue, total: total - items.length));
+              items: newValue, totalCount: totalCount - items.length));
         }
       },
     );
   }
 
-  void empty(List<int> indexes) {
+  void clear(List<int> indexes) {
     state.whenOrNull(
-      isLoaded: (items, total, _) {
+      isLoaded: (items, totalCount, _) {
         emit(const ReadyListState.isEmpty());
       },
     );
