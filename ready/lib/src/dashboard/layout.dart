@@ -8,6 +8,7 @@ class ReadyDashboard extends StatefulWidget {
   final EdgeInsetsGeometry Function(bool phone) padding;
   final bool Function(bool phone) wrapPageWithCard;
   final bool iconsWhenCollapsedInDesktop;
+  final ValueChanged<String>? onPageChanged;
 
   /// if passed will add a navigator around the entire dashboard
   final NavigatorOptions? navigator;
@@ -26,6 +27,7 @@ class ReadyDashboard extends StatefulWidget {
     this.wrapPageWithCard = _wrapPageWithCard,
     this.iconsWhenCollapsedInDesktop = false,
     this.navigator,
+    this.onPageChanged,
     this.actions = const [],
   })  : assert(items.isNotEmpty),
         super(key: key);
@@ -63,10 +65,8 @@ class _ReadyDashboardState extends State<ReadyDashboard>
     with TickerProviderStateMixin {
   late AnimationController expansionController;
   late FocusNode _focusNode;
-  GlobalKey<NavigatorState>? navigatorKey;
   @override
   void initState() {
-    navigatorKey = widget.navigator?.initState?.call();
     _focusNode = FocusNode();
     expansionController = AnimationController(
       vsync: this,
@@ -78,7 +78,6 @@ class _ReadyDashboardState extends State<ReadyDashboard>
 
   @override
   void dispose() {
-    widget.navigator?.dispose?.call();
     _focusNode.dispose();
     expansionController.dispose();
     super.dispose();
@@ -104,105 +103,114 @@ class _ReadyDashboardState extends State<ReadyDashboard>
 
   @override
   Widget build(BuildContext context) {
-    var widgets = <Widget>[
+    var widgets = <PageInfo>[
       for (var item in widget.items) ...children(item),
     ];
     return DefaultTabController(
       length: widgets.length,
       initialIndex: widget.initialIndex ?? 0,
-      child: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          var width = constraints.maxWidth;
-          if (width == double.infinity) {
-            width = MediaQuery.of(context).size.width;
-          }
-          var layout = Utils.detectLayout(width);
+      child: TabControllerListener(
+        onPageChanged: (int index) {
+          widget.onPageChanged?.call(widgets[index]._item!.id);
+        },
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            var width = constraints.maxWidth;
+            if (width == double.infinity) {
+              width = MediaQuery.of(context).size.width;
+            }
+            var layout = Utils.detectLayout(width);
 
-          var small = _isSmall(width);
-          bool iconsWhenCollapsed = widget.iconsWhenCollapsedInDesktop;
-          return Scaffold(
-            drawer: small
-                ? _DashBoardDrawer(
-                    isDesktop: false,
-                    controller: expansionController,
-                    collapsed: false,
-                    options: widget.drawerOptions(small),
-                  )
-                : null,
-            body: Padding(
-              padding: widget.padding(small),
-              child: AnimatedBuilder(
-                  animation: expansionController,
-                  builder: (context, _) {
-                    return Stack(
-                      children: [
-                        PositionedDirectional(
-                          top: 0,
-                          bottom: 0,
-                          start: Tween<double>(
-                            begin: small ? 0 : 300,
-                            end: iconsWhenCollapsed ? 75 : 0,
-                          ).transform(expansionController.value),
-                          end: 0,
-                          child: NestedScrollView(
-                            body: tabView(widgets, small),
-                            headerSliverBuilder: (BuildContext context,
-                                bool innerBoxIsScrolled) {
-                              return [
-                                SliverOverlapAbsorber(
-                                  handle: NestedScrollView
-                                      .sliverOverlapAbsorberHandleFor(context),
-                                  sliver: _DashBoardAppBar(
-                                    focusNode: _focusNode,
-                                    drawerOptions: widget.drawerOptions(small),
-                                    appBarOptions: widget.appBarOptions(small),
-                                    mergeActions: layout == LayoutType.small ||
-                                        layout == LayoutType.xSmall,
-                                    drawerIcon:
-                                        (expansionController.value == 0 &&
-                                                    !iconsWhenCollapsed) ||
-                                                small
-                                            ? _DrawerIcon(
-                                                expansion: expansionController)
-                                            : null,
-                                    innerBoxIsScrolled: innerBoxIsScrolled,
-                                  ),
-                                )
-                              ];
-                            },
-                          ),
-                        ),
-                        if (!small)
+            var small = _isSmall(width);
+            bool iconsWhenCollapsed = widget.iconsWhenCollapsedInDesktop;
+            return Scaffold(
+              drawer: small
+                  ? _DashBoardDrawer(
+                      isDesktop: false,
+                      controller: expansionController,
+                      collapsed: false,
+                      options: widget.drawerOptions(small),
+                    )
+                  : null,
+              body: Padding(
+                padding: widget.padding(small),
+                child: AnimatedBuilder(
+                    animation: expansionController,
+                    builder: (context, _) {
+                      return Stack(
+                        children: [
                           PositionedDirectional(
                             top: 0,
                             bottom: 0,
-                            width: Tween(
-                              begin: 300.0,
-                              end: !iconsWhenCollapsed ? 300.0 : 75.0,
+                            start: Tween<double>(
+                              begin: small ? 0 : 300,
+                              end: iconsWhenCollapsed ? 75 : 0,
                             ).transform(expansionController.value),
-                            start: Tween(
-                              begin: 0.0,
-                              end: !iconsWhenCollapsed ? -300.0 : 0.0,
-                            ).transform(expansionController.value),
-                            child: Material(
-                              child: _DashBoardDrawer(
-                                controller: expansionController,
-                                isDesktop: true,
-                                options: widget.drawerOptions(small),
-                                collapsed: iconsWhenCollapsed
-                                    ? (expansionController.value == 1.0 ||
-                                        expansionController.status ==
-                                            AnimationStatus.forward)
-                                    : false,
-                              ),
+                            end: 0,
+                            child: NestedScrollView(
+                              body: tabView(widgets, small),
+                              headerSliverBuilder: (BuildContext context,
+                                  bool innerBoxIsScrolled) {
+                                return [
+                                  SliverOverlapAbsorber(
+                                    handle: NestedScrollView
+                                        .sliverOverlapAbsorberHandleFor(
+                                            context),
+                                    sliver: _DashBoardAppBar(
+                                      focusNode: _focusNode,
+                                      drawerOptions:
+                                          widget.drawerOptions(small),
+                                      appBarOptions:
+                                          widget.appBarOptions(small),
+                                      mergeActions:
+                                          layout == LayoutType.small ||
+                                              layout == LayoutType.xSmall,
+                                      drawerIcon: (expansionController.value ==
+                                                      0 &&
+                                                  !iconsWhenCollapsed) ||
+                                              small
+                                          ? _DrawerIcon(
+                                              expansion: expansionController)
+                                          : null,
+                                      innerBoxIsScrolled: innerBoxIsScrolled,
+                                    ),
+                                  )
+                                ];
+                              },
                             ),
                           ),
-                      ],
-                    );
-                  }),
-            ),
-          );
-        },
+                          if (!small)
+                            PositionedDirectional(
+                              top: 0,
+                              bottom: 0,
+                              width: Tween(
+                                begin: 300.0,
+                                end: !iconsWhenCollapsed ? 300.0 : 75.0,
+                              ).transform(expansionController.value),
+                              start: Tween(
+                                begin: 0.0,
+                                end: !iconsWhenCollapsed ? -300.0 : 0.0,
+                              ).transform(expansionController.value),
+                              child: Material(
+                                child: _DashBoardDrawer(
+                                  controller: expansionController,
+                                  isDesktop: true,
+                                  options: widget.drawerOptions(small),
+                                  collapsed: iconsWhenCollapsed
+                                      ? (expansionController.value == 1.0 ||
+                                          expansionController.status ==
+                                              AnimationStatus.forward)
+                                      : false,
+                                ),
+                              ),
+                            ),
+                        ],
+                      );
+                    }),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -211,11 +219,12 @@ class _ReadyDashboardState extends State<ReadyDashboard>
     return base == fragment;
   }
 
-  List<Widget> children(DashboardItem e, [TextSpan? parent]) {
+  List<PageInfo> children(DashboardItem e, [TextSpan? parent]) {
     if (e.hasBuilder) {
       return [
         PageInfo(
           item: e,
+          navigator: widget.navigator,
           titleSpans: [
             if (parent != null) ...[
               parent,
@@ -248,38 +257,24 @@ class _ReadyDashboardState extends State<ReadyDashboard>
   }
 
   Widget tabView(List<Widget> widgets, bool small) {
-    var tabs = TabBarView(
+    return TabBarView(
       physics: const NeverScrollableScrollPhysics(),
-      children: widgets.map((e) => _buildChild(e, small)).toList(),
+      children: widgets.map<Widget>((e) => _buildChild(e, small)).toList(),
     );
-    if (widget.navigator != null) {
-      return Navigator(
-        onPopPage: widget.navigator!.onPopPage ?? (route, result) => false,
-        key: navigatorKey,
-        pages: [
-          MaterialPage(child: tabs),
-          ...widget.navigator!.pages,
-        ],
-      );
-    } else {
-      return tabs;
-    }
   }
 }
 
 class NavigatorOptions {
-  final List<Page<dynamic>> pages;
   final bool reportsRouteUpdateToEngine;
   final List<NavigatorObserver> observers;
-  final GlobalKey<NavigatorState> Function()? initState;
-  final bool Function(Route<dynamic>, dynamic)? onPopPage;
-  final Function()? dispose;
+  final GlobalKey<NavigatorState> Function(String id)? getNavigatorKey;
+  final bool Function(String id, Route<dynamic>, dynamic)? onPopPage;
+  final Function(String id)? dispose;
 
   NavigatorOptions({
-    this.pages = const [],
     this.reportsRouteUpdateToEngine = false,
     this.observers = const [],
-    this.initState,
+    this.getNavigatorKey,
     this.onPopPage,
     this.dispose,
   });

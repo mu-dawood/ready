@@ -199,7 +199,7 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
   Widget _tileListView(
       BuildContext context, List<DashboardItem> items, DrawerOptions options) {
     var exp = expanded(items);
-    return TabControllerListener(
+    return TabControllerBuilder(
       builder: (int index) {
         var selectedItem = exp[index];
         if (options.buildDesktop != null && widget.isDesktop) {

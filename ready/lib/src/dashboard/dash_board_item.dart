@@ -12,7 +12,6 @@ class DashboardItem {
   final void Function(String? value)? search;
   final AppBarOptions? appBarOptions;
   final List<DashboardItem> subItems;
-  final NavigatorOptions? navigator;
 
   /// {@macro flutter.material.appBar.actions}
   ///
@@ -27,7 +26,6 @@ class DashboardItem {
     required this.builder,
     required this.icon,
     this.appBarOptions,
-    this.navigator,
     this.selectedIcon,
     this.search,
     this.overrideActions = false,
@@ -43,7 +41,6 @@ class DashboardItem {
         id = '',
         builder = _sizedBox,
         search = null,
-        navigator = null,
         overrideActions = false,
         actions = const [];
 }
@@ -52,10 +49,12 @@ class PageInfo extends StatefulWidget {
   final DashboardItem? _item;
   final List<TextSpan> titleSpans;
   final Widget? _child;
+  final NavigatorOptions? navigator;
   const PageInfo({
     Key? key,
     required DashboardItem item,
     required this.titleSpans,
+    required this.navigator,
   })  : _child = null,
         _item = item,
         super(key: key);
@@ -65,6 +64,7 @@ class PageInfo extends StatefulWidget {
     required this.titleSpans,
   })  : _child = child,
         _item = null,
+        navigator = null,
         super(key: key);
   @override
   State<PageInfo> createState() => _PageInfoState();
@@ -77,15 +77,14 @@ class _PageInfoState extends State<PageInfo> {
   GlobalKey<NavigatorState>? navigatorKey;
   @override
   void initState() {
-    navigatorKey = widget._item?.navigator?.initState?.call();
+    navigatorKey = widget.navigator?.getNavigatorKey?.call(widget._item!.id);
 
     super.initState();
   }
 
   @override
   void dispose() {
-    widget._item?.navigator?.dispose?.call();
-
+    widget.navigator?.dispose?.call(widget._item!.id);
     super.dispose();
   }
 
@@ -95,14 +94,12 @@ class _PageInfoState extends State<PageInfo> {
     if (item == null) {
       return widget._child ?? const SizedBox();
     }
-    if (item.navigator != null) {
+    if (widget.navigator != null) {
       return Navigator(
-        onPopPage: item.navigator!.onPopPage ?? (route, result) => false,
+        onPopPage: (route, result) =>
+            widget.navigator!.onPopPage?.call(item.id, route, result) ?? true,
         key: navigatorKey,
-        pages: [
-          MaterialPage(child: item.builder()),
-          ...item.navigator!.pages,
-        ],
+        pages: [MaterialPage(child: item.builder())],
       );
     } else {
       return item.builder();

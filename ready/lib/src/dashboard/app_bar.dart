@@ -236,7 +236,7 @@ class _DashBoardAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     var options = ReadyDashboard.of(context)!;
 
-    return TabControllerListener(
+    return TabControllerBuilder(
       builder: (int index) {
         var val = [
           for (var item in options.items) ...items(item),
