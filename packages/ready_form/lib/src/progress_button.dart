@@ -84,7 +84,7 @@ class ProgressButton extends StatefulWidget {
 
 class _ProgressButtonState extends State<ProgressButton> {
   bool _loading = false;
-  final GlobalKey _bottomKey = GlobalKey();
+  final GlobalKey _childKey = GlobalKey();
   double? _nextSize;
   ButtonStyle style(BuildContext context) {
     var style = widget.style ??
@@ -95,23 +95,8 @@ class _ProgressButtonState extends State<ProgressButton> {
       animationDuration: duration(context),
       backgroundColor: _loading.onTrue(MaterialStateProperty.all(bgColor)),
       side: _loading.onTrue(MaterialStateProperty.all(BorderSide.none)),
-      padding:
-          _loading.onTrue(MaterialStateProperty.all(const EdgeInsets.all(5))),
       fixedSize: _loading.onTrue(MaterialStateProperty.all(null)),
-      minimumSize: _loading.onTrue(MaterialStateProperty.all(
-        _nextSize == null
-            ? Size.zero
-            : Size(
-                _nextSize! + 10,
-                _nextSize! + 10,
-              ),
-      )),
-      visualDensity: _loading.onTrue(
-        const VisualDensity(
-          horizontal: VisualDensity.minimumDensity,
-          vertical: VisualDensity.minimumDensity,
-        ),
-      ),
+      minimumSize: _loading.onTrue(MaterialStateProperty.all(Size.zero)),
       shape: _loading.onTrue(
         MaterialStateProperty.all(
           RoundedRectangleBorder(
@@ -146,6 +131,7 @@ class _ProgressButtonState extends State<ProgressButton> {
         return ProgressIndicatorTheme(
           data: ProgressIndicatorTheme.of(context).copyWith(
             circularTrackColor: color,
+            linearTrackColor: color,
           ),
           child: widget.loadingIndicator ??
               config?.loadingIndicator ??
@@ -196,7 +182,10 @@ class _ProgressButtonState extends State<ProgressButton> {
         return SizedBox(
           width: _nextSize!,
           height: _nextSize!,
-          child: loadingIndicator(),
+          child: Transform.scale(
+            scale: 1.3,
+            child: loadingIndicator(),
+          ),
         );
       }
       return SizedBox(
@@ -207,12 +196,15 @@ class _ProgressButtonState extends State<ProgressButton> {
     }
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await Future.delayed(duration(context));
-      var size = _bottomKey.currentContext?.size;
-      if (size != null) {
-        _nextSize = min(size.width, size.height) - 10;
+      var childSize = _childKey.currentContext?.size;
+      if (childSize != null) {
+        _nextSize = min(childSize.width, childSize.height);
       }
     });
-    return widget.child;
+    return SizedBox(
+      key: _childKey,
+      child: widget.child,
+    );
   }
 
   Widget _child() {
@@ -249,10 +241,7 @@ class _ProgressButtonState extends State<ProgressButton> {
       );
     }
 
-    return SizedBox(
-      key: _bottomKey,
-      child: child,
-    );
+    return child;
   }
 
   void _completeAction(
