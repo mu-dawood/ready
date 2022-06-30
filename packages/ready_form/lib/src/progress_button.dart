@@ -17,7 +17,7 @@ class ProgressButtonKey {
       : _key.currentState
           ?._getCallBack(ProgressButtonConfig.of(_key.currentContext!))
           ?.call();
-  bool get isLoading => _key.currentState?._controller.isDismissed == false;
+  bool get isLoading => _key.currentState?._loading == true;
 }
 
 class ProgressButton extends StatefulWidget {
@@ -64,7 +64,7 @@ class ProgressButton extends StatefulWidget {
     ProgressButtonKey? key,
     this.onPressed,
     required this.child,
-    this.duration,
+    this.duration = const Duration(milliseconds: 400),
     this.clipBehavior,
     this.onCancelRequest,
     this.cancelRequestTitle,
@@ -82,110 +82,53 @@ class ProgressButton extends StatefulWidget {
   State<ProgressButton> createState() => _ProgressButtonState();
 }
 
-class _ProgressButtonState extends State<ProgressButton>
-    with TickerProviderStateMixin {
-  GlobalKey<State<ButtonStyleButton>> buttonKey =
-      GlobalKey<State<ButtonStyleButton>>();
-  GlobalKey key = GlobalKey();
-
-  late AnimationController _controller;
-  Animation<Size?>? _sizeAnimation;
-  Animation<MaterialStateProperty<EdgeInsetsGeometry?>?>? _paddingAnimation;
-  Animation<MaterialStateProperty<OutlinedBorder?>?>? _shapeAnimation;
-  Animation<VisualDensity?>? _visualDensityAnimation;
-  @override
-  void didChangeDependencies() {
-    _controller = AnimationController(
-      vsync: this,
-      duration: duration(ProgressButtonConfig.of(context)),
+class _ProgressButtonState extends State<ProgressButton> {
+  bool _loading = false;
+  final GlobalKey _bottomKey = GlobalKey();
+  double? _nextSize;
+  ButtonStyle style(BuildContext context) {
+    var style = widget.style ??
+        ProgressButtonConfig.of(context)?.style ??
+        const ButtonStyle();
+    var bgColor = Theme.of(context).progressIndicatorTheme.circularTrackColor;
+    return style.copyWith(
+      animationDuration: duration(context),
+      backgroundColor: _loading.onTrue(MaterialStateProperty.all(bgColor)),
+      side: _loading.onTrue(MaterialStateProperty.all(BorderSide.none)),
+      padding:
+          _loading.onTrue(MaterialStateProperty.all(const EdgeInsets.all(5))),
+      fixedSize: _loading.onTrue(MaterialStateProperty.all(null)),
+      minimumSize: _loading.onTrue(MaterialStateProperty.all(
+        _nextSize == null
+            ? Size.zero
+            : Size(
+                _nextSize! + 10,
+                _nextSize! + 10,
+              ),
+      )),
+      visualDensity: _loading.onTrue(
+        const VisualDensity(
+          horizontal: VisualDensity.minimumDensity,
+          vertical: VisualDensity.minimumDensity,
+        ),
+      ),
+      shape: _loading.onTrue(
+        MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          ),
+        ),
+      ),
     );
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _afterFirstFrame(_);
-      setState(() {});
-    });
-    super.didChangeDependencies();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
   }
 
-  @override
-  void didUpdateWidget(covariant ProgressButton oldWidget) {
-    if (oldWidget.duration != widget.duration) {
-      _controller.duration = duration(ProgressButtonConfig.of(context));
-    }
-    if (oldWidget.child != widget.child || oldWidget.style != widget.style) {
-      _controller.reverse().then((value) {
-        WidgetsBinding.instance.addPostFrameCallback(_afterFirstFrame);
-      });
-    }
-    super.didUpdateWidget(oldWidget);
-  }
-
-  void _afterFirstFrame(Duration timeStamp) {
-    if (!_controller.isDismissed) return;
-    var size = key.currentContext?.size;
-    var curve = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInCirc,
-    );
-    if (size != null) {
-      var s = min(size.width, size.height);
-      _sizeAnimation = SizeTween(
-        begin: size,
-        end: Size(s, s),
-      ).animate(curve);
-
-      final ButtonStyle? widgetStyle = buttonKey.currentState?.widget.style;
-      final ButtonStyle? themeStyle =
-          // ignore: invalid_use_of_protected_member
-          buttonKey.currentState?.widget.themeStyleOf(context);
-      final ButtonStyle? defaultStyle =
-          // ignore: invalid_use_of_protected_member
-          buttonKey.currentState?.widget.defaultStyleOf(context);
-
-      T? effectiveValue<T>(T? Function(ButtonStyle? style) getProperty) {
-        final T? widgetValue = getProperty(widgetStyle);
-        final T? themeValue = getProperty(themeStyle);
-        final T? defaultValue = getProperty(defaultStyle);
-        return widgetValue ?? themeValue ?? defaultValue;
-      }
-
-      var padding = effectiveValue((style) => style?.padding);
-      var shape = effectiveValue((style) => style?.shape);
-      var visualDensity = effectiveValue((style) => style?.visualDensity);
-      _paddingAnimation = _MaterialStatePropertyTween<EdgeInsetsGeometry?>(
-        tween: (states) {
-          return EdgeInsetsGeometryTween(
-            begin: padding?.resolve(states),
-            end: const EdgeInsets.all(5),
-          );
-        },
-      ).animate(curve);
-      _shapeAnimation = _MaterialStatePropertyTween<OutlinedBorder?>(
-        tween: (states) {
-          return OutlinedBorderTween(
-            begin: shape?.resolve(states),
-            end: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(s),
-            ),
-          );
-        },
-      ).animate(curve);
-      _visualDensityAnimation = _VisualDestinyTween(
-        begin: visualDensity,
-        end: const VisualDensity(
-          horizontal: VisualDensity.minimumDensity,
-          vertical: VisualDensity.minimumDensity,
-        ),
-      ).animate(curve);
-    }
-  }
-
-  Duration duration(ProgressButtonConfig? config) {
+  Duration duration(BuildContext context) {
+    ProgressButtonConfig? config = ProgressButtonConfig.of(context);
     return widget.duration ??
         config?.duration ??
         const Duration(milliseconds: 300);
@@ -195,14 +138,21 @@ class _ProgressButtonState extends State<ProgressButton>
     return widget.type ?? config?.type ?? ButtonType.elevated;
   }
 
-  ButtonStyle style(ProgressButtonConfig? config) {
-    return widget.style ?? config?.style ?? const ButtonStyle();
-  }
-
-  Widget loadingIndicator(ProgressButtonConfig? config) {
-    return widget.loadingIndicator ??
-        config?.loadingIndicator ??
-        const CircularProgressIndicator();
+  Widget loadingIndicator() {
+    return Builder(
+      builder: (BuildContext context) {
+        var color = DefaultTextStyle.of(context).style.color;
+        ProgressButtonConfig? config = ProgressButtonConfig.of(context);
+        return ProgressIndicatorTheme(
+          data: ProgressIndicatorTheme.of(context).copyWith(
+            circularTrackColor: color,
+          ),
+          child: widget.loadingIndicator ??
+              config?.loadingIndicator ??
+              const CircularProgressIndicator(),
+        );
+      },
+    );
   }
 
   @override
@@ -210,7 +160,7 @@ class _ProgressButtonState extends State<ProgressButton>
     var config = ProgressButtonConfig.of(context);
     return WillPopScope(
       onWillPop: () async {
-        if (!_controller.isDismissed || widget.onCancelRequest == null) {
+        if (_loading || widget.onCancelRequest == null) {
           return true;
         }
         var res = await showDialog(
@@ -240,166 +190,103 @@ class _ProgressButtonState extends State<ProgressButton>
     return null;
   }
 
-  Widget _build(BuildContext context, ProgressButtonConfig? config) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        var resolvedStyle = style(config).copyWith(
-          visualDensity: _visualDensityAnimation?.value,
-          padding: _paddingAnimation?.value,
-          shape: _shapeAnimation?.value,
-        );
-        var type = this.type(config);
-        late Widget child;
-        if (type == ButtonType.outlined) {
-          child = OutlinedButton(
-            key: buttonKey,
-            onPressed: _getCallBack(config),
-            clipBehavior:
-                widget.clipBehavior ?? config?.clipBehavior ?? Clip.antiAlias,
-            style: resolvedStyle,
-            child: _buildChild(config),
-          );
-        } else if (type == ButtonType.text) {
-          child = TextButton(
-            key: buttonKey,
-            onPressed: _getCallBack(config),
-            clipBehavior:
-                widget.clipBehavior ?? config?.clipBehavior ?? Clip.antiAlias,
-            style: resolvedStyle,
-            child: _buildChild(config),
-          );
-        } else {
-          child = ElevatedButton(
-            key: buttonKey,
-            onPressed: _getCallBack(config),
-            clipBehavior:
-                widget.clipBehavior ?? config?.clipBehavior ?? Clip.antiAlias,
-            style: resolvedStyle,
-            child: _buildChild(config),
-          );
-        }
-
-        if (!_controller.isDismissed) {
-          child = Center(
-            child: SizedBox(
-              width:
-                  _controller.isDismissed ? null : _sizeAnimation?.value?.width,
-              height: _controller.isDismissed
-                  ? null
-                  : _sizeAnimation?.value?.height,
-              child: child,
-            ),
-          );
-        }
+  Widget _buildChild() {
+    if (_loading) {
+      if (_nextSize != null) {
         return SizedBox(
-          key: key,
-          child: child,
+          width: _nextSize!,
+          height: _nextSize!,
+          child: loadingIndicator(),
         );
-      },
+      }
+      return SizedBox(
+        width: 30,
+        height: 30,
+        child: loadingIndicator(),
+      );
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      var size = _bottomKey.currentContext?.size;
+      if (size != null) {
+        _nextSize = min(size.width, size.height) - 10;
+      }
+    });
+    return widget.child;
+  }
+
+  Widget _child() {
+    var d = duration(context);
+    return AnimatedSize(
+      duration: d,
+      child: _buildChild(),
+    );
+  }
+
+  Widget _build(BuildContext context, ProgressButtonConfig? config) {
+    var type = this.type(config);
+    late Widget child;
+    if (type == ButtonType.outlined) {
+      child = OutlinedButton(
+        onPressed: _getCallBack(config),
+        clipBehavior: widget.clipBehavior ?? config?.clipBehavior ?? Clip.none,
+        style: style(context),
+        child: _child(),
+      );
+    } else if (type == ButtonType.text) {
+      child = TextButton(
+        onPressed: _getCallBack(config),
+        clipBehavior: widget.clipBehavior ?? config?.clipBehavior ?? Clip.none,
+        style: style(context),
+        child: _child(),
+      );
+    } else {
+      child = ElevatedButton(
+        onPressed: _getCallBack(config),
+        clipBehavior: widget.clipBehavior ?? config?.clipBehavior ?? Clip.none,
+        style: style(context),
+        child: _child(),
+      );
+    }
+
+    return SizedBox(
+      key: _bottomKey,
+      child: child,
     );
   }
 
   void _completeAction(
       Future<dynamic> Function() callBack, ProgressButtonConfig? config) {
-    _controller.forward();
+    setState(() {
+      _loading = true;
+    });
     callBack().then((d) async {
       if (mounted) {
-        await _controller.animateTo(0.0);
-        _controller.reset();
-
-        _afterFirstFrame(Duration.zero);
+        setState(() {
+          _loading = false;
+        });
       }
     }).catchError((c) async {
       if (mounted) {
-        await _controller.animateTo(0.0);
-        _afterFirstFrame(Duration.zero);
+        setState(() {
+          _loading = false;
+        });
       }
     });
   }
 
   void _onCallBack(
       Future<dynamic> Function() callBack, ProgressButtonConfig? config) {
-    if (_controller.value < 1.0 &&
-        _controller.status != AnimationStatus.forward) {
+    if (!_loading) {
       _completeAction(callBack, config);
     }
   }
-
-  Widget _buildChild(ProgressButtonConfig? config) {
-    return Builder(
-      builder: (ctx) {
-        var style = DefaultTextStyle.of(ctx).style;
-        List<Widget> children = [
-          Opacity(
-            opacity: _controller.value,
-            child: Center(
-              child: loadingIndicator(config),
-            ),
-          ),
-          Opacity(
-            opacity: 1 - _controller.value,
-            child: widget.child,
-          ),
-        ];
-        return ProgressIndicatorTheme(
-          data: ProgressIndicatorTheme.of(context).copyWith(
-            circularTrackColor:
-                widget.type == ButtonType.elevated ? style.color : style.color,
-          ),
-          child: Stack(
-            alignment: Alignment.center,
-            children: children,
-          ),
-        );
-      },
-    );
-  }
 }
 
-class _MaterialStatePropertyTween<T> extends Tween<MaterialStateProperty<T>?> {
-  final Tween<T> Function(Set<MaterialState> states) tween;
-  _MaterialStatePropertyTween({required this.tween}) : super();
-
-  @override
-  MaterialStateProperty<T>? lerp(double t) {
-    return MaterialStateProperty.resolveWith((states) {
-      return tween(states).transform(t);
-    });
-  }
-
-  @override
-  MaterialStateProperty<T>? transform(double t) {
-    return lerp(t);
-  }
-}
-
-class _VisualDestinyTween extends Tween<VisualDensity?> {
-  _VisualDestinyTween({
-    VisualDensity? end,
-    VisualDensity? begin,
-  }) : super(begin: begin, end: end);
-
-  @override
-  VisualDensity? lerp(double t) {
-    if (begin == null) return end;
-    if (end == null) return begin;
-    return VisualDensity.lerp(begin!, end!, t);
-  }
-}
-
-class OutlinedBorderTween extends Tween<OutlinedBorder?> {
-  OutlinedBorderTween({
-    OutlinedBorder? end,
-    OutlinedBorder? begin,
-  }) : super(begin: begin, end: end);
-
-  @override
-  OutlinedBorder? lerp(double t) {
-    var res = ShapeBorder.lerp(begin, end, t);
-    if (res is OutlinedBorder) {
-      return res;
+extension _BoolExt on bool {
+  T? onTrue<T>(T item) {
+    if (this) {
+      return item;
     }
-    return begin ?? end;
+    return null;
   }
 }

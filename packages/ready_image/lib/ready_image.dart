@@ -61,8 +61,9 @@ class ReadyImage extends StatelessWidget {
   /// The image cache manager
   final BaseCacheManager? cacheManager;
 
-  /// if true will ignore the foreground radius and copy the radius from decoration
-  final bool? forceForegroundRadiusSameAsBackground;
+  /// color to be applied to the image
+  final Color? color;
+
   final Widget Function(ReadyImageDefaults config, Widget image)? _builder;
   const ReadyImage({
     Key? key,
@@ -71,6 +72,7 @@ class ReadyImage extends StatelessWidget {
     this.height,
     this.queryParameters,
     this.resolveUrl,
+    this.color,
     this.imageRenderMethodForWeb,
     this.errorPlaceholder,
     this.loadingPlaceholder,
@@ -82,7 +84,6 @@ class ReadyImage extends StatelessWidget {
     this.fit,
     this.headers,
     this.cacheManager,
-    this.forceForegroundRadiusSameAsBackground,
   })  : _builder = null,
         super(key: key);
 
@@ -106,9 +107,9 @@ class ReadyImage extends StatelessWidget {
     this.fit,
     this.headers,
     this.cacheManager,
-    this.forceForegroundRadiusSameAsBackground,
   })  : _builder = builder,
         path = path ?? '',
+        color = null,
         super(key: key);
 
   ReadyImageDefaults config(BuildContext context) =>
@@ -146,6 +147,7 @@ class ReadyImage extends StatelessWidget {
         imageUrl: imageUrl,
         width: width,
         height: height,
+        color: p.color,
         imageRenderMethodForWeb: p.imageRenderMethodForWeb,
         httpHeaders: p.headers(context),
         errorWidget: p.errorPlaceholder,
@@ -155,26 +157,33 @@ class ReadyImage extends StatelessWidget {
       );
     }
     child = _builder?.call(p, child) ?? child;
-    var decoration = p.decoration ?? const BoxDecoration();
-    var foreground = p.foregroundDecoration;
-    var force = p.forceForegroundRadiusSameAsBackground == true;
-    if (force && decoration is BoxDecoration && foreground is BoxDecoration) {
-      decoration = decoration.copyWith(
-          borderRadius: decoration.borderRadius ?? foreground.borderRadius);
-      foreground = foreground.copyWith(borderRadius: decoration.borderRadius);
-    }
 
-    return Container(
-      clipBehavior: Clip.antiAlias,
-      decoration: decoration,
-      foregroundDecoration: foreground,
-      padding: p.innerPadding,
-      child: ClipPath(
-        clipBehavior: Clip.antiAlias,
-        clipper: _DecorationClipper(decoration, Directionality.of(context)),
+    if (p.innerPadding != null) {
+      child = Padding(
+        padding: p.innerPadding!,
         child: child,
-      ),
-    );
+      );
+    }
+    if (p.decoration != null) {
+      child = DecoratedBox(
+        decoration: p.decoration!,
+        position: DecorationPosition.background,
+        child: ClipPath(
+          clipBehavior: Clip.antiAlias,
+          clipper:
+              _DecorationClipper(p.decoration!, Directionality.of(context)),
+          child: child,
+        ),
+      );
+    }
+    if (p.foregroundDecoration != null) {
+      child = DecoratedBox(
+        decoration: p.foregroundDecoration!,
+        position: DecorationPosition.foreground,
+        child: child,
+      );
+    }
+    return child;
   }
 }
 
@@ -272,6 +281,7 @@ class HeroReadyImage extends StatelessWidget {
           queryParameters: child.queryParameters,
           resolveUrl: child.resolveUrl,
           imageRenderMethodForWeb: child.imageRenderMethodForWeb,
+          color: child.color,
           errorPlaceholder: child.errorPlaceholder,
           loadingPlaceholder: child.loadingPlaceholder,
           foregroundDecoration: foregroundDecorationTween.value,
@@ -282,8 +292,6 @@ class HeroReadyImage extends StatelessWidget {
           fit: child.fit,
           headers: child.headers,
           cacheManager: child.cacheManager,
-          forceForegroundRadiusSameAsBackground:
-              child.forceForegroundRadiusSameAsBackground,
           path: child.path,
         );
       },

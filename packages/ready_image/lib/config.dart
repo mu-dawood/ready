@@ -13,6 +13,7 @@ class ReadyImageConfig extends InheritedWidget {
     this.errorPlaceholder,
     this.loadingPlaceholder,
     this.foregroundDecoration,
+    this.color,
     this.decoration,
     this.outerDecoration,
     this.outerPadding,
@@ -69,6 +70,9 @@ class ReadyImageConfig extends InheritedWidget {
   final bool Function(BuildContext context)?
       forceForegroundRadiusSameAsBackground;
 
+  /// [ReadyImage.color]
+  final Color Function(BuildContext context)? color;
+
   static ReadyImageConfig? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<ReadyImageConfig>();
   }
@@ -82,6 +86,7 @@ class ReadyImageConfig extends InheritedWidget {
         foregroundDecoration == oldWidget.foregroundDecoration ||
         decoration == oldWidget.decoration ||
         outerDecoration == oldWidget.outerDecoration ||
+        color == oldWidget.color ||
         outerPadding == oldWidget.outerPadding ||
         innerPadding == oldWidget.innerPadding ||
         fit == oldWidget.fit ||
@@ -107,7 +112,7 @@ class ReadyImageDefaults {
   final HeadersCallBack headers;
   final BaseCacheManager? cacheManager;
   final bool disableHero;
-  final bool forceForegroundRadiusSameAsBackground;
+  final Color? color;
 
   ReadyImageDefaults({
     required this.resolveUrl,
@@ -119,11 +124,11 @@ class ReadyImageDefaults {
     required this.outerDecoration,
     required this.outerPadding,
     required this.innerPadding,
+    required this.color,
     required this.fit,
     required this.headers,
     required this.cacheManager,
     required this.disableHero,
-    required this.forceForegroundRadiusSameAsBackground,
   });
 
   static Widget _defaultErrorBuilder(
@@ -159,6 +164,7 @@ class ReadyImageDefaults {
       errorPlaceholder: widget.errorPlaceholder ??
           config?.errorPlaceholder ??
           _defaultErrorBuilder,
+      color: widget.color ?? config?.color?.call(context),
       loadingPlaceholder: widget.loadingPlaceholder ??
           config?.loadingPlaceholder ??
           _defaultLoadingBuilder,
@@ -173,10 +179,6 @@ class ReadyImageDefaults {
       headers: widget.headers ?? config?.headers ?? _defaultHeaders,
       cacheManager: widget.cacheManager ?? config?.cacheManager?.call(context),
       disableHero: config?.disableHero?.call(context) ?? false,
-      forceForegroundRadiusSameAsBackground:
-          widget.forceForegroundRadiusSameAsBackground ??
-              config?.forceForegroundRadiusSameAsBackground?.call(context) ??
-              true,
     );
   }
 }
