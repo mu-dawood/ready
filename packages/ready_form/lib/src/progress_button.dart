@@ -205,7 +205,8 @@ class _ProgressButtonState extends State<ProgressButton> {
         child: loadingIndicator(),
       );
     }
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Future.delayed(duration(context));
       var size = _bottomKey.currentContext?.size;
       if (size != null) {
         _nextSize = min(size.width, size.height) - 10;
