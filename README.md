@@ -12,7 +12,7 @@
 
 ## Can i see it
 
- - Yes try this [Demo](demo)
+ - Yes try this [Demo][demo]
 
 ## Where to get it
 
