@@ -229,8 +229,7 @@ extension StringExtensions on String? {
   bool get isLocalKsaPhone => _Parser(this).isLocalKsaPhone;
 
   // check string is international ksa phone
-  bool get isInternationalKsaPhone =>
-      _Parser(this).isInternationalEgyptianPhone;
+  bool get isInternationalKsaPhone => _Parser(this).isInternationalKsaPhone;
 
   /// return `true` if the are equals with case matching
   bool equal(String? str) => _Parser(this).equal(str);
