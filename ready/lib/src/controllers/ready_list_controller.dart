@@ -72,7 +72,8 @@ extension ReadyListControllerExt<T> on ReadyListController<T> {
           emit(const ReadyListState.isEmpty());
         } else {
           emit(ReadyListState.isLoaded(
-              items: newValue, totalCount: totalCount - items.length));
+              items: newValue,
+              totalCount: totalCount - items.length + newValue.length));
         }
       },
     );
@@ -102,7 +103,9 @@ extension ReadyListControllerExt<T> on ReadyListController<T> {
           emit(const ReadyListState.isEmpty());
         } else {
           emit(ReadyListState.isLoaded(
-              items: newValue, totalCount: totalCount - items.length));
+            items: newValue,
+            totalCount: totalCount - items.length + newValue.length,
+          ));
         }
       },
     );
@@ -116,7 +119,9 @@ extension ReadyListControllerExt<T> on ReadyListController<T> {
           emit(const ReadyListState.isEmpty());
         } else {
           emit(ReadyListState.isLoaded(
-              items: newValue, totalCount: totalCount - items.length));
+            items: newValue,
+            totalCount: totalCount - items.length + newValue.length,
+          ));
         }
       },
     );
@@ -130,7 +135,9 @@ extension ReadyListControllerExt<T> on ReadyListController<T> {
           emit(const ReadyListState.isEmpty());
         } else {
           emit(ReadyListState.isLoaded(
-              items: newValue, totalCount: totalCount - items.length));
+            items: newValue,
+            totalCount: totalCount,
+          ));
         }
       },
     );
