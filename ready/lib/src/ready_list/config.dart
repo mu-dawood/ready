@@ -6,7 +6,7 @@ typedef ReadyListWidgetBuilder<T> = List<Widget> Function(
 
 typedef ReadyListSliverBuilder<T> = List<Widget> Function(
     ReadyListState<T> state, Widget? Function() defaultPlaceHolder);
-typedef GridDelegateCallback = SliverStaggeredGridDelegate Function({
+typedef GridDelegateCallback = SliverSimpleGridDelegate Function({
   required double width,
   required int? length,
 });

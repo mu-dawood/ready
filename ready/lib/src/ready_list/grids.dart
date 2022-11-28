@@ -1,57 +1,64 @@
 part of ready_list;
 
+class _ExtentGridDelegate {
+  final double maxCrossAxisExtent;
+
+  _ExtentGridDelegate(this.maxCrossAxisExtent);
+
+  SliverSimpleGridDelegate call({
+    required double width,
+    required int? length,
+  }) {
+    return SliverSimpleGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: maxCrossAxisExtent);
+  }
+}
+
 class Grids {
-  static SliverStaggeredGridDelegate fit(
-    int? length,
-    int crossAxisCount,
-    int fit,
-  ) =>
-      SliverStaggeredGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount,
-        crossAxisSpacing: 15,
-        mainAxisSpacing: 15,
-        staggeredTileCount: length,
-        staggeredTileBuilder: (int index) => StaggeredTile.fit(fit),
-      );
+  static GridDelegateCallback extent(double maxCrossAxisExtent) =>
+      _ExtentGridDelegate(maxCrossAxisExtent).call;
 
-  static SliverStaggeredGridDelegate columns_2({
+  static SliverSimpleGridDelegate columns_1({
     required double width,
     required int? length,
   }) =>
-      fit(length, 2, 1);
-  static SliverStaggeredGridDelegate columns_1({
-    required double width,
-    required int? length,
-  }) =>
-      fit(length, 1, 1);
-  static SliverStaggeredGridDelegate columns_3({
-    required double width,
-    required int? length,
-  }) =>
-      fit(length, 3, 1);
-  static SliverStaggeredGridDelegate columns_4({
-    required double width,
-    required int? length,
-  }) =>
-      fit(length, 4, 1);
-  static SliverStaggeredGridDelegate columns_5({
-    required double width,
-    required int? length,
-  }) =>
-      fit(length, 5, 1);
-  static SliverStaggeredGridDelegate columns_6({
-    required double width,
-    required int? length,
-  }) =>
-      fit(length, 6, 1);
+      const SliverSimpleGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1);
 
-  static SliverStaggeredGridDelegate responsive({
+  static SliverSimpleGridDelegate columns_2({
     required double width,
     required int? length,
-    SliverStaggeredGridDelegate? small,
-    SliverStaggeredGridDelegate? medium,
-    SliverStaggeredGridDelegate? large,
-    SliverStaggeredGridDelegate? extraLarge,
+  }) =>
+      const SliverSimpleGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2);
+
+  static SliverSimpleGridDelegate columns_3({
+    required double width,
+    required int? length,
+  }) =>
+      const SliverSimpleGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3);
+
+  static SliverSimpleGridDelegate columns_4({
+    required double width,
+    required int? length,
+  }) =>
+      const SliverSimpleGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4);
+  static SliverSimpleGridDelegate columns_5({
+    required double width,
+    required int? length,
+  }) =>
+      const SliverSimpleGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5);
+  static SliverSimpleGridDelegate columns_6({
+    required double width,
+    required int? length,
+  }) =>
+      const SliverSimpleGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6);
+
+  static SliverSimpleGridDelegate responsive({
+    required double width,
+    required int? length,
+    SliverSimpleGridDelegate? small,
+    SliverSimpleGridDelegate? medium,
+    SliverSimpleGridDelegate? large,
+    SliverSimpleGridDelegate? extraLarge,
   }) {
     var layout = Utils.detectLayout(width);
     switch (layout) {

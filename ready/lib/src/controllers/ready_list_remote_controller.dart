@@ -1,18 +1,18 @@
 part of controllers;
 
 mixin ReadyRemoteController<T> on ReadyListController<T> {
-  Future<IRemoteResult<T>> loadData(int skip, int? pageSize,
+  Future<ReadyListState<T>> loadData(int skip, int? pageSize,
       [ICancelToken? cancelToken]);
 
   @override
-  Stream<ReadyListState<T>> get stream => super.stream.map((event) {
-        state.mapOrNull(
-          requestFirstLoading: _firstLoading,
-          requestNext: _loadNext,
-          requestRefresh: _refresh,
-        );
-        return event;
-      });
+  void emit(ReadyListState<T> state) {
+    state.mapOrNull(
+      requestFirstLoading: _firstLoading,
+      requestNext: _loadNext,
+      requestRefresh: _refresh,
+    );
+    super.emit(state);
+  }
 
   ICancelToken? generateCancelToken() => null;
   void _firstLoading(RequestFirstLoading<T> state) async {

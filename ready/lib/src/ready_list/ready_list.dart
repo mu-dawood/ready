@@ -198,10 +198,8 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
         if (!value) return;
         var configuration =
             _ReadyListConfigOptionsDefaults.effective(widget, context);
-
         widget.controller.emit(ReadyListState.requestFirstLoading(
-          pageSize: configuration.pageSize,
-        ));
+            pageSize: configuration.pageSize));
       },
     );
     super.didChangeDependencies();
@@ -420,9 +418,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
     if (widget._gridDelegate != null) {
       return SliverPadding(
         padding: configuration.padding ?? EdgeInsets.zero,
-        sliver: SliverStaggeredGrid(
-          // spell-checker: disable
-          addAutomaticKeepAlives: false,
+        sliver: SliverMasonryGrid(
           // spell-checker: enable
           gridDelegate: widget._gridDelegate!(
             width: constraints.maxWidth,

@@ -12,12 +12,12 @@
 
 ## Can i see it
 
- - Yes try this [Demo](demo)
+ - Yes try this [Demo](https://ready-19c04.web.app)
 
 ## Where to get it
 
  - If you are seeing this in pub site so you are in the right place
- - if not you can get it  [Here](pubUrl)
+ - if not you can get it  [Here](https://pub.dev/packages/ready)
 
 ## How to use it
 
@@ -101,8 +101,6 @@ There is related packages that related  to  ready and you can use it
 * in this way if any one need the new feature he can add its package to his project
 * any package must has a good docs before it listed in packages list
 
-[demo]: https://ready-19c04.web.app
-[pubUrl]: https://pub.dev/packages/ready
 [pubPadge]: https://img.shields.io/pub/v/ready.svg?style=for-the-badge
 [stars]: https://github.com/mo-ah-dawood/ready/stargazers
 [starsPadge]: https://img.shields.io/github/stars/mo-ah-dawood/ready?style=for-the-badge

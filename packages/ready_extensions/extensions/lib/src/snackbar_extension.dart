@@ -176,7 +176,7 @@ extension SnackBarExtension on BuildContext {
                         if (action != null)
                           TextButton(
                             style: TextButton.styleFrom(
-                                primary: action.textColor ??
+                                foregroundColor: action.textColor ??
                                     snackBarTheme.actionTextColor),
                             onPressed: action.onPressed,
                             child: Text(action.label),

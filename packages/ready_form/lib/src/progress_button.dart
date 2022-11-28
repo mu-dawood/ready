@@ -169,10 +169,13 @@ class _ProgressButtonState extends State<ProgressButton> {
   }
 
   VoidCallback? _getCallBack(ProgressButtonConfig? config) {
+    if (widget.onPressed != null) {
+      return () => _onCallBack(widget.onPressed!, config);
+    }
     var auto = widget.autoSubmitForm ?? config?.autoSubmitForm ?? true;
-    var callBack =
-        widget.onPressed ?? (auto ? ReadyForm.of(context)?.onSubmit : null);
-    if (callBack != null) return () => _onCallBack(callBack, config);
+    if (auto && ReadyForm.of(context) != null) {
+      return () => _onCallBack(ReadyForm.of(context)!.onSubmit, config);
+    }
     return null;
   }
 

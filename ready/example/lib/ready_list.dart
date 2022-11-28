@@ -61,12 +61,19 @@ abstract class BaseController extends Cubit<ReadyListState<FakeItem>>
 }
 
 class ReadyListCubit extends BaseController with ReadyRemoteController {
-  ReadyListCubit(ReadyListState<FakeItem> initialState) : super(initialState);
+  ReadyListCubit(ReadyListState<FakeItem> initialState) : super(initialState) {}
 
   @override
   Future<IRemoteResult<FakeItem>> loadData(int skip, int? pageSize,
       [ICancelToken? cancelToken]) async {
     var list = await FakeRepo.asyncList(30, const Duration(seconds: 3));
     return ReadyListState.createLoaded(items: list, totalCount: 100);
+  }
+
+  @override
+  void onChange(Change<ReadyListState<FakeItem>> change) {
+    // print(change.currentState);
+    // print(change.nextState);
+    super.onChange(change);
   }
 }

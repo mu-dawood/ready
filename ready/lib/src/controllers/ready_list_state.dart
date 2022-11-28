@@ -12,7 +12,7 @@ mixin IRemoteResult<T> on ReadyListState<T> {}
 @freezed
 class ReadyListState<T> with _$ReadyListState<T> {
   /// create a loaded state
-  static IRemoteResult<T> createLoaded<T>({
+  static Loaded<T> createLoaded<T>({
     required final Iterable<T> items,
     required final int totalCount,
     final ReadyListState<T>? oldState,
@@ -25,19 +25,18 @@ class ReadyListState<T> with _$ReadyListState<T> {
   }
 
   /// creates an empty state
-  static IRemoteResult<T> createEmpty<T>([ReadyListState<T>? oldState]) {
+  static Empty<T> createEmpty<T>([ReadyListState<T>? oldState]) {
     return Empty(oldState);
   }
 
   /// creates an error state
-  static IRemoteResult<T> createError<T>(String error,
+  static ErrorState<T> createError<T>(String error,
       [ReadyListState<T>? oldState]) {
     return ErrorState((ctx) => error, oldState);
   }
 
   /// creates an error state
-  static IRemoteResult<T> createErrorWith<T>(
-      String Function(BuildContext) display,
+  static ErrorState<T> createErrorWith<T>(String Function(BuildContext) display,
       [ReadyListState<T>? oldState]) {
     return ErrorState<T>(display, oldState);
   }
@@ -51,15 +50,24 @@ class ReadyListState<T> with _$ReadyListState<T> {
 
   /// when there is no data
   /// *************************************************************************
-  /// @Implements<IRemoteResult<T>>()
+  @Implements.fromString('IRemoteResult<T>')
   const factory ReadyListState.isEmpty([ReadyListState<T>? oldState]) =
       Empty<T>;
 
   /// when there is any error
   /// *************************************************************************
-  /// @Implements<IRemoteResult<T>>()
+  @Implements.fromString('IRemoteResult<T>')
   const factory ReadyListState.error(ErrorDisplayCallBack display,
       [ReadyListState<T>? oldState]) = ErrorState<T>;
+
+  /// data loaded
+  /// *************************************************************************
+  @Implements.fromString('IRemoteResult<T>')
+  const factory ReadyListState.isLoaded({
+    required Iterable<T> items,
+    required int totalCount,
+    ReadyListState<T>? oldState,
+  }) = Loaded<T>;
 
   /// loading first time
   const factory ReadyListState.isLoadingFirst({
@@ -82,15 +90,6 @@ class ReadyListState<T> with _$ReadyListState<T> {
     required Iterable<T> items,
     required int totalCount,
   }) = Refreshing<T>;
-
-  /// data loaded
-  /// *************************************************************************
-  /// @Implements<IRemoteResult<T>>()
-  const factory ReadyListState.isLoaded({
-    required Iterable<T> items,
-    required int totalCount,
-    ReadyListState<T>? oldState,
-  }) = Loaded<T>;
 
   /// this will fire next loading
   /// *************************************************************************

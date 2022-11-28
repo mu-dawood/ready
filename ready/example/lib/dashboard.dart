@@ -158,6 +158,15 @@ class DashBoardExample extends StatelessWidget {
               id: 'grid 4',
               label: 'Grid 4',
             ),
+            DashboardItem(
+              builder: () {
+                return ReadyGridExample(gridDelegate: Grids.extent(150));
+              },
+              search: (value) {},
+              icon: const Icon(Icons.local_cafe),
+              id: 'extent grid',
+              label: 'Extent grid',
+            ),
           ],
         ),
         DashboardItem.items(
