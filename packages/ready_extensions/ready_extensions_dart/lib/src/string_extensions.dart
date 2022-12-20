@@ -65,13 +65,13 @@ class _Parser {
         return null;
       }
 
-      var years = double.parse(y ?? '');
-      var months = double.parse(m ?? '');
-      var weeks = double.parse(w ?? '');
-      var days = double.parse(d ?? '');
-      var hours = double.parse(hrs ?? '');
-      var minutes = double.parse(min ?? '');
-      var seconds = double.parse(sec ?? '');
+      var years = double.parse(y ?? '0');
+      var months = double.parse(m ?? '0');
+      var weeks = double.parse(w ?? '0');
+      var days = double.parse(d ?? '0');
+      var hours = double.parse(hrs ?? '0');
+      var minutes = double.parse(min ?? '0');
+      var seconds = double.parse(sec ?? '0');
 
       days += years * 365;
       days += months * 30;
