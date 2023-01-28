@@ -1,5 +1,5 @@
 // cSpell: disable
-// ignore_for_file: unused_local_variable, unnecessary_brace_in_string_interps, equal_keys_in_map
+// ignore_for_file: unused_local_variable, unnecessary_brace_in_string_interps, equal_keys_in_map, unnecessary_string_interpolations
 
 import 'dart:async';
 
@@ -10,14 +10,14 @@ import 'package:intl/intl.dart' as intl;
 import 'messages_ar.dart';
 import 'messages_en.dart';
 
-/// Callers can lookup localized strings with an instance of ReadyValidationMessages returned
-/// by `ReadyValidationMessages.of(context)`.
+/// Callers can lookup localized strings with an instance of ReadyValidationMessages
+/// returned by `ReadyValidationMessages.of(context)`.
 ///
 /// Applications need to include `ReadyValidationMessages.delegate()` in their app's
-/// localizationDelegates list, and the locales they support in the app's
-/// supportedLocales list. For example:
+/// `localizationDelegates` list, and the locales they support in the app's
+/// `supportedLocales` list. For example:
 ///
-/// ```
+/// ```dart
 /// import 'messages/messages.dart';
 ///
 /// return MaterialApp(
@@ -32,14 +32,14 @@ import 'messages_en.dart';
 /// Please make sure to update your pubspec.yaml to include the following
 /// packages:
 ///
-/// ```
+/// ```yaml
 /// dependencies:
 ///   # Internationalization support.
 ///   flutter_localizations:
 ///     sdk: flutter
 ///   intl: any # Use the pinned version from flutter_localizations
 ///
-///   # rest of dependencies
+///   # Rest of dependencies
 /// ```
 ///
 /// ## iOS Applications
@@ -144,157 +144,157 @@ abstract class ReadyValidationMessages {
   /// No description provided for @invalidAngelCompanyUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid angel company {company, select, _{url} other{with name: {company}}}.'**
+  /// **'Sorry! you have to enter a valid angel company {company, select, empty{url} other{with name: {company}}}.'**
   String invalidAngelCompanyUrl(String value, String company);
 
   /// No description provided for @invalidAngelJobUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid angel job {jobId, select, _{url} other{with id: {jobId}}}.'**
+  /// **'Sorry! you have to enter a valid angel job {jobId, select, empty{url} other{with id: {jobId}}}.'**
   String invalidAngelJobUrl(String value, String jobId);
 
   /// No description provided for @invalidCrunchbaseOrganizationUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid crunchbase organization {organization, select, _{url} other{with name: {organization}}}.'**
+  /// **'Sorry! you have to enter a valid crunchbase organization {organization, select, empty{url} other{with name: {organization}}}.'**
   String invalidCrunchbaseOrganizationUrl(String value, String organization);
 
   /// No description provided for @invalidCrunchbasePersonUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid crunchbase person {person, select, _{url} other{with name: {person}}}.'**
+  /// **'Sorry! you have to enter a valid crunchbase person {person, select, empty{url} other{with name: {person}}}.'**
   String invalidCrunchbasePersonUrl(String value, String person);
 
   /// No description provided for @invalidFacebookUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid facebook {name, select, _{{id, select, _{url} other{user with id: {id}}}} other{user with name: {name}}}.'**
+  /// **'Sorry! you have to enter a valid facebook {name, select, empty{{id, select, empty{url} other{user with id: {id}}}} other{user with name: {name}}}.'**
   String invalidFacebookUrl(String value, String name, String id);
 
   /// No description provided for @invalidGitHubUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid gitHub {user, select, _{{repository, select, _{url} other{repository: {repository}}}} other{user with name: {user} {repository, select, _{} other{and repository: {repository}}}}}.'**
+  /// **'Sorry! you have to enter a valid gitHub {user, select, empty{{repository, select, empty{url} other{repository: {repository}}}} other{user with name: {user} {repository, select, empty{} other{and repository: {repository}}}}}.'**
   String invalidGitHubUrl(String value, String user, String repository);
 
   /// No description provided for @invalidGooglePlusUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid google plus {userName, select, _{url} other{with user name: {userName}}}.'**
+  /// **'Sorry! you have to enter a valid google plus {userName, select, empty{url} other{with user name: {userName}}}.'**
   String invalidGooglePlusUrl(String value, String userName, String id);
 
   /// No description provided for @invalidHackerNewsItemUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid hacker news item  {id, select, _{url} other{with id: {id}}}.'**
+  /// **'Sorry! you have to enter a valid hacker news item  {id, select, empty{url} other{with id: {id}}}.'**
   String invalidHackerNewsItemUrl(String value, String id);
 
   /// No description provided for @invalidHackerNewsUserUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid hacker news user  {id, select, _{url} other{with id: {id}}}.'**
+  /// **'Sorry! you have to enter a valid hacker news user  {id, select, empty{url} other{with id: {id}}}.'**
   String invalidHackerNewsUserUrl(String value, String id);
 
   /// No description provided for @invalidInstagramUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid instagram {user, select, _{url} other{with user: {user}}}.'**
+  /// **'Sorry! you have to enter a valid instagram {user, select, empty{url} other{with user: {user}}}.'**
   String invalidInstagramUrl(String value, String user);
 
   /// No description provided for @invalidLinkedInCompanyUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid inked in {permalink, select, _{company url} other{company with {permalink} url}}.'**
+  /// **'Sorry! you have to enter a valid inked in {permalink, select, empty{company url} other{company with {permalink} url}}.'**
   String invalidLinkedInCompanyUrl(String value, String permalink);
 
   /// No description provided for @invalidLinkedInPostUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid linked in post  {id, select, _{url} other{with id: {id}}}'**
+  /// **'Sorry! you have to enter a valid linked in post  {id, select, empty{url} other{with id: {id}}}'**
   String invalidLinkedInPostUrl(String value, String id);
 
   /// No description provided for @invalidLinkedInProfileUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid inked in {permalink, select, _{profile url} other{profile with {permalink} url}}.'**
+  /// **'Sorry! you have to enter a valid inked in {permalink, select, empty{profile url} other{profile with {permalink} url}}.'**
   String invalidLinkedInProfileUrl(String value, String permalink);
 
   /// No description provided for @invalidMediumPostUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid medium post {postId, select, _{url} other{with id: {postId}}}.'**
+  /// **'Sorry! you have to enter a valid medium post {postId, select, empty{url} other{with id: {postId}}}.'**
   String invalidMediumPostUrl(String value, String postId);
 
   /// No description provided for @invalidMediumUserUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid medium user {userName, select, _{{id, select, _{url} other{with id: {id}}}} other{with user name: {userName}}}.'**
+  /// **'Sorry! you have to enter a valid medium user {userName, select, empty{{id, select, empty{url} other{with id: {id}}}} other{with user name: {userName}}}.'**
   String invalidMediumUserUrl(String value, String userName, String id);
 
   /// No description provided for @invalidRedditUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid reddit {user, select, _{url} other{with user: {user}}}.'**
+  /// **'Sorry! you have to enter a valid reddit {user, select, empty{url} other{with user: {user}}}.'**
   String invalidRedditUrl(String value, String user);
 
   /// No description provided for @invalidSnapchatUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid snapchat {user, select, _{url} other{with user: {user}}}.'**
+  /// **'Sorry! you have to enter a valid snapchat {user, select, empty{url} other{with user: {user}}}.'**
   String invalidSnapchatUrl(String value, String user);
 
   /// No description provided for @invalidStackexchangeUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid stackexchange {user, select, _{{id, select, _{url} other{with id: {id}}}} other{with user name: {user}}}.'**
+  /// **'Sorry! you have to enter a valid stackexchange {user, select, empty{{id, select, empty{url} other{with id: {id}}}} other{with user name: {user}}}.'**
   String invalidStackexchangeUrl(String value, String user, String id);
 
   /// No description provided for @invalidStackoverflowQuestionUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid stackoverflow question {id, select, _{url} other{with id: {id}}}.'**
+  /// **'Sorry! you have to enter a valid stackoverflow question {id, select, empty{url} other{with id: {id}}}.'**
   String invalidStackoverflowQuestionUrl(String value, String id);
 
   /// No description provided for @invalidStackoverflowUserUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid stackoverflow user {id, select, _{url} other{with id: {id}}}.'**
+  /// **'Sorry! you have to enter a valid stackoverflow user {id, select, empty{url} other{with id: {id}}}.'**
   String invalidStackoverflowUserUrl(String value, String id);
 
   /// No description provided for @invalidTelegramProfileUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid telegram profile {userName, select, _{url} other{with user name: {userName}}}.'**
+  /// **'Sorry! you have to enter a valid telegram profile {userName, select, empty{url} other{with user name: {userName}}}.'**
   String invalidTelegramProfileUrl(String value, String userName);
 
   /// No description provided for @invalidTwitterStatusUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid twitter status {tweetId, select, _{url} other{with id: {tweetId}}} {userName, select, _{} other{with user name: {userName}}}.'**
+  /// **'Sorry! you have to enter a valid twitter status {tweetId, select, empty{url} other{with id: {tweetId}}} {userName, select, empty{} other{with user name: {userName}}}.'**
   String invalidTwitterStatusUrl(String value, String userName, String tweetId);
 
   /// No description provided for @invalidTwitterUserUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid twitter user {userName, select, _{url} other{with user name: {userName}}}.'**
+  /// **'Sorry! you have to enter a valid twitter user {userName, select, empty{url} other{with user name: {userName}}}.'**
   String invalidTwitterUserUrl(String value, String userName);
 
   /// No description provided for @invalidYoutubeChannelUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid youtube channel {id, select, _{url} other{with id: {id}}}.'**
+  /// **'Sorry! you have to enter a valid youtube channel {id, select, empty{url} other{with id: {id}}}.'**
   String invalidYoutubeChannelUrl(String value, String id);
 
   /// No description provided for @invalidYoutubeUserUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid youtube user {userName, select, _{url} other{with user name: {userName}}}.'**
+  /// **'Sorry! you have to enter a valid youtube user {userName, select, empty{url} other{with user name: {userName}}}.'**
   String invalidYoutubeUserUrl(String value, String userName);
 
   /// No description provided for @invalidYoutubeVideoUrl.
   ///
   /// In en, this message translates to:
-  /// **'Sorry! you have to enter a valid youtube video {id, select, _{url} other{with id: {id}}}.'**
+  /// **'Sorry! you have to enter a valid youtube video {id, select, empty{url} other{with id: {id}}}.'**
   String invalidYoutubeVideoUrl(String value, String id);
 
   /// No description provided for @isBetween.
@@ -318,26 +318,26 @@ abstract class ReadyValidationMessages {
   /// No description provided for @isDateAfter.
   ///
   /// In en, this message translates to:
-  /// **'You must enter a date after {other}.'**
-  String isDateAfter(DateTime value, DateTime other);
+  /// **'You must enter a date after {o}.'**
+  String isDateAfter(DateTime value, DateTime o);
 
   /// No description provided for @isDateAfterOrEqual.
   ///
   /// In en, this message translates to:
-  /// **'You must enter a date after or at the same time as {other}.'**
-  String isDateAfterOrEqual(DateTime value, DateTime other);
+  /// **'You must enter a date after or at the same time as {o}.'**
+  String isDateAfterOrEqual(DateTime value, DateTime o);
 
   /// No description provided for @isDateBefore.
   ///
   /// In en, this message translates to:
-  /// **'You must enter a date before {other}.'**
-  String isDateBefore(DateTime value, DateTime other);
+  /// **'You must enter a date before {o}.'**
+  String isDateBefore(DateTime value, DateTime o);
 
   /// No description provided for @isDateBeforeOrEqual.
   ///
   /// In en, this message translates to:
-  /// **'You must enter a date before or at the same time as {other}.'**
-  String isDateBeforeOrEqual(DateTime value, DateTime other);
+  /// **'You must enter a date before or at the same time as {o}.'**
+  String isDateBeforeOrEqual(DateTime value, DateTime o);
 
   /// No description provided for @isDateBetween.
   ///
@@ -356,6 +356,12 @@ abstract class ReadyValidationMessages {
   /// In en, this message translates to:
   /// **'You must enter a valid date'**
   String isDateTime(Object value);
+
+  /// No description provided for @isBoolean.
+  ///
+  /// In en, this message translates to:
+  /// **'You must enter true or false'**
+  String isBoolean(Object value);
 
   /// No description provided for @isDecimal.
   ///
@@ -426,26 +432,26 @@ abstract class ReadyValidationMessages {
   /// No description provided for @isTimeAfter.
   ///
   /// In en, this message translates to:
-  /// **'You must enter a date after {other}.'**
-  String isTimeAfter(DateTime value, DateTime other);
+  /// **'You must enter a date after {o}.'**
+  String isTimeAfter(DateTime value, DateTime o);
 
   /// No description provided for @isTimeAfterOrEqual.
   ///
   /// In en, this message translates to:
-  /// **'You must enter time after or at the same time as {other}.'**
-  String isTimeAfterOrEqual(DateTime value, DateTime other);
+  /// **'You must enter time after or at the same time as {o}.'**
+  String isTimeAfterOrEqual(DateTime value, DateTime o);
 
   /// No description provided for @isTimeBefore.
   ///
   /// In en, this message translates to:
-  /// **'You must enter time before {other}.'**
-  String isTimeBefore(DateTime value, DateTime other);
+  /// **'You must enter time before {o}.'**
+  String isTimeBefore(DateTime value, DateTime o);
 
   /// No description provided for @isTimeBeforeOrEqual.
   ///
   /// In en, this message translates to:
-  /// **'You must enter time before or at the same time as {other}.'**
-  String isTimeBeforeOrEqual(DateTime value, DateTime other);
+  /// **'You must enter time before or at the same time as {o}.'**
+  String isTimeBeforeOrEqual(DateTime value, DateTime o);
 
   /// No description provided for @isTimeBetween.
   ///
@@ -492,7 +498,7 @@ abstract class ReadyValidationMessages {
   /// No description provided for @listMinLength.
   ///
   /// In en, this message translates to:
-  /// **'The number of elements should not be less than {max}'**
+  /// **'The number of elements should not be less than {min}'**
   String listMinLength(Iterable value, int min);
 
   /// No description provided for @listRange.

@@ -1,7 +1,8 @@
 // cSpell: disable
-// ignore_for_file: unused_local_variable, unnecessary_brace_in_string_interps, equal_keys_in_map
+// ignore_for_file: unused_local_variable, unnecessary_brace_in_string_interps, equal_keys_in_map, unnecessary_string_interpolations
 
 import 'package:intl/intl.dart' as intl;
+
 import 'messages.dart';
 
 /// The translations for English (`en`).
@@ -74,264 +75,357 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
 
   @override
   String invalidAngelCompanyUrl(String value, String company) {
-    final String selectString = intl.Intl.select(
-        company, {'_': 'url', 'other': 'with name: ${company}'},
-        desc: 'No description provided in @invalidAngelCompanyUrl');
-
-    return 'Sorry! you have to enter a valid angel company ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      company,
+      {
+        'empty': 'url',
+        'other': 'with name: $company',
+      },
+    );
+    return 'Sorry! you have to enter a valid angel company $_temp0.';
   }
 
   @override
   String invalidAngelJobUrl(String value, String jobId) {
-    final String selectString = intl.Intl.select(
-        jobId, {'_': 'url', 'other': 'with id: ${jobId}'},
-        desc: 'No description provided in @invalidAngelJobUrl');
-
-    return 'Sorry! you have to enter a valid angel job ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      jobId,
+      {
+        'empty': 'url',
+        'other': 'with id: $jobId',
+      },
+    );
+    return 'Sorry! you have to enter a valid angel job $_temp0.';
   }
 
   @override
   String invalidCrunchbaseOrganizationUrl(String value, String organization) {
-    final String selectString = intl.Intl.select(
-        organization, {'_': 'url', 'other': 'with name: ${organization}'},
-        desc: 'No description provided in @invalidCrunchbaseOrganizationUrl');
-
-    return 'Sorry! you have to enter a valid crunchbase organization ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      organization,
+      {
+        'empty': 'url',
+        'other': 'with name: $organization',
+      },
+    );
+    return 'Sorry! you have to enter a valid crunchbase organization $_temp0.';
   }
 
   @override
   String invalidCrunchbasePersonUrl(String value, String person) {
-    final String selectString = intl.Intl.select(
-        person, {'_': 'url', 'other': 'with name: ${person}'},
-        desc: 'No description provided in @invalidCrunchbasePersonUrl');
-
-    return 'Sorry! you have to enter a valid crunchbase person ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      person,
+      {
+        'empty': 'url',
+        'other': 'with name: $person',
+      },
+    );
+    return 'Sorry! you have to enter a valid crunchbase person $_temp0.';
   }
 
   @override
   String invalidFacebookUrl(String value, String name, String id) {
-    final String selectString = intl.Intl.select(
-        name,
-        {
-          '_': '{id, select, _{url',
-          'other': 'user with id: ${id}',
-          'other': 'user with name: ${name}'
-        },
-        desc: 'No description provided in @invalidFacebookUrl');
-
-    return 'Sorry! you have to enter a valid facebook ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      id,
+      {
+        'empty': 'url',
+        'other': 'user with id: $id',
+      },
+    );
+    String _temp1 = intl.Intl.selectLogic(
+      name,
+      {
+        'empty': '$_temp0',
+        'other': 'user with name: $name',
+      },
+    );
+    return 'Sorry! you have to enter a valid facebook $_temp1.';
   }
 
   @override
   String invalidGitHubUrl(String value, String user, String repository) {
-    final String selectString = intl.Intl.select(
-        user,
-        {
-          '_': '{repository, select, _{url',
-          'other': 'repository: $repository',
-          'other': 'user with name: $user {repository, select, _{',
-          'other': 'and repository: ${repository}'
-        },
-        desc: 'No description provided in @invalidGitHubUrl');
-
-    return 'Sorry! you have to enter a valid gitHub ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      repository,
+      {
+        'empty': 'url',
+        'other': 'repository: $repository',
+      },
+    );
+    String _temp1 = intl.Intl.selectLogic(
+      repository,
+      {
+        'empty': '',
+        'other': 'and repository: $repository',
+      },
+    );
+    String _temp2 = intl.Intl.selectLogic(
+      user,
+      {
+        'empty': '$_temp0',
+        'other': 'user with name: $user $_temp1',
+      },
+    );
+    return 'Sorry! you have to enter a valid gitHub $_temp2.';
   }
 
   @override
   String invalidGooglePlusUrl(String value, String userName, String id) {
-    final String selectString = intl.Intl.select(
-        userName, {'_': 'url', 'other': 'with user name: ${userName}'},
-        desc: 'No description provided in @invalidGooglePlusUrl');
-
-    return 'Sorry! you have to enter a valid google plus ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      userName,
+      {
+        'empty': 'url',
+        'other': 'with user name: $userName',
+      },
+    );
+    return 'Sorry! you have to enter a valid google plus $_temp0.';
   }
 
   @override
   String invalidHackerNewsItemUrl(String value, String id) {
-    final String selectString = intl.Intl.select(
-        id, {'_': 'url', 'other': 'with id: ${id}'},
-        desc: 'No description provided in @invalidHackerNewsItemUrl');
-
-    return 'Sorry! you have to enter a valid hacker news item  ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      id,
+      {
+        'empty': 'url',
+        'other': 'with id: $id',
+      },
+    );
+    return 'Sorry! you have to enter a valid hacker news item  $_temp0.';
   }
 
   @override
   String invalidHackerNewsUserUrl(String value, String id) {
-    final String selectString = intl.Intl.select(
-        id, {'_': 'url', 'other': 'with id: ${id}'},
-        desc: 'No description provided in @invalidHackerNewsUserUrl');
-
-    return 'Sorry! you have to enter a valid hacker news user  ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      id,
+      {
+        'empty': 'url',
+        'other': 'with id: $id',
+      },
+    );
+    return 'Sorry! you have to enter a valid hacker news user  $_temp0.';
   }
 
   @override
   String invalidInstagramUrl(String value, String user) {
-    final String selectString = intl.Intl.select(
-        user, {'_': 'url', 'other': 'with user: ${user}'},
-        desc: 'No description provided in @invalidInstagramUrl');
-
-    return 'Sorry! you have to enter a valid instagram ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      user,
+      {
+        'empty': 'url',
+        'other': 'with user: $user',
+      },
+    );
+    return 'Sorry! you have to enter a valid instagram $_temp0.';
   }
 
   @override
   String invalidLinkedInCompanyUrl(String value, String permalink) {
-    final String selectString = intl.Intl.select(
-        permalink, {'_': 'company url', 'other': 'company with $permalink url'},
-        desc: 'No description provided in @invalidLinkedInCompanyUrl');
-
-    return 'Sorry! you have to enter a valid inked in ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      permalink,
+      {
+        'empty': 'company url',
+        'other': 'company with $permalink url',
+      },
+    );
+    return 'Sorry! you have to enter a valid inked in $_temp0.';
   }
 
   @override
   String invalidLinkedInPostUrl(String value, String id) {
-    final String selectString = intl.Intl.select(
-        id, {'_': 'url', 'other': 'with id: ${id}'},
-        desc: 'No description provided in @invalidLinkedInPostUrl');
-
-    return 'Sorry! you have to enter a valid linked in post  ${selectString}';
+    String _temp0 = intl.Intl.selectLogic(
+      id,
+      {
+        'empty': 'url',
+        'other': 'with id: $id',
+      },
+    );
+    return 'Sorry! you have to enter a valid linked in post  $_temp0';
   }
 
   @override
   String invalidLinkedInProfileUrl(String value, String permalink) {
-    final String selectString = intl.Intl.select(
-        permalink, {'_': 'profile url', 'other': 'profile with $permalink url'},
-        desc: 'No description provided in @invalidLinkedInProfileUrl');
-
-    return 'Sorry! you have to enter a valid inked in ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      permalink,
+      {
+        'empty': 'profile url',
+        'other': 'profile with $permalink url',
+      },
+    );
+    return 'Sorry! you have to enter a valid inked in $_temp0.';
   }
 
   @override
   String invalidMediumPostUrl(String value, String postId) {
-    final String selectString = intl.Intl.select(
-        postId, {'_': 'url', 'other': 'with id: ${postId}'},
-        desc: 'No description provided in @invalidMediumPostUrl');
-
-    return 'Sorry! you have to enter a valid medium post ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      postId,
+      {
+        'empty': 'url',
+        'other': 'with id: $postId',
+      },
+    );
+    return 'Sorry! you have to enter a valid medium post $_temp0.';
   }
 
   @override
   String invalidMediumUserUrl(String value, String userName, String id) {
-    final String selectString = intl.Intl.select(
-        userName,
-        {
-          '_': '{id, select, _{url',
-          'other': 'with id: ${id}',
-          'other': 'with user name: ${userName}'
-        },
-        desc: 'No description provided in @invalidMediumUserUrl');
-
-    return 'Sorry! you have to enter a valid medium user ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      id,
+      {
+        'empty': 'url',
+        'other': 'with id: $id',
+      },
+    );
+    String _temp1 = intl.Intl.selectLogic(
+      userName,
+      {
+        'empty': '$_temp0',
+        'other': 'with user name: $userName',
+      },
+    );
+    return 'Sorry! you have to enter a valid medium user $_temp1.';
   }
 
   @override
   String invalidRedditUrl(String value, String user) {
-    final String selectString = intl.Intl.select(
-        user, {'_': 'url', 'other': 'with user: ${user}'},
-        desc: 'No description provided in @invalidRedditUrl');
-
-    return 'Sorry! you have to enter a valid reddit ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      user,
+      {
+        'empty': 'url',
+        'other': 'with user: $user',
+      },
+    );
+    return 'Sorry! you have to enter a valid reddit $_temp0.';
   }
 
   @override
   String invalidSnapchatUrl(String value, String user) {
-    final String selectString = intl.Intl.select(
-        user, {'_': 'url', 'other': 'with user: ${user}'},
-        desc: 'No description provided in @invalidSnapchatUrl');
-
-    return 'Sorry! you have to enter a valid snapchat ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      user,
+      {
+        'empty': 'url',
+        'other': 'with user: $user',
+      },
+    );
+    return 'Sorry! you have to enter a valid snapchat $_temp0.';
   }
 
   @override
   String invalidStackexchangeUrl(String value, String user, String id) {
-    final String selectString = intl.Intl.select(
-        user,
-        {
-          '_': '{id, select, _{url',
-          'other': 'with id: ${id}',
-          'other': 'with user name: ${user}'
-        },
-        desc: 'No description provided in @invalidStackexchangeUrl');
-
-    return 'Sorry! you have to enter a valid stackexchange ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      id,
+      {
+        'empty': 'url',
+        'other': 'with id: $id',
+      },
+    );
+    String _temp1 = intl.Intl.selectLogic(
+      user,
+      {
+        'empty': '$_temp0',
+        'other': 'with user name: $user',
+      },
+    );
+    return 'Sorry! you have to enter a valid stackexchange $_temp1.';
   }
 
   @override
   String invalidStackoverflowQuestionUrl(String value, String id) {
-    final String selectString = intl.Intl.select(
-        id, {'_': 'url', 'other': 'with id: ${id}'},
-        desc: 'No description provided in @invalidStackoverflowQuestionUrl');
-
-    return 'Sorry! you have to enter a valid stackoverflow question ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      id,
+      {
+        'empty': 'url',
+        'other': 'with id: $id',
+      },
+    );
+    return 'Sorry! you have to enter a valid stackoverflow question $_temp0.';
   }
 
   @override
   String invalidStackoverflowUserUrl(String value, String id) {
-    final String selectString = intl.Intl.select(
-        id, {'_': 'url', 'other': 'with id: ${id}'},
-        desc: 'No description provided in @invalidStackoverflowUserUrl');
-
-    return 'Sorry! you have to enter a valid stackoverflow user ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      id,
+      {
+        'empty': 'url',
+        'other': 'with id: $id',
+      },
+    );
+    return 'Sorry! you have to enter a valid stackoverflow user $_temp0.';
   }
 
   @override
   String invalidTelegramProfileUrl(String value, String userName) {
-    final String selectString = intl.Intl.select(
-        userName, {'_': 'url', 'other': 'with user name: ${userName}'},
-        desc: 'No description provided in @invalidTelegramProfileUrl');
-
-    return 'Sorry! you have to enter a valid telegram profile ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      userName,
+      {
+        'empty': 'url',
+        'other': 'with user name: $userName',
+      },
+    );
+    return 'Sorry! you have to enter a valid telegram profile $_temp0.';
   }
 
   @override
   String invalidTwitterStatusUrl(
       String value, String userName, String tweetId) {
-    final String selectString = intl.Intl.select(
-        tweetId,
-        {
-          '_': 'url',
-          'other': 'with id: ${tweetId}',
-          '_': '',
-          'other': 'with user name: ${userName}'
-        },
-        desc: 'No description provided in @invalidTwitterStatusUrl');
-
-    return 'Sorry! you have to enter a valid twitter status ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      tweetId,
+      {
+        'empty': 'url',
+        'other': 'with id: $tweetId',
+      },
+    );
+    String _temp1 = intl.Intl.selectLogic(
+      userName,
+      {
+        'empty': '',
+        'other': 'with user name: $userName',
+      },
+    );
+    return 'Sorry! you have to enter a valid twitter status $_temp0 $_temp1.';
   }
 
   @override
   String invalidTwitterUserUrl(String value, String userName) {
-    final String selectString = intl.Intl.select(
-        userName, {'_': 'url', 'other': 'with user name: ${userName}'},
-        desc: 'No description provided in @invalidTwitterUserUrl');
-
-    return 'Sorry! you have to enter a valid twitter user ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      userName,
+      {
+        'empty': 'url',
+        'other': 'with user name: $userName',
+      },
+    );
+    return 'Sorry! you have to enter a valid twitter user $_temp0.';
   }
 
   @override
   String invalidYoutubeChannelUrl(String value, String id) {
-    final String selectString = intl.Intl.select(
-        id, {'_': 'url', 'other': 'with id: ${id}'},
-        desc: 'No description provided in @invalidYoutubeChannelUrl');
-
-    return 'Sorry! you have to enter a valid youtube channel ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      id,
+      {
+        'empty': 'url',
+        'other': 'with id: $id',
+      },
+    );
+    return 'Sorry! you have to enter a valid youtube channel $_temp0.';
   }
 
   @override
   String invalidYoutubeUserUrl(String value, String userName) {
-    final String selectString = intl.Intl.select(
-        userName, {'_': 'url', 'other': 'with user name: ${userName}'},
-        desc: 'No description provided in @invalidYoutubeUserUrl');
-
-    return 'Sorry! you have to enter a valid youtube user ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      userName,
+      {
+        'empty': 'url',
+        'other': 'with user name: $userName',
+      },
+    );
+    return 'Sorry! you have to enter a valid youtube user $_temp0.';
   }
 
   @override
   String invalidYoutubeVideoUrl(String value, String id) {
-    final String selectString = intl.Intl.select(
-        id, {'_': 'url', 'other': 'with id: ${id}'},
-        desc: 'No description provided in @invalidYoutubeVideoUrl');
-
-    return 'Sorry! you have to enter a valid youtube video ${selectString}.';
+    String _temp0 = intl.Intl.selectLogic(
+      id,
+      {
+        'empty': 'url',
+        'other': 'with id: $id',
+      },
+    );
+    return 'Sorry! you have to enter a valid youtube video $_temp0.';
   }
 
   @override
@@ -365,48 +459,46 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String isCreditCard(String value) {
-    return 'You must enter a valid credit card number';
+  String isCreditCard(Object v) => 'You must enter a valid credit card number';
+
+  @override
+  String isDateAfter(DateTime value, DateTime o) {
+    final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
+    final String valueString = valueDateFormat.format(value);
+    final intl.DateFormat oDateFormat = intl.DateFormat.yMEd(localeName);
+    final String oString = oDateFormat.format(o);
+
+    return 'You must enter a date after $oString.';
   }
 
   @override
-  String isDateAfter(DateTime value, DateTime other) {
+  String isDateAfterOrEqual(DateTime value, DateTime o) {
     final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
     final String valueString = valueDateFormat.format(value);
-    final intl.DateFormat otherDateFormat = intl.DateFormat.yMEd(localeName);
-    final String otherString = otherDateFormat.format(other);
+    final intl.DateFormat oDateFormat = intl.DateFormat.yMEd(localeName);
+    final String oString = oDateFormat.format(o);
 
-    return 'You must enter a date after $otherString.';
+    return 'You must enter a date after or at the same time as $oString.';
   }
 
   @override
-  String isDateAfterOrEqual(DateTime value, DateTime other) {
+  String isDateBefore(DateTime value, DateTime o) {
     final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
     final String valueString = valueDateFormat.format(value);
-    final intl.DateFormat otherDateFormat = intl.DateFormat.yMEd(localeName);
-    final String otherString = otherDateFormat.format(other);
+    final intl.DateFormat oDateFormat = intl.DateFormat.yMEd(localeName);
+    final String oString = oDateFormat.format(o);
 
-    return 'You must enter a date after or at the same time as $otherString.';
+    return 'You must enter a date before $oString.';
   }
 
   @override
-  String isDateBefore(DateTime value, DateTime other) {
+  String isDateBeforeOrEqual(DateTime value, DateTime o) {
     final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
     final String valueString = valueDateFormat.format(value);
-    final intl.DateFormat otherDateFormat = intl.DateFormat.yMEd(localeName);
-    final String otherString = otherDateFormat.format(other);
+    final intl.DateFormat oDateFormat = intl.DateFormat.yMEd(localeName);
+    final String oString = oDateFormat.format(o);
 
-    return 'You must enter a date before $otherString.';
-  }
-
-  @override
-  String isDateBeforeOrEqual(DateTime value, DateTime other) {
-    final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
-    final String valueString = valueDateFormat.format(value);
-    final intl.DateFormat otherDateFormat = intl.DateFormat.yMEd(localeName);
-    final String otherString = otherDateFormat.format(other);
-
-    return 'You must enter a date before or at the same time as $otherString.';
+    return 'You must enter a date before or at the same time as $oString.';
   }
 
   @override
@@ -434,14 +526,13 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String isDateTime(Object value) {
-    return 'You must enter a valid date';
-  }
+  String isDateTime(Object? v) => 'You must enter a valid date';
 
   @override
-  String isDecimal(Object value) {
-    return 'You must enter a decimal number';
-  }
+  String isBoolean(Object? v) => 'You must enter true or false';
+
+  @override
+  String isDecimal(Object? v) => 'You must enter a decimal number';
 
   @override
   String isDivisibleBy(num value, num division) {
@@ -456,18 +547,10 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String isEmail(String value) {
-    return 'You must enter a valid email address';
-  }
+  String isEmail(Object? v) => 'You must enter a valid email address';
 
   @override
-  String isEven(num value) {
-    final intl.NumberFormat valueNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String valueString = valueNumberFormat.format(value);
-
-    return 'The value must be an even number';
-  }
+  String isEven(Object? v) => 'The value must be an even number';
 
   @override
   String isIn(dynamic value, Iterable list) {
@@ -475,18 +558,10 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String isInteger(Object value) {
-    return 'You must enter a valid number';
-  }
+  String isInteger(Object? v) => 'You must enter a valid number';
 
   @override
-  String isNegative(num value) {
-    final intl.NumberFormat valueNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String valueString = valueNumberFormat.format(value);
-
-    return 'Value must be negative';
-  }
+  String isNegative(Object? v) => 'Value must be negative';
 
   @override
   String isNotIn(dynamic value, Iterable list) {
@@ -494,66 +569,52 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String isNumber(Object value) {
-    return 'You must enter a valid number';
-  }
+  String isNumber(Object? v) => 'You must enter a valid number';
 
   @override
-  String isOdd(num value) {
-    final intl.NumberFormat valueNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String valueString = valueNumberFormat.format(value);
-
-    return 'The value must be an odd number';
-  }
+  String isOdd(Object? v) => 'The value must be an odd number';
 
   @override
-  String isPositive(num value) {
-    final intl.NumberFormat valueNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String valueString = valueNumberFormat.format(value);
-
-    return 'The value should be positive';
-  }
+  String isPositive(Object? v) => 'The value should be positive';
 
   @override
-  String isTimeAfter(DateTime value, DateTime other) {
+  String isTimeAfter(DateTime value, DateTime o) {
     final intl.DateFormat valueDateFormat = intl.DateFormat.jm(localeName);
     final String valueString = valueDateFormat.format(value);
-    final intl.DateFormat otherDateFormat = intl.DateFormat.jm(localeName);
-    final String otherString = otherDateFormat.format(other);
+    final intl.DateFormat oDateFormat = intl.DateFormat.jm(localeName);
+    final String oString = oDateFormat.format(o);
 
-    return 'You must enter a date after $otherString.';
+    return 'You must enter a date after $oString.';
   }
 
   @override
-  String isTimeAfterOrEqual(DateTime value, DateTime other) {
+  String isTimeAfterOrEqual(DateTime value, DateTime o) {
     final intl.DateFormat valueDateFormat = intl.DateFormat.jm(localeName);
     final String valueString = valueDateFormat.format(value);
-    final intl.DateFormat otherDateFormat = intl.DateFormat.jm(localeName);
-    final String otherString = otherDateFormat.format(other);
+    final intl.DateFormat oDateFormat = intl.DateFormat.jm(localeName);
+    final String oString = oDateFormat.format(o);
 
-    return 'You must enter time after or at the same time as $otherString.';
+    return 'You must enter time after or at the same time as $oString.';
   }
 
   @override
-  String isTimeBefore(DateTime value, DateTime other) {
+  String isTimeBefore(DateTime value, DateTime o) {
     final intl.DateFormat valueDateFormat = intl.DateFormat.jm(localeName);
     final String valueString = valueDateFormat.format(value);
-    final intl.DateFormat otherDateFormat = intl.DateFormat.jm(localeName);
-    final String otherString = otherDateFormat.format(other);
+    final intl.DateFormat oDateFormat = intl.DateFormat.jm(localeName);
+    final String oString = oDateFormat.format(o);
 
-    return 'You must enter time before $otherString.';
+    return 'You must enter time before $oString.';
   }
 
   @override
-  String isTimeBeforeOrEqual(DateTime value, DateTime other) {
+  String isTimeBeforeOrEqual(DateTime value, DateTime o) {
     final intl.DateFormat valueDateFormat = intl.DateFormat.jm(localeName);
     final String valueString = valueDateFormat.format(value);
-    final intl.DateFormat otherDateFormat = intl.DateFormat.jm(localeName);
-    final String otherString = otherDateFormat.format(other);
+    final intl.DateFormat oDateFormat = intl.DateFormat.jm(localeName);
+    final String oString = oDateFormat.format(o);
 
-    return 'You must enter time before or at the same time as $otherString.';
+    return 'You must enter time before or at the same time as $oString.';
   }
 
   @override
@@ -581,9 +642,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String isTimeOfDay(Object value) {
-    return 'You must enter a valid time';
-  }
+  String isTimeOfDay(Object? v) => 'You must enter a valid time';
 
   @override
   String lessThan(num value, num max) {
@@ -621,7 +680,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
 
   @override
   String listMinLength(Iterable value, int min) {
-    return 'The number of elements should not be less than {max}';
+    return 'The number of elements should not be less than $min';
   }
 
   @override

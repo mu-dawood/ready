@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ready_extensions/ready_extensions.dart';
-import 'package:ready_validation/src/messages/messages_en.dart';
 
 import 'config.dart';
 import 'messages/messages.dart';
 import 'messages/messages_ar.dart';
+import 'messages/messages_en.dart';
 import 'utils.dart';
 
 part './field_validators/date_time_extensions.dart';
@@ -47,6 +47,16 @@ extension ValidationExtensions on BuildContext {
     );
   }
 
+  /// create [FieldValidator] for [num] from [string]
+  FieldValidator<String?, num?> isNullOrNumber() {
+    return string().isNullOrNumber();
+  }
+
+  /// create [FieldValidator] for [num] from [string]
+  FieldValidator<String?, num> isNumber() {
+    return string().isNullOrNumber().required();
+  }
+
   /// create [FieldValidator] for [int]
   FieldValidator<int?, int?> integer([String? Function(int? value)? validate]) {
     return FieldValidator<int?, int?>._(
@@ -54,6 +64,16 @@ extension ValidationExtensions on BuildContext {
       convert: (v) => v,
       validate: (value) => validate?.call(value.value),
     );
+  }
+
+  /// create [FieldValidator] for [int] from [string]
+  FieldValidator<String?, int?> isNullOrInteger() {
+    return string().isNullOrInteger();
+  }
+
+  /// create [FieldValidator] for [int] from [string]
+  FieldValidator<String?, int> isInteger() {
+    return string().isNullOrInteger().required();
   }
 
   /// create [FieldValidator] for [double]
@@ -66,6 +86,16 @@ extension ValidationExtensions on BuildContext {
     );
   }
 
+  /// create [FieldValidator] for [double] from [string]
+  FieldValidator<String?, double?> isNullOrDecimal() {
+    return string().isNullOrDecimal();
+  }
+
+  /// create [FieldValidator] for [double] from [string]
+  FieldValidator<String?, double> isDecimal() {
+    return string().isNullOrDecimal().required();
+  }
+
   /// create [FieldValidator] for [bool]
   FieldValidator<bool?, bool?> boolean(
       [String? Function(bool? value)? validate]) {
@@ -74,6 +104,16 @@ extension ValidationExtensions on BuildContext {
       convert: (v) => v,
       validate: (value) => validate?.call(value.value),
     );
+  }
+
+  /// create [FieldValidator] for [bool] from [string]
+  FieldValidator<String?, bool?> isNullOrBoolean() {
+    return string().isNullOrBoolean();
+  }
+
+  /// create [FieldValidator] for [bool] from [string]
+  FieldValidator<String?, bool> isBoolean() {
+    return string().isNullOrBoolean().required();
   }
 
   /// create [FieldValidator] for [DateTime]
@@ -86,6 +126,16 @@ extension ValidationExtensions on BuildContext {
     );
   }
 
+  /// create [FieldValidator] for [DateTime] from [string]
+  FieldValidator<String?, DateTime?> isNullOrDateTime() {
+    return string().isNullOrDateTime();
+  }
+
+  /// create [FieldValidator] for [DateTime] from [string]
+  FieldValidator<String?, DateTime> isDateTime() {
+    return string().isNullOrDateTime().required();
+  }
+
   /// create [FieldValidator] for [TimeOfDay]
   FieldValidator<TimeOfDay?, TimeOfDay?> timeOfDay(
       [String? Function(TimeOfDay? value)? validate]) {
@@ -94,6 +144,16 @@ extension ValidationExtensions on BuildContext {
       convert: (v) => v,
       validate: (value) => validate?.call(value.value),
     );
+  }
+
+  /// create [FieldValidator] for [TimeOfDay] from [string]
+  FieldValidator<String?, TimeOfDay?> isNullOrTimeOfDay() {
+    return string().isNullOrTimeOfDay();
+  }
+
+  /// create [FieldValidator] for [TimeOfDay] from [string]
+  FieldValidator<String?, TimeOfDay> isTimeOfDay() {
+    return string().isNullOrTimeOfDay().required();
   }
 
   /// create [FieldValidator] for [List] of type [T]

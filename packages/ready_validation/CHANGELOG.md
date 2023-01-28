@@ -9,3 +9,7 @@
 ## 2.1.0
 
 * change type validations
+
+## 2.2.0
+
+* add more context validators

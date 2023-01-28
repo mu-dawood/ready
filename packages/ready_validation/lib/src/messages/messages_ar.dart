@@ -75,268 +75,357 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
 
   @override
   String invalidAngelCompanyUrl(String value, String company) {
-    final String selectString = intl.Intl.select(
-        company, {'_': '  ', 'other': '${company}'},
-        desc: 'No description provided in @invalidAngelCompanyUrl');
-
-    return 'آسف! يجب عليك إدخال رابط صحيح لشركة $selectString بموقع angel.';
+    String _temp0 = intl.Intl.selectLogic(
+      company,
+      {
+        'empty': '',
+        'other': '$company',
+      },
+    );
+    return 'آسف! يجب عليك إدخال رابط صحيح لشركة $_temp0 بموقع angel.';
   }
 
   @override
   String invalidAngelJobUrl(String value, String jobId) {
-    final String selectString = intl.Intl.select(
-        jobId, {'_': '', 'other': ' تحمل المعرف : ${jobId}'},
-        desc: 'No description provided in @invalidAngelJobUrl');
-
-    return 'آسف! عليك إدخال رابط صحيح لوظيفة $selectString بموقع angel.';
+    String _temp0 = intl.Intl.selectLogic(
+      jobId,
+      {
+        'empty': '',
+        'other': ' تحمل المعرف : $jobId',
+      },
+    );
+    return 'آسف! عليك إدخال رابط صحيح لوظيفة $_temp0 بموقع angel.';
   }
 
   @override
   String invalidCrunchbaseOrganizationUrl(String value, String organization) {
-    final String selectString = intl.Intl.select(
-        organization, {'_': ' url ', 'other': ' بالاسم: ${organization}'},
-        desc: 'No description provided in @invalidCrunchbaseOrganizationUrl');
-
-    return 'آسف! يجب عليك إدخال منظمة crunchbase صالحة $selectString بموقع crunchbase.';
+    String _temp0 = intl.Intl.selectLogic(
+      organization,
+      {
+        'empty': ' url ',
+        'other': ' بالاسم: $organization',
+      },
+    );
+    return 'آسف! يجب عليك إدخال منظمة crunchbase صالحة $_temp0 بموقع crunchbase.';
   }
 
   @override
   String invalidCrunchbasePersonUrl(String value, String person) {
-    final String selectString = intl.Intl.select(
-        person, {'_': ' url ', 'other': ' بالاسم: ${person}'},
-        desc: 'No description provided in @invalidCrunchbasePersonUrl');
-
-    return 'آسف! يجب عليك إدخال شخص crunchbase صالح $selectString بموقع crunchbase.';
+    String _temp0 = intl.Intl.selectLogic(
+      person,
+      {
+        'empty': ' url ',
+        'other': ' بالاسم: $person',
+      },
+    );
+    return 'آسف! يجب عليك إدخال شخص crunchbase صالح $_temp0 بموقع crunchbase.';
   }
 
   @override
   String invalidFacebookUrl(String value, String name, String id) {
-    final String selectString = intl.Intl.select(
-        name,
-        {
-          '_': '{id, select, _{ url ',
-          'other': ' للمستخدم الذي يحمل المعرف: ${id}',
-          'other': ' user للمستخدم: ${name}'
-        },
-        desc: 'No description provided in @invalidFacebookUrl');
-
-    return 'آسف! يجب عليك إدخال رابط $selectString بموقع facebook.';
+    String _temp0 = intl.Intl.selectLogic(
+      id,
+      {
+        'empty': ' url ',
+        'other': ' للمستخدم الذي يحمل المعرف: $id',
+      },
+    );
+    String _temp1 = intl.Intl.selectLogic(
+      name,
+      {
+        'empty': '$_temp0',
+        'other': ' user للمستخدم: $name',
+      },
+    );
+    return 'آسف! يجب عليك إدخال رابط $_temp1 بموقع facebook.';
   }
 
   @override
   String invalidGitHubUrl(String value, String user, String repository) {
-    final String selectString = intl.Intl.select(
-        user,
-        {
-          '_': '{repository, select, _{ ',
-          'other': ' للمستودع: ${repository}',
-          'other': ' للمستخدم: $user {repository, select, _{',
-          'other': ' : ${repository}'
-        },
-        desc: 'No description provided in @invalidGitHubUrl');
-
-    return 'آسف! يجب عليك إدخال رابط $selectString بموقع gitHub.';
+    String _temp0 = intl.Intl.selectLogic(
+      repository,
+      {
+        'empty': ' ',
+        'other': ' للمستودع: $repository',
+      },
+    );
+    String _temp1 = intl.Intl.selectLogic(
+      repository,
+      {
+        'empty': '',
+        'other': ' : $repository',
+      },
+    );
+    String _temp2 = intl.Intl.selectLogic(
+      user,
+      {
+        'empty': '$_temp0',
+        'other': ' للمستخدم: $user $_temp1',
+      },
+    );
+    return 'آسف! يجب عليك إدخال رابط $_temp2 بموقع gitHub.';
   }
 
   @override
   String invalidGooglePlusUrl(String value, String userName, String id) {
-    final String selectString = intl.Intl.select(
-        userName, {'_': ' لمستخدم ', 'other': ' للمستخدم: ${userName}'},
-        desc: 'No description provided in @invalidGooglePlusUrl');
-
-    return 'آسف! يجب عليك إدخال رابط $selectString بموقع google.';
+    String _temp0 = intl.Intl.selectLogic(
+      userName,
+      {
+        'empty': ' لمستخدم ',
+        'other': ' للمستخدم: $userName',
+      },
+    );
+    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع google.';
   }
 
   @override
   String invalidHackerNewsItemUrl(String value, String id) {
-    final String selectString = intl.Intl.select(
-        id, {'_': ' لخبر ', 'other': 'للخبر الذي يحمل المعرف: ${id}'},
-        desc: 'No description provided in @invalidHackerNewsItemUrl');
-
-    return 'آسف! يجب عليك إدخال رابط $selectString بموقع HackerNews.';
+    String _temp0 = intl.Intl.selectLogic(
+      id,
+      {
+        'empty': ' لخبر ',
+        'other': 'للخبر الذي يحمل المعرف: $id',
+      },
+    );
+    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع HackerNews.';
   }
 
   @override
   String invalidHackerNewsUserUrl(String value, String id) {
-    final String selectString = intl.Intl.select(
-        id, {'_': ' لمستخدم ', 'other': ' للمستخدم الذي يحمل المعرف: ${id}'},
-        desc: 'No description provided in @invalidHackerNewsUserUrl');
-
-    return 'آسف! يجب عليك إدخال رابط $selectString بموقع HackerNews.';
+    String _temp0 = intl.Intl.selectLogic(
+      id,
+      {
+        'empty': ' لمستخدم ',
+        'other': ' للمستخدم الذي يحمل المعرف: $id',
+      },
+    );
+    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع HackerNews.';
   }
 
   @override
   String invalidInstagramUrl(String value, String user) {
-    final String selectString = intl.Intl.select(
-        user, {'_': ' لمستخدم ', 'other': ' للمستخدم: ${user}'},
-        desc: 'No description provided in @invalidInstagramUrl');
-
-    return 'آسف! يجب عليك إدخال رابط $selectString بموقع instagram.';
+    String _temp0 = intl.Intl.selectLogic(
+      user,
+      {
+        'empty': ' لمستخدم ',
+        'other': ' للمستخدم: $user',
+      },
+    );
+    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع instagram.';
   }
 
   @override
   String invalidLinkedInCompanyUrl(String value, String permalink) {
-    final String selectString = intl.Intl.select(permalink,
-        {'_': 'لشركة', 'other': 'للشركة التي تحمل المعرف $permalink '},
-        desc: 'No description provided in @invalidLinkedInCompanyUrl');
-
-    return 'آسف! يجب عليك إدخال رابط $selectString بموقع linkedIn.';
+    String _temp0 = intl.Intl.selectLogic(
+      permalink,
+      {
+        'empty': 'لشركة',
+        'other': 'للشركة التي تحمل المعرف $permalink ',
+      },
+    );
+    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع linkedIn.';
   }
 
   @override
   String invalidLinkedInPostUrl(String value, String id) {
-    final String selectString = intl.Intl.select(
-        id, {'_': ' لمنشور', 'other': ' للمنشور الذي يحمل المعرف: ${id}'},
-        desc: 'No description provided in @invalidLinkedInPostUrl');
-
-    return 'آسف! يجب عليك إدخال رابط  $selectString بموقع linkedIn.';
+    String _temp0 = intl.Intl.selectLogic(
+      id,
+      {
+        'empty': ' لمنشور',
+        'other': ' للمنشور الذي يحمل المعرف: $id',
+      },
+    );
+    return 'آسف! يجب عليك إدخال رابط  $_temp0 بموقع linkedIn.';
   }
 
   @override
   String invalidLinkedInProfileUrl(String value, String permalink) {
-    final String selectString = intl.Intl.select(
-        permalink,
-        {
-          '_': 'لملف شخصي',
-          'other': 'للملف الشخصي الذي يحمل المعرف ${permalink}'
-        },
-        desc: 'No description provided in @invalidLinkedInProfileUrl');
-
-    return 'آسف! يجب عليك إدخال رابط $selectString بموقع linkedIn.';
+    String _temp0 = intl.Intl.selectLogic(
+      permalink,
+      {
+        'empty': 'لملف شخصي',
+        'other': 'للملف الشخصي الذي يحمل المعرف $permalink',
+      },
+    );
+    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع linkedIn.';
   }
 
   @override
   String invalidMediumPostUrl(String value, String postId) {
-    final String selectString = intl.Intl.select(postId,
-        {'_': ' لمنشور ', 'other': ' للمنشور الذي يحمل المعرف: ${postId}'},
-        desc: 'No description provided in @invalidMediumPostUrl');
-
-    return 'آسف! يجب عليك إدخال رابط $selectString بموقع medium.';
+    String _temp0 = intl.Intl.selectLogic(
+      postId,
+      {
+        'empty': ' لمنشور ',
+        'other': ' للمنشور الذي يحمل المعرف: $postId',
+      },
+    );
+    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع medium.';
   }
 
   @override
   String invalidMediumUserUrl(String value, String userName, String id) {
-    final String selectString = intl.Intl.select(
-        userName,
-        {
-          '_': '{id, select, _{ url ',
-          'other': ' للمستخدم الذي يحمل المعرف: ${id}',
-          'other': ' للمستخدم: ${userName}'
-        },
-        desc: 'No description provided in @invalidMediumUserUrl');
-
-    return 'آسف! يجب عليك إدخال رابط $selectString  بموقع medium.';
+    String _temp0 = intl.Intl.selectLogic(
+      id,
+      {
+        'empty': ' url ',
+        'other': ' للمستخدم الذي يحمل المعرف: $id',
+      },
+    );
+    String _temp1 = intl.Intl.selectLogic(
+      userName,
+      {
+        'empty': '$_temp0',
+        'other': ' للمستخدم: $userName',
+      },
+    );
+    return 'آسف! يجب عليك إدخال رابط $_temp1  بموقع medium.';
   }
 
   @override
   String invalidRedditUrl(String value, String user) {
-    final String selectString = intl.Intl.select(
-        user, {'_': ' ', 'other': ' للمستخدم: ${user}'},
-        desc: 'No description provided in @invalidRedditUrl');
-
-    return 'آسف! يجب عليك إدخال رابط $selectString بموقع reddit.';
+    String _temp0 = intl.Intl.selectLogic(
+      user,
+      {
+        'empty': ' ',
+        'other': ' للمستخدم: $user',
+      },
+    );
+    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع reddit.';
   }
 
   @override
   String invalidSnapchatUrl(String value, String user) {
-    final String selectString = intl.Intl.select(
-        user, {'_': ' url ', 'other': ' with user: ${user}'},
-        desc: 'No description provided in @invalidSnapchatUrl');
-
-    return 'آسف! يجب عليك إدخال snapchat صالح $selectString بموقع medium.';
+    String _temp0 = intl.Intl.selectLogic(
+      user,
+      {
+        'empty': ' url ',
+        'other': ' with user: $user',
+      },
+    );
+    return 'آسف! يجب عليك إدخال snapchat صالح $_temp0 بموقع medium.';
   }
 
   @override
   String invalidStackexchangeUrl(String value, String user, String id) {
-    final String selectString = intl.Intl.select(
-        user,
-        {
-          '_': '{id, select, _{ ',
-          'other': ' بالمعرف: ${id}',
-          'other': ' مع اسم المستخدم: ${user}'
-        },
-        desc: 'No description provided in @invalidStackexchangeUrl');
-
-    return 'آسف! يجب عليك إدخال رابط $selectString بموقع stackexchange.';
+    String _temp0 = intl.Intl.selectLogic(
+      id,
+      {
+        'empty': ' ',
+        'other': ' بالمعرف: $id',
+      },
+    );
+    String _temp1 = intl.Intl.selectLogic(
+      user,
+      {
+        'empty': '$_temp0',
+        'other': ' مع اسم المستخدم: $user',
+      },
+    );
+    return 'آسف! يجب عليك إدخال رابط $_temp1 بموقع stackexchange.';
   }
 
   @override
   String invalidStackoverflowQuestionUrl(String value, String id) {
-    final String selectString = intl.Intl.select(
-        id, {'_': ' لسؤال ', 'other': ' للسؤال الذي يحمل المعرف: ${id}'},
-        desc: 'No description provided in @invalidStackoverflowQuestionUrl');
-
-    return 'آسف! يجب عليك إدخال رابط $selectString بموقع stackoverflow.';
+    String _temp0 = intl.Intl.selectLogic(
+      id,
+      {
+        'empty': ' لسؤال ',
+        'other': ' للسؤال الذي يحمل المعرف: $id',
+      },
+    );
+    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع stackoverflow.';
   }
 
   @override
   String invalidStackoverflowUserUrl(String value, String id) {
-    final String selectString = intl.Intl.select(
-        id, {'_': ' لمستخدم ', 'other': ' للمستخدم الذي يحمل المعرف: ${id}'},
-        desc: 'No description provided in @invalidStackoverflowUserUrl');
-
-    return 'آسف! يجب عليك إدخال رابط $selectString بموقع stackoverflow.';
+    String _temp0 = intl.Intl.selectLogic(
+      id,
+      {
+        'empty': ' لمستخدم ',
+        'other': ' للمستخدم الذي يحمل المعرف: $id',
+      },
+    );
+    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع stackoverflow.';
   }
 
   @override
   String invalidTelegramProfileUrl(String value, String userName) {
-    final String selectString = intl.Intl.select(
-        userName, {'_': ' لملف شخصي ', 'other': ' لملف المستخدم: ${userName}'},
-        desc: 'No description provided in @invalidTelegramProfileUrl');
-
-    return 'آسف! يجب عليك إدخال رابط $selectString بموقع telegram.';
+    String _temp0 = intl.Intl.selectLogic(
+      userName,
+      {
+        'empty': ' لملف شخصي ',
+        'other': ' لملف المستخدم: $userName',
+      },
+    );
+    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع telegram.';
   }
 
   @override
   String invalidTwitterStatusUrl(
       String value, String userName, String tweetId) {
-    final String selectString = intl.Intl.select(
-        tweetId,
-        {
-          '_': ' لتغريدة ',
-          'other': ' للتغريدة التي تحمل المعرف: ${tweetId}',
-          '_': '',
-          'other': ' بإسم: ${userName}'
-        },
-        desc: 'No description provided in @invalidTwitterStatusUrl');
-
-    return 'آسف! يجب عليك إدخال رابط $selectString  بموقع twitter.';
+    String _temp0 = intl.Intl.selectLogic(
+      tweetId,
+      {
+        'empty': ' لتغريدة ',
+        'other': ' للتغريدة التي تحمل المعرف: $tweetId',
+      },
+    );
+    String _temp1 = intl.Intl.selectLogic(
+      userName,
+      {
+        'empty': '',
+        'other': ' بإسم: $userName',
+      },
+    );
+    return 'آسف! يجب عليك إدخال رابط $_temp0 $_temp1  بموقع twitter.';
   }
 
   @override
   String invalidTwitterUserUrl(String value, String userName) {
-    final String selectString = intl.Intl.select(
-        userName, {'_': ' لمستخدم ', 'other': ' للمستخدم: ${userName}'},
-        desc: 'No description provided in @invalidTwitterUserUrl');
-
-    return 'آسف! يجب عليك إدخال رابط $selectString   بموقع twitter.';
+    String _temp0 = intl.Intl.selectLogic(
+      userName,
+      {
+        'empty': ' لمستخدم ',
+        'other': ' للمستخدم: $userName',
+      },
+    );
+    return 'آسف! يجب عليك إدخال رابط $_temp0   بموقع twitter.';
   }
 
   @override
   String invalidYoutubeChannelUrl(String value, String id) {
-    final String selectString = intl.Intl.select(
-        id, {'_': ' لقناة ', 'other': 'للقناة التي تحمل المعرف: ${id}'},
-        desc: 'No description provided in @invalidYoutubeChannelUrl');
-
-    return 'آسف! عليك إدخال رابط $selectString  بموقع youtube.';
+    String _temp0 = intl.Intl.selectLogic(
+      id,
+      {
+        'empty': ' لقناة ',
+        'other': 'للقناة التي تحمل المعرف: $id',
+      },
+    );
+    return 'آسف! عليك إدخال رابط $_temp0  بموقع youtube.';
   }
 
   @override
   String invalidYoutubeUserUrl(String value, String userName) {
-    final String selectString = intl.Intl.select(
-        userName, {'_': ' لمستخدم ', 'other': ' للمستخدم: ${userName}'},
-        desc: 'No description provided in @invalidYoutubeUserUrl');
-
-    return 'آسف! عليك إدخال رابط $selectString  بموقع youtube.';
+    String _temp0 = intl.Intl.selectLogic(
+      userName,
+      {
+        'empty': ' لمستخدم ',
+        'other': ' للمستخدم: $userName',
+      },
+    );
+    return 'آسف! عليك إدخال رابط $_temp0  بموقع youtube.';
   }
 
   @override
   String invalidYoutubeVideoUrl(String value, String id) {
-    final String selectString = intl.Intl.select(
-        id, {'_': 'لفيديو ', 'other': ' للفيديو الذي يحمل المعرف: ${id}'},
-        desc: 'No description provided in @invalidYoutubeVideoUrl');
-
-    return 'آسف! عليك إدخال رابط $selectString   بموقع youtube.';
+    String _temp0 = intl.Intl.selectLogic(
+      id,
+      {
+        'empty': 'لفيديو ',
+        'other': ' للفيديو الذي يحمل المعرف: $id',
+      },
+    );
+    return 'آسف! عليك إدخال رابط $_temp0   بموقع youtube.';
   }
 
   @override
@@ -370,48 +459,46 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
   }
 
   @override
-  String isCreditCard(String value) {
-    return 'يجب إدخال رقم بطاقة ائتمان صالح';
+  String isCreditCard(Object? v) => 'يجب إدخال رقم بطاقة ائتمان صالح';
+
+  @override
+  String isDateAfter(DateTime value, DateTime o) {
+    final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
+    final String valueString = valueDateFormat.format(value);
+    final intl.DateFormat oDateFormat = intl.DateFormat.yMEd(localeName);
+    final String oString = oDateFormat.format(o);
+
+    return 'يجب عليك إدخال تاريخ لاحق ل $oString.';
   }
 
   @override
-  String isDateAfter(DateTime value, DateTime other) {
+  String isDateAfterOrEqual(DateTime value, DateTime o) {
     final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
     final String valueString = valueDateFormat.format(value);
-    final intl.DateFormat otherDateFormat = intl.DateFormat.yMEd(localeName);
-    final String otherString = otherDateFormat.format(other);
+    final intl.DateFormat oDateFormat = intl.DateFormat.yMEd(localeName);
+    final String oString = oDateFormat.format(o);
 
-    return 'يجب عليك إدخال تاريخ لاحق ل $otherString.';
+    return 'يجب إدخال تاريخ لاحق أو في نفس الوقت $oString.';
   }
 
   @override
-  String isDateAfterOrEqual(DateTime value, DateTime other) {
+  String isDateBefore(DateTime value, DateTime o) {
     final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
     final String valueString = valueDateFormat.format(value);
-    final intl.DateFormat otherDateFormat = intl.DateFormat.yMEd(localeName);
-    final String otherString = otherDateFormat.format(other);
+    final intl.DateFormat oDateFormat = intl.DateFormat.yMEd(localeName);
+    final String oString = oDateFormat.format(o);
 
-    return 'يجب إدخال تاريخ لاحق أو في نفس الوقت $otherString.';
+    return 'يجب إدخال تاريخ سابق ل $oString.';
   }
 
   @override
-  String isDateBefore(DateTime value, DateTime other) {
+  String isDateBeforeOrEqual(DateTime value, DateTime o) {
     final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
     final String valueString = valueDateFormat.format(value);
-    final intl.DateFormat otherDateFormat = intl.DateFormat.yMEd(localeName);
-    final String otherString = otherDateFormat.format(other);
+    final intl.DateFormat oDateFormat = intl.DateFormat.yMEd(localeName);
+    final String oString = oDateFormat.format(o);
 
-    return 'يجب إدخال تاريخ سابق ل $otherString.';
-  }
-
-  @override
-  String isDateBeforeOrEqual(DateTime value, DateTime other) {
-    final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
-    final String valueString = valueDateFormat.format(value);
-    final intl.DateFormat otherDateFormat = intl.DateFormat.yMEd(localeName);
-    final String otherString = otherDateFormat.format(other);
-
-    return 'يجب إدخال تاريخ سابق أو في نفس الوقت $otherString.';
+    return 'يجب إدخال تاريخ سابق أو في نفس الوقت $oString.';
   }
 
   @override
@@ -439,14 +526,13 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
   }
 
   @override
-  String isDateTime(Object value) {
-    return 'يجب إدخال تاريخ صالح';
-  }
+  String isDateTime(Object? v) => 'يجب إدخال تاريخ صالح';
 
   @override
-  String isDecimal(Object value) {
-    return 'يجب إدخال رقم عشري';
-  }
+  String isBoolean(Object? v) => 'يجب إدخال true أو false';
+
+  @override
+  String isDecimal(Object? v) => 'يجب إدخال رقم عشري';
 
   @override
   String isDivisibleBy(num value, num division) {
@@ -461,18 +547,10 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
   }
 
   @override
-  String isEmail(String value) {
-    return 'يجب إدخال عنوان بريد إلكتروني صالح';
-  }
+  String isEmail(Object? v) => 'يجب إدخال عنوان بريد إلكتروني صالح';
 
   @override
-  String isEven(num value) {
-    final intl.NumberFormat valueNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String valueString = valueNumberFormat.format(value);
-
-    return 'يجب أن تكون القيمة رقمًا زوجي.';
-  }
+  String isEven(Object? v) => 'يجب أن تكون القيمة رقمًا زوجي.';
 
   @override
   String isIn(dynamic value, Iterable list) {
@@ -480,18 +558,10 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
   }
 
   @override
-  String isInteger(Object value) {
-    return 'يجب إدخال رقم صحيح';
-  }
+  String isInteger(Object? v) => 'يجب إدخال رقم صحيح';
 
   @override
-  String isNegative(num value) {
-    final intl.NumberFormat valueNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String valueString = valueNumberFormat.format(value);
-
-    return 'يجب أن تكون القيمة سالبة';
-  }
+  String isNegative(Object? v) => 'يجب أن تكون القيمة سالبة';
 
   @override
   String isNotIn(dynamic value, Iterable list) {
@@ -499,66 +569,52 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
   }
 
   @override
-  String isNumber(Object value) {
-    return 'يجب إدخال رقم صالح';
-  }
+  String isNumber(Object? v) => 'يجب إدخال رقم صالح';
 
   @override
-  String isOdd(num value) {
-    final intl.NumberFormat valueNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String valueString = valueNumberFormat.format(value);
-
-    return 'يجب أن تكون القيمة رقمًا فرديًا';
-  }
+  String isOdd(Object? v) => 'يجب أن تكون القيمة رقمًا فرديًا';
 
   @override
-  String isPositive(num value) {
-    final intl.NumberFormat valueNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String valueString = valueNumberFormat.format(value);
-
-    return 'يجب أن تكون القيمة موجبة.';
-  }
+  String isPositive(Object? v) => 'يجب أن تكون القيمة موجبة.';
 
   @override
-  String isTimeAfter(DateTime value, DateTime other) {
+  String isTimeAfter(DateTime value, DateTime o) {
     final intl.DateFormat valueDateFormat = intl.DateFormat.jm(localeName);
     final String valueString = valueDateFormat.format(value);
-    final intl.DateFormat otherDateFormat = intl.DateFormat.jm(localeName);
-    final String otherString = otherDateFormat.format(other);
+    final intl.DateFormat oDateFormat = intl.DateFormat.jm(localeName);
+    final String oString = oDateFormat.format(o);
 
-    return 'يجب عليك إدخال وقت لاحق ل $otherString.';
+    return 'يجب عليك إدخال وقت لاحق ل $oString.';
   }
 
   @override
-  String isTimeAfterOrEqual(DateTime value, DateTime other) {
+  String isTimeAfterOrEqual(DateTime value, DateTime o) {
     final intl.DateFormat valueDateFormat = intl.DateFormat.jm(localeName);
     final String valueString = valueDateFormat.format(value);
-    final intl.DateFormat otherDateFormat = intl.DateFormat.jm(localeName);
-    final String otherString = otherDateFormat.format(other);
+    final intl.DateFormat oDateFormat = intl.DateFormat.jm(localeName);
+    final String oString = oDateFormat.format(o);
 
-    return 'يجب إدخال وقت لاحق أو في نفس الوقت $otherString.';
+    return 'يجب إدخال وقت لاحق أو في نفس الوقت $oString.';
   }
 
   @override
-  String isTimeBefore(DateTime value, DateTime other) {
+  String isTimeBefore(DateTime value, DateTime o) {
     final intl.DateFormat valueDateFormat = intl.DateFormat.jm(localeName);
     final String valueString = valueDateFormat.format(value);
-    final intl.DateFormat otherDateFormat = intl.DateFormat.jm(localeName);
-    final String otherString = otherDateFormat.format(other);
+    final intl.DateFormat oDateFormat = intl.DateFormat.jm(localeName);
+    final String oString = oDateFormat.format(o);
 
-    return 'يجب عليك إدخال وقت سابق ل $otherString.';
+    return 'يجب عليك إدخال وقت سابق ل $oString.';
   }
 
   @override
-  String isTimeBeforeOrEqual(DateTime value, DateTime other) {
+  String isTimeBeforeOrEqual(DateTime value, DateTime o) {
     final intl.DateFormat valueDateFormat = intl.DateFormat.jm(localeName);
     final String valueString = valueDateFormat.format(value);
-    final intl.DateFormat otherDateFormat = intl.DateFormat.jm(localeName);
-    final String otherString = otherDateFormat.format(other);
+    final intl.DateFormat oDateFormat = intl.DateFormat.jm(localeName);
+    final String oString = oDateFormat.format(o);
 
-    return 'يجب إدخال وقت سابق أو في نفس الوقت $otherString.';
+    return 'يجب إدخال وقت سابق أو في نفس الوقت $oString.';
   }
 
   @override
@@ -586,9 +642,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
   }
 
   @override
-  String isTimeOfDay(Object value) {
-    return 'يجب إدخال وقت صحيح';
-  }
+  String isTimeOfDay(Object? v) => 'يجب إدخال وقت صحيح';
 
   @override
   String lessThan(num value, num max) {
@@ -626,7 +680,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
 
   @override
   String listMinLength(Iterable value, int min) {
-    return 'يجب ألا يقل عدد العناصر عن {max}';
+    return 'يجب ألا يقل عدد العناصر عن $min';
   }
 
   @override

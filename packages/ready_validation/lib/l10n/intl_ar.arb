@@ -114,7 +114,7 @@
       }
     }
   },
-  "invalidAngelCompanyUrl": "آسف! يجب عليك إدخال رابط صحيح لشركة {company, select, _{  } other{{company}}} بموقع angel.",
+  "invalidAngelCompanyUrl": "آسف! يجب عليك إدخال رابط صحيح لشركة {company, select, empty{} other{{company}}} بموقع angel.",
   "@invalidAngelCompanyUrl": {
     "placeholders": {
       "value": {
@@ -125,7 +125,7 @@
       }
     }
   },
-  "invalidAngelJobUrl": "آسف! عليك إدخال رابط صحيح لوظيفة {jobId, select, _{} other{ تحمل المعرف : {jobId}}} بموقع angel.",
+  "invalidAngelJobUrl": "آسف! عليك إدخال رابط صحيح لوظيفة {jobId, select, empty{} other{ تحمل المعرف : {jobId}}} بموقع angel.",
   "@invalidAngelJobUrl": {
     "placeholders": {
       "value": {
@@ -136,7 +136,7 @@
       }
     }
   },
-  "invalidCrunchbaseOrganizationUrl": "آسف! يجب عليك إدخال منظمة crunchbase صالحة {organization, select, _{ url } other{ بالاسم: {organization}}} بموقع crunchbase.",
+  "invalidCrunchbaseOrganizationUrl": "آسف! يجب عليك إدخال منظمة crunchbase صالحة {organization, select, empty{ url } other{ بالاسم: {organization}}} بموقع crunchbase.",
   "@invalidCrunchbaseOrganizationUrl": {
     "placeholders": {
       "value": {
@@ -147,7 +147,7 @@
       }
     }
   },
-  "invalidCrunchbasePersonUrl": "آسف! يجب عليك إدخال شخص crunchbase صالح {person, select, _{ url } other{ بالاسم: {person}}} بموقع crunchbase.",
+  "invalidCrunchbasePersonUrl": "آسف! يجب عليك إدخال شخص crunchbase صالح {person, select, empty{ url } other{ بالاسم: {person}}} بموقع crunchbase.",
   "@invalidCrunchbasePersonUrl": {
     "placeholders": {
       "value": {
@@ -158,7 +158,7 @@
       }
     }
   },
-  "invalidFacebookUrl": "آسف! يجب عليك إدخال رابط {name, select, _{{id, select, _{ url } other{ للمستخدم الذي يحمل المعرف: {id}}}} other{ user للمستخدم: {name}}} بموقع facebook.",
+  "invalidFacebookUrl": "آسف! يجب عليك إدخال رابط {name, select, empty{{id, select, empty{ url } other{ للمستخدم الذي يحمل المعرف: {id}}}} other{ user للمستخدم: {name}}} بموقع facebook.",
   "@invalidFacebookUrl": {
     "placeholders": {
       "value": {
@@ -172,7 +172,7 @@
       }
     }
   },
-  "invalidGitHubUrl": "آسف! يجب عليك إدخال رابط {user, select, _{{repository, select, _{ } other{ للمستودع: {repository}}}} other{ للمستخدم: {user} {repository, select, _{} other{ : {repository}}}}} بموقع gitHub.",
+  "invalidGitHubUrl": "آسف! يجب عليك إدخال رابط {user, select, empty{{repository, select, empty{ } other{ للمستودع: {repository}}}} other{ للمستخدم: {user} {repository, select, empty{} other{ : {repository}}}}} بموقع gitHub.",
   "@invalidGitHubUrl": {
     "placeholders": {
       "value": {
@@ -186,7 +186,7 @@
       }
     }
   },
-  "invalidGooglePlusUrl": "آسف! يجب عليك إدخال رابط {userName, select, _{ لمستخدم } other{ للمستخدم: {userName}}} بموقع google.",
+  "invalidGooglePlusUrl": "آسف! يجب عليك إدخال رابط {userName, select, empty{ لمستخدم } other{ للمستخدم: {userName}}} بموقع google.",
   "@invalidGooglePlusUrl": {
     "placeholders": {
       "value": {
@@ -200,7 +200,7 @@
       }
     }
   },
-  "invalidHackerNewsItemUrl": "آسف! يجب عليك إدخال رابط {id, select, _{ لخبر } other{للخبر الذي يحمل المعرف: {id}}} بموقع HackerNews.",
+  "invalidHackerNewsItemUrl": "آسف! يجب عليك إدخال رابط {id, select, empty{ لخبر } other{للخبر الذي يحمل المعرف: {id}}} بموقع HackerNews.",
   "@invalidHackerNewsItemUrl": {
     "placeholders": {
       "value": {
@@ -211,7 +211,7 @@
       }
     }
   },
-  "invalidHackerNewsUserUrl": "آسف! يجب عليك إدخال رابط {id, select, _{ لمستخدم } other{ للمستخدم الذي يحمل المعرف: {id}}} بموقع HackerNews.",
+  "invalidHackerNewsUserUrl": "آسف! يجب عليك إدخال رابط {id, select, empty{ لمستخدم } other{ للمستخدم الذي يحمل المعرف: {id}}} بموقع HackerNews.",
   "@invalidHackerNewsUserUrl": {
     "placeholders": {
       "value": {
@@ -222,7 +222,7 @@
       }
     }
   },
-  "invalidInstagramUrl": "آسف! يجب عليك إدخال رابط {user, select, _{ لمستخدم } other{ للمستخدم: {user}}} بموقع instagram.",
+  "invalidInstagramUrl": "آسف! يجب عليك إدخال رابط {user, select, empty{ لمستخدم } other{ للمستخدم: {user}}} بموقع instagram.",
   "@invalidInstagramUrl": {
     "placeholders": {
       "value": {
@@ -233,7 +233,7 @@
       }
     }
   },
-  "invalidLinkedInCompanyUrl": "آسف! يجب عليك إدخال رابط {permalink, select, _{لشركة} other{للشركة التي تحمل المعرف {permalink} }} بموقع linkedIn.",
+  "invalidLinkedInCompanyUrl": "آسف! يجب عليك إدخال رابط {permalink, select, empty{لشركة} other{للشركة التي تحمل المعرف {permalink} }} بموقع linkedIn.",
   "@invalidLinkedInCompanyUrl": {
     "placeholders": {
       "value": {
@@ -244,7 +244,7 @@
       }
     }
   },
-  "invalidLinkedInPostUrl": "آسف! يجب عليك إدخال رابط  {id, select, _{ لمنشور} other{ للمنشور الذي يحمل المعرف: {id}}} بموقع linkedIn.",
+  "invalidLinkedInPostUrl": "آسف! يجب عليك إدخال رابط  {id, select, empty{ لمنشور} other{ للمنشور الذي يحمل المعرف: {id}}} بموقع linkedIn.",
   "@invalidLinkedInPostUrl": {
     "placeholders": {
       "value": {
@@ -255,7 +255,7 @@
       }
     }
   },
-  "invalidLinkedInProfileUrl": "آسف! يجب عليك إدخال رابط {permalink,select,_{لملف شخصي} other{للملف الشخصي الذي يحمل المعرف {permalink}}} بموقع linkedIn.",
+  "invalidLinkedInProfileUrl": "آسف! يجب عليك إدخال رابط {permalink,select,empty{لملف شخصي} other{للملف الشخصي الذي يحمل المعرف {permalink}}} بموقع linkedIn.",
   "@invalidLinkedInProfileUrl": {
     "placeholders": {
       "value": {
@@ -266,7 +266,7 @@
       }
     }
   },
-  "invalidMediumPostUrl": "آسف! يجب عليك إدخال رابط {postId, select, _{ لمنشور } other{ للمنشور الذي يحمل المعرف: {postId}}} بموقع medium.",
+  "invalidMediumPostUrl": "آسف! يجب عليك إدخال رابط {postId, select, empty{ لمنشور } other{ للمنشور الذي يحمل المعرف: {postId}}} بموقع medium.",
   "@invalidMediumPostUrl": {
     "placeholders": {
       "value": {
@@ -277,7 +277,7 @@
       }
     }
   },
-  "invalidMediumUserUrl": "آسف! يجب عليك إدخال رابط {userName, select, _{{id, select, _{ url } other{ للمستخدم الذي يحمل المعرف: {id}}}} other{ للمستخدم: {userName}}}  بموقع medium.",
+  "invalidMediumUserUrl": "آسف! يجب عليك إدخال رابط {userName, select, empty{{id, select, empty{ url } other{ للمستخدم الذي يحمل المعرف: {id}}}} other{ للمستخدم: {userName}}}  بموقع medium.",
   "@invalidMediumUserUrl": {
     "placeholders": {
       "value": {
@@ -291,7 +291,7 @@
       }
     }
   },
-  "invalidRedditUrl": "آسف! يجب عليك إدخال رابط {user, select, _{ } other{ للمستخدم: {user}}} بموقع reddit.",
+  "invalidRedditUrl": "آسف! يجب عليك إدخال رابط {user, select, empty{ } other{ للمستخدم: {user}}} بموقع reddit.",
   "@invalidRedditUrl": {
     "placeholders": {
       "value": {
@@ -302,7 +302,7 @@
       }
     }
   },
-  "invalidSnapchatUrl": "آسف! يجب عليك إدخال snapchat صالح {user, select, _{ url } other{ with user: {user}}} بموقع medium.",
+  "invalidSnapchatUrl": "آسف! يجب عليك إدخال snapchat صالح {user, select, empty{ url } other{ with user: {user}}} بموقع medium.",
   "@invalidSnapchatUrl": {
     "placeholders": {
       "value": {
@@ -313,7 +313,7 @@
       }
     }
   },
-  "invalidStackexchangeUrl": "آسف! يجب عليك إدخال رابط {user, select, _{{id, select, _{ } other{ بالمعرف: {id}}}} other{ مع اسم المستخدم: {user}}} بموقع stackexchange.",
+  "invalidStackexchangeUrl": "آسف! يجب عليك إدخال رابط {user, select, empty{{id, select, empty{ } other{ بالمعرف: {id}}}} other{ مع اسم المستخدم: {user}}} بموقع stackexchange.",
   "@invalidStackexchangeUrl": {
     "placeholders": {
       "value": {
@@ -327,7 +327,7 @@
       }
     }
   },
-  "invalidStackoverflowQuestionUrl": "آسف! يجب عليك إدخال رابط {id, select, _{ لسؤال } other{ للسؤال الذي يحمل المعرف: {id}}} بموقع stackoverflow.",
+  "invalidStackoverflowQuestionUrl": "آسف! يجب عليك إدخال رابط {id, select, empty{ لسؤال } other{ للسؤال الذي يحمل المعرف: {id}}} بموقع stackoverflow.",
   "@invalidStackoverflowQuestionUrl": {
     "placeholders": {
       "value": {
@@ -338,7 +338,7 @@
       }
     }
   },
-  "invalidStackoverflowUserUrl": "آسف! يجب عليك إدخال رابط {id, select, _{ لمستخدم } other{ للمستخدم الذي يحمل المعرف: {id}}} بموقع stackoverflow.",
+  "invalidStackoverflowUserUrl": "آسف! يجب عليك إدخال رابط {id, select, empty{ لمستخدم } other{ للمستخدم الذي يحمل المعرف: {id}}} بموقع stackoverflow.",
   "@invalidStackoverflowUserUrl": {
     "placeholders": {
       "value": {
@@ -349,7 +349,7 @@
       }
     }
   },
-  "invalidTelegramProfileUrl": "آسف! يجب عليك إدخال رابط {userName, select, _{ لملف شخصي } other{ لملف المستخدم: {userName}}} بموقع telegram.",
+  "invalidTelegramProfileUrl": "آسف! يجب عليك إدخال رابط {userName, select, empty{ لملف شخصي } other{ لملف المستخدم: {userName}}} بموقع telegram.",
   "@invalidTelegramProfileUrl": {
     "placeholders": {
       "value": {
@@ -360,7 +360,7 @@
       }
     }
   },
-  "invalidTwitterStatusUrl": "آسف! يجب عليك إدخال رابط {tweetId, select, _{ لتغريدة } other{ للتغريدة التي تحمل المعرف: {tweetId}}} {userName, select, _{} other{ بإسم: {userName}}}  بموقع twitter.",
+  "invalidTwitterStatusUrl": "آسف! يجب عليك إدخال رابط {tweetId, select, empty{ لتغريدة } other{ للتغريدة التي تحمل المعرف: {tweetId}}} {userName, select, empty{} other{ بإسم: {userName}}}  بموقع twitter.",
   "@invalidTwitterStatusUrl": {
     "placeholders": {
       "value": {
@@ -374,7 +374,7 @@
       }
     }
   },
-  "invalidTwitterUserUrl": "آسف! يجب عليك إدخال رابط {userName, select, _{ لمستخدم } other{ للمستخدم: {userName}}}   بموقع twitter.",
+  "invalidTwitterUserUrl": "آسف! يجب عليك إدخال رابط {userName, select, empty{ لمستخدم } other{ للمستخدم: {userName}}}   بموقع twitter.",
   "@invalidTwitterUserUrl": {
     "placeholders": {
       "value": {
@@ -385,7 +385,7 @@
       }
     }
   },
-  "invalidYoutubeChannelUrl": "آسف! عليك إدخال رابط {id, select, _{ لقناة } other{للقناة التي تحمل المعرف: {id}}}  بموقع youtube.",
+  "invalidYoutubeChannelUrl": "آسف! عليك إدخال رابط {id, select, empty{ لقناة } other{للقناة التي تحمل المعرف: {id}}}  بموقع youtube.",
   "@invalidYoutubeChannelUrl": {
     "placeholders": {
       "value": {
@@ -396,7 +396,7 @@
       }
     }
   },
-  "invalidYoutubeUserUrl": "آسف! عليك إدخال رابط {userName, select, _{ لمستخدم } other{ للمستخدم: {userName}}}  بموقع youtube.",
+  "invalidYoutubeUserUrl": "آسف! عليك إدخال رابط {userName, select, empty{ لمستخدم } other{ للمستخدم: {userName}}}  بموقع youtube.",
   "@invalidYoutubeUserUrl": {
     "placeholders": {
       "value": {
@@ -407,7 +407,7 @@
       }
     }
   },
-  "invalidYoutubeVideoUrl": "آسف! عليك إدخال رابط {id, select, _{لفيديو } other{ للفيديو الذي يحمل المعرف: {id}}}   بموقع youtube.",
+  "invalidYoutubeVideoUrl": "آسف! عليك إدخال رابط {id, select, empty{لفيديو } other{ للفيديو الذي يحمل المعرف: {id}}}   بموقع youtube.",
   "@invalidYoutubeVideoUrl": {
     "placeholders": {
       "value": {
@@ -460,53 +460,53 @@
       }
     }
   },
-  "isDateAfter": "يجب عليك إدخال تاريخ لاحق ل {other}.",
+  "isDateAfter": "يجب عليك إدخال تاريخ لاحق ل {o}.",
   "@isDateAfter": {
     "placeholders": {
       "value": {
         "type": "DateTime",
         "format": "yMEd"
       },
-      "other": {
+      "o": {
         "type": "DateTime",
         "format": "yMEd"
       }
     }
   },
-  "isDateAfterOrEqual": "يجب إدخال تاريخ لاحق أو في نفس الوقت {other}.",
+  "isDateAfterOrEqual": "يجب إدخال تاريخ لاحق أو في نفس الوقت {o}.",
   "@isDateAfterOrEqual": {
     "placeholders": {
       "value": {
         "type": "DateTime",
         "format": "yMEd"
       },
-      "other": {
+      "o": {
         "type": "DateTime",
         "format": "yMEd"
       }
     }
   },
-  "isDateBefore": "يجب إدخال تاريخ سابق ل {other}.",
+  "isDateBefore": "يجب إدخال تاريخ سابق ل {o}.",
   "@isDateBefore": {
     "placeholders": {
       "value": {
         "type": "DateTime",
         "format": "yMEd"
       },
-      "other": {
+      "o": {
         "type": "DateTime",
         "format": "yMEd"
       }
     }
   },
-  "isDateBeforeOrEqual": "يجب إدخال تاريخ سابق أو في نفس الوقت {other}.",
+  "isDateBeforeOrEqual": "يجب إدخال تاريخ سابق أو في نفس الوقت {o}.",
   "@isDateBeforeOrEqual": {
     "placeholders": {
       "value": {
         "type": "DateTime",
         "format": "yMEd"
       },
-      "other": {
+      "o": {
         "type": "DateTime",
         "format": "yMEd"
       }
@@ -548,6 +548,12 @@
   },
   "isDateTime": "يجب إدخال تاريخ صالح",
   "@isDateTime": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "isBoolean": "يجب إدخال true أو false",
+  "@isBoolean": {
     "placeholders": {
       "value": {}
     }
@@ -649,53 +655,53 @@
       }
     }
   },
-  "isTimeAfter": "يجب عليك إدخال وقت لاحق ل {other}.",
+  "isTimeAfter": "يجب عليك إدخال وقت لاحق ل {o}.",
   "@isTimeAfter": {
     "placeholders": {
       "value": {
         "type": "DateTime",
         "format": "jm"
       },
-      "other": {
+      "o": {
         "type": "DateTime",
         "format": "jm"
       }
     }
   },
-  "isTimeAfterOrEqual": "يجب إدخال وقت لاحق أو في نفس الوقت {other}.",
+  "isTimeAfterOrEqual": "يجب إدخال وقت لاحق أو في نفس الوقت {o}.",
   "@isTimeAfterOrEqual": {
     "placeholders": {
       "value": {
         "type": "DateTime",
         "format": "jm"
       },
-      "other": {
+      "o": {
         "type": "DateTime",
         "format": "jm"
       }
     }
   },
-  "isTimeBefore": "يجب عليك إدخال وقت سابق ل {other}.",
+  "isTimeBefore": "يجب عليك إدخال وقت سابق ل {o}.",
   "@isTimeBefore": {
     "placeholders": {
       "value": {
         "type": "DateTime",
         "format": "jm"
       },
-      "other": {
+      "o": {
         "type": "DateTime",
         "format": "jm"
       }
     }
   },
-  "isTimeBeforeOrEqual": "يجب إدخال وقت سابق أو في نفس الوقت {other}.",
+  "isTimeBeforeOrEqual": "يجب إدخال وقت سابق أو في نفس الوقت {o}.",
   "@isTimeBeforeOrEqual": {
     "placeholders": {
       "value": {
         "type": "DateTime",
         "format": "jm"
       },
-      "other": {
+      "o": {
         "type": "DateTime",
         "format": "jm"
       }
@@ -789,7 +795,7 @@
       }
     }
   },
-  "listMinLength": "يجب ألا يقل عدد العناصر عن {max}",
+  "listMinLength": "يجب ألا يقل عدد العناصر عن {min}",
   "@listMinLength": {
     "placeholders": {
       "value": {

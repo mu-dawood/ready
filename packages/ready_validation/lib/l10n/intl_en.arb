@@ -114,7 +114,7 @@
       }
     }
   },
-  "invalidAngelCompanyUrl": "Sorry! you have to enter a valid angel company {company, select, _{url} other{with name: {company}}}.",
+  "invalidAngelCompanyUrl": "Sorry! you have to enter a valid angel company {company, select, empty{url} other{with name: {company}}}.",
   "@invalidAngelCompanyUrl": {
     "placeholders": {
       "value": {
@@ -125,7 +125,7 @@
       }
     }
   },
-  "invalidAngelJobUrl": "Sorry! you have to enter a valid angel job {jobId, select, _{url} other{with id: {jobId}}}.",
+  "invalidAngelJobUrl": "Sorry! you have to enter a valid angel job {jobId, select, empty{url} other{with id: {jobId}}}.",
   "@invalidAngelJobUrl": {
     "placeholders": {
       "value": {
@@ -136,7 +136,7 @@
       }
     }
   },
-  "invalidCrunchbaseOrganizationUrl": "Sorry! you have to enter a valid crunchbase organization {organization, select, _{url} other{with name: {organization}}}.",
+  "invalidCrunchbaseOrganizationUrl": "Sorry! you have to enter a valid crunchbase organization {organization, select, empty{url} other{with name: {organization}}}.",
   "@invalidCrunchbaseOrganizationUrl": {
     "placeholders": {
       "value": {
@@ -147,7 +147,7 @@
       }
     }
   },
-  "invalidCrunchbasePersonUrl": "Sorry! you have to enter a valid crunchbase person {person, select, _{url} other{with name: {person}}}.",
+  "invalidCrunchbasePersonUrl": "Sorry! you have to enter a valid crunchbase person {person, select, empty{url} other{with name: {person}}}.",
   "@invalidCrunchbasePersonUrl": {
     "placeholders": {
       "value": {
@@ -158,7 +158,7 @@
       }
     }
   },
-  "invalidFacebookUrl": "Sorry! you have to enter a valid facebook {name, select, _{{id, select, _{url} other{user with id: {id}}}} other{user with name: {name}}}.",
+  "invalidFacebookUrl": "Sorry! you have to enter a valid facebook {name, select, empty{{id, select, empty{url} other{user with id: {id}}}} other{user with name: {name}}}.",
   "@invalidFacebookUrl": {
     "placeholders": {
       "value": {
@@ -172,7 +172,7 @@
       }
     }
   },
-  "invalidGitHubUrl": "Sorry! you have to enter a valid gitHub {user, select, _{{repository, select, _{url} other{repository: {repository}}}} other{user with name: {user} {repository, select, _{} other{and repository: {repository}}}}}.",
+  "invalidGitHubUrl": "Sorry! you have to enter a valid gitHub {user, select, empty{{repository, select, empty{url} other{repository: {repository}}}} other{user with name: {user} {repository, select, empty{} other{and repository: {repository}}}}}.",
   "@invalidGitHubUrl": {
     "placeholders": {
       "value": {
@@ -186,7 +186,7 @@
       }
     }
   },
-  "invalidGooglePlusUrl": "Sorry! you have to enter a valid google plus {userName, select, _{url} other{with user name: {userName}}}.",
+  "invalidGooglePlusUrl": "Sorry! you have to enter a valid google plus {userName, select, empty{url} other{with user name: {userName}}}.",
   "@invalidGooglePlusUrl": {
     "placeholders": {
       "value": {
@@ -200,7 +200,7 @@
       }
     }
   },
-  "invalidHackerNewsItemUrl": "Sorry! you have to enter a valid hacker news item  {id, select, _{url} other{with id: {id}}}.",
+  "invalidHackerNewsItemUrl": "Sorry! you have to enter a valid hacker news item  {id, select, empty{url} other{with id: {id}}}.",
   "@invalidHackerNewsItemUrl": {
     "placeholders": {
       "value": {
@@ -211,7 +211,7 @@
       }
     }
   },
-  "invalidHackerNewsUserUrl": "Sorry! you have to enter a valid hacker news user  {id, select, _{url} other{with id: {id}}}.",
+  "invalidHackerNewsUserUrl": "Sorry! you have to enter a valid hacker news user  {id, select, empty{url} other{with id: {id}}}.",
   "@invalidHackerNewsUserUrl": {
     "placeholders": {
       "value": {
@@ -222,7 +222,7 @@
       }
     }
   },
-  "invalidInstagramUrl": "Sorry! you have to enter a valid instagram {user, select, _{url} other{with user: {user}}}.",
+  "invalidInstagramUrl": "Sorry! you have to enter a valid instagram {user, select, empty{url} other{with user: {user}}}.",
   "@invalidInstagramUrl": {
     "placeholders": {
       "value": {
@@ -233,7 +233,7 @@
       }
     }
   },
-  "invalidLinkedInCompanyUrl": "Sorry! you have to enter a valid inked in {permalink, select, _{company url} other{company with {permalink} url}}.",
+  "invalidLinkedInCompanyUrl": "Sorry! you have to enter a valid inked in {permalink, select, empty{company url} other{company with {permalink} url}}.",
   "@invalidLinkedInCompanyUrl": {
     "placeholders": {
       "value": {
@@ -244,7 +244,7 @@
       }
     }
   },
-  "invalidLinkedInPostUrl": "Sorry! you have to enter a valid linked in post  {id, select, _{url} other{with id: {id}}}",
+  "invalidLinkedInPostUrl": "Sorry! you have to enter a valid linked in post  {id, select, empty{url} other{with id: {id}}}",
   "@invalidLinkedInPostUrl": {
     "placeholders": {
       "value": {
@@ -255,7 +255,7 @@
       }
     }
   },
-  "invalidLinkedInProfileUrl": "Sorry! you have to enter a valid inked in {permalink, select, _{profile url} other{profile with {permalink} url}}.",
+  "invalidLinkedInProfileUrl": "Sorry! you have to enter a valid inked in {permalink, select, empty{profile url} other{profile with {permalink} url}}.",
   "@invalidLinkedInProfileUrl": {
     "placeholders": {
       "value": {
@@ -266,7 +266,7 @@
       }
     }
   },
-  "invalidMediumPostUrl": "Sorry! you have to enter a valid medium post {postId, select, _{url} other{with id: {postId}}}.",
+  "invalidMediumPostUrl": "Sorry! you have to enter a valid medium post {postId, select, empty{url} other{with id: {postId}}}.",
   "@invalidMediumPostUrl": {
     "placeholders": {
       "value": {
@@ -277,7 +277,7 @@
       }
     }
   },
-  "invalidMediumUserUrl": "Sorry! you have to enter a valid medium user {userName, select, _{{id, select, _{url} other{with id: {id}}}} other{with user name: {userName}}}.",
+  "invalidMediumUserUrl": "Sorry! you have to enter a valid medium user {userName, select, empty{{id, select, empty{url} other{with id: {id}}}} other{with user name: {userName}}}.",
   "@invalidMediumUserUrl": {
     "placeholders": {
       "value": {
@@ -291,7 +291,7 @@
       }
     }
   },
-  "invalidRedditUrl": "Sorry! you have to enter a valid reddit {user, select, _{url} other{with user: {user}}}.",
+  "invalidRedditUrl": "Sorry! you have to enter a valid reddit {user, select, empty{url} other{with user: {user}}}.",
   "@invalidRedditUrl": {
     "placeholders": {
       "value": {
@@ -302,7 +302,7 @@
       }
     }
   },
-  "invalidSnapchatUrl": "Sorry! you have to enter a valid snapchat {user, select, _{url} other{with user: {user}}}.",
+  "invalidSnapchatUrl": "Sorry! you have to enter a valid snapchat {user, select, empty{url} other{with user: {user}}}.",
   "@invalidSnapchatUrl": {
     "placeholders": {
       "value": {
@@ -313,7 +313,7 @@
       }
     }
   },
-  "invalidStackexchangeUrl": "Sorry! you have to enter a valid stackexchange {user, select, _{{id, select, _{url} other{with id: {id}}}} other{with user name: {user}}}.",
+  "invalidStackexchangeUrl": "Sorry! you have to enter a valid stackexchange {user, select, empty{{id, select, empty{url} other{with id: {id}}}} other{with user name: {user}}}.",
   "@invalidStackexchangeUrl": {
     "placeholders": {
       "value": {
@@ -327,7 +327,7 @@
       }
     }
   },
-  "invalidStackoverflowQuestionUrl": "Sorry! you have to enter a valid stackoverflow question {id, select, _{url} other{with id: {id}}}.",
+  "invalidStackoverflowQuestionUrl": "Sorry! you have to enter a valid stackoverflow question {id, select, empty{url} other{with id: {id}}}.",
   "@invalidStackoverflowQuestionUrl": {
     "placeholders": {
       "value": {
@@ -338,7 +338,7 @@
       }
     }
   },
-  "invalidStackoverflowUserUrl": "Sorry! you have to enter a valid stackoverflow user {id, select, _{url} other{with id: {id}}}.",
+  "invalidStackoverflowUserUrl": "Sorry! you have to enter a valid stackoverflow user {id, select, empty{url} other{with id: {id}}}.",
   "@invalidStackoverflowUserUrl": {
     "placeholders": {
       "value": {
@@ -349,7 +349,7 @@
       }
     }
   },
-  "invalidTelegramProfileUrl": "Sorry! you have to enter a valid telegram profile {userName, select, _{url} other{with user name: {userName}}}.",
+  "invalidTelegramProfileUrl": "Sorry! you have to enter a valid telegram profile {userName, select, empty{url} other{with user name: {userName}}}.",
   "@invalidTelegramProfileUrl": {
     "placeholders": {
       "value": {
@@ -360,7 +360,7 @@
       }
     }
   },
-  "invalidTwitterStatusUrl": "Sorry! you have to enter a valid twitter status {tweetId, select, _{url} other{with id: {tweetId}}} {userName, select, _{} other{with user name: {userName}}}.",
+  "invalidTwitterStatusUrl": "Sorry! you have to enter a valid twitter status {tweetId, select, empty{url} other{with id: {tweetId}}} {userName, select, empty{} other{with user name: {userName}}}.",
   "@invalidTwitterStatusUrl": {
     "placeholders": {
       "value": {
@@ -374,7 +374,7 @@
       }
     }
   },
-  "invalidTwitterUserUrl": "Sorry! you have to enter a valid twitter user {userName, select, _{url} other{with user name: {userName}}}.",
+  "invalidTwitterUserUrl": "Sorry! you have to enter a valid twitter user {userName, select, empty{url} other{with user name: {userName}}}.",
   "@invalidTwitterUserUrl": {
     "placeholders": {
       "value": {
@@ -385,7 +385,7 @@
       }
     }
   },
-  "invalidYoutubeChannelUrl": "Sorry! you have to enter a valid youtube channel {id, select, _{url} other{with id: {id}}}.",
+  "invalidYoutubeChannelUrl": "Sorry! you have to enter a valid youtube channel {id, select, empty{url} other{with id: {id}}}.",
   "@invalidYoutubeChannelUrl": {
     "placeholders": {
       "value": {
@@ -396,7 +396,7 @@
       }
     }
   },
-  "invalidYoutubeUserUrl": "Sorry! you have to enter a valid youtube user {userName, select, _{url} other{with user name: {userName}}}.",
+  "invalidYoutubeUserUrl": "Sorry! you have to enter a valid youtube user {userName, select, empty{url} other{with user name: {userName}}}.",
   "@invalidYoutubeUserUrl": {
     "placeholders": {
       "value": {
@@ -407,7 +407,7 @@
       }
     }
   },
-  "invalidYoutubeVideoUrl": "Sorry! you have to enter a valid youtube video {id, select, _{url} other{with id: {id}}}.",
+  "invalidYoutubeVideoUrl": "Sorry! you have to enter a valid youtube video {id, select, empty{url} other{with id: {id}}}.",
   "@invalidYoutubeVideoUrl": {
     "placeholders": {
       "value": {
@@ -460,53 +460,53 @@
       }
     }
   },
-  "isDateAfter": "You must enter a date after {other}.",
+  "isDateAfter": "You must enter a date after {o}.",
   "@isDateAfter": {
     "placeholders": {
       "value": {
         "type": "DateTime",
         "format": "yMEd"
       },
-      "other": {
+      "o": {
         "type": "DateTime",
         "format": "yMEd"
       }
     }
   },
-  "isDateAfterOrEqual": "You must enter a date after or at the same time as {other}.",
+  "isDateAfterOrEqual": "You must enter a date after or at the same time as {o}.",
   "@isDateAfterOrEqual": {
     "placeholders": {
       "value": {
         "type": "DateTime",
         "format": "yMEd"
       },
-      "other": {
+      "o": {
         "type": "DateTime",
         "format": "yMEd"
       }
     }
   },
-  "isDateBefore": "You must enter a date before {other}.",
+  "isDateBefore": "You must enter a date before {o}.",
   "@isDateBefore": {
     "placeholders": {
       "value": {
         "type": "DateTime",
         "format": "yMEd"
       },
-      "other": {
+      "o": {
         "type": "DateTime",
         "format": "yMEd"
       }
     }
   },
-  "isDateBeforeOrEqual": "You must enter a date before or at the same time as {other}.",
+  "isDateBeforeOrEqual": "You must enter a date before or at the same time as {o}.",
   "@isDateBeforeOrEqual": {
     "placeholders": {
       "value": {
         "type": "DateTime",
         "format": "yMEd"
       },
-      "other": {
+      "o": {
         "type": "DateTime",
         "format": "yMEd"
       }
@@ -548,6 +548,12 @@
   },
   "isDateTime": "You must enter a valid date",
   "@isDateTime": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "isBoolean": "You must enter true or false",
+  "@isBoolean": {
     "placeholders": {
       "value": {}
     }
@@ -649,53 +655,53 @@
       }
     }
   },
-  "isTimeAfter": "You must enter a date after {other}.",
+  "isTimeAfter": "You must enter a date after {o}.",
   "@isTimeAfter": {
     "placeholders": {
       "value": {
         "type": "DateTime",
         "format": "jm"
       },
-      "other": {
+      "o": {
         "type": "DateTime",
         "format": "jm"
       }
     }
   },
-  "isTimeAfterOrEqual": "You must enter time after or at the same time as {other}.",
+  "isTimeAfterOrEqual": "You must enter time after or at the same time as {o}.",
   "@isTimeAfterOrEqual": {
     "placeholders": {
       "value": {
         "type": "DateTime",
         "format": "jm"
       },
-      "other": {
+      "o": {
         "type": "DateTime",
         "format": "jm"
       }
     }
   },
-  "isTimeBefore": "You must enter time before {other}.",
+  "isTimeBefore": "You must enter time before {o}.",
   "@isTimeBefore": {
     "placeholders": {
       "value": {
         "type": "DateTime",
         "format": "jm"
       },
-      "other": {
+      "o": {
         "type": "DateTime",
         "format": "jm"
       }
     }
   },
-  "isTimeBeforeOrEqual": "You must enter time before or at the same time as {other}.",
+  "isTimeBeforeOrEqual": "You must enter time before or at the same time as {o}.",
   "@isTimeBeforeOrEqual": {
     "placeholders": {
       "value": {
         "type": "DateTime",
         "format": "jm"
       },
-      "other": {
+      "o": {
         "type": "DateTime",
         "format": "jm"
       }
@@ -789,7 +795,7 @@
       }
     }
   },
-  "listMinLength": "The number of elements should not be less than {max}",
+  "listMinLength": "The number of elements should not be less than {min}",
   "@listMinLength": {
     "placeholders": {
       "value": {

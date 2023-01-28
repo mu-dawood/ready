@@ -232,6 +232,19 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
     }).transform((value) => DateTime.tryParse(value ?? ""));
   }
 
+  /// check is the value is [Boolean]
+  FieldValidator<T, bool?> isNullOrBoolean([MessageCallBack<String>? message]) {
+    return next((messages, value) {
+      if (value != null &&
+          value.toLowerCase() != 'true' &&
+          value.toLowerCase() != 'false') {
+        return message?.call(messages, value) ?? messages.isBoolean(value);
+      }
+      return null;
+    }).transform(
+        (value) => value == null ? null : value.toLowerCase() == 'true');
+  }
+
   /// check is the value is [TimeOfDay]
   FieldValidator<T, TimeOfDay?> isNullOrTimeOfDay(
       [MessageCallBack<String>? message]) {
@@ -251,7 +264,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
     return next((messages, value) {
       if (value != null && !value.isAngelCompany(company)) {
         return message?.call(messages, value) ??
-            messages.invalidAngelCompanyUrl(value, company ?? '_');
+            messages.invalidAngelCompanyUrl(value, company ?? 'empty');
       }
       return null;
     });
@@ -265,7 +278,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
     return next((messages, value) {
       if (value != null && !value.isAngelJob(jobId)) {
         return message?.call(messages, value) ??
-            messages.invalidAngelJobUrl(value, jobId ?? '_');
+            messages.invalidAngelJobUrl(value, jobId ?? 'empty');
       }
       return null;
     });
@@ -280,7 +293,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
       if (value != null && !value.isCrunchbaseOrganization(organization)) {
         return message?.call(messages, value) ??
             messages.invalidCrunchbaseOrganizationUrl(
-                value, organization ?? '_');
+                value, organization ?? 'empty');
       }
       return null;
     });
@@ -294,7 +307,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
     return next((messages, value) {
       if (value != null && !value.isCrunchbasePerson(person)) {
         return message?.call(messages, value) ??
-            messages.invalidCrunchbasePersonUrl(value, person ?? '_');
+            messages.invalidCrunchbasePersonUrl(value, person ?? 'empty');
       }
       return null;
     });
@@ -315,8 +328,8 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
         return message?.call(messages, value) ??
             messages.invalidFacebookUrl(
               value,
-              name ?? '_',
-              id ?? '_',
+              name ?? 'empty',
+              id ?? 'empty',
             );
       }
       return null;
@@ -338,8 +351,8 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
         return message?.call(messages, value) ??
             messages.invalidGitHubUrl(
               value,
-              user ?? '_',
-              repository ?? '_',
+              user ?? 'empty',
+              repository ?? 'empty',
             );
       }
       return null;
@@ -361,8 +374,8 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
         return message?.call(messages, value) ??
             messages.invalidGooglePlusUrl(
               value,
-              userName ?? '_',
-              id ?? '_',
+              userName ?? 'empty',
+              id ?? 'empty',
             );
       }
       return null;
@@ -377,7 +390,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
     return next((messages, value) {
       if (value != null && !value.isHackerNewsUserUrl(id: id)) {
         return message?.call(messages, value) ??
-            messages.invalidHackerNewsUserUrl(value, id ?? '_');
+            messages.invalidHackerNewsUserUrl(value, id ?? 'empty');
       }
       return null;
     });
@@ -391,7 +404,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
     return next((messages, value) {
       if (value != null && !value.isHackerNewsItemUrl(id: id)) {
         return message?.call(messages, value) ??
-            messages.invalidHackerNewsItemUrl(value, id ?? '_');
+            messages.invalidHackerNewsItemUrl(value, id ?? 'empty');
       }
       return null;
     });
@@ -405,7 +418,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
     return next((messages, value) {
       if (value != null && !value.isInstagramUrl(user: user)) {
         return message?.call(messages, value) ??
-            messages.invalidInstagramUrl(value, user ?? '_');
+            messages.invalidInstagramUrl(value, user ?? 'empty');
       }
       return null;
     });
@@ -419,7 +432,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
     return next((messages, value) {
       if (value != null && !value.isLinkedInProfile(permalink: permalink)) {
         return message?.call(messages, value) ??
-            messages.invalidLinkedInProfileUrl(value, permalink ?? '_');
+            messages.invalidLinkedInProfileUrl(value, permalink ?? 'empty');
       }
       return null;
     });
@@ -433,7 +446,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
     return next((messages, value) {
       if (value != null && !value.isLinkedInCompany(permalink: permalink)) {
         return message?.call(messages, value) ??
-            messages.invalidAngelCompanyUrl(value, permalink ?? '_');
+            messages.invalidAngelCompanyUrl(value, permalink ?? 'empty');
       }
       return null;
     });
@@ -447,7 +460,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
     return next((messages, value) {
       if (value != null && !value.isLinkedInPost(id: id)) {
         return message?.call(messages, value) ??
-            messages.invalidLinkedInPostUrl(value, id ?? '_');
+            messages.invalidLinkedInPostUrl(value, id ?? 'empty');
       }
       return null;
     });
@@ -461,7 +474,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
     return next((messages, value) {
       if (value != null && !value.isRedditUrl(user: user)) {
         return message?.call(messages, value) ??
-            messages.invalidRedditUrl(value, user ?? '_');
+            messages.invalidRedditUrl(value, user ?? 'empty');
       }
       return null;
     });
@@ -475,7 +488,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
     return next((messages, value) {
       if (value != null && !value.isSnapchatUrl(user: user)) {
         return message?.call(messages, value) ??
-            messages.invalidSnapchatUrl(value, user ?? '_');
+            messages.invalidSnapchatUrl(value, user ?? 'empty');
       }
       return null;
     });
@@ -492,7 +505,8 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
       if (value != null &&
           !value.isStackexchangeUrl(user: user, id: id, community: community)) {
         return message?.call(messages, value) ??
-            messages.invalidStackexchangeUrl(value, user ?? '_', id ?? '_');
+            messages.invalidStackexchangeUrl(
+                value, user ?? 'empty', id ?? 'empty');
       }
       return null;
     });
@@ -506,7 +520,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
     return next((messages, value) {
       if (value != null && !value.isStackoverflowQuestionUrl(id: id)) {
         return message?.call(messages, value) ??
-            messages.invalidStackoverflowQuestionUrl(value, id ?? '_');
+            messages.invalidStackoverflowQuestionUrl(value, id ?? 'empty');
       }
       return null;
     });
@@ -520,7 +534,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
     return next((messages, value) {
       if (value != null && !value.isStackoverflowUserUrl(id: id)) {
         return message?.call(messages, value) ??
-            messages.invalidStackoverflowUserUrl(value, id ?? '_');
+            messages.invalidStackoverflowUserUrl(value, id ?? 'empty');
       }
       return null;
     });
@@ -534,7 +548,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
     return next((messages, value) {
       if (value != null && !value.isTelegramProfileUrl(userName: userName)) {
         return message?.call(messages, value) ??
-            messages.invalidTelegramProfileUrl(value, userName ?? '_');
+            messages.invalidTelegramProfileUrl(value, userName ?? 'empty');
       }
       return null;
     });
@@ -548,7 +562,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
     return next((messages, value) {
       if (value != null && !value.isMediumPostUrl(postId: postId)) {
         return message?.call(messages, value) ??
-            messages.invalidMediumPostUrl(value, postId ?? '_');
+            messages.invalidMediumPostUrl(value, postId ?? 'empty');
       }
       return null;
     });
@@ -569,8 +583,8 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
         return message?.call(messages, value) ??
             messages.invalidMediumUserUrl(
               value,
-              userName ?? '_',
-              id ?? '_',
+              userName ?? 'empty',
+              id ?? 'empty',
             );
       }
       return null;
@@ -592,8 +606,8 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
         return message?.call(messages, value) ??
             messages.invalidTwitterStatusUrl(
               value,
-              userName ?? '_',
-              tweetId ?? '_',
+              userName ?? 'empty',
+              tweetId ?? 'empty',
             );
       }
       return null;
@@ -608,7 +622,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
     return next((messages, value) {
       if (value != null && !value.isTwitterUserUrl(userName: userName)) {
         return message?.call(messages, value) ??
-            messages.invalidTwitterUserUrl(value, userName ?? '_');
+            messages.invalidTwitterUserUrl(value, userName ?? 'empty');
       }
       return null;
     });
@@ -622,7 +636,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
     return next((messages, value) {
       if (value != null && !value.isYoutubeChannelUrl(id: id)) {
         return message?.call(messages, value) ??
-            messages.invalidYoutubeChannelUrl(value, id ?? '_');
+            messages.invalidYoutubeChannelUrl(value, id ?? 'empty');
       }
       return null;
     });
@@ -636,7 +650,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
     return next((messages, value) {
       if (value != null && !value.isYoutubeVideoUrl(id: id)) {
         return message?.call(messages, value) ??
-            messages.invalidYoutubeVideoUrl(value, id ?? '_');
+            messages.invalidYoutubeVideoUrl(value, id ?? 'empty');
       }
       return null;
     });
@@ -650,7 +664,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
     return next((messages, value) {
       if (value != null && !value.isYoutubeUserUrl(username: username)) {
         return message?.call(messages, value) ??
-            messages.invalidYoutubeUserUrl(value, username ?? '_');
+            messages.invalidYoutubeUserUrl(value, username ?? 'empty');
       }
       return null;
     });
@@ -893,7 +907,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     return next((messages, value) {
       if (!value.isAngelCompany(company)) {
         return message?.call(messages, value) ??
-            messages.invalidAngelCompanyUrl(value, company ?? '_');
+            messages.invalidAngelCompanyUrl(value, company ?? 'empty');
       }
       return null;
     });
@@ -907,7 +921,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     return next((messages, value) {
       if (!value.isAngelJob(jobId)) {
         return message?.call(messages, value) ??
-            messages.invalidAngelJobUrl(value, jobId ?? '_');
+            messages.invalidAngelJobUrl(value, jobId ?? 'empty');
       }
       return null;
     });
@@ -922,7 +936,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
       if (!value.isCrunchbaseOrganization(organization)) {
         return message?.call(messages, value) ??
             messages.invalidCrunchbaseOrganizationUrl(
-                value, organization ?? '_');
+                value, organization ?? 'empty');
       }
       return null;
     });
@@ -936,7 +950,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     return next((messages, value) {
       if (!value.isCrunchbasePerson(person)) {
         return message?.call(messages, value) ??
-            messages.invalidCrunchbasePersonUrl(value, person ?? '_');
+            messages.invalidCrunchbasePersonUrl(value, person ?? 'empty');
       }
       return null;
     });
@@ -956,8 +970,8 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
         return message?.call(messages, value) ??
             messages.invalidFacebookUrl(
               value,
-              name ?? '_',
-              id ?? '_',
+              name ?? 'empty',
+              id ?? 'empty',
             );
       }
       return null;
@@ -978,8 +992,8 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
         return message?.call(messages, value) ??
             messages.invalidGitHubUrl(
               value,
-              user ?? '_',
-              repository ?? '_',
+              user ?? 'empty',
+              repository ?? 'empty',
             );
       }
       return null;
@@ -1000,8 +1014,8 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
         return message?.call(messages, value) ??
             messages.invalidGooglePlusUrl(
               value,
-              userName ?? '_',
-              id ?? '_',
+              userName ?? 'empty',
+              id ?? 'empty',
             );
       }
       return null;
@@ -1016,7 +1030,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     return next((messages, value) {
       if (!value.isHackerNewsUserUrl(id: id)) {
         return message?.call(messages, value) ??
-            messages.invalidHackerNewsUserUrl(value, id ?? '_');
+            messages.invalidHackerNewsUserUrl(value, id ?? 'empty');
       }
       return null;
     });
@@ -1030,7 +1044,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     return next((messages, value) {
       if (!value.isHackerNewsItemUrl(id: id)) {
         return message?.call(messages, value) ??
-            messages.invalidHackerNewsItemUrl(value, id ?? '_');
+            messages.invalidHackerNewsItemUrl(value, id ?? 'empty');
       }
       return null;
     });
@@ -1044,7 +1058,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     return next((messages, value) {
       if (!value.isInstagramUrl(user: user)) {
         return message?.call(messages, value) ??
-            messages.invalidInstagramUrl(value, user ?? '_');
+            messages.invalidInstagramUrl(value, user ?? 'empty');
       }
       return null;
     });
@@ -1058,7 +1072,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     return next((messages, value) {
       if (!value.isLinkedInProfile(permalink: permalink)) {
         return message?.call(messages, value) ??
-            messages.invalidLinkedInProfileUrl(value, permalink ?? '_');
+            messages.invalidLinkedInProfileUrl(value, permalink ?? 'empty');
       }
       return null;
     });
@@ -1072,7 +1086,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     return next((messages, value) {
       if (!value.isLinkedInCompany(permalink: permalink)) {
         return message?.call(messages, value) ??
-            messages.invalidAngelCompanyUrl(value, permalink ?? '_');
+            messages.invalidAngelCompanyUrl(value, permalink ?? 'empty');
       }
       return null;
     });
@@ -1086,7 +1100,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     return next((messages, value) {
       if (!value.isLinkedInPost(id: id)) {
         return message?.call(messages, value) ??
-            messages.invalidLinkedInPostUrl(value, id ?? '_');
+            messages.invalidLinkedInPostUrl(value, id ?? 'empty');
       }
       return null;
     });
@@ -1100,7 +1114,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     return next((messages, value) {
       if (!value.isRedditUrl(user: user)) {
         return message?.call(messages, value) ??
-            messages.invalidRedditUrl(value, user ?? '_');
+            messages.invalidRedditUrl(value, user ?? 'empty');
       }
       return null;
     });
@@ -1114,7 +1128,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     return next((messages, value) {
       if (!value.isSnapchatUrl(user: user)) {
         return message?.call(messages, value) ??
-            messages.invalidSnapchatUrl(value, user ?? '_');
+            messages.invalidSnapchatUrl(value, user ?? 'empty');
       }
       return null;
     });
@@ -1130,7 +1144,8 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     return next((messages, value) {
       if (!value.isStackexchangeUrl(user: user, id: id, community: community)) {
         return message?.call(messages, value) ??
-            messages.invalidStackexchangeUrl(value, user ?? '_', id ?? '_');
+            messages.invalidStackexchangeUrl(
+                value, user ?? 'empty', id ?? 'empty');
       }
       return null;
     });
@@ -1144,7 +1159,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     return next((messages, value) {
       if (!value.isStackoverflowQuestionUrl(id: id)) {
         return message?.call(messages, value) ??
-            messages.invalidStackoverflowQuestionUrl(value, id ?? '_');
+            messages.invalidStackoverflowQuestionUrl(value, id ?? 'empty');
       }
       return null;
     });
@@ -1158,7 +1173,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     return next((messages, value) {
       if (!value.isStackoverflowUserUrl(id: id)) {
         return message?.call(messages, value) ??
-            messages.invalidStackoverflowUserUrl(value, id ?? '_');
+            messages.invalidStackoverflowUserUrl(value, id ?? 'empty');
       }
       return null;
     });
@@ -1172,7 +1187,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     return next((messages, value) {
       if (!value.isTelegramProfileUrl(userName: userName)) {
         return message?.call(messages, value) ??
-            messages.invalidTelegramProfileUrl(value, userName ?? '_');
+            messages.invalidTelegramProfileUrl(value, userName ?? 'empty');
       }
       return null;
     });
@@ -1186,7 +1201,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     return next((messages, value) {
       if (!value.isMediumPostUrl(postId: postId)) {
         return message?.call(messages, value) ??
-            messages.invalidMediumPostUrl(value, postId ?? '_');
+            messages.invalidMediumPostUrl(value, postId ?? 'empty');
       }
       return null;
     });
@@ -1206,8 +1221,8 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
         return message?.call(messages, value) ??
             messages.invalidMediumUserUrl(
               value,
-              userName ?? '_',
-              id ?? '_',
+              userName ?? 'empty',
+              id ?? 'empty',
             );
       }
       return null;
@@ -1228,8 +1243,8 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
         return message?.call(messages, value) ??
             messages.invalidTwitterStatusUrl(
               value,
-              userName ?? '_',
-              tweetId ?? '_',
+              userName ?? 'empty',
+              tweetId ?? 'empty',
             );
       }
       return null;
@@ -1244,7 +1259,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     return next((messages, value) {
       if (!value.isTwitterUserUrl(userName: userName)) {
         return message?.call(messages, value) ??
-            messages.invalidTwitterUserUrl(value, userName ?? '_');
+            messages.invalidTwitterUserUrl(value, userName ?? 'empty');
       }
       return null;
     });
@@ -1258,7 +1273,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     return next((messages, value) {
       if (!value.isYoutubeChannelUrl(id: id)) {
         return message?.call(messages, value) ??
-            messages.invalidYoutubeChannelUrl(value, id ?? '_');
+            messages.invalidYoutubeChannelUrl(value, id ?? 'empty');
       }
       return null;
     });
@@ -1272,7 +1287,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     return next((messages, value) {
       if (!value.isYoutubeVideoUrl(id: id)) {
         return message?.call(messages, value) ??
-            messages.invalidYoutubeVideoUrl(value, id ?? '_');
+            messages.invalidYoutubeVideoUrl(value, id ?? 'empty');
       }
       return null;
     });
@@ -1286,7 +1301,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
     return next((messages, value) {
       if (!value.isYoutubeUserUrl(username: username)) {
         return message?.call(messages, value) ??
-            messages.invalidYoutubeUserUrl(value, username ?? '_');
+            messages.invalidYoutubeUserUrl(value, username ?? 'empty');
       }
       return null;
     });
