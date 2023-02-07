@@ -84,11 +84,6 @@ class __ReadyMultiPickerState<T, TController extends ReadyPickerController<T>>
   }
 
   @override
-  void deactivate() {
-    super.deactivate();
-  }
-
-  @override
   void initState() {
     _effectiveFocusNode.addListener(_handleFocusChanged);
     _effectiveFocusNode.canRequestFocus = widget.picker.enabled;
@@ -112,7 +107,7 @@ class __ReadyMultiPickerState<T, TController extends ReadyPickerController<T>>
     final effectiveDecoration = options.decoration
         .applyDefaults(Theme.of(context).inputDecorationTheme);
     final style =
-        Theme.of(context).textTheme.subtitle1?.merge(options.textStyle) ??
+        Theme.of(context).textTheme.titleMedium?.merge(options.textStyle) ??
             options.textStyle;
     var value = widget.field.value ?? [];
     return GestureDetector(
@@ -120,7 +115,7 @@ class __ReadyMultiPickerState<T, TController extends ReadyPickerController<T>>
         _effectiveFocusNode.requestFocus();
       },
       behavior: HitTestBehavior.opaque,
-      child: FocusTrapArea(
+      child: Focus(
         focusNode: _effectiveFocusNode,
         child: Semantics(
           button: true,
@@ -137,7 +132,7 @@ class __ReadyMultiPickerState<T, TController extends ReadyPickerController<T>>
                             : IconButton(
                                 icon: Icon(
                                   Icons.delete_rounded,
-                                  color: Theme.of(context).errorColor,
+                                  color: Theme.of(context).colorScheme.error,
                                 ),
                                 onPressed: () {
                                   widget.field.didChange(null);
