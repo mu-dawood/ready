@@ -54,8 +54,7 @@ class Ready {
   }) {
     assert(object.attached);
     try {
-      final RenderAbstractViewport viewport =
-          RenderAbstractViewport.of(object)!;
+      final RenderAbstractViewport viewport = RenderAbstractViewport.of(object);
       num target = viewport
           .getOffsetToReveal(object, alignment)
           .offset

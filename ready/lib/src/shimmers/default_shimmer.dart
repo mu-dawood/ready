@@ -33,7 +33,7 @@ class ShimmerScope extends StatelessWidget {
           (transform) => LinearGradient(
                 colors: [
                   Theme.of(context).cardColor,
-                  Theme.of(context).backgroundColor,
+                  Theme.of(context).colorScheme.background,
                   Theme.of(context).cardColor,
                 ],
                 stops: const [0.1, 0.3, 0.4],

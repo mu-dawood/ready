@@ -1,6 +1,6 @@
 name: ready_image
 description: Simple and customizable image which is  wrapper for cached network image ad part of ready packages
-version: 0.0.18
+version: 1.0.0
 homepage: https://github.com/mo-ah-dawood/ready
 
 environment:
@@ -10,8 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cached_network_image: ^3.2.1
-  cached_network_image_platform_interface: ^1.0.0
+  cached_network_image: ^3.2.3
+  cached_network_image_platform_interface: ^2.0.0
   flutter_cache_manager: ^3.3.0
 
 dev_dependencies:

@@ -58,7 +58,7 @@ extension SharedValidationExtensions<T, R> on FieldValidator<T, R> {
       // cSpell: ignore valsx
       var val = values();
       if (!val.contains(value)) {
-        return message?.call(messages, value) ?? messages.isIn(value, val);
+        return message?.call(messages, value) ?? messages.isIn(val);
       }
       return null;
     });
@@ -75,7 +75,7 @@ extension SharedValidationExtensions<T, R> on FieldValidator<T, R> {
     return next((messages, value) {
       var val = values();
       if (val.contains(value)) {
-        return message?.call(messages, value) ?? messages.isNotIn(value, val);
+        return message?.call(messages, value) ?? messages.isNotIn(val);
       }
       return null;
     });

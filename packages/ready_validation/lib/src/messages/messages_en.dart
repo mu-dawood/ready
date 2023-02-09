@@ -1,5 +1,6 @@
 // cSpell: disable
-// ignore_for_file: unused_local_variable, unnecessary_brace_in_string_interps, equal_keys_in_map, unnecessary_string_interpolations
+// ignore_for_file: unused_local_variable, unnecessary_brace_in_string_interps, equal_keys_in_map, unnecessary_string_interpolations, no_leading_underscores_for_local_identifiers
+
 
 import 'package:intl/intl.dart' as intl;
 
@@ -10,17 +11,17 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   ReadyValidationMessagesEn([String locale = 'en']) : super(locale);
 
   @override
-  String contains(String value, String res) {
+  String contains(String res) {
     return 'The text should contain $res';
   }
 
   @override
-  String containsItem(Iterable value, dynamic res) {
+  String containsItem(dynamic res) {
     return 'The list should contain $res';
   }
 
   @override
-  String endsWith(String value, String res) {
+  String endsWith(String res) {
     return 'Text should end with $res';
   }
 
@@ -30,51 +31,43 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String greaterThan(num value, num min) {
-    final intl.NumberFormat valueNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String valueString = valueNumberFormat.format(value);
-    final intl.NumberFormat minNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
+  String greaterThan(num min) {
+    final intl.NumberFormat minNumberFormat = intl.NumberFormat.decimalPattern(localeName);
     final String minString = minNumberFormat.format(min);
 
     return 'The value should be greater than $minString.';
   }
 
   @override
-  String greaterThanOrEqual(num value, num min) {
-    final intl.NumberFormat valueNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String valueString = valueNumberFormat.format(value);
-    final intl.NumberFormat minNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
+  String greaterThanOrEqual(num min) {
+    final intl.NumberFormat minNumberFormat = intl.NumberFormat.decimalPattern(localeName);
     final String minString = minNumberFormat.format(min);
 
     return 'The value should be greater than or equal $minString.';
   }
 
   @override
-  String hasLength(String value, int length) {
+  String hasLength(int length) {
     return 'You must enter a text of $length characters';
   }
 
   @override
-  String hasMaxLength(String value, int max) {
+  String hasMaxLength(int max) {
     return 'The text must be no longer than $max';
   }
 
   @override
-  String hasMinLength(String value, int min) {
+  String hasMinLength(int min) {
     return 'The length of the text must be at least $min';
   }
 
   @override
-  String hasRange(String value, int min, int max) {
+  String hasRange(int min, int max) {
     return 'You must enter a text of length not less than $min and not more than $max';
   }
 
   @override
-  String invalidAngelCompanyUrl(String value, String company) {
+  String invalidAngelCompanyUrl(String company) {
     String _temp0 = intl.Intl.selectLogic(
       company,
       {
@@ -86,7 +79,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidAngelJobUrl(String value, String jobId) {
+  String invalidAngelJobUrl(String jobId) {
     String _temp0 = intl.Intl.selectLogic(
       jobId,
       {
@@ -98,7 +91,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidCrunchbaseOrganizationUrl(String value, String organization) {
+  String invalidCrunchbaseOrganizationUrl(String organization) {
     String _temp0 = intl.Intl.selectLogic(
       organization,
       {
@@ -110,7 +103,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidCrunchbasePersonUrl(String value, String person) {
+  String invalidCrunchbasePersonUrl(String person) {
     String _temp0 = intl.Intl.selectLogic(
       person,
       {
@@ -122,7 +115,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidFacebookUrl(String value, String name, String id) {
+  String invalidFacebookUrl(String name, String id) {
     String _temp0 = intl.Intl.selectLogic(
       id,
       {
@@ -141,7 +134,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidGitHubUrl(String value, String user, String repository) {
+  String invalidGitHubUrl(String user, String repository) {
     String _temp0 = intl.Intl.selectLogic(
       repository,
       {
@@ -167,7 +160,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidGooglePlusUrl(String value, String userName, String id) {
+  String invalidGooglePlusUrl(String userName, String id) {
     String _temp0 = intl.Intl.selectLogic(
       userName,
       {
@@ -179,7 +172,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidHackerNewsItemUrl(String value, String id) {
+  String invalidHackerNewsItemUrl(String id) {
     String _temp0 = intl.Intl.selectLogic(
       id,
       {
@@ -191,7 +184,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidHackerNewsUserUrl(String value, String id) {
+  String invalidHackerNewsUserUrl(String id) {
     String _temp0 = intl.Intl.selectLogic(
       id,
       {
@@ -203,7 +196,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidInstagramUrl(String value, String user) {
+  String invalidInstagramUrl(String user) {
     String _temp0 = intl.Intl.selectLogic(
       user,
       {
@@ -215,7 +208,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidLinkedInCompanyUrl(String value, String permalink) {
+  String invalidLinkedInCompanyUrl(String permalink) {
     String _temp0 = intl.Intl.selectLogic(
       permalink,
       {
@@ -227,7 +220,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidLinkedInPostUrl(String value, String id) {
+  String invalidLinkedInPostUrl(String id) {
     String _temp0 = intl.Intl.selectLogic(
       id,
       {
@@ -239,7 +232,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidLinkedInProfileUrl(String value, String permalink) {
+  String invalidLinkedInProfileUrl(String permalink) {
     String _temp0 = intl.Intl.selectLogic(
       permalink,
       {
@@ -251,7 +244,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidMediumPostUrl(String value, String postId) {
+  String invalidMediumPostUrl(String postId) {
     String _temp0 = intl.Intl.selectLogic(
       postId,
       {
@@ -263,7 +256,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidMediumUserUrl(String value, String userName, String id) {
+  String invalidMediumUserUrl(String userName, String id) {
     String _temp0 = intl.Intl.selectLogic(
       id,
       {
@@ -282,7 +275,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidRedditUrl(String value, String user) {
+  String invalidRedditUrl(String user) {
     String _temp0 = intl.Intl.selectLogic(
       user,
       {
@@ -294,7 +287,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidSnapchatUrl(String value, String user) {
+  String invalidSnapchatUrl(String user) {
     String _temp0 = intl.Intl.selectLogic(
       user,
       {
@@ -306,7 +299,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidStackexchangeUrl(String value, String user, String id) {
+  String invalidStackexchangeUrl(String user, String id) {
     String _temp0 = intl.Intl.selectLogic(
       id,
       {
@@ -325,7 +318,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidStackoverflowQuestionUrl(String value, String id) {
+  String invalidStackoverflowQuestionUrl(String id) {
     String _temp0 = intl.Intl.selectLogic(
       id,
       {
@@ -337,7 +330,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidStackoverflowUserUrl(String value, String id) {
+  String invalidStackoverflowUserUrl(String id) {
     String _temp0 = intl.Intl.selectLogic(
       id,
       {
@@ -349,7 +342,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidTelegramProfileUrl(String value, String userName) {
+  String invalidTelegramProfileUrl(String userName) {
     String _temp0 = intl.Intl.selectLogic(
       userName,
       {
@@ -361,8 +354,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidTwitterStatusUrl(
-      String value, String userName, String tweetId) {
+  String invalidTwitterStatusUrl(String userName, String tweetId) {
     String _temp0 = intl.Intl.selectLogic(
       tweetId,
       {
@@ -381,7 +373,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidTwitterUserUrl(String value, String userName) {
+  String invalidTwitterUserUrl(String userName) {
     String _temp0 = intl.Intl.selectLogic(
       userName,
       {
@@ -393,7 +385,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidYoutubeChannelUrl(String value, String id) {
+  String invalidYoutubeChannelUrl(String id) {
     String _temp0 = intl.Intl.selectLogic(
       id,
       {
@@ -405,7 +397,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidYoutubeUserUrl(String value, String userName) {
+  String invalidYoutubeUserUrl(String userName) {
     String _temp0 = intl.Intl.selectLogic(
       userName,
       {
@@ -417,7 +409,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String invalidYoutubeVideoUrl(String value, String id) {
+  String invalidYoutubeVideoUrl(String id) {
     String _temp0 = intl.Intl.selectLogic(
       id,
       {
@@ -429,42 +421,30 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String isBetween(num value, num min, num max) {
-    final intl.NumberFormat valueNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String valueString = valueNumberFormat.format(value);
-    final intl.NumberFormat minNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
+  String isBetween(num min, num max) {
+    final intl.NumberFormat minNumberFormat = intl.NumberFormat.decimalPattern(localeName);
     final String minString = minNumberFormat.format(min);
-    final intl.NumberFormat maxNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
+    final intl.NumberFormat maxNumberFormat = intl.NumberFormat.decimalPattern(localeName);
     final String maxString = maxNumberFormat.format(max);
 
     return 'Value must be greater than $minString and less than $maxString';
   }
 
   @override
-  String isBetweenOrEqual(num value, num min, num max) {
-    final intl.NumberFormat valueNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String valueString = valueNumberFormat.format(value);
-    final intl.NumberFormat minNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
+  String isBetweenOrEqual(num min, num max) {
+    final intl.NumberFormat minNumberFormat = intl.NumberFormat.decimalPattern(localeName);
     final String minString = minNumberFormat.format(min);
-    final intl.NumberFormat maxNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
+    final intl.NumberFormat maxNumberFormat = intl.NumberFormat.decimalPattern(localeName);
     final String maxString = maxNumberFormat.format(max);
 
     return 'Value must be greater than or equal $minString and less than or equal $maxString';
   }
 
   @override
-  String isCreditCard(Object v) => 'You must enter a valid credit card number';
+  String get isCreditCard => 'You must enter a valid credit card number';
 
   @override
-  String isDateAfter(DateTime value, DateTime o) {
-    final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
-    final String valueString = valueDateFormat.format(value);
+  String isDateAfter(DateTime o) {
     final intl.DateFormat oDateFormat = intl.DateFormat.yMEd(localeName);
     final String oString = oDateFormat.format(o);
 
@@ -472,9 +452,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String isDateAfterOrEqual(DateTime value, DateTime o) {
-    final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
-    final String valueString = valueDateFormat.format(value);
+  String isDateAfterOrEqual(DateTime o) {
     final intl.DateFormat oDateFormat = intl.DateFormat.yMEd(localeName);
     final String oString = oDateFormat.format(o);
 
@@ -482,9 +460,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String isDateBefore(DateTime value, DateTime o) {
-    final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
-    final String valueString = valueDateFormat.format(value);
+  String isDateBefore(DateTime o) {
     final intl.DateFormat oDateFormat = intl.DateFormat.yMEd(localeName);
     final String oString = oDateFormat.format(o);
 
@@ -492,9 +468,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String isDateBeforeOrEqual(DateTime value, DateTime o) {
-    final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
-    final String valueString = valueDateFormat.format(value);
+  String isDateBeforeOrEqual(DateTime o) {
     final intl.DateFormat oDateFormat = intl.DateFormat.yMEd(localeName);
     final String oString = oDateFormat.format(o);
 
@@ -502,9 +476,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String isDateBetween(DateTime value, DateTime min, DateTime max) {
-    final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
-    final String valueString = valueDateFormat.format(value);
+  String isDateBetween(DateTime min, DateTime max) {
     final intl.DateFormat minDateFormat = intl.DateFormat.yMEd(localeName);
     final String minString = minDateFormat.format(min);
     final intl.DateFormat maxDateFormat = intl.DateFormat.yMEd(localeName);
@@ -514,9 +486,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String isDateBetweenOrEqual(DateTime value, DateTime min, DateTime max) {
-    final intl.DateFormat valueDateFormat = intl.DateFormat.yMEd(localeName);
-    final String valueString = valueDateFormat.format(value);
+  String isDateBetweenOrEqual(DateTime min, DateTime max) {
     final intl.DateFormat minDateFormat = intl.DateFormat.yMEd(localeName);
     final String minString = minDateFormat.format(min);
     final intl.DateFormat maxDateFormat = intl.DateFormat.yMEd(localeName);
@@ -526,61 +496,55 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String isDateTime(Object? v) => 'You must enter a valid date';
+  String get isDateTime => 'You must enter a valid date';
 
   @override
-  String isBoolean(Object? v) => 'You must enter true or false';
+  String get isBoolean => 'You must enter true or false';
 
   @override
-  String isDecimal(Object? v) => 'You must enter a decimal number';
+  String get isDecimal => 'You must enter a decimal number';
 
   @override
-  String isDivisibleBy(num value, num division) {
-    final intl.NumberFormat valueNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String valueString = valueNumberFormat.format(value);
-    final intl.NumberFormat divisionNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
+  String isDivisibleBy(num division) {
+    final intl.NumberFormat divisionNumberFormat = intl.NumberFormat.decimalPattern(localeName);
     final String divisionString = divisionNumberFormat.format(division);
 
     return 'The input value must be divisible by $divisionString';
   }
 
   @override
-  String isEmail(Object? v) => 'You must enter a valid email address';
+  String get isEmail => 'You must enter a valid email address';
 
   @override
-  String isEven(Object? v) => 'The value must be an even number';
+  String get isEven => 'The value must be an even number';
 
   @override
-  String isIn(dynamic value, Iterable list) {
+  String isIn(Iterable list) {
     return 'The entered value must be one of the $list';
   }
 
   @override
-  String isInteger(Object? v) => 'You must enter a valid number';
+  String get isInteger => 'You must enter a valid number';
 
   @override
-  String isNegative(Object? v) => 'Value must be negative';
+  String get isNegative => 'Value must be negative';
 
   @override
-  String isNotIn(dynamic value, Iterable list) {
+  String isNotIn(Iterable list) {
     return 'The entered value must not be in $list';
   }
 
   @override
-  String isNumber(Object? v) => 'You must enter a valid number';
+  String get isNumber => 'You must enter a valid number';
 
   @override
-  String isOdd(Object? v) => 'The value must be an odd number';
+  String get isOdd => 'The value must be an odd number';
 
   @override
-  String isPositive(Object? v) => 'The value should be positive';
+  String get isPositive => 'The value should be positive';
 
   @override
-  String isTimeAfter(DateTime value, DateTime o) {
-    final intl.DateFormat valueDateFormat = intl.DateFormat.jm(localeName);
-    final String valueString = valueDateFormat.format(value);
+  String isTimeAfter(DateTime o) {
     final intl.DateFormat oDateFormat = intl.DateFormat.jm(localeName);
     final String oString = oDateFormat.format(o);
 
@@ -588,9 +552,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String isTimeAfterOrEqual(DateTime value, DateTime o) {
-    final intl.DateFormat valueDateFormat = intl.DateFormat.jm(localeName);
-    final String valueString = valueDateFormat.format(value);
+  String isTimeAfterOrEqual(DateTime o) {
     final intl.DateFormat oDateFormat = intl.DateFormat.jm(localeName);
     final String oString = oDateFormat.format(o);
 
@@ -598,9 +560,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String isTimeBefore(DateTime value, DateTime o) {
-    final intl.DateFormat valueDateFormat = intl.DateFormat.jm(localeName);
-    final String valueString = valueDateFormat.format(value);
+  String isTimeBefore(DateTime o) {
     final intl.DateFormat oDateFormat = intl.DateFormat.jm(localeName);
     final String oString = oDateFormat.format(o);
 
@@ -608,9 +568,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String isTimeBeforeOrEqual(DateTime value, DateTime o) {
-    final intl.DateFormat valueDateFormat = intl.DateFormat.jm(localeName);
-    final String valueString = valueDateFormat.format(value);
+  String isTimeBeforeOrEqual(DateTime o) {
     final intl.DateFormat oDateFormat = intl.DateFormat.jm(localeName);
     final String oString = oDateFormat.format(o);
 
@@ -618,9 +576,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String isTimeBetween(DateTime value, DateTime min, DateTime max) {
-    final intl.DateFormat valueDateFormat = intl.DateFormat.jm(localeName);
-    final String valueString = valueDateFormat.format(value);
+  String isTimeBetween(DateTime min, DateTime max) {
     final intl.DateFormat minDateFormat = intl.DateFormat.jm(localeName);
     final String minString = minDateFormat.format(min);
     final intl.DateFormat maxDateFormat = intl.DateFormat.jm(localeName);
@@ -630,9 +586,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String isTimeBetweenOrEqual(DateTime value, DateTime min, DateTime max) {
-    final intl.DateFormat valueDateFormat = intl.DateFormat.jm(localeName);
-    final String valueString = valueDateFormat.format(value);
+  String isTimeBetweenOrEqual(DateTime min, DateTime max) {
     final intl.DateFormat minDateFormat = intl.DateFormat.jm(localeName);
     final String minString = minDateFormat.format(min);
     final intl.DateFormat maxDateFormat = intl.DateFormat.jm(localeName);
@@ -642,54 +596,46 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
-  String isTimeOfDay(Object? v) => 'You must enter a valid time';
+  String get isTimeOfDay => 'You must enter a valid time';
 
   @override
-  String lessThan(num value, num max) {
-    final intl.NumberFormat valueNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String valueString = valueNumberFormat.format(value);
-    final intl.NumberFormat maxNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
+  String lessThan(num max) {
+    final intl.NumberFormat maxNumberFormat = intl.NumberFormat.decimalPattern(localeName);
     final String maxString = maxNumberFormat.format(max);
 
     return 'Value must be less than $maxString.';
   }
 
   @override
-  String lessThanOrEqual(num value, num max) {
-    final intl.NumberFormat valueNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String valueString = valueNumberFormat.format(value);
-    final intl.NumberFormat maxNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
+  String lessThanOrEqual(num max) {
+    final intl.NumberFormat maxNumberFormat = intl.NumberFormat.decimalPattern(localeName);
     final String maxString = maxNumberFormat.format(max);
 
     return 'Value must be less than or equal $maxString.';
   }
 
   @override
-  String listHasLength(Iterable value, int length) {
+  String listHasLength(int length) {
     return 'The number of elements must equal $length';
   }
 
   @override
-  String listMaxLength(Iterable value, int max) {
+  String listMaxLength(int max) {
     return 'The number of elements should not be more than $max';
   }
 
   @override
-  String listMinLength(Iterable value, int min) {
+  String listMinLength(int min) {
     return 'The number of elements should not be less than $min';
   }
 
   @override
-  String listRange(Iterable value, int min, int max) {
+  String listRange(int min, int max) {
     return 'The number of elements  must be between $min and $max';
   }
 
   @override
-  String notContainsItem(Iterable value, dynamic res) {
+  String notContainsItem(dynamic res) {
     return 'The list should not to contain $res';
   }
 
@@ -708,7 +654,7 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   String get required => 'Excuse me! This field is required';
 
   @override
-  String startsWith(String value, String res) {
+  String startsWith(String res) {
     return 'Text should start with $res';
   }
 }

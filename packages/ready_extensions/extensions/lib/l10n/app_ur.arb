@@ -1,11 +1,11 @@
 {
-  "yearsPlural": "{count,plural, =0{} =1{ایک سال} =2{دو سال}  few{{count} سال}} other{{count} سال}}",
-  "monthsPlural": "{count,plural, =0{} =1{ایک مہینہ} =2{دو ماہ}  few{{count} مہینہ}} other{{count} مہینہ}}",
-  "daysPlural": "{count,plural, =0{} =1{ایک دن} =2{دو دن}  few{{count} دن}} other{{count} دن}}",
-  "weeksPlural": "{count,plural, =0{} =1{ایک ہفتہ} =2{دو ہفتے}  few{{count} ہفتے}} other{{count} ہفتے}}",
-  "hoursPlural": "{count,plural, =0{} =1{ایک گھنٹہ} =2{دو گھنٹے}  few{{count} گھنٹے}} other{{count} گھنٹے}}",
-  "minutesPlural": "{count,plural, =0{} =1{ایک منٹ} =2{دو منٹ}  few{{count} منٹ}} other{{count} منٹ}}",
-  "secondsPlural": "{count,plural, =0{} =1{ایک سیکنڈ} =2{دو سیکنڈ}  few{{count} سیکنڈ}} other{{count} سیکنڈ}}",
+  "yearsPlural": "{count,plural, =0{} =1{ایک سال} =2{دو سال}  few{{count} سال} other{{count} سال}}",
+  "monthsPlural": "{count,plural, =0{} =1{ایک مہینہ} =2{دو ماہ}  few{{count} مہینہ} other{{count} مہینہ}}",
+  "daysPlural": "{count,plural, =0{} =1{ایک دن} =2{دو دن}  few{{count} دن} other{{count} دن}}",
+  "weeksPlural": "{count,plural, =0{} =1{ایک ہفتہ} =2{دو ہفتے}  few{{count} ہفتے} other{{count} ہفتے}}",
+  "hoursPlural": "{count,plural, =0{} =1{ایک گھنٹہ} =2{دو گھنٹے}  few{{count} گھنٹے} other{{count} گھنٹے}}",
+  "minutesPlural": "{count,plural, =0{} =1{ایک منٹ} =2{دو منٹ}  few{{count} منٹ} other{{count} منٹ}}",
+  "secondsPlural": "{count,plural, =0{} =1{ایک سیکنڈ} =2{دو سیکنڈ}  few{{count} سیکنڈ} other{{count} سیکنڈ}}",
   "now": "ابھی",
   "formatSeparator": " ، "
 }

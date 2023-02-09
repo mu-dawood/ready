@@ -1,6 +1,6 @@
 name: ready_validation
 description: Collection of extension methods to make validation simple , clean and fast
-version: 2.2.0
+version: 2.3.0
 homepage: https://github.com/mo-ah-dawood/ready/tree/main/packages/ready_validation
 repository: https://github.com/mo-ah-dawood/ready
 issue_tracker: https://github.com/mo-ah-dawood/ready/issues
@@ -12,8 +12,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  ready_extensions: ^1.0.8
-  intl: ^0.17.0
+  ready_extensions: ^1.1.0
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test:

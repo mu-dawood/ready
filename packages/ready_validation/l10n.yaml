@@ -8,4 +8,4 @@ synthetic-package: false
 
 header: |
   // cSpell: disable
-  // ignore_for_file: unused_local_variable, unnecessary_brace_in_string_interps, equal_keys_in_map, unnecessary_string_interpolations
+  // ignore_for_file: unused_local_variable, unnecessary_brace_in_string_interps, equal_keys_in_map, unnecessary_string_interpolations, no_leading_underscores_for_local_identifiers

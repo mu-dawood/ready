@@ -3,9 +3,6 @@
   "contains": "The text should contain {res}",
   "@contains": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "res": {
         "type": "String"
       }
@@ -14,9 +11,6 @@
   "containsItem": "The list should contain {res}",
   "@containsItem": {
     "placeholders": {
-      "value": {
-        "type": "Iterable"
-      },
       "res": {
         "type": "dynamic"
       }
@@ -25,9 +19,6 @@
   "endsWith": "Text should end with {res}",
   "@endsWith": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "res": {
         "type": "String"
       }
@@ -44,10 +35,6 @@
   "greaterThan": "The value should be greater than {min}.",
   "@greaterThan": {
     "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      },
       "min": {
         "type": "num",
         "format": "decimalPattern"
@@ -57,10 +44,6 @@
   "greaterThanOrEqual": "The value should be greater than or equal {min}.",
   "@greaterThanOrEqual": {
     "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      },
       "min": {
         "type": "num",
         "format": "decimalPattern"
@@ -70,9 +53,6 @@
   "hasLength": "You must enter a text of {length} characters",
   "@hasLength": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "length": {
         "type": "int"
       }
@@ -81,9 +61,6 @@
   "hasMaxLength": "The text must be no longer than {max}",
   "@hasMaxLength": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "max": {
         "type": "int"
       }
@@ -92,9 +69,6 @@
   "hasMinLength": "The length of the text must be at least {min}",
   "@hasMinLength": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "min": {
         "type": "int"
       }
@@ -103,9 +77,6 @@
   "hasRange": "You must enter a text of length not less than {min} and not more than {max}",
   "@hasRange": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "min": {
         "type": "int"
       },
@@ -117,9 +88,6 @@
   "invalidAngelCompanyUrl": "Sorry! you have to enter a valid angel company {company, select, empty{url} other{with name: {company}}}.",
   "@invalidAngelCompanyUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "company": {
         "type": "String"
       }
@@ -128,9 +96,6 @@
   "invalidAngelJobUrl": "Sorry! you have to enter a valid angel job {jobId, select, empty{url} other{with id: {jobId}}}.",
   "@invalidAngelJobUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "jobId": {
         "type": "String"
       }
@@ -139,9 +104,6 @@
   "invalidCrunchbaseOrganizationUrl": "Sorry! you have to enter a valid crunchbase organization {organization, select, empty{url} other{with name: {organization}}}.",
   "@invalidCrunchbaseOrganizationUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "organization": {
         "type": "String"
       }
@@ -150,9 +112,6 @@
   "invalidCrunchbasePersonUrl": "Sorry! you have to enter a valid crunchbase person {person, select, empty{url} other{with name: {person}}}.",
   "@invalidCrunchbasePersonUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "person": {
         "type": "String"
       }
@@ -161,9 +120,6 @@
   "invalidFacebookUrl": "Sorry! you have to enter a valid facebook {name, select, empty{{id, select, empty{url} other{user with id: {id}}}} other{user with name: {name}}}.",
   "@invalidFacebookUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "name": {
         "type": "String"
       },
@@ -175,9 +131,6 @@
   "invalidGitHubUrl": "Sorry! you have to enter a valid gitHub {user, select, empty{{repository, select, empty{url} other{repository: {repository}}}} other{user with name: {user} {repository, select, empty{} other{and repository: {repository}}}}}.",
   "@invalidGitHubUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "user": {
         "type": "String"
       },
@@ -189,9 +142,6 @@
   "invalidGooglePlusUrl": "Sorry! you have to enter a valid google plus {userName, select, empty{url} other{with user name: {userName}}}.",
   "@invalidGooglePlusUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "userName": {
         "type": "String"
       },
@@ -203,9 +153,6 @@
   "invalidHackerNewsItemUrl": "Sorry! you have to enter a valid hacker news item  {id, select, empty{url} other{with id: {id}}}.",
   "@invalidHackerNewsItemUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "id": {
         "type": "String"
       }
@@ -214,9 +161,6 @@
   "invalidHackerNewsUserUrl": "Sorry! you have to enter a valid hacker news user  {id, select, empty{url} other{with id: {id}}}.",
   "@invalidHackerNewsUserUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "id": {
         "type": "String"
       }
@@ -225,9 +169,6 @@
   "invalidInstagramUrl": "Sorry! you have to enter a valid instagram {user, select, empty{url} other{with user: {user}}}.",
   "@invalidInstagramUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "user": {
         "type": "String"
       }
@@ -236,9 +177,6 @@
   "invalidLinkedInCompanyUrl": "Sorry! you have to enter a valid inked in {permalink, select, empty{company url} other{company with {permalink} url}}.",
   "@invalidLinkedInCompanyUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "permalink": {
         "type": "String"
       }
@@ -247,9 +185,6 @@
   "invalidLinkedInPostUrl": "Sorry! you have to enter a valid linked in post  {id, select, empty{url} other{with id: {id}}}",
   "@invalidLinkedInPostUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "id": {
         "type": "String"
       }
@@ -258,9 +193,6 @@
   "invalidLinkedInProfileUrl": "Sorry! you have to enter a valid inked in {permalink, select, empty{profile url} other{profile with {permalink} url}}.",
   "@invalidLinkedInProfileUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "permalink": {
         "type": "String"
       }
@@ -269,9 +201,6 @@
   "invalidMediumPostUrl": "Sorry! you have to enter a valid medium post {postId, select, empty{url} other{with id: {postId}}}.",
   "@invalidMediumPostUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "postId": {
         "type": "String"
       }
@@ -280,9 +209,6 @@
   "invalidMediumUserUrl": "Sorry! you have to enter a valid medium user {userName, select, empty{{id, select, empty{url} other{with id: {id}}}} other{with user name: {userName}}}.",
   "@invalidMediumUserUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "userName": {
         "type": "String"
       },
@@ -294,9 +220,6 @@
   "invalidRedditUrl": "Sorry! you have to enter a valid reddit {user, select, empty{url} other{with user: {user}}}.",
   "@invalidRedditUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "user": {
         "type": "String"
       }
@@ -305,9 +228,6 @@
   "invalidSnapchatUrl": "Sorry! you have to enter a valid snapchat {user, select, empty{url} other{with user: {user}}}.",
   "@invalidSnapchatUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "user": {
         "type": "String"
       }
@@ -316,9 +236,6 @@
   "invalidStackexchangeUrl": "Sorry! you have to enter a valid stackexchange {user, select, empty{{id, select, empty{url} other{with id: {id}}}} other{with user name: {user}}}.",
   "@invalidStackexchangeUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "user": {
         "type": "String"
       },
@@ -330,9 +247,6 @@
   "invalidStackoverflowQuestionUrl": "Sorry! you have to enter a valid stackoverflow question {id, select, empty{url} other{with id: {id}}}.",
   "@invalidStackoverflowQuestionUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "id": {
         "type": "String"
       }
@@ -341,9 +255,6 @@
   "invalidStackoverflowUserUrl": "Sorry! you have to enter a valid stackoverflow user {id, select, empty{url} other{with id: {id}}}.",
   "@invalidStackoverflowUserUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "id": {
         "type": "String"
       }
@@ -352,9 +263,6 @@
   "invalidTelegramProfileUrl": "Sorry! you have to enter a valid telegram profile {userName, select, empty{url} other{with user name: {userName}}}.",
   "@invalidTelegramProfileUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "userName": {
         "type": "String"
       }
@@ -363,9 +271,6 @@
   "invalidTwitterStatusUrl": "Sorry! you have to enter a valid twitter status {tweetId, select, empty{url} other{with id: {tweetId}}} {userName, select, empty{} other{with user name: {userName}}}.",
   "@invalidTwitterStatusUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "userName": {
         "type": "String"
       },
@@ -377,9 +282,6 @@
   "invalidTwitterUserUrl": "Sorry! you have to enter a valid twitter user {userName, select, empty{url} other{with user name: {userName}}}.",
   "@invalidTwitterUserUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "userName": {
         "type": "String"
       }
@@ -388,9 +290,6 @@
   "invalidYoutubeChannelUrl": "Sorry! you have to enter a valid youtube channel {id, select, empty{url} other{with id: {id}}}.",
   "@invalidYoutubeChannelUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "id": {
         "type": "String"
       }
@@ -399,9 +298,6 @@
   "invalidYoutubeUserUrl": "Sorry! you have to enter a valid youtube user {userName, select, empty{url} other{with user name: {userName}}}.",
   "@invalidYoutubeUserUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "userName": {
         "type": "String"
       }
@@ -410,9 +306,6 @@
   "invalidYoutubeVideoUrl": "Sorry! you have to enter a valid youtube video {id, select, empty{url} other{with id: {id}}}.",
   "@invalidYoutubeVideoUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "id": {
         "type": "String"
       }
@@ -421,10 +314,6 @@
   "isBetween": "Value must be greater than {min} and less than {max}",
   "@isBetween": {
     "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      },
       "min": {
         "type": "num",
         "format": "decimalPattern"
@@ -438,10 +327,6 @@
   "isBetweenOrEqual": "Value must be greater than or equal {min} and less than or equal {max}",
   "@isBetweenOrEqual": {
     "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      },
       "min": {
         "type": "num",
         "format": "decimalPattern"
@@ -454,19 +339,11 @@
   },
   "isCreditCard": "You must enter a valid credit card number",
   "@isCreditCard": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
+    "placeholders": {}
   },
   "isDateAfter": "You must enter a date after {o}.",
   "@isDateAfter": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
       "o": {
         "type": "DateTime",
         "format": "yMEd"
@@ -476,10 +353,6 @@
   "isDateAfterOrEqual": "You must enter a date after or at the same time as {o}.",
   "@isDateAfterOrEqual": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
       "o": {
         "type": "DateTime",
         "format": "yMEd"
@@ -489,10 +362,6 @@
   "isDateBefore": "You must enter a date before {o}.",
   "@isDateBefore": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
       "o": {
         "type": "DateTime",
         "format": "yMEd"
@@ -502,10 +371,6 @@
   "isDateBeforeOrEqual": "You must enter a date before or at the same time as {o}.",
   "@isDateBeforeOrEqual": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
       "o": {
         "type": "DateTime",
         "format": "yMEd"
@@ -515,10 +380,6 @@
   "isDateBetween": "You must enter a date between {min} and {max}.",
   "@isDateBetween": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
       "min": {
         "type": "DateTime",
         "format": "yMEd"
@@ -532,10 +393,6 @@
   "isDateBetweenOrEqual": "You must enter a date between  {min} and {max} or at the same time as any of them.",
   "@isDateBetweenOrEqual": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
       "min": {
         "type": "DateTime",
         "format": "yMEd"
@@ -548,29 +405,19 @@
   },
   "isDateTime": "You must enter a valid date",
   "@isDateTime": {
-    "placeholders": {
-      "value": {}
-    }
+    "placeholders": {}
   },
   "isBoolean": "You must enter true or false",
   "@isBoolean": {
-    "placeholders": {
-      "value": {}
-    }
+    "placeholders": {}
   },
   "isDecimal": "You must enter a decimal number",
   "@isDecimal": {
-    "placeholders": {
-      "value": {}
-    }
+    "placeholders": {}
   },
   "isDivisibleBy": "The input value must be divisible by {division}",
   "@isDivisibleBy": {
     "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      },
       "division": {
         "type": "num",
         "format": "decimalPattern"
@@ -579,27 +426,15 @@
   },
   "isEmail": "You must enter a valid email address",
   "@isEmail": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
+    "placeholders": {}
   },
   "isEven": "The value must be an even number",
   "@isEven": {
-    "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      }
-    }
+    "placeholders": {}
   },
   "isIn": "The entered value must be one of the {list}",
   "@isIn": {
     "placeholders": {
-      "value": {
-        "type": "dynamic"
-      },
       "list": {
         "type": "Iterable"
       }
@@ -607,25 +442,15 @@
   },
   "isInteger": "You must enter a valid number",
   "@isInteger": {
-    "placeholders": {
-      "value": {}
-    }
+    "placeholders": {}
   },
   "isNegative": "Value must be negative",
   "@isNegative": {
-    "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      }
-    }
+    "placeholders": {}
   },
   "isNotIn": "The entered value must not be in {list}",
   "@isNotIn": {
     "placeholders": {
-      "value": {
-        "type": "dynamic"
-      },
       "list": {
         "type": "Iterable"
       }
@@ -633,35 +458,19 @@
   },
   "isNumber": "You must enter a valid number",
   "@isNumber": {
-    "placeholders": {
-      "value": {}
-    }
+    "placeholders": {}
   },
   "isOdd": "The value must be an odd number",
   "@isOdd": {
-    "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      }
-    }
+    "placeholders": {}
   },
   "isPositive": "The value should be positive",
   "@isPositive": {
-    "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      }
-    }
+    "placeholders": {}
   },
   "isTimeAfter": "You must enter a date after {o}.",
   "@isTimeAfter": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "jm"
-      },
       "o": {
         "type": "DateTime",
         "format": "jm"
@@ -671,10 +480,6 @@
   "isTimeAfterOrEqual": "You must enter time after or at the same time as {o}.",
   "@isTimeAfterOrEqual": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "jm"
-      },
       "o": {
         "type": "DateTime",
         "format": "jm"
@@ -684,10 +489,6 @@
   "isTimeBefore": "You must enter time before {o}.",
   "@isTimeBefore": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "jm"
-      },
       "o": {
         "type": "DateTime",
         "format": "jm"
@@ -697,10 +498,6 @@
   "isTimeBeforeOrEqual": "You must enter time before or at the same time as {o}.",
   "@isTimeBeforeOrEqual": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "jm"
-      },
       "o": {
         "type": "DateTime",
         "format": "jm"
@@ -710,10 +507,6 @@
   "isTimeBetween": "You must enter time between {min} and {max}.",
   "@isTimeBetween": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "jm"
-      },
       "min": {
         "type": "DateTime",
         "format": "jm"
@@ -727,10 +520,6 @@
   "isTimeBetweenOrEqual": "You must enter time between  {min} and {max} or at the same time any of them",
   "@isTimeBetweenOrEqual": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "jm"
-      },
       "min": {
         "type": "DateTime",
         "format": "jm"
@@ -743,17 +532,11 @@
   },
   "isTimeOfDay": "You must enter a valid time",
   "@isTimeOfDay": {
-    "placeholders": {
-      "value": {}
-    }
+    "placeholders": {}
   },
   "lessThan": "Value must be less than {max}.",
   "@lessThan": {
     "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      },
       "max": {
         "type": "num",
         "format": "decimalPattern"
@@ -763,10 +546,6 @@
   "lessThanOrEqual": "Value must be less than or equal {max}.",
   "@lessThanOrEqual": {
     "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      },
       "max": {
         "type": "num",
         "format": "decimalPattern"
@@ -776,9 +555,6 @@
   "listHasLength": "The number of elements must equal {length}",
   "@listHasLength": {
     "placeholders": {
-      "value": {
-        "type": "Iterable"
-      },
       "length": {
         "type": "int"
       }
@@ -787,9 +563,6 @@
   "listMaxLength": "The number of elements should not be more than {max}",
   "@listMaxLength": {
     "placeholders": {
-      "value": {
-        "type": "Iterable"
-      },
       "max": {
         "type": "int"
       }
@@ -798,9 +571,6 @@
   "listMinLength": "The number of elements should not be less than {min}",
   "@listMinLength": {
     "placeholders": {
-      "value": {
-        "type": "Iterable"
-      },
       "min": {
         "type": "int"
       }
@@ -809,9 +579,6 @@
   "listRange": "The number of elements  must be between {min} and {max}",
   "@listRange": {
     "placeholders": {
-      "value": {
-        "type": "Iterable"
-      },
       "min": {
         "type": "int"
       },
@@ -823,9 +590,6 @@
   "notContainsItem": "The list should not to contain {res}",
   "@notContainsItem": {
     "placeholders": {
-      "value": {
-        "type": "Iterable"
-      },
       "res": {
         "type": "dynamic"
       }
@@ -848,9 +612,6 @@
   "startsWith": "Text should start with {res}",
   "@startsWith": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "res": {
         "type": "String"
       }

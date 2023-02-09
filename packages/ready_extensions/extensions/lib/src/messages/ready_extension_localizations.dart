@@ -9,14 +9,14 @@ import 'ready_extension_localizations_en.dart';
 import 'ready_extension_localizations_fr.dart';
 import 'ready_extension_localizations_ur.dart';
 
-/// Callers can lookup localized strings with an instance of ReadyExtensionLocalizations returned
-/// by `ReadyExtensionLocalizations.of(context)`.
+/// Callers can lookup localized strings with an instance of ReadyExtensionLocalizations
+/// returned by `ReadyExtensionLocalizations.of(context)`.
 ///
 /// Applications need to include `ReadyExtensionLocalizations.delegate()` in their app's
-/// localizationDelegates list, and the locales they support in the app's
-/// supportedLocales list. For example:
+/// `localizationDelegates` list, and the locales they support in the app's
+/// `supportedLocales` list. For example:
 ///
-/// ```
+/// ```dart
 /// import 'messages/ready_extension_localizations.dart';
 ///
 /// return MaterialApp(
@@ -31,14 +31,14 @@ import 'ready_extension_localizations_ur.dart';
 /// Please make sure to update your pubspec.yaml to include the following
 /// packages:
 ///
-/// ```
+/// ```yaml
 /// dependencies:
 ///   # Internationalization support.
 ///   flutter_localizations:
 ///     sdk: flutter
 ///   intl: any # Use the pinned version from flutter_localizations
 ///
-///   # rest of dependencies
+///   # Rest of dependencies
 /// ```
 ///
 /// ## iOS Applications
@@ -85,43 +85,43 @@ abstract class ReadyExtensionLocalizations {
   /// No description provided for @yearsPlural.
   ///
   /// In ar, this message translates to:
-  /// **'{count,plural, =0{} =1{عام واحد} =2{عامين}  few{{count} أعوام}} other{{count} عام}}'**
+  /// **'{count,plural, =0{} =1{عام واحد} =2{عامين}  few{{count} أعوام} other{{count} عام}}'**
   String yearsPlural(num count);
 
   /// No description provided for @monthsPlural.
   ///
   /// In ar, this message translates to:
-  /// **'{count,plural, =0{} =1{شهر واحد} =2{شهرين}  few{{count} أشهر}} other{{count} شهر}}'**
+  /// **'{count,plural, =0{} =1{شهر واحد} =2{شهرين}  few{{count} أشهر} other{{count} شهر}}'**
   String monthsPlural(num count);
 
   /// No description provided for @daysPlural.
   ///
   /// In ar, this message translates to:
-  /// **'{count,plural, =0{} =1{يوم واحد} =2{يومين}  few{{count} أيام}} other{{count} يوم}}'**
+  /// **'{count,plural, =0{} =1{يوم واحد} =2{يومين}  few{{count} أيام} other{{count} يوم}}'**
   String daysPlural(num count);
 
   /// No description provided for @weeksPlural.
   ///
   /// In ar, this message translates to:
-  /// **'{count,plural, =0{} =1{أسبوع واحد} =2{أسبوعين}  few{{count} أسابيع}} other{{count} أسبوع}}'**
+  /// **'{count,plural, =0{} =1{أسبوع واحد} =2{أسبوعين}  few{{count} أسابيع} other{{count} أسبوع}}'**
   String weeksPlural(num count);
 
   /// No description provided for @hoursPlural.
   ///
   /// In ar, this message translates to:
-  /// **'{count,plural, =0{} =1{ساعة واحدة} =2{ساعتين}  few{{count} ساعات}} other{{count} ساعة}}'**
+  /// **'{count,plural, =0{} =1{ساعة واحدة} =2{ساعتين}  few{{count} ساعات} other{{count} ساعة}}'**
   String hoursPlural(num count);
 
   /// No description provided for @minutesPlural.
   ///
   /// In ar, this message translates to:
-  /// **'{count,plural, =0{} =1{دقيقة واحدة} =2{دقيقتين}  few{{count} دقائق}} other{{count} دقيقة}}'**
+  /// **'{count,plural, =0{} =1{دقيقة واحدة} =2{دقيقتين}  few{{count} دقائق} other{{count} دقيقة}}'**
   String minutesPlural(num count);
 
   /// No description provided for @secondsPlural.
   ///
   /// In ar, this message translates to:
-  /// **'{count,plural, =0{} =1{ثانية واحدة} =2{ثانيتين}  few{{count} ثواني}} other{{count} ثانية}}'**
+  /// **'{count,plural, =0{} =1{ثانية واحدة} =2{ثانيتين}  few{{count} ثواني} other{{count} ثانية}}'**
   String secondsPlural(num count);
 
   /// No description provided for @now.

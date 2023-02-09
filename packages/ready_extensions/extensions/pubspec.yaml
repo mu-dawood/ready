@@ -1,6 +1,6 @@
 name: ready_extensions
 description: Collection of extension methods to make your code simple , clean and fast
-version: 1.0.9
+version: 1.1.0
 homepage: https://github.com/mo-ah-dawood/ready/tree/main/packages/ready_extensions
 repository: https://github.com/mo-ah-dawood/ready
 issue_tracker: https://github.com/mo-ah-dawood/ready/issues
@@ -12,8 +12,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  intl: ^0.17.0
-  ready_extensions_dart: ^1.0.9
+  intl: ^0.18.0
+  ready_extensions_dart: ^1.1.0
 
 dev_dependencies:
   flutter_test:

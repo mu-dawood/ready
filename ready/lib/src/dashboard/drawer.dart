@@ -147,7 +147,7 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
       child: IconButton(
         color: sel ? Theme.of(context).colorScheme.secondary : null,
         onPressed: () {
-          DefaultTabController.of(context)?.index = expanded.indexOf(item);
+          DefaultTabController.maybeOf(context)?.index = expanded.indexOf(item);
           var hasDrawer = Scaffold.maybeOf(context)?.hasDrawer == true;
           var isDrawerOpen = hasDrawer && Scaffold.of(context).isDrawerOpen;
           if (isDrawerOpen) {
@@ -169,7 +169,7 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
     if (item.hasBuilder) {
       return ListTile(
         onTap: () {
-          DefaultTabController.of(context)?.index = exp.indexOf(item);
+          DefaultTabController.maybeOf(context)?.index = exp.indexOf(item);
           var hasDrawer = Scaffold.maybeOf(context)?.hasDrawer == true;
           var isDrawerOpen = hasDrawer && Scaffold.of(context).isDrawerOpen;
           if (isDrawerOpen) {

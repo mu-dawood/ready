@@ -1,41 +1,41 @@
 {
-  "yearsPlural": "{count,plural, =0{} =1{عام واحد} =2{عامين}  few{{count} أعوام}} other{{count} عام}}",
+  "yearsPlural": "{count,plural, =0{} =1{عام واحد} =2{عامين}  few{{count} أعوام} other{{count} عام}}",
   "@yearsPlural": {
     "placeholders": {
       "count": {}
     }
   },
-  "monthsPlural": "{count,plural, =0{} =1{شهر واحد} =2{شهرين}  few{{count} أشهر}} other{{count} شهر}}",
+  "monthsPlural": "{count,plural, =0{} =1{شهر واحد} =2{شهرين}  few{{count} أشهر} other{{count} شهر}}",
   "@monthsPlural": {
     "placeholders": {
       "count": {}
     }
   },
-  "daysPlural": "{count,plural, =0{} =1{يوم واحد} =2{يومين}  few{{count} أيام}} other{{count} يوم}}",
+  "daysPlural": "{count,plural, =0{} =1{يوم واحد} =2{يومين}  few{{count} أيام} other{{count} يوم}}",
   "@daysPlural": {
     "placeholders": {
       "count": {}
     }
   },
-  "weeksPlural": "{count,plural, =0{} =1{أسبوع واحد} =2{أسبوعين}  few{{count} أسابيع}} other{{count} أسبوع}}",
+  "weeksPlural": "{count,plural, =0{} =1{أسبوع واحد} =2{أسبوعين}  few{{count} أسابيع} other{{count} أسبوع}}",
   "@weeksPlural": {
     "placeholders": {
       "count": {}
     }
   },
-  "hoursPlural": "{count,plural, =0{} =1{ساعة واحدة} =2{ساعتين}  few{{count} ساعات}} other{{count} ساعة}}",
+  "hoursPlural": "{count,plural, =0{} =1{ساعة واحدة} =2{ساعتين}  few{{count} ساعات} other{{count} ساعة}}",
   "@hoursPlural": {
     "placeholders": {
       "count": {}
     }
   },
-  "minutesPlural": "{count,plural, =0{} =1{دقيقة واحدة} =2{دقيقتين}  few{{count} دقائق}} other{{count} دقيقة}}",
+  "minutesPlural": "{count,plural, =0{} =1{دقيقة واحدة} =2{دقيقتين}  few{{count} دقائق} other{{count} دقيقة}}",
   "@minutesPlural": {
     "placeholders": {
       "count": {}
     }
   },
-  "secondsPlural": "{count,plural, =0{} =1{ثانية واحدة} =2{ثانيتين}  few{{count} ثواني}} other{{count} ثانية}}",
+  "secondsPlural": "{count,plural, =0{} =1{ثانية واحدة} =2{ثانيتين}  few{{count} ثواني} other{{count} ثانية}}",
   "@secondsPlural": {
     "placeholders": {
       "count": {}

@@ -7,8 +7,7 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
     return next((messages, value) {
       var maximum = max();
       if (value >= maximum) {
-        return message?.call(messages, value) ??
-            messages.lessThan(value, maximum);
+        return message?.call(messages, value) ?? messages.lessThan(maximum);
       }
       return null;
     });
@@ -24,8 +23,7 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
     return next((messages, value) {
       var minimum = min();
       if (value <= minimum) {
-        return message?.call(messages, value) ??
-            messages.greaterThan(value, minimum);
+        return message?.call(messages, value) ?? messages.greaterThan(minimum);
       }
       return null;
     });
@@ -44,7 +42,7 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
       var minimum = min();
       if (value <= minimum || value >= maximum) {
         return message?.call(messages, value) ??
-            messages.isBetween(value, minimum, maximum);
+            messages.isBetween(minimum, maximum);
       }
       return null;
     });
@@ -62,7 +60,7 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
       var maximum = max();
       if (value > maximum) {
         return message?.call(messages, value) ??
-            messages.lessThanOrEqual(value, maximum);
+            messages.lessThanOrEqual(maximum);
       }
       return null;
     });
@@ -80,7 +78,7 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
       var minimum = min();
       if (value < minimum) {
         return message?.call(messages, value) ??
-            messages.greaterThanOrEqual(value, minimum);
+            messages.greaterThanOrEqual(minimum);
       }
       return null;
     });
@@ -100,7 +98,7 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
       var minimum = min();
       if (value < minimum || value > maximum) {
         return message?.call(messages, value) ??
-            messages.isBetweenOrEqual(value, minimum, maximum);
+            messages.isBetweenOrEqual(minimum, maximum);
       }
       return null;
     });
@@ -117,8 +115,7 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
     return next((messages, value) {
       var oth = other();
       if (value % oth != 0) {
-        return message?.call(messages, value) ??
-            messages.isDivisibleBy(value, oth);
+        return message?.call(messages, value) ?? messages.isDivisibleBy(oth);
       }
       return null;
     });
@@ -133,7 +130,7 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
   FieldValidator<T, num> isNegative([MessageCallBack<num>? message]) {
     return next((messages, value) {
       if (!value.isNegative) {
-        return message?.call(messages, value) ?? messages.isNegative(value);
+        return message?.call(messages, value) ?? messages.isNegative;
       }
       return null;
     });
@@ -143,7 +140,7 @@ extension NumberValidationExtension<T> on FieldValidator<T, num> {
   FieldValidator<T, num> isPositive([MessageCallBack<num>? message]) {
     return next((messages, value) {
       if (value.isNegative) {
-        return message?.call(messages, value) ?? messages.isPositive(value);
+        return message?.call(messages, value) ?? messages.isPositive;
       }
       return null;
     });
@@ -155,7 +152,7 @@ extension IntegerValidationExtension<T> on FieldValidator<T, int> {
   FieldValidator<T, int> isEven([MessageCallBack<int>? message]) {
     return next((messages, value) {
       if (!value.isEven) {
-        return message?.call(messages, value) ?? messages.isEven(value);
+        return message?.call(messages, value) ?? messages.isEven;
       }
       return null;
     });
@@ -165,7 +162,7 @@ extension IntegerValidationExtension<T> on FieldValidator<T, int> {
   FieldValidator<T, int> isOdd([MessageCallBack<int>? message]) {
     return next((messages, value) {
       if (!value.isOdd) {
-        return message?.call(messages, value) ?? messages.isOdd(value);
+        return message?.call(messages, value) ?? messages.isOdd;
       }
       return null;
     });

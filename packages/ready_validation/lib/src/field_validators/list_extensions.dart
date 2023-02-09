@@ -7,8 +7,7 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
     return next((messages, value) {
       var len = length();
       if (value.length != len) {
-        return message?.call(messages, value) ??
-            messages.listHasLength(value, len);
+        return message?.call(messages, value) ?? messages.listHasLength(len);
       }
       return null;
     });
@@ -27,7 +26,7 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
       var maximum = max();
       if (value.length > maximum) {
         return message?.call(messages, value) ??
-            messages.listMaxLength(value, maximum);
+            messages.listMaxLength(maximum);
       }
       return null;
     });
@@ -46,7 +45,7 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
       var minimum = min();
       if (value.length < minimum) {
         return message?.call(messages, value) ??
-            messages.listMinLength(value, minimum);
+            messages.listMinLength(minimum);
       }
       return null;
     });
@@ -68,7 +67,7 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
 
       if (value.length < minimum || value.length > maximum) {
         return message?.call(messages, value) ??
-            messages.listRange(value, minimum, maximum);
+            messages.listRange(minimum, maximum);
       }
       return null;
     });
@@ -97,8 +96,7 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
       (messages, value) {
         var itm = item();
         return !value.any((a) => a == itm)
-            ? message?.call(messages, value) ??
-                messages.containsItem(value, itm)
+            ? message?.call(messages, value) ?? messages.containsItem(itm)
             : null;
       },
     );
@@ -116,8 +114,7 @@ extension ListValidationExtension<T, TItem> on FieldValidator<T, List<TItem>> {
     return next((messages, value) {
       var itm = item();
       return value.any((a) => a == itm)
-          ? message?.call(messages, value) ??
-              messages.notContainsItem(value, itm)
+          ? message?.call(messages, value) ?? messages.notContainsItem(itm)
           : null;
     });
   }

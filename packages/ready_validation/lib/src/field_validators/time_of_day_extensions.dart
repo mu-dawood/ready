@@ -14,7 +14,7 @@ extension TimeOfDayValidationExtension<T> on FieldValidator<T, TimeOfDay> {
       var oth = other();
       if (!value.isAfter(oth)) {
         return message?.call(messages, value) ??
-            messages.isTimeAfter(_dateTime(value), _dateTime(oth));
+            messages.isTimeAfter(_dateTime(oth));
       }
       return null;
     });
@@ -34,7 +34,7 @@ extension TimeOfDayValidationExtension<T> on FieldValidator<T, TimeOfDay> {
 
       if (!value.isAfter(oth) && !value.isAtSameMomentAs(oth)) {
         return message?.call(messages, value) ??
-            messages.isTimeAfterOrEqual(_dateTime(value), _dateTime(oth));
+            messages.isTimeAfterOrEqual(_dateTime(oth));
       }
       return null;
     });
@@ -53,7 +53,7 @@ extension TimeOfDayValidationExtension<T> on FieldValidator<T, TimeOfDay> {
       var oth = other();
       if (!value.isBefore(oth)) {
         return message?.call(messages, value) ??
-            messages.isTimeBefore(_dateTime(value), _dateTime(oth));
+            messages.isTimeBefore(_dateTime(oth));
       }
       return null;
     });
@@ -72,7 +72,7 @@ extension TimeOfDayValidationExtension<T> on FieldValidator<T, TimeOfDay> {
       var oth = other();
       if (!value.isBefore(oth) && !value.isAtSameMomentAs(oth)) {
         return message?.call(messages, value) ??
-            messages.isTimeBeforeOrEqual(_dateTime(value), _dateTime(oth));
+            messages.isTimeBeforeOrEqual(_dateTime(oth));
       }
       return null;
     });
@@ -94,8 +94,7 @@ extension TimeOfDayValidationExtension<T> on FieldValidator<T, TimeOfDay> {
 
       if (!value.isAfter(minimum) || !value.isBefore(maximum)) {
         return message?.call(messages, value) ??
-            messages.isTimeBetween(
-                _dateTime(value), _dateTime(minimum), _dateTime(maximum));
+            messages.isTimeBetween(_dateTime(minimum), _dateTime(maximum));
       }
       return null;
     });
@@ -117,7 +116,7 @@ extension TimeOfDayValidationExtension<T> on FieldValidator<T, TimeOfDay> {
       if (value.isBefore(minimum) || value.isAfter(maximum)) {
         return message?.call(messages, value) ??
             messages.isTimeBetweenOrEqual(
-                _dateTime(value), _dateTime(minimum), _dateTime(maximum));
+                _dateTime(minimum), _dateTime(maximum));
       }
       return null;
     });

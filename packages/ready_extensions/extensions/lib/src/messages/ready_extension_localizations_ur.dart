@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart' as intl;
+
 import 'ready_extension_localizations.dart';
 
 /// The translations for Urdu (`ur`).
@@ -7,86 +8,100 @@ class ReadyExtensionLocalizationsUr extends ReadyExtensionLocalizations {
 
   @override
   String yearsPlural(num count) {
-    return intl.Intl.pluralLogic(
+    String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      one: 'ایک سال',
-      two: 'دو سال',
-      few: '$count سال',
       other: '$count سال',
+      few: '$count سال',
+      two: 'دو سال',
+      one: 'ایک سال',
+      zero: '',
     );
+    return '$_temp0';
   }
 
   @override
   String monthsPlural(num count) {
-    return intl.Intl.pluralLogic(
+    String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      one: 'ایک مہینہ',
-      two: 'دو ماہ',
-      few: '$count مہینہ',
       other: '$count مہینہ',
+      few: '$count مہینہ',
+      two: 'دو ماہ',
+      one: 'ایک مہینہ',
+      zero: '',
     );
+    return '$_temp0';
   }
 
   @override
   String daysPlural(num count) {
-    return intl.Intl.pluralLogic(
+    String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      one: 'ایک دن',
-      two: 'دو دن',
-      few: '$count دن',
       other: '$count دن',
+      few: '$count دن',
+      two: 'دو دن',
+      one: 'ایک دن',
+      zero: '',
     );
+    return '$_temp0';
   }
 
   @override
   String weeksPlural(num count) {
-    return intl.Intl.pluralLogic(
+    String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      one: 'ایک ہفتہ',
-      two: 'دو ہفتے',
-      few: '$count ہفتے',
       other: '$count ہفتے',
+      few: '$count ہفتے',
+      two: 'دو ہفتے',
+      one: 'ایک ہفتہ',
+      zero: '',
     );
+    return '$_temp0';
   }
 
   @override
   String hoursPlural(num count) {
-    return intl.Intl.pluralLogic(
+    String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      one: 'ایک گھنٹہ',
-      two: 'دو گھنٹے',
-      few: '$count گھنٹے',
       other: '$count گھنٹے',
+      few: '$count گھنٹے',
+      two: 'دو گھنٹے',
+      one: 'ایک گھنٹہ',
+      zero: '',
     );
+    return '$_temp0';
   }
 
   @override
   String minutesPlural(num count) {
-    return intl.Intl.pluralLogic(
+    String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      one: 'ایک منٹ',
-      two: 'دو منٹ',
-      few: '$count منٹ',
       other: '$count منٹ',
+      few: '$count منٹ',
+      two: 'دو منٹ',
+      one: 'ایک منٹ',
+      zero: '',
     );
+    return '$_temp0';
   }
 
   @override
   String secondsPlural(num count) {
-    return intl.Intl.pluralLogic(
+    String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      one: 'ایک سیکنڈ',
-      two: 'دو سیکنڈ',
-      few: '$count سیکنڈ',
       other: '$count سیکنڈ',
+      few: '$count سیکنڈ',
+      two: 'دو سیکنڈ',
+      one: 'ایک سیکنڈ',
+      zero: '',
     );
+    return '$_temp0';
   }
 
   @override

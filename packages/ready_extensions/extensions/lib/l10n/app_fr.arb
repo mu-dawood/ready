@@ -1,11 +1,11 @@
 {
-  "yearsPlural": "{count,plural, =0{} =1{un ans} =2{deux ans}  few{{count} années}} other{{count} années}}",
-  "monthsPlural": "{count,plural, =0{} =1{un mois} =2{deux mois}  few{{count} mois}} other{{count} mois}}",
-  "daysPlural": "{count,plural, =0{} =1{un seul jour} =2{deux jours}  few{{count} jours}} other{{count} jours}}",
-  "weeksPlural": "{count,plural, =0{} =1{une semaine} =2{deux semaines}  few{{count} semaines}} other{{count} semaines}}",
-  "hoursPlural": "{count,plural, =0{} =1{une heure} =2{deux heures}  few{{count} heures}} other{{count} heures}}",
-  "minutesPlural": "{count,plural, =0{} =1{une minute} =2{deux minutes}  few{{count} minutes}} other{{count} minutes}}",
-  "secondsPlural": "{count,plural, =0{} =1{une seconde} =2{deux secondes}  few{{count} secondes}} other{{count} secondes}}",
+  "yearsPlural": "{count,plural, =0{} =1{un ans} =2{deux ans}  few{{count} années} other{{count} années}}",
+  "monthsPlural": "{count,plural, =0{} =1{un mois} =2{deux mois}  few{{count} mois} other{{count} mois}}",
+  "daysPlural": "{count,plural, =0{} =1{un seul jour} =2{deux jours}  few{{count} jours} other{{count} jours}}",
+  "weeksPlural": "{count,plural, =0{} =1{une semaine} =2{deux semaines}  few{{count} semaines} other{{count} semaines}}",
+  "hoursPlural": "{count,plural, =0{} =1{une heure} =2{deux heures}  few{{count} heures} other{{count} heures}}",
+  "minutesPlural": "{count,plural, =0{} =1{une minute} =2{deux minutes}  few{{count} minutes} other{{count} minutes}}",
+  "secondsPlural": "{count,plural, =0{} =1{une seconde} =2{deux secondes}  few{{count} secondes} other{{count} secondes}}",
   "now": "à présent",
   "formatSeparator": " ، "
 }

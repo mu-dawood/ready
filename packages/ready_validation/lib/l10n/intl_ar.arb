@@ -3,9 +3,6 @@
   "contains": "يجب أن يحتوي النص على {res}",
   "@contains": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "res": {
         "type": "String"
       }
@@ -14,9 +11,6 @@
   "containsItem": "يجب أن تحتوي القائمة على {res}",
   "@containsItem": {
     "placeholders": {
-      "value": {
-        "type": "Iterable"
-      },
       "res": {
         "type": "dynamic"
       }
@@ -25,9 +19,6 @@
   "endsWith": "يجب أن ينتهي النص بـ {res}",
   "@endsWith": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "res": {
         "type": "String"
       }
@@ -44,10 +35,6 @@
   "greaterThan": "يجب أن تكون القيمة أكبر من {min}.",
   "@greaterThan": {
     "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      },
       "min": {
         "type": "num",
         "format": "decimalPattern"
@@ -57,10 +44,6 @@
   "greaterThanOrEqual": "يجب أن تكون القيمة أكبر من أو مساوية ل {min}.",
   "@greaterThanOrEqual": {
     "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      },
       "min": {
         "type": "num",
         "format": "decimalPattern"
@@ -70,9 +53,6 @@
   "hasLength": "يجب عليك إدخال نص مكون من {length} حرف",
   "@hasLength": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "length": {
         "type": "int"
       }
@@ -81,9 +61,6 @@
   "hasMaxLength": "يجب ألا يزيد النص عن {max}",
   "@hasMaxLength": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "max": {
         "type": "int"
       }
@@ -92,9 +69,6 @@
   "hasMinLength": "يجب أن يكون طول النص على الأقل {min}",
   "@hasMinLength": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "min": {
         "type": "int"
       }
@@ -103,9 +77,6 @@
   "hasRange": "يجب إدخال نص بطول لا يقل عن {min} ولا يزيد عن {max}",
   "@hasRange": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "min": {
         "type": "int"
       },
@@ -117,9 +88,6 @@
   "invalidAngelCompanyUrl": "آسف! يجب عليك إدخال رابط صحيح لشركة {company, select, empty{} other{{company}}} بموقع angel.",
   "@invalidAngelCompanyUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "company": {
         "type": "String"
       }
@@ -128,9 +96,6 @@
   "invalidAngelJobUrl": "آسف! عليك إدخال رابط صحيح لوظيفة {jobId, select, empty{} other{ تحمل المعرف : {jobId}}} بموقع angel.",
   "@invalidAngelJobUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "jobId": {
         "type": "String"
       }
@@ -139,9 +104,6 @@
   "invalidCrunchbaseOrganizationUrl": "آسف! يجب عليك إدخال منظمة crunchbase صالحة {organization, select, empty{ url } other{ بالاسم: {organization}}} بموقع crunchbase.",
   "@invalidCrunchbaseOrganizationUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "organization": {
         "type": "String"
       }
@@ -150,9 +112,6 @@
   "invalidCrunchbasePersonUrl": "آسف! يجب عليك إدخال شخص crunchbase صالح {person, select, empty{ url } other{ بالاسم: {person}}} بموقع crunchbase.",
   "@invalidCrunchbasePersonUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "person": {
         "type": "String"
       }
@@ -161,9 +120,6 @@
   "invalidFacebookUrl": "آسف! يجب عليك إدخال رابط {name, select, empty{{id, select, empty{ url } other{ للمستخدم الذي يحمل المعرف: {id}}}} other{ user للمستخدم: {name}}} بموقع facebook.",
   "@invalidFacebookUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "name": {
         "type": "String"
       },
@@ -175,9 +131,6 @@
   "invalidGitHubUrl": "آسف! يجب عليك إدخال رابط {user, select, empty{{repository, select, empty{ } other{ للمستودع: {repository}}}} other{ للمستخدم: {user} {repository, select, empty{} other{ : {repository}}}}} بموقع gitHub.",
   "@invalidGitHubUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "user": {
         "type": "String"
       },
@@ -189,9 +142,6 @@
   "invalidGooglePlusUrl": "آسف! يجب عليك إدخال رابط {userName, select, empty{ لمستخدم } other{ للمستخدم: {userName}}} بموقع google.",
   "@invalidGooglePlusUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "userName": {
         "type": "String"
       },
@@ -203,9 +153,6 @@
   "invalidHackerNewsItemUrl": "آسف! يجب عليك إدخال رابط {id, select, empty{ لخبر } other{للخبر الذي يحمل المعرف: {id}}} بموقع HackerNews.",
   "@invalidHackerNewsItemUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "id": {
         "type": "String"
       }
@@ -214,9 +161,6 @@
   "invalidHackerNewsUserUrl": "آسف! يجب عليك إدخال رابط {id, select, empty{ لمستخدم } other{ للمستخدم الذي يحمل المعرف: {id}}} بموقع HackerNews.",
   "@invalidHackerNewsUserUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "id": {
         "type": "String"
       }
@@ -225,9 +169,6 @@
   "invalidInstagramUrl": "آسف! يجب عليك إدخال رابط {user, select, empty{ لمستخدم } other{ للمستخدم: {user}}} بموقع instagram.",
   "@invalidInstagramUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "user": {
         "type": "String"
       }
@@ -236,9 +177,6 @@
   "invalidLinkedInCompanyUrl": "آسف! يجب عليك إدخال رابط {permalink, select, empty{لشركة} other{للشركة التي تحمل المعرف {permalink} }} بموقع linkedIn.",
   "@invalidLinkedInCompanyUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "permalink": {
         "type": "String"
       }
@@ -247,9 +185,6 @@
   "invalidLinkedInPostUrl": "آسف! يجب عليك إدخال رابط  {id, select, empty{ لمنشور} other{ للمنشور الذي يحمل المعرف: {id}}} بموقع linkedIn.",
   "@invalidLinkedInPostUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "id": {
         "type": "String"
       }
@@ -258,9 +193,6 @@
   "invalidLinkedInProfileUrl": "آسف! يجب عليك إدخال رابط {permalink,select,empty{لملف شخصي} other{للملف الشخصي الذي يحمل المعرف {permalink}}} بموقع linkedIn.",
   "@invalidLinkedInProfileUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "permalink": {
         "type": "String"
       }
@@ -269,9 +201,6 @@
   "invalidMediumPostUrl": "آسف! يجب عليك إدخال رابط {postId, select, empty{ لمنشور } other{ للمنشور الذي يحمل المعرف: {postId}}} بموقع medium.",
   "@invalidMediumPostUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "postId": {
         "type": "String"
       }
@@ -280,9 +209,6 @@
   "invalidMediumUserUrl": "آسف! يجب عليك إدخال رابط {userName, select, empty{{id, select, empty{ url } other{ للمستخدم الذي يحمل المعرف: {id}}}} other{ للمستخدم: {userName}}}  بموقع medium.",
   "@invalidMediumUserUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "userName": {
         "type": "String"
       },
@@ -294,9 +220,6 @@
   "invalidRedditUrl": "آسف! يجب عليك إدخال رابط {user, select, empty{ } other{ للمستخدم: {user}}} بموقع reddit.",
   "@invalidRedditUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "user": {
         "type": "String"
       }
@@ -305,9 +228,6 @@
   "invalidSnapchatUrl": "آسف! يجب عليك إدخال snapchat صالح {user, select, empty{ url } other{ with user: {user}}} بموقع medium.",
   "@invalidSnapchatUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "user": {
         "type": "String"
       }
@@ -316,9 +236,6 @@
   "invalidStackexchangeUrl": "آسف! يجب عليك إدخال رابط {user, select, empty{{id, select, empty{ } other{ بالمعرف: {id}}}} other{ مع اسم المستخدم: {user}}} بموقع stackexchange.",
   "@invalidStackexchangeUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "user": {
         "type": "String"
       },
@@ -330,9 +247,6 @@
   "invalidStackoverflowQuestionUrl": "آسف! يجب عليك إدخال رابط {id, select, empty{ لسؤال } other{ للسؤال الذي يحمل المعرف: {id}}} بموقع stackoverflow.",
   "@invalidStackoverflowQuestionUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "id": {
         "type": "String"
       }
@@ -341,9 +255,6 @@
   "invalidStackoverflowUserUrl": "آسف! يجب عليك إدخال رابط {id, select, empty{ لمستخدم } other{ للمستخدم الذي يحمل المعرف: {id}}} بموقع stackoverflow.",
   "@invalidStackoverflowUserUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "id": {
         "type": "String"
       }
@@ -352,9 +263,6 @@
   "invalidTelegramProfileUrl": "آسف! يجب عليك إدخال رابط {userName, select, empty{ لملف شخصي } other{ لملف المستخدم: {userName}}} بموقع telegram.",
   "@invalidTelegramProfileUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "userName": {
         "type": "String"
       }
@@ -363,9 +271,6 @@
   "invalidTwitterStatusUrl": "آسف! يجب عليك إدخال رابط {tweetId, select, empty{ لتغريدة } other{ للتغريدة التي تحمل المعرف: {tweetId}}} {userName, select, empty{} other{ بإسم: {userName}}}  بموقع twitter.",
   "@invalidTwitterStatusUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "userName": {
         "type": "String"
       },
@@ -377,9 +282,6 @@
   "invalidTwitterUserUrl": "آسف! يجب عليك إدخال رابط {userName, select, empty{ لمستخدم } other{ للمستخدم: {userName}}}   بموقع twitter.",
   "@invalidTwitterUserUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "userName": {
         "type": "String"
       }
@@ -388,9 +290,6 @@
   "invalidYoutubeChannelUrl": "آسف! عليك إدخال رابط {id, select, empty{ لقناة } other{للقناة التي تحمل المعرف: {id}}}  بموقع youtube.",
   "@invalidYoutubeChannelUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "id": {
         "type": "String"
       }
@@ -399,9 +298,6 @@
   "invalidYoutubeUserUrl": "آسف! عليك إدخال رابط {userName, select, empty{ لمستخدم } other{ للمستخدم: {userName}}}  بموقع youtube.",
   "@invalidYoutubeUserUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "userName": {
         "type": "String"
       }
@@ -410,9 +306,6 @@
   "invalidYoutubeVideoUrl": "آسف! عليك إدخال رابط {id, select, empty{لفيديو } other{ للفيديو الذي يحمل المعرف: {id}}}   بموقع youtube.",
   "@invalidYoutubeVideoUrl": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "id": {
         "type": "String"
       }
@@ -421,10 +314,6 @@
   "isBetween": "يجب أن تكون القيمة أكبر من {min} وأقل من {max}",
   "@isBetween": {
     "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      },
       "min": {
         "type": "num",
         "format": "decimalPattern"
@@ -438,10 +327,6 @@
   "isBetweenOrEqual": "يجب أن تكون القيمة أكبر من أو تساوي {min} وأقل من أو تساوي {max}",
   "@isBetweenOrEqual": {
     "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      },
       "min": {
         "type": "num",
         "format": "decimalPattern"
@@ -454,19 +339,11 @@
   },
   "isCreditCard": "يجب إدخال رقم بطاقة ائتمان صالح",
   "@isCreditCard": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
+    "placeholders": {}
   },
   "isDateAfter": "يجب عليك إدخال تاريخ لاحق ل {o}.",
   "@isDateAfter": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
       "o": {
         "type": "DateTime",
         "format": "yMEd"
@@ -476,10 +353,6 @@
   "isDateAfterOrEqual": "يجب إدخال تاريخ لاحق أو في نفس الوقت {o}.",
   "@isDateAfterOrEqual": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
       "o": {
         "type": "DateTime",
         "format": "yMEd"
@@ -489,10 +362,6 @@
   "isDateBefore": "يجب إدخال تاريخ سابق ل {o}.",
   "@isDateBefore": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
       "o": {
         "type": "DateTime",
         "format": "yMEd"
@@ -502,10 +371,6 @@
   "isDateBeforeOrEqual": "يجب إدخال تاريخ سابق أو في نفس الوقت {o}.",
   "@isDateBeforeOrEqual": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
       "o": {
         "type": "DateTime",
         "format": "yMEd"
@@ -515,10 +380,6 @@
   "isDateBetween": "يجب عليك إدخال تاريخ بين {min} و{max}.",
   "@isDateBetween": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
       "min": {
         "type": "DateTime",
         "format": "yMEd"
@@ -532,10 +393,6 @@
   "isDateBetweenOrEqual": "يجب عليك إدخال تاريخ بين {min} و {max}  أو في نفس وقت أي منها",
   "@isDateBetweenOrEqual": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "yMEd"
-      },
       "min": {
         "type": "DateTime",
         "format": "yMEd"
@@ -548,29 +405,19 @@
   },
   "isDateTime": "يجب إدخال تاريخ صالح",
   "@isDateTime": {
-    "placeholders": {
-      "value": {}
-    }
+    "placeholders": {}
   },
   "isBoolean": "يجب إدخال true أو false",
   "@isBoolean": {
-    "placeholders": {
-      "value": {}
-    }
+    "placeholders": {}
   },
   "isDecimal": "يجب إدخال رقم عشري",
   "@isDecimal": {
-    "placeholders": {
-      "value": {}
-    }
+    "placeholders": {}
   },
   "isDivisibleBy": "يجب أن تكون قيمة الإدخال قابلة للقسمة {division}",
   "@isDivisibleBy": {
     "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      },
       "division": {
         "type": "num",
         "format": "decimalPattern"
@@ -579,27 +426,15 @@
   },
   "isEmail": "يجب إدخال عنوان بريد إلكتروني صالح",
   "@isEmail": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
+    "placeholders": {}
   },
   "isEven": "يجب أن تكون القيمة رقمًا زوجي.",
   "@isEven": {
-    "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      }
-    }
+    "placeholders": {}
   },
   "isIn": "يجب أن تكون القيمة المدخلة واحدة من {list}",
   "@isIn": {
     "placeholders": {
-      "value": {
-        "type": "dynamic"
-      },
       "list": {
         "type": "Iterable"
       }
@@ -607,25 +442,15 @@
   },
   "isInteger": "يجب إدخال رقم صحيح",
   "@isInteger": {
-    "placeholders": {
-      "value": {}
-    }
+    "placeholders": {}
   },
   "isNegative": "يجب أن تكون القيمة سالبة",
   "@isNegative": {
-    "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      }
-    }
+    "placeholders": {}
   },
   "isNotIn": "يجب ألا تكون القيمة المدخلة في {list}",
   "@isNotIn": {
     "placeholders": {
-      "value": {
-        "type": "dynamic"
-      },
       "list": {
         "type": "Iterable"
       }
@@ -633,35 +458,19 @@
   },
   "isNumber": "يجب إدخال رقم صالح",
   "@isNumber": {
-    "placeholders": {
-      "value": {}
-    }
+    "placeholders": {}
   },
   "isOdd": "يجب أن تكون القيمة رقمًا فرديًا",
   "@isOdd": {
-    "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      }
-    }
+    "placeholders": {}
   },
   "isPositive": "يجب أن تكون القيمة موجبة.",
   "@isPositive": {
-    "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      }
-    }
+    "placeholders": {}
   },
   "isTimeAfter": "يجب عليك إدخال وقت لاحق ل {o}.",
   "@isTimeAfter": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "jm"
-      },
       "o": {
         "type": "DateTime",
         "format": "jm"
@@ -671,10 +480,6 @@
   "isTimeAfterOrEqual": "يجب إدخال وقت لاحق أو في نفس الوقت {o}.",
   "@isTimeAfterOrEqual": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "jm"
-      },
       "o": {
         "type": "DateTime",
         "format": "jm"
@@ -684,10 +489,6 @@
   "isTimeBefore": "يجب عليك إدخال وقت سابق ل {o}.",
   "@isTimeBefore": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "jm"
-      },
       "o": {
         "type": "DateTime",
         "format": "jm"
@@ -697,10 +498,6 @@
   "isTimeBeforeOrEqual": "يجب إدخال وقت سابق أو في نفس الوقت {o}.",
   "@isTimeBeforeOrEqual": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "jm"
-      },
       "o": {
         "type": "DateTime",
         "format": "jm"
@@ -710,10 +507,6 @@
   "isTimeBetween": "يجب عليك إدخال وقت بين {min} و{max}.",
   "@isTimeBetween": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "jm"
-      },
       "min": {
         "type": "DateTime",
         "format": "jm"
@@ -727,10 +520,6 @@
   "isTimeBetweenOrEqual": "يجب عليك إدخال وقت بين {min} و {max}  أو في نفس وقت أي منها",
   "@isTimeBetweenOrEqual": {
     "placeholders": {
-      "value": {
-        "type": "DateTime",
-        "format": "jm"
-      },
       "min": {
         "type": "DateTime",
         "format": "jm"
@@ -743,17 +532,11 @@
   },
   "isTimeOfDay": "يجب إدخال وقت صحيح",
   "@isTimeOfDay": {
-    "placeholders": {
-      "value": {}
-    }
+    "placeholders": {}
   },
   "lessThan": "يجب أن تكون القيمة أقل من {max}.",
   "@lessThan": {
     "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      },
       "max": {
         "type": "num",
         "format": "decimalPattern"
@@ -763,10 +546,6 @@
   "lessThanOrEqual": "يجب أن تكون القيمة أقل من أو تساوي {max}.",
   "@lessThanOrEqual": {
     "placeholders": {
-      "value": {
-        "type": "num",
-        "format": "decimalPattern"
-      },
       "max": {
         "type": "num",
         "format": "decimalPattern"
@@ -776,9 +555,6 @@
   "listHasLength": "يجب أن يساوي عدد العناصر {length}",
   "@listHasLength": {
     "placeholders": {
-      "value": {
-        "type": "Iterable"
-      },
       "length": {
         "type": "int"
       }
@@ -787,9 +563,6 @@
   "listMaxLength": "يجب ألا يزيد عدد العناصر عن {max}",
   "@listMaxLength": {
     "placeholders": {
-      "value": {
-        "type": "Iterable"
-      },
       "max": {
         "type": "int"
       }
@@ -798,9 +571,6 @@
   "listMinLength": "يجب ألا يقل عدد العناصر عن {min}",
   "@listMinLength": {
     "placeholders": {
-      "value": {
-        "type": "Iterable"
-      },
       "min": {
         "type": "int"
       }
@@ -809,9 +579,6 @@
   "listRange": "يجب أن يكون عدد العناصر بين {min} و {max}",
   "@listRange": {
     "placeholders": {
-      "value": {
-        "type": "Iterable"
-      },
       "min": {
         "type": "int"
       },
@@ -823,9 +590,6 @@
   "notContainsItem": "يجب ألا تحتوي القائمة على {res}",
   "@notContainsItem": {
     "placeholders": {
-      "value": {
-        "type": "Iterable"
-      },
       "res": {
         "type": "dynamic"
       }
@@ -848,9 +612,6 @@
   "startsWith": "يجب أن يبدأ النص ب {res}",
   "@startsWith": {
     "placeholders": {
-      "value": {
-        "type": "String"
-      },
       "res": {
         "type": "String"
       }

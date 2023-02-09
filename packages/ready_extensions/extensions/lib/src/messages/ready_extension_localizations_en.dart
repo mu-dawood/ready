@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart' as intl;
+
 import 'ready_extension_localizations.dart';
 
 /// The translations for English (`en`).
@@ -7,79 +8,93 @@ class ReadyExtensionLocalizationsEn extends ReadyExtensionLocalizations {
 
   @override
   String yearsPlural(num count) {
-    return intl.Intl.pluralLogic(
+    String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      one: 'one year',
-      two: 'Two years',
       other: '$count years',
+      two: 'Two years',
+      one: 'one year',
+      zero: '',
     );
+    return '$_temp0';
   }
 
   @override
   String monthsPlural(num count) {
-    return intl.Intl.pluralLogic(
+    String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      one: 'one month',
-      two: 'two months',
       other: '$count months',
+      two: 'two months',
+      one: 'one month',
+      zero: '',
     );
+    return '$_temp0';
   }
 
   @override
   String daysPlural(num count) {
-    return intl.Intl.pluralLogic(
+    String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      one: 'one day',
-      two: 'two days',
       other: '$count days',
+      two: 'two days',
+      one: 'one day',
+      zero: '',
     );
+    return '$_temp0';
   }
 
   @override
   String weeksPlural(num count) {
-    return intl.Intl.pluralLogic(
+    String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      one: 'one week',
-      two: 'two weeks',
       other: '$count weeks',
+      two: 'two weeks',
+      one: 'one week',
+      zero: '',
     );
+    return '$_temp0';
   }
 
   @override
   String hoursPlural(num count) {
-    return intl.Intl.pluralLogic(
+    String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      one: 'one hour',
-      two: 'two hours',
       other: '$count hours',
+      two: 'two hours',
+      one: 'one hour',
+      zero: '',
     );
+    return '$_temp0';
   }
 
   @override
   String minutesPlural(num count) {
-    return intl.Intl.pluralLogic(
+    String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      one: 'one minute',
-      two: 'two minutes',
       other: '$count minutes',
+      two: 'two minutes',
+      one: 'one minute',
+      zero: '',
     );
+    return '$_temp0';
   }
 
   @override
   String secondsPlural(num count) {
-    return intl.Intl.pluralLogic(
+    String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      one: 'one seconds',
-      two: 'two seconds',
       other: '$count seconds',
+      two: 'two seconds',
+      one: 'one seconds',
+      zero: '',
     );
+    return '$_temp0';
   }
 
   @override

@@ -1,8 +1,7 @@
 # This is a generated file; do not edit or check into version control.
-path_provider=/Users/dawood/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.9/
-path_provider_android=/Users/dawood/.pub-cache/hosted/pub.dartlang.org/path_provider_android-2.0.11/
-path_provider_ios=/Users/dawood/.pub-cache/hosted/pub.dartlang.org/path_provider_ios-2.0.7/
-path_provider_linux=/Users/dawood/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-2.1.5/
-path_provider_macos=/Users/dawood/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-2.0.5/
-path_provider_windows=/Users/dawood/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-2.0.5/
-sqflite=/Users/dawood/.pub-cache/hosted/pub.dartlang.org/sqflite-2.0.2/
+path_provider=/Users/dawood/.pub-cache/hosted/pub.dev/path_provider-2.0.12/
+path_provider_android=/Users/dawood/.pub-cache/hosted/pub.dev/path_provider_android-2.0.22/
+path_provider_foundation=/Users/dawood/.pub-cache/hosted/pub.dev/path_provider_foundation-2.1.1/
+path_provider_linux=/Users/dawood/.pub-cache/hosted/pub.dev/path_provider_linux-2.1.7/
+path_provider_windows=/Users/dawood/.pub-cache/hosted/pub.dev/path_provider_windows-2.1.3/
+sqflite=/Users/dawood/.pub-cache/hosted/pub.dev/sqflite-2.2.4+1/

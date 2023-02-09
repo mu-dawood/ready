@@ -187,11 +187,6 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
   ReadyListState<T> get state => widget.controller.state;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void didChangeDependencies() {
     state.whenOrNull(
       initializing: (value, _) {

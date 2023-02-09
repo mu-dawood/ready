@@ -38,7 +38,7 @@ class _FooterLoading<T, TController extends ReadyListController<T>>
             padding: const EdgeInsets.only(top: 20, bottom: 20),
             child: Text(
               config.noMoreText,
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
           ));
         } else {

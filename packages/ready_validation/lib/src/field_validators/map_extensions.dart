@@ -8,8 +8,7 @@ extension MapValidationExtension<T, TKey, TValue>
     return next((messages, value) {
       var len = length();
       if (value.length != len) {
-        return message?.call(messages, value) ??
-            messages.listHasLength(value.entries, len);
+        return message?.call(messages, value) ?? messages.listHasLength(len);
       }
       return null;
     });
@@ -28,7 +27,7 @@ extension MapValidationExtension<T, TKey, TValue>
       var maximum = max();
       if (value.length > maximum) {
         return message?.call(messages, value) ??
-            messages.listMaxLength(value.entries, maximum);
+            messages.listMaxLength(maximum);
       }
       return null;
     });
@@ -47,7 +46,7 @@ extension MapValidationExtension<T, TKey, TValue>
       var minimum = min();
       if (value.length < minimum) {
         return message?.call(messages, value) ??
-            messages.listMinLength(value.entries, minimum);
+            messages.listMinLength(minimum);
       }
       return null;
     });
@@ -68,7 +67,7 @@ extension MapValidationExtension<T, TKey, TValue>
       var maximum = max();
       if (value.length < minimum || value.length > maximum) {
         return message?.call(messages, value) ??
-            messages.listRange(value.entries, minimum, maximum);
+            messages.listRange(minimum, maximum);
       }
       return null;
     });
@@ -96,8 +95,7 @@ extension MapValidationExtension<T, TKey, TValue>
     return next((messages, value) {
       var k = key();
       return !value.containsKey(k)
-          ? message?.call(messages, value) ??
-              messages.containsItem(value.entries, k)
+          ? message?.call(messages, value) ?? messages.containsItem(k)
           : null;
     });
   }
@@ -114,8 +112,7 @@ extension MapValidationExtension<T, TKey, TValue>
     return next((messages, value) {
       var k = key();
       return value.containsKey(k)
-          ? message?.call(messages, value) ??
-              messages.notContainsItem(value.entries, k)
+          ? message?.call(messages, value) ?? messages.notContainsItem(k)
           : null;
     });
   }
@@ -133,7 +130,7 @@ extension MapValidationExtension<T, TKey, TValue>
     return next((messages, v) {
       var val = value();
       return !v.containsValue(val)
-          ? message?.call(messages, v) ?? messages.containsItem(v.entries, val)
+          ? message?.call(messages, v) ?? messages.containsItem(val)
           : null;
     });
   }
@@ -151,8 +148,7 @@ extension MapValidationExtension<T, TKey, TValue>
     return next((messages, v) {
       var val = value();
       return v.containsValue(val)
-          ? message?.call(messages, v) ??
-              messages.notContainsItem(v.entries, val)
+          ? message?.call(messages, v) ?? messages.notContainsItem(val)
           : null;
     });
   }
