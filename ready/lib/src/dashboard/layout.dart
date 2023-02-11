@@ -166,7 +166,7 @@ class _ReadyDashboardState extends State<ReadyDashboard>
                                           layout == LayoutType.small ||
                                               layout == LayoutType.xSmall,
                                       drawerIcon: (expansionController.value ==
-                                                      0 &&
+                                                      1 &&
                                                   !iconsWhenCollapsed) ||
                                               small
                                           ? _DrawerIcon(

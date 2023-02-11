@@ -2,6 +2,10 @@
 
 * 3/4/2022
 
-## 1.1.0
+## 1.2.0
 
-* Update intl
+* Update dependencies
+
+## 1.3.0-dev-1
+
+* Update dependencies

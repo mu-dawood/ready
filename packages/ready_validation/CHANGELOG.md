@@ -14,6 +14,6 @@
 
 * add more context validators
 
-## 2.3.0
+## 2.4.0
 
 * Update dependencies

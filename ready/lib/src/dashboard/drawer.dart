@@ -97,7 +97,7 @@ class _DrawerIcon extends StatelessWidget {
     return IconButton(
       onPressed: () => toggle(context, expansion),
       icon: AnimatedIcon(
-        icon: AnimatedIcons.menu_close,
+        icon: AnimatedIcons.menu_arrow,
         progress:
             Tween(begin: !hasDrawer ? 1.0 : 0.0, end: !hasDrawer ? 0.0 : 1.0)
                 .animate(expansion),
