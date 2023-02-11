@@ -11,8 +11,8 @@ class ReadyFormErrorMessages extends StatefulWidget {
 
 class _ReadyFormErrorMessagesState extends State<ReadyFormErrorMessages> {
   TextStyle _getErrorStyle(ThemeData themeData) {
-    final Color color = themeData.errorColor;
-    return themeData.textTheme.caption!
+    final Color color = themeData.colorScheme.error;
+    return themeData.textTheme.bodySmall!
         .copyWith(color: color)
         .merge(themeData.inputDecorationTheme.errorStyle);
   }

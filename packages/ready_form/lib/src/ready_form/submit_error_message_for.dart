@@ -15,8 +15,8 @@ class SubmitErrorMessageFor extends StatefulWidget {
 
 class _SubmitErrorMessageForState extends State<SubmitErrorMessageFor> {
   TextStyle _getErrorStyle(ThemeData themeData) {
-    final Color color = themeData.errorColor;
-    return themeData.textTheme.caption!
+    final Color color = themeData.colorScheme.error;
+    return themeData.textTheme.bodySmall!
         .copyWith(color: color)
         .merge(themeData.inputDecorationTheme.errorStyle);
   }

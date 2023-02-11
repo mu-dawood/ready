@@ -489,7 +489,7 @@ class CancelDialog extends StatelessWidget {
             Navigator.of(context).pop("no");
           },
           style: TextButton.styleFrom(
-              foregroundColor: Theme.of(context).errorColor),
+              foregroundColor: Theme.of(context).colorScheme.error),
           child: no ?? config?.no ?? const Text("No"),
         )
       ],

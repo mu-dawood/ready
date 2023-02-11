@@ -16,3 +16,7 @@
 * add submit errors
 * add [SubmitErrorMessageFor]
 * add [ReadyFormErrorMessages]
+
+## 1.1.0
+
+* Update dependencies
