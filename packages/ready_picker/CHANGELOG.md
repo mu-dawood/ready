@@ -5,3 +5,7 @@
 ## 1.5.1
 
 * Use ready version 1.5.1
+
+## 1.5.2
+
+* Use ready version 1.5.2

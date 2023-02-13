@@ -13,3 +13,7 @@
 ## 1.5.1
 
 * Add parameters to dashboard items
+
+## 1.5.2
+
+* Add visible property to dashboard action
