@@ -9,3 +9,7 @@
 ## 1.5.0
 
 * Update intl
+
+## 1.5.1
+
+* Add parameters to dashboard items

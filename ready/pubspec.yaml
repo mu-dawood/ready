@@ -1,6 +1,6 @@
 name: ready
 description: Package that contains complete list solution and admin dashboard
-version: 1.6.0-dev-1
+version: 1.6.0-dev-3
 homepage: https://github.com/mo-ah-dawood/ready
 
 environment:

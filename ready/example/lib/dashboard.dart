@@ -52,7 +52,7 @@ class DashBoardExample extends StatelessWidget {
       ],
       items: [
         DashboardItem(
-          builder: () {
+          builder: (Map<String, dynamic> parameters) {
             return const AnimatedItemsExample();
           },
           icon: const Icon(Icons.animation),
@@ -60,7 +60,7 @@ class DashBoardExample extends StatelessWidget {
           label: 'Animated items',
         ),
         DashboardItem(
-          builder: () {
+          builder: (Map<String, dynamic> parameters) {
             return const AnimatedScopeItemsExample();
           },
           icon: const Icon(Icons.animation_rounded),
@@ -74,7 +74,7 @@ class DashBoardExample extends StatelessWidget {
               icon: const Icon(Icons.message),
             )
           ],
-          builder: () {
+          builder: (Map<String, dynamic> parameters) {
             return Column(
               children: const [Text('App bar actions'), TextField()],
             );
@@ -90,7 +90,7 @@ class DashBoardExample extends StatelessWidget {
               icon: const Icon(Icons.message),
             )
           ],
-          builder: () {
+          builder: (Map<String, dynamic> parameters) {
             return const Text('Override app bar actions');
           },
           icon: const Icon(Icons.attractions),
@@ -99,7 +99,7 @@ class DashBoardExample extends StatelessWidget {
           label: 'Override app bar actions',
         ),
         DashboardItem(
-          builder: () {
+          builder: (Map<String, dynamic> parameters) {
             return const ReadyListExample(
               shimmer: false,
             );
@@ -110,7 +110,7 @@ class DashBoardExample extends StatelessWidget {
           label: 'List',
         ),
         DashboardItem(
-          builder: () {
+          builder: (Map<String, dynamic> parameters) {
             return const ReadyListExample(shimmer: true);
           },
           search: (value) {},
@@ -123,7 +123,7 @@ class DashBoardExample extends StatelessWidget {
           label: 'Grid',
           subItems: [
             DashboardItem(
-              builder: () {
+              builder: (Map<String, dynamic> parameters) {
                 return const ReadyGridExample(gridDelegate: Grids.columns_1);
               },
               search: (value) {},
@@ -132,7 +132,7 @@ class DashBoardExample extends StatelessWidget {
               label: 'Grid 1',
             ),
             DashboardItem(
-              builder: () {
+              builder: (Map<String, dynamic> parameters) {
                 return const ReadyGridExample(gridDelegate: Grids.columns_2);
               },
               search: (value) {},
@@ -141,7 +141,7 @@ class DashBoardExample extends StatelessWidget {
               label: 'Grid 2',
             ),
             DashboardItem(
-              builder: () {
+              builder: (Map<String, dynamic> parameters) {
                 return const ReadyGridExample(gridDelegate: Grids.columns_3);
               },
               search: (value) {},
@@ -150,7 +150,7 @@ class DashBoardExample extends StatelessWidget {
               label: 'Grid 3',
             ),
             DashboardItem(
-              builder: () {
+              builder: (Map<String, dynamic> parameters) {
                 return const ReadyGridExample(gridDelegate: Grids.columns_4);
               },
               search: (value) {},
@@ -159,7 +159,7 @@ class DashBoardExample extends StatelessWidget {
               label: 'Grid 4',
             ),
             DashboardItem(
-              builder: () {
+              builder: (Map<String, dynamic> parameters) {
                 return ReadyGridExample(gridDelegate: Grids.extent(150));
               },
               search: (value) {},
@@ -174,7 +174,7 @@ class DashBoardExample extends StatelessWidget {
           label: 'Responsive',
           subItems: [
             DashboardItem(
-              builder: () {
+              builder: (Map<String, dynamic> parameters) {
                 return ResponsiveList();
               },
               search: (value) {},
@@ -183,7 +183,7 @@ class DashBoardExample extends StatelessWidget {
               label: 'Data table',
             ),
             DashboardItem(
-              builder: () {
+              builder: (Map<String, dynamic> parameters) {
                 return const ReadyGridExample(gridDelegate: Grids.responsive);
               },
               search: (value) {},

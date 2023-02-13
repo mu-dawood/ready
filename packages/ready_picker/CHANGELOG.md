@@ -1,3 +1,7 @@
 ## 1.4.0
 
 * Update dependencies
+
+## 1.5.1
+
+* Use ready version 1.5.1

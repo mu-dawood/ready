@@ -1,13 +1,13 @@
 part of dashboard;
 
 class DashboardItem {
-  static Widget _sizedBox() => const SizedBox();
+  static Widget _sizedBox(Map<String, dynamic> parameters) => const SizedBox();
 
   final String id;
   final String label;
   final Widget icon;
   final Widget? selectedIcon;
-  final Widget Function() builder;
+  final Widget Function(Map<String, dynamic> parameters) builder;
 
   final void Function(String? value)? search;
   final AppBarOptions? appBarOptions;
@@ -99,10 +99,10 @@ class _PageInfoState extends State<PageInfo> {
         onPopPage: (route, result) =>
             widget.navigator!.onPopPage?.call(item.id, route, result) ?? true,
         key: navigatorKey,
-        pages: [MaterialPage(child: item.builder())],
+        pages: [MaterialPage(child: item.builder({}))],
       );
     } else {
-      return item.builder();
+      return item.builder({});
     }
   }
 }
