@@ -56,7 +56,7 @@ class IconAction<T, TController extends ReadyListController<T>>
       action: action ?? this.action,
       icon: icon ?? this.icon,
       color: color ?? this.color,
-      visible: enabled ?? (item) => true,
+      visible: visible ?? (item) => true,
       toolTip: toolTip ?? this.toolTip,
       enabled: enabled ?? this.enabled,
     );
@@ -76,7 +76,7 @@ class IconAction<T, TController extends ReadyListController<T>>
       icon: icon ?? (item) => Icons.delete,
       color: color ?? (item) => Colors.redAccent,
       enabled: enabled ?? (item) => true,
-      visible: enabled ?? (item) => true,
+      visible: visible ?? (item) => true,
       toolTip: toolTip ??
           (BuildContext ctx, T item) => Ready.localization(ctx).delete,
     );
@@ -97,7 +97,7 @@ class IconAction<T, TController extends ReadyListController<T>>
       icon: icon ?? (item) => Icons.edit,
       color: color ?? (item) => Colors.greenAccent,
       enabled: enabled ?? (item) => true,
-      visible: enabled ?? (item) => true,
+      visible: visible ?? (item) => true,
       toolTip:
           toolTip ?? (BuildContext ctx, T item) => Ready.localization(ctx).edit,
     );
@@ -117,7 +117,7 @@ class IconAction<T, TController extends ReadyListController<T>>
       icon: icon ?? (item) => Icons.remove_red_eye,
       color: color ?? (item) => Colors.blueAccent,
       enabled: enabled ?? (item) => true,
-      visible: enabled ?? (item) => true,
+      visible: visible ?? (item) => true,
       toolTip:
           toolTip ?? (BuildContext ctx, T item) => Ready.localization(ctx).show,
     );
@@ -138,7 +138,7 @@ class IconAction<T, TController extends ReadyListController<T>>
       icon: icon ?? (item) => isActive(item) ? Icons.lock : Icons.lock_open,
       color: color ?? (item) => isActive(item) ? Colors.orange : Colors.indigo,
       enabled: enabled ?? (item) => true,
-      visible: enabled ?? (item) => true,
+      visible: visible ?? (item) => true,
       toolTip: toolTip ??
           (BuildContext ctx, T item) => isActive(item)
               ? (Ready.localization(ctx).deactivate)
@@ -160,7 +160,7 @@ class IconAction<T, TController extends ReadyListController<T>>
       icon: icon ?? (item) => Icons.lock,
       enabled: enabled ?? (item) => true,
       color: color ?? (item) => Colors.orange,
-      visible: enabled ?? (item) => true,
+      visible: visible ?? (item) => true,
       toolTip: toolTip ??
           (BuildContext ctx, T item) => Ready.localization(ctx).deactivate,
     );
@@ -180,7 +180,7 @@ class IconAction<T, TController extends ReadyListController<T>>
       icon: icon ?? (item) => Icons.lock_open,
       color: color ?? (item) => Colors.indigo,
       enabled: enabled ?? (item) => true,
-      visible: enabled ?? (item) => true,
+      visible: visible ?? (item) => true,
       toolTip: toolTip ??
           (BuildContext ctx, T item) => Ready.localization(ctx).activate,
     );

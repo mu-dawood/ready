@@ -9,3 +9,7 @@
 ## 1.5.2
 
 * Use ready version 1.5.2
+
+## 1.5.3
+
+* Use ready version 1.5.3

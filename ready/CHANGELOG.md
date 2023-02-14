@@ -17,3 +17,7 @@
 ## 1.5.2
 
 * Add visible property to dashboard action
+
+## 1.5.3
+
+* Fix enabled property
