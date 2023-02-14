@@ -33,3 +33,7 @@
 ## 1.5.6
 
 * Add context to search handler
+
+## 1.5.7
+
+* Add authorization

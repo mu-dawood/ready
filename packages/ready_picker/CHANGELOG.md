@@ -25,3 +25,7 @@
 ## 1.5.6
 
 * Use ready version 1.5.6
+
+## 1.5.7
+
+* Use ready version 1.5.7

@@ -1,6 +1,45 @@
 part of dashboard;
 
+class CurrentUser {
+  final List<String> _userPermissions;
+  final bool _admin;
+
+  const CurrentUser.admin()
+      : _admin = true,
+        _userPermissions = const [];
+  const CurrentUser.supervisor(List<String> permissions)
+      : _admin = false,
+        assert(permissions.length > 0),
+        _userPermissions = permissions;
+
+  const CurrentUser.user()
+      : _admin = false,
+        _userPermissions = const [];
+
+  List<DashboardItem> handle(List<DashboardItem> items) {
+    if (_admin) return items;
+    List<DashboardItem> newItems = [];
+    for (var item in items) {
+      switch (item.authorization._type) {
+        case _PermissionType.onlyAdmin:
+          break;
+        case _PermissionType.allowAnonymous:
+          newItems.add(item._copyWith(subItems: handle(item.subItems)));
+          break;
+        case _PermissionType.supervisors:
+          if (item.authorization._permissions
+              .any((element) => _userPermissions.contains(element))) {
+            newItems.add(item._copyWith(subItems: handle(item.subItems)));
+          }
+          break;
+      }
+    }
+    return newItems;
+  }
+}
+
 class ReadyDashboard extends StatefulWidget {
+  final CurrentUser currentUser;
   final List<DashboardItem> items;
   final int? initialIndex;
   final DrawerOptions Function(bool phone) drawerOptions;
@@ -19,7 +58,8 @@ class ReadyDashboard extends StatefulWidget {
   final List<Widget> actions;
   ReadyDashboard({
     Key? key,
-    required this.items,
+    required List<DashboardItem> items,
+    this.currentUser = const CurrentUser.admin(),
     this.drawerOptions = _drawerOptions,
     this.initialIndex,
     this.padding = _padding,
@@ -30,6 +70,7 @@ class ReadyDashboard extends StatefulWidget {
     this.onPageChanged,
     this.actions = const [],
   })  : assert(items.isNotEmpty),
+        items = currentUser.handle(items),
         super(key: key);
 
   static DrawerOptions _drawerOptions(bool phone) => const DrawerOptions();
