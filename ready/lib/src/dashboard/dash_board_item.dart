@@ -9,7 +9,7 @@ class DashboardItem {
   final Widget? selectedIcon;
   final Widget Function(Map<String, dynamic> parameters) builder;
 
-  final void Function(String? value)? search;
+  final void Function(BuildContext context, String? value)? search;
   final AppBarOptions? appBarOptions;
   final List<DashboardItem> subItems;
 

@@ -94,15 +94,20 @@ class _DrawerIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     var hasDrawer = Scaffold.maybeOf(context)?.hasDrawer == true;
 
-    return IconButton(
-      onPressed: () => toggle(context, expansion),
-      icon: AnimatedIcon(
-        icon: AnimatedIcons.menu_arrow,
-        progress:
-            Tween(begin: !hasDrawer ? 1.0 : 0.0, end: !hasDrawer ? 0.0 : 1.0)
-                .animate(expansion),
-      ),
-    );
+    return CustomPaint(
+        painter: _IconPaint(expansion, context),
+        child: Center(
+          child: IconButton(
+            onPressed: () => toggle(context, expansion),
+            icon: AnimatedIcon(
+              icon: AnimatedIcons.menu_close,
+              progress: Tween(
+                      begin: !hasDrawer ? 1.0 : 0.0,
+                      end: !hasDrawer ? 0.0 : 1.0)
+                  .animate(expansion),
+            ),
+          ),
+        ));
   }
 }
 
@@ -327,5 +332,46 @@ class _DrawerHeader extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
     return true;
+  }
+}
+
+class _IconPaint extends CustomPainter {
+  final AnimationController expansion;
+  final BuildContext context;
+  _IconPaint(this.expansion, this.context) : super(repaint: expansion);
+  @override
+  void paint(Canvas canvas, Size size) {
+    Path path = Path();
+
+    path.moveTo(size.width / 2, 0);
+    path.lineTo(size.width, 0);
+    path.lineTo(size.width, size.height);
+    path.lineTo(size.width / 2, size.height);
+
+    path.arcToPoint(
+      Offset(size.width / 2, 0),
+      radius: Radius.circular(size.width / 2),
+      largeArc: true,
+      clockwise: true,
+    );
+    path.close();
+    var isRtl = Directionality.of(context) == TextDirection.rtl;
+    var reverse =
+        (isRtl && expansion.value == 0) || (!isRtl && expansion.value == 1);
+    if (reverse) {
+      canvas.scale(-1, 1);
+      canvas.translate(-size.width, 0);
+    }
+    canvas.drawShadow(
+      path,
+      Theme.of(context).colorScheme.shadow.withOpacity(0.5),
+      1,
+      false,
+    );
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
   }
 }

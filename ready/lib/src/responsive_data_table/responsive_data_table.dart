@@ -38,6 +38,9 @@ part 'toggle_filter.dart';
 /// if width return  [LayoutType.large] or [LayoutType.xLarge] or [LayoutType.xxLarge]
 class ResponsiveDataTable<T, TController extends ReadyListController<T>>
     extends InheritedWidget {
+  /// show custom filter view
+  final Future Function(Widget filters)? showFilters;
+
   /// Widget to show when there is selection
   /// if this is null , then there is no selection handlers will be added
   final SelectedButtonCallBack? selectionButton;
@@ -73,6 +76,7 @@ class ResponsiveDataTable<T, TController extends ReadyListController<T>>
     ResponsiveDataTableType? type,
     this.rowActions = const [],
     required this.controller,
+    this.showFilters,
     this.selectionButton,
     this.filters = const [],
   }) : super(
@@ -100,7 +104,6 @@ class ResponsiveDataTable<T, TController extends ReadyListController<T>>
     return rowActions != oldWidget.rowActions ||
         dataTable != oldWidget.dataTable ||
         list != oldWidget.list ||
-        actions != oldWidget.actions ||
         actions != oldWidget.actions ||
         controller != oldWidget.controller ||
         filters != oldWidget.filters ||
@@ -172,22 +175,28 @@ class __ResponsiveDataTableState<T, TController extends ReadyListController<T>>
         child: item,
       ));
     }
-    if (widget.options.actions.isNotEmpty) {
+    if (widget.options.rowActions.isNotEmpty) {
       var actions = widget.options.rowActions;
-
-      cells.add(
-        Builder(builder: (context) {
-          return ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 300, minWidth: 50),
-            child: ButtonBar(
-              alignment: MainAxisAlignment.end,
-              children: actions
-                  .map((e) => e.build(context, controller, item, index))
-                  .toList(),
-            ),
-          );
-        }),
-      );
+      List<Widget> rActions = [];
+      if (actions.length <= 3) {
+        rActions.addAll(actions
+            .map((e) => e.build(context, controller, item, index, false)));
+      } else {
+        rActions.add(SubmenuButton(
+          menuChildren: actions
+              .map((e) => e.build(context, controller, item, index, true))
+              .toList(),
+          child: const Icon(Icons.more_vert_rounded),
+        ));
+      }
+      cells.add(MenuBar(
+        style: MenuStyle(
+          alignment: AlignmentDirectional.centerEnd,
+          backgroundColor: MaterialStateProperty.all(Colors.transparent),
+          elevation: MaterialStateProperty.all(0),
+        ),
+        children: rActions,
+      ));
     }
     return cells;
   }
@@ -329,7 +338,8 @@ class __ResponsiveDataTableState<T, TController extends ReadyListController<T>>
 
     /// build actions
     List<Widget> actions = options.rowActions
-        .map((action) => action.build(context, widget.controller, item, index))
+        .map((action) =>
+            action.build(context, widget.controller, item, index, false))
         .toList();
 
     /// check builder method
@@ -430,6 +440,7 @@ class _ListAppBar<T, TController extends ReadyListController<T>>
           _FiltersButton(
             filters: filters,
             controller: source.controller,
+            showFilters: options.showFilters,
           ),
       ] else if (options.selectionButton != null)
         options.selectionButton!

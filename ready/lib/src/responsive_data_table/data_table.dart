@@ -192,6 +192,7 @@ class _DataTableState<T, TController extends ReadyListController<T>>
         _FiltersButton(
           filters: filters,
           controller: widget.source.controller,
+          showFilters: widget.options.showFilters,
         ),
       if (widget.source.paging.firstRow == 0)
         if (widget.options.dataTable?.refreshButton != null)

@@ -21,3 +21,15 @@
 ## 1.5.3
 
 * Fix enabled property
+
+## 1.5.4
+
+* Add show filters property
+
+## 1.5.5
+
+* Fix when row actions is big
+
+## 1.5.6
+
+* Add context to search handler

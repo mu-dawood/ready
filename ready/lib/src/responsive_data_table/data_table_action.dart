@@ -12,7 +12,8 @@ abstract class Action<T, TController extends ReadyListController<T>> {
   /// whether if action enabled or not
   DataTableActionProperty<T, bool> get visible;
 
-  Widget build(BuildContext context, TController controller, T item, int index);
+  Widget build(BuildContext context, TController controller, T item, int index,
+      bool menuBar);
 }
 
 class IconAction<T, TController extends ReadyListController<T>>
@@ -187,12 +188,13 @@ class IconAction<T, TController extends ReadyListController<T>>
   }
 
   @override
-  Widget build(
-      BuildContext context, TController controller, T item, int index) {
+  Widget build(BuildContext context, TController controller, T item, int index,
+      bool menuBar) {
     if (!visible(item)) {
       return const SizedBox();
     }
     return LoadingButton(
+      menuBar: menuBar,
       tooltip: toolTip(context, item),
       enabled: (loading) => enabled(item) && !loading,
       load: () async {

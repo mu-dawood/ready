@@ -4,10 +4,12 @@ class _FiltersButton<T, TController extends ReadyListController<T>>
     extends StatelessWidget {
   final List<Widget> filters;
   final TController controller;
+  final Future Function(Widget filters)? showFilters;
   const _FiltersButton({
     Key? key,
     required this.filters,
     required this.controller,
+    required this.showFilters,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -25,16 +27,23 @@ class _FiltersButton<T, TController extends ReadyListController<T>>
       ),
       onPressed: controller.state.mapOrNull(
         isLoaded: (_) {
-          return () {
-            showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                builder: (ctx) {
-                  return _FiltersButtonSheet(
-                    controller: () => controller,
-                    filters: filters,
-                  );
-                });
+          return () async {
+            if (showFilters != null) {
+              await showFilters!(_FiltersButtonSheet(
+                controller: () => controller,
+                filters: filters,
+              ));
+            } else {
+              await showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (ctx) {
+                    return _FiltersButtonSheet(
+                      controller: () => controller,
+                      filters: filters,
+                    );
+                  });
+            }
           };
         },
       ),

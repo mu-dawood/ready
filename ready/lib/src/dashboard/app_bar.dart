@@ -305,7 +305,7 @@ class _DashBoardAppBar extends StatelessWidget {
                     : TextField(
                         key: Key(selected.id),
                         focusNode: focusNode,
-                        onChanged: selected.search,
+                        onChanged: (v) => selected.search!(context, v),
                         decoration: appBar.inputDecoration ??
                             InputDecoration(
                               hintText: Ready.localization(context).search,
