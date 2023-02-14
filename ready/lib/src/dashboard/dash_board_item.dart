@@ -1,22 +1,21 @@
 part of dashboard;
 
-enum _PermissionType { onlyAdmin, allowAnonymous, supervisors }
+enum PermissionType { onlyAdmin, allowAnonymous, supervisors }
 
 class Authorization {
-  final List<String> _permissions;
-  final _PermissionType _type;
+  final List<String> permissions;
+  final PermissionType type;
 
   const Authorization.onlyAdmin()
-      : _type = _PermissionType.onlyAdmin,
-        _permissions = const [];
+      : type = PermissionType.onlyAdmin,
+        permissions = const [];
   const Authorization.allowAnonymous()
-      : _type = _PermissionType.allowAnonymous,
-        _permissions = const [];
+      : type = PermissionType.allowAnonymous,
+        permissions = const [];
 
-  const Authorization.supervisors(List<String> permissions)
-      : _type = _PermissionType.supervisors,
-        assert(permissions.length > 0),
-        _permissions = permissions;
+  const Authorization.supervisors(this.permissions)
+      : type = PermissionType.supervisors,
+        assert(permissions.length > 0);
 }
 
 class DashboardItem {

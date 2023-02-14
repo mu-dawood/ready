@@ -37,3 +37,7 @@
 ## 1.5.7
 
 * Add authorization
+
+## 1.5.8
+
+* Make authorization permissions visible

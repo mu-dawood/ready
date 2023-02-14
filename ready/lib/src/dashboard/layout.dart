@@ -20,14 +20,14 @@ class CurrentUser {
     if (_admin) return items;
     List<DashboardItem> newItems = [];
     for (var item in items) {
-      switch (item.authorization._type) {
-        case _PermissionType.onlyAdmin:
+      switch (item.authorization.type) {
+        case PermissionType.onlyAdmin:
           break;
-        case _PermissionType.allowAnonymous:
+        case PermissionType.allowAnonymous:
           newItems.add(item._copyWith(subItems: handle(item.subItems)));
           break;
-        case _PermissionType.supervisors:
-          if (item.authorization._permissions
+        case PermissionType.supervisors:
+          if (item.authorization.permissions
               .any((element) => _userPermissions.contains(element))) {
             newItems.add(item._copyWith(subItems: handle(item.subItems)));
           }
