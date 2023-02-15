@@ -1,21 +1,43 @@
 part of dashboard;
 
-enum PermissionType { onlyAdmin, allowAnonymous, supervisors }
+enum UserType {
+  anonymous,
+  user,
+  supervisor,
+  admin,
+}
 
-class Authorization {
+class Authorization extends Equatable {
+  /// if true it will inherit all types of the parent item if exists
+  final bool inherit;
+  final List<AccessType> types;
+  const Authorization({this.inherit = true, required this.types});
+
+  @override
+  List<Object?> get props => [inherit, types];
+}
+
+class AccessType extends Equatable {
   final List<String> permissions;
-  final PermissionType type;
-
-  const Authorization.onlyAdmin()
-      : type = PermissionType.onlyAdmin,
-        permissions = const [];
-  const Authorization.allowAnonymous()
-      : type = PermissionType.allowAnonymous,
+  final UserType type;
+  const AccessType.any()
+      : type = UserType.anonymous,
         permissions = const [];
 
-  const Authorization.supervisors(this.permissions)
-      : type = PermissionType.supervisors,
+  const AccessType.user()
+      : type = UserType.user,
+        permissions = const [];
+
+  const AccessType.admin()
+      : type = UserType.admin,
+        permissions = const [];
+
+  const AccessType.supervisor(this.permissions)
+      : type = UserType.supervisor,
         assert(permissions.length > 0);
+
+  @override
+  List<Object?> get props => [permissions, type];
 }
 
 class DashboardItem {
@@ -52,8 +74,7 @@ class DashboardItem {
     required this.subItems,
   });
 
-  /// if authorization not specified permissions will be set as id
-  DashboardItem({
+  const DashboardItem({
     required this.label,
     required this.id,
     required this.builder,
@@ -63,15 +84,14 @@ class DashboardItem {
     this.search,
     this.overrideActions = false,
     this.actions = const [],
-    Authorization? authorization,
-  })  : subItems = [],
-        authorization = authorization ?? Authorization.supervisors([id]);
+    this.authorization = const Authorization(types: [AccessType.admin()]),
+  }) : subItems = const [];
 
-  DashboardItem.items({
+  const DashboardItem.items({
     required this.label,
     required this.icon,
     required this.subItems,
-    this.authorization = const Authorization.allowAnonymous(),
+    this.authorization = const Authorization(types: [AccessType.admin()]),
   })  : selectedIcon = null,
         appBarOptions = null,
         id = '',
@@ -79,6 +99,18 @@ class DashboardItem {
         search = null,
         overrideActions = false,
         actions = const [];
+
+  DashboardItem copyWithAuthorization(Authorization authorization) {
+    return _copyWith(authorization: authorization);
+  }
+
+  DashboardItem copyWithIcon(Widget icon) {
+    return _copyWith(icon: icon);
+  }
+
+  DashboardItem copyWithLabel(String label) {
+    return _copyWith(label: label);
+  }
 
   DashboardItem _copyWith({
     Authorization? authorization,

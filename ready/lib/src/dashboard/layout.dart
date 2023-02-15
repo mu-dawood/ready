@@ -1,37 +1,68 @@
 part of dashboard;
 
 class CurrentUser {
-  final List<String> _userPermissions;
-  final bool _admin;
+  static Authorization _getAuthorization(DashboardItem item) =>
+      item.authorization;
+  final List<String> permissions;
+  final UserType userType;
+  final Authorization Function(DashboardItem item) getAuthorization;
+  const CurrentUser.admin([this.getAuthorization = _getAuthorization])
+      : userType = UserType.admin,
+        permissions = const [];
 
-  const CurrentUser.admin()
-      : _admin = true,
-        _userPermissions = const [];
-  const CurrentUser.supervisor(List<String> permissions)
-      : _admin = false,
-        assert(permissions.length > 0),
-        _userPermissions = permissions;
+  const CurrentUser.supervisor(this.permissions,
+      [this.getAuthorization = _getAuthorization])
+      : userType = UserType.supervisor,
+        assert(permissions.length > 0);
 
-  const CurrentUser.user()
-      : _admin = false,
-        _userPermissions = const [];
+  const CurrentUser.anonymous([this.getAuthorization = _getAuthorization])
+      : userType = UserType.anonymous,
+        permissions = const [];
 
-  List<DashboardItem> handle(List<DashboardItem> items) {
-    if (_admin) return items;
+  const CurrentUser.user([this.getAuthorization = _getAuthorization])
+      : userType = UserType.user,
+        permissions = const [];
+  Set<AccessType> _getTypes(
+      Authorization authorization, List<AccessType> parent) {
+    return {
+      if (authorization.inherit) ...parent,
+      ...authorization.types,
+    };
+  }
+
+  List<DashboardItem> handle(
+      List<DashboardItem> items, List<AccessType> parent) {
     List<DashboardItem> newItems = [];
+
     for (var item in items) {
-      switch (item.authorization.type) {
-        case PermissionType.onlyAdmin:
-          break;
-        case PermissionType.allowAnonymous:
-          newItems.add(item._copyWith(subItems: handle(item.subItems)));
-          break;
-        case PermissionType.supervisors:
-          if (item.authorization.permissions
-              .any((element) => _userPermissions.contains(element))) {
-            newItems.add(item._copyWith(subItems: handle(item.subItems)));
-          }
-          break;
+      List<AccessType> accessTypes =
+          _getTypes(getAuthorization(item), parent).toList();
+
+      accessTypes.sort((a, b) => a.type.index.compareTo(b.type.index));
+      bool canAddItem = false;
+      for (var accessType in accessTypes) {
+        switch (accessType.type) {
+          case UserType.anonymous:
+            canAddItem = true;
+            break;
+          case UserType.user:
+            canAddItem = userType != UserType.anonymous;
+            break;
+          case UserType.supervisor:
+            canAddItem = userType == UserType.supervisor &&
+                accessType.permissions.any((per) => permissions.contains(per));
+            break;
+          case UserType.admin:
+            canAddItem = userType == UserType.admin;
+            break;
+        }
+        if (canAddItem) break;
+      }
+      if (canAddItem) {
+        var res = item._copyWith(subItems: handle(item.subItems, accessTypes));
+        if (item.subItems.isEmpty || res.subItems.isNotEmpty) {
+          newItems.add(res);
+        }
       }
     }
     return newItems;
@@ -70,7 +101,7 @@ class ReadyDashboard extends StatefulWidget {
     this.onPageChanged,
     this.actions = const [],
   })  : assert(items.isNotEmpty),
-        items = currentUser.handle(items),
+        items = currentUser.handle(items, []),
         super(key: key);
 
   static DrawerOptions _drawerOptions(bool phone) => const DrawerOptions();
@@ -206,13 +237,7 @@ class _ReadyDashboardState extends State<ReadyDashboard>
                                       mergeActions:
                                           layout == LayoutType.small ||
                                               layout == LayoutType.xSmall,
-                                      drawerIcon: (expansionController.value ==
-                                                      1 &&
-                                                  !iconsWhenCollapsed) ||
-                                              small
-                                          ? _DrawerIcon(
-                                              expansion: expansionController)
-                                          : null,
+                                      expansion: expansionController,
                                       innerBoxIsScrolled: innerBoxIsScrolled,
                                     ),
                                   )

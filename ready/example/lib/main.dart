@@ -28,6 +28,11 @@ class _MyAppState extends State<MyApp> {
         Ready.delegate,
       ],
       themeMode: _mode,
+      supportedLocales: const [
+        Locale('ar'),
+        Locale('en'),
+      ],
+      locale: const Locale('ar'),
       home: DashBoardExample(
         onModeChanged: (value) {
           setState(() {

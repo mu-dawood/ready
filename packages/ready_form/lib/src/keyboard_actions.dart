@@ -1,9 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 import 'ready_form/ready_form.dart';
 
-class KeyboardActions extends StatefulWidget {
+class KeyboardActions extends StatelessWidget {
   final Widget child;
   final FocusTraversalPolicy? policy;
   const KeyboardActions({
@@ -13,70 +14,33 @@ class KeyboardActions extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<KeyboardActions> createState() => KeyboardActionsState();
-
-  static KeyboardActionsState? of(BuildContext context) {
-    return context.findAncestorStateOfType<KeyboardActionsState>();
-  }
-}
-
-class KeyboardActionsState extends State<KeyboardActions>
-    with WidgetsBindingObserver {
-  var _keyboardOpened = false;
-
-  @override
-  void initState() {
-    FocusManager.instance.addListener(_onFocusChanged);
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-  }
-
-  @override
-  void dispose() {
-    FocusManager.instance.removeListener(_onFocusChanged);
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeMetrics() {
-    if (mounted) {
-      var data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
-      var opened = data.viewInsets.bottom > 0;
-      if (opened != _keyboardOpened) {
-        setState(() {
-          _keyboardOpened = opened;
-        });
-      }
-    }
-  }
-
-  void _onFocusChanged() {
-    if (mounted) {
-      setState(() {});
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    if (kIsWeb) {
+      return child;
+    }
     return FocusTraversalGroup(
-      policy: widget.policy,
-      child: kIsWeb
-          ? widget.child
-          : Stack(
-              children: [
-                AnimatedPadding(
-                  padding: _keyboardOpened
-                      ? const EdgeInsets.only(bottom: kMinInteractiveDimension)
-                      : EdgeInsets.zero,
-                  duration: const Duration(milliseconds: 250),
-                  child: widget.child,
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  left: 0,
-                  height: _keyboardOpened ? kMinInteractiveDimension : 0,
+      policy: policy,
+      child: KeyboardVisibilityBuilder(
+        builder: (BuildContext context, bool isKeyboardVisible) {
+          var duration = const Duration(milliseconds: 250);
+          return Stack(
+            children: [
+              AnimatedPadding(
+                padding: isKeyboardVisible
+                    ? const EdgeInsets.only(bottom: kMinInteractiveDimension)
+                    : EdgeInsets.zero,
+                duration: duration,
+                child: child,
+              ),
+              AnimatedPositioned(
+                bottom: isKeyboardVisible ? -kMinInteractiveDimension : 0,
+                right: 0,
+                left: 0,
+                duration: duration,
+                height: kMinInteractiveDimension,
+                child: AnimatedOpacity(
+                  duration: duration,
+                  opacity: isKeyboardVisible ? 1 : 0,
                   child: Builder(
                     builder: (context) {
                       var scope = FocusScope.of(context);
@@ -103,7 +67,7 @@ class KeyboardActionsState extends State<KeyboardActions>
                         alignment: AlignmentDirectional.topCenter,
                         child: SizedBox(
                           height:
-                              _keyboardOpened ? kMinInteractiveDimension : 0,
+                              isKeyboardVisible ? kMinInteractiveDimension : 0,
                           child: Material(
                             color: background,
                             child: Row(
@@ -146,9 +110,12 @@ class KeyboardActionsState extends State<KeyboardActions>
                       );
                     },
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
+          );
+        },
+      ),
     );
   }
 }

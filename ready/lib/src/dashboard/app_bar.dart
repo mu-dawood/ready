@@ -138,6 +138,10 @@ class AppBarOptions {
   /// offset specified by [stretchTriggerOffset].
   final AsyncCallback? onStretchTrigger;
 
+  /// override the default drawer icon
+  final Widget Function(VoidCallback toggle, AnimationController expansion)?
+      buildDrawerIcon;
+
   const AppBarOptions({
     this.flexibleSpace,
     this.bottom,
@@ -152,6 +156,7 @@ class AppBarOptions {
     this.stretchTriggerOffset,
     this.onStretchTrigger,
     this.inputDecoration,
+    this.buildDrawerIcon,
   });
 
   AppBarOptions _copyWith(AppBarOptions? other) {
@@ -168,24 +173,26 @@ class AppBarOptions {
       stretch: other?.stretch ?? stretch,
       stretchTriggerOffset: other?.stretchTriggerOffset ?? stretchTriggerOffset,
       onStretchTrigger: other?.onStretchTrigger ?? onStretchTrigger,
+      buildDrawerIcon: other?.buildDrawerIcon ?? buildDrawerIcon,
     );
   }
 
-  AppBarOptions copyWith({
-    AppBarTheme? theme,
-    InputDecoration? inputDecoration,
-    Widget? flexibleSpace,
-    PreferredSizeWidget? bottom,
-    bool? primary,
-    double? collapsedHeight,
-    double? expandedHeight,
-    bool? floating,
-    bool? pinned,
-    bool? snap,
-    bool? stretch,
-    double? stretchTriggerOffset,
-    AsyncCallback? onStretchTrigger,
-  }) {
+  AppBarOptions copyWith(
+      {AppBarTheme? theme,
+      InputDecoration? inputDecoration,
+      Widget? flexibleSpace,
+      PreferredSizeWidget? bottom,
+      bool? primary,
+      double? collapsedHeight,
+      double? expandedHeight,
+      bool? floating,
+      bool? pinned,
+      bool? snap,
+      bool? stretch,
+      double? stretchTriggerOffset,
+      AsyncCallback? onStretchTrigger,
+      Widget Function(VoidCallback toggle, AnimationController expansion)?
+          buildDrawerIcon}) {
     return AppBarOptions(
       theme: theme ?? this.theme,
       inputDecoration: inputDecoration ?? this.inputDecoration,
@@ -200,25 +207,26 @@ class AppBarOptions {
       stretch: stretch ?? this.stretch,
       stretchTriggerOffset: stretchTriggerOffset ?? this.stretchTriggerOffset,
       onStretchTrigger: onStretchTrigger ?? this.onStretchTrigger,
+      buildDrawerIcon: this.buildDrawerIcon ?? buildDrawerIcon,
     );
   }
 }
 
 class _DashBoardAppBar extends StatelessWidget {
-  final Widget? drawerIcon;
   final bool innerBoxIsScrolled;
   final bool mergeActions;
   final FocusNode focusNode;
   final DrawerOptions drawerOptions;
   final AppBarOptions appBarOptions;
+  final AnimationController expansion;
   const _DashBoardAppBar({
     Key? key,
-    required this.drawerIcon,
     required this.innerBoxIsScrolled,
     required this.focusNode,
     required this.mergeActions,
     required this.drawerOptions,
     required this.appBarOptions,
+    required this.expansion,
   }) : super(key: key);
 
   List<DashboardItem> items(DashboardItem e) {
@@ -294,8 +302,10 @@ class _DashBoardAppBar extends StatelessWidget {
             stretchTriggerOffset: appBar.stretchTriggerOffset ?? 100,
             onStretchTrigger: appBar.onStretchTrigger,
             forceElevated: innerBoxIsScrolled,
-            leading: drawerIcon ?? const SizedBox(),
-            leadingWidth: drawerIcon == null ? 0 : null,
+            leading: appBar.buildDrawerIcon?.call(() {
+                  _DrawerIcon.toggle(context, expansion);
+                }, expansion) ??
+                _DrawerIcon(expansion: expansion),
             title: Align(
               alignment: AlignmentDirectional.centerStart,
               child: Container(

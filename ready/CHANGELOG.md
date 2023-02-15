@@ -34,10 +34,6 @@
 
 * Add context to search handler
 
-## 1.5.7
+## 1.5.9
 
-* Add authorization
-
-## 1.5.8
-
-* Make authorization permissions visible
+*  Add authorization

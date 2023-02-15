@@ -14,7 +14,7 @@ class DashBoardExample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ReadyDashboard(
-      currentUser: CurrentUser.supervisor(['user']),
+      currentUser: const CurrentUser.admin(),
       drawerOptions: (phone) => DrawerOptions(
         headers: [
           const DrawerHeader(child: CircleAvatar()),
@@ -56,7 +56,9 @@ class DashBoardExample extends StatelessWidget {
           builder: (Map<String, dynamic> parameters) {
             return const AnimatedItemsExample();
           },
-          authorization: Authorization.supervisors(['user']),
+          authorization: Authorization(types: [
+            AccessType.supervisor(const ['user'])
+          ]),
           icon: const Icon(Icons.animation),
           id: 'animated',
           label: 'Animated items',

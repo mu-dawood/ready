@@ -1,10 +1,10 @@
 name: ready
 description: Package that contains complete list solution and admin dashboard
-version: 1.5.8
+version: 1.5.9
 homepage: https://github.com/mo-ah-dawood/ready
 
 environment:
-  sdk: ">=2.14.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
   flutter: ">=1.17.0"
 
 dependencies:

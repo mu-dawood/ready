@@ -20,3 +20,7 @@
 ## 1.1.0
 
 * Update dependencies
+
+## 1.2.0
+
+* Use keyboard visibility

@@ -34,15 +34,11 @@ class DrawerOptions {
   /// The logo at the top
   final Widget? logo;
 
-  /// override the default drawer icon
-  final Widget Function(VoidCallback toggle, AnimationController expansion)?
-      buildDrawerIcon;
-
   final bool showDivider;
 
   /// override the default drawer icon
-  final SliverPersistentHeaderDelegate Function(
-      VoidCallback toggle, AnimationController expansion)? buildHeader;
+  final SliverPersistentHeaderDelegate Function(AnimationController expansion)?
+      buildHeader;
 
   /// override the default drawer icon
   final SliverPersistentHeaderDelegate Function(
@@ -57,7 +53,6 @@ class DrawerOptions {
     this.image,
     this.gradient,
     this.logo,
-    this.buildDrawerIcon,
     this.buildHeader,
     this.showDivider = true,
     this.buildDrawer,
@@ -93,21 +88,19 @@ class _DrawerIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var hasDrawer = Scaffold.maybeOf(context)?.hasDrawer == true;
-
-    return CustomPaint(
-        painter: _IconPaint(expansion, context),
-        child: Center(
-          child: IconButton(
-            onPressed: () => toggle(context, expansion),
-            icon: AnimatedIcon(
-              icon: AnimatedIcons.menu_close,
-              progress: Tween(
-                      begin: !hasDrawer ? 1.0 : 0.0,
-                      end: !hasDrawer ? 0.0 : 1.0)
+    Widget child = Center(
+      child: IconButton(
+        onPressed: () => toggle(context, expansion),
+        icon: AnimatedIcon(
+          icon: AnimatedIcons.list_view,
+          progress:
+              Tween(begin: !hasDrawer ? 1.0 : 0.0, end: !hasDrawer ? 0.0 : 1.0)
                   .animate(expansion),
-            ),
-          ),
-        ));
+        ),
+      ),
+    );
+    if (hasDrawer) return child;
+    return CustomPaint(painter: _IconPaint(expansion, context), child: child);
   }
 }
 
@@ -242,20 +235,12 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
       // padding: const EdgeInsets.only(bottom: 15),
       slivers: [
         SliverPersistentHeader(
-          delegate: options.buildHeader?.call(() {
-                _DrawerIcon.toggle(context, widget.controller);
-              }, widget.controller) ??
+          delegate: options.buildHeader?.call(widget.controller) ??
               _DrawerHeader(
                 logo: options.logo,
                 duration: widget.controller.duration!,
                 collapsed: widget.collapsed,
                 statusBar: MediaQuery.of(context).padding.top,
-                drawerIcon: !widget.isDesktop
-                    ? const SizedBox()
-                    : options.buildDrawerIcon?.call(() {
-                          _DrawerIcon.toggle(context, widget.controller);
-                        }, widget.controller) ??
-                        _DrawerIcon(expansion: widget.controller),
               ),
         ),
         if (options.showDivider) const SliverToBoxAdapter(child: Divider()),
@@ -288,14 +273,12 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
 
 class _DrawerHeader extends SliverPersistentHeaderDelegate {
   final Widget? logo;
-  final Widget drawerIcon;
   final double statusBar;
   final bool collapsed;
   final Duration duration;
 
   _DrawerHeader({
     this.logo,
-    required this.drawerIcon,
     required this.statusBar,
     required this.collapsed,
     required this.duration,
@@ -304,21 +287,11 @@ class _DrawerHeader extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return SafeArea(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (!collapsed) ...[
-            Expanded(
-              child: Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: logo,
-              ),
-            ),
-            const SizedBox(width: 10),
-          ],
-          drawerIcon,
-        ],
+      bottom: false,
+      top: false,
+      child: Align(
+        alignment: AlignmentDirectional.centerStart,
+        child: logo,
       ),
     );
   }
@@ -356,18 +329,18 @@ class _IconPaint extends CustomPainter {
     );
     path.close();
     var isRtl = Directionality.of(context) == TextDirection.rtl;
-    var reverse =
-        (isRtl && expansion.value == 0) || (!isRtl && expansion.value == 1);
-    if (reverse) {
+    if (!isRtl) {
       canvas.scale(-1, 1);
       canvas.translate(-size.width, 0);
     }
-    canvas.drawShadow(
-      path,
-      Theme.of(context).colorScheme.shadow.withOpacity(0.5),
-      1,
-      false,
-    );
+    // canvas.drawShadow(
+    //   path,
+    //   Theme.of(context).colorScheme.shadow.withOpacity(0.5),
+    //   1,
+    //   false,
+    // );
+    // canvas.drawPath(
+    //     path, Paint()..color = Theme.of(context).colorScheme.shadow);
   }
 
   @override
