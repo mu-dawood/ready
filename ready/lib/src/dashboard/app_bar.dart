@@ -309,7 +309,8 @@ class _DashBoardAppBar extends StatelessWidget {
             title: Align(
               alignment: AlignmentDirectional.centerStart,
               child: Container(
-                constraints: const BoxConstraints(maxWidth: 500),
+                constraints: const BoxConstraints(
+                    maxWidth: 500, maxHeight: kToolbarHeight * 0.75),
                 child: selected.search == null
                     ? Text(selected.label)
                     : TextField(
@@ -319,7 +320,7 @@ class _DashBoardAppBar extends StatelessWidget {
                         decoration: appBar.inputDecoration ??
                             InputDecoration(
                               hintText: Ready.localization(context).search,
-                              prefixIcon: const Icon(Icons.search),
+                              // prefixIcon: const Icon(Icons.search),
                             ),
                       ),
               ),

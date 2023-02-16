@@ -61,14 +61,14 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
   List<int> get selectedItems => _selectedItems;
   bool get allSelected => controller.state.maybeWhen(
         orElse: () => false,
-        isLoaded: (items, __, _) => selectedItems.length >= items.length,
+        isLoaded: (items, __) => selectedItems.length >= items.length,
       );
 
   void selectAll() {
-    controller.state.whenOrNull(
-      isLoaded: (items, __, _) {
+    controller.state.mapOrNull(
+      isLoaded: (state) {
         if (!allSelected) {
-          _selectedItems = List.generate(items.length, (index) => index);
+          _selectedItems = List.generate(state.items.length, (index) => index);
           notifyListeners();
         }
       },
@@ -101,14 +101,13 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
   void _onPageChanged(int v) {
     paging = paging.copyWith(firstRow: v);
     notifyListeners();
-    controller.state.whenOrNull(
-      isLoaded: (items, total, _) {
-        if (items.length >= total) return;
-        var len = paging.rowsPerPage + v - items.length;
+    controller.state.mapOrNull(
+      isLoaded: (state) {
+        if (state.items.length >= state.totalCount) return;
+        var len = paging.rowsPerPage + v - state.items.length;
         if (len > 0) {
           controller.emit(ReadyListState.requestNext(
-            items: items,
-            totalCount: total,
+            previousState: state,
             pageSize: len,
           ));
         }
@@ -123,13 +122,12 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
     }
     paging = paging.copyWith(rowsPerPage: v);
     notifyListeners();
-    controller.state.whenOrNull(
-      isLoaded: (items, total, _) {
-        if (items.length >= total) return;
-        if (v > items.length) {
+    controller.state.mapOrNull(
+      isLoaded: (state) {
+        if (state.items.length >= state.totalCount) return;
+        if (v > state.items.length) {
           controller.emit(ReadyListState.requestNext(
-            items: items,
-            totalCount: total,
+            previousState: state,
             pageSize: paging.rowsPerPage,
           ));
         }
@@ -177,10 +175,12 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
       requestFirstLoading: (_) => _fakeRow(true),
       initializing: (_) => _fakeRow(true),
       isLoaded: (state) => _getRow(state.items, index),
-      isRefreshing: (state) => _getRow(state.items, index),
-      isLoadingNext: (state) => _getRow(state.items, index),
-      requestRefresh: (state) => _getRow(state.items, index),
-      requestNext: (state) => _getRow(state.items, index),
+      isRefreshing: (state) =>
+          _getRow(state.previousState().previousState.items, index),
+      isLoadingNext: (state) =>
+          _getRow(state.previousState().previousState.items, index),
+      requestRefresh: (state) => _getRow(state.previousState.items, index),
+      requestNext: (state) => _getRow(state.previousState.items, index),
     );
   }
 
@@ -192,10 +192,11 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
     return controller.state.maybeMap(
       orElse: () => 0,
       isLoaded: (state) => state.totalCount,
-      isRefreshing: (state) => state.items.length,
-      isLoadingNext: (state) => state.items.length,
-      requestNext: (state) => state.items.length,
-      requestRefresh: (state) => state.items.length,
+      isRefreshing: (state) => state.previousState().previousState.items.length,
+      isLoadingNext: (state) =>
+          state.previousState().previousState.items.length,
+      requestNext: (state) => state.previousState.items.length,
+      requestRefresh: (state) => state.previousState.items.length,
     );
   }
 

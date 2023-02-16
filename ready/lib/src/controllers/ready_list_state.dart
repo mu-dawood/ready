@@ -7,40 +7,39 @@ abstract class ICancelToken {
   void cancel([dynamic reason]);
 }
 
-mixin IRemoteResult<T> on ReadyListState<T> {}
+abstract class ILoaded<T> {
+  Iterable<T> get items;
+  int get totalCount;
+
+  Loaded<T> call() => Loaded(items: items, totalCount: totalCount);
+}
+
+abstract class IRequestNext<T> {
+  ILoaded<T> get previousState;
+  int? get pageSize;
+
+  RequestNext<T> call() =>
+      RequestNext(pageSize: pageSize, previousState: previousState);
+}
+
+abstract class IRequestRefresh<T> {
+  ILoaded<T> get previousState;
+  int? get pageSize;
+
+  RequestRefresh<T> call() =>
+      RequestRefresh(pageSize: pageSize, previousState: previousState);
+}
+
+abstract class IRequestFirstLoading<T> {
+  ReadyListState<T>? get previousState;
+  int? get pageSize;
+
+  RequestFirstLoading<T> call() =>
+      RequestFirstLoading(pageSize: pageSize, previousState: previousState);
+}
 
 @freezed
 class ReadyListState<T> with _$ReadyListState<T> {
-  /// create a loaded state
-  static Loaded<T> createLoaded<T>({
-    required final Iterable<T> items,
-    required final int totalCount,
-    final ReadyListState<T>? oldState,
-  }) {
-    return Loaded(
-      items: items,
-      totalCount: totalCount,
-      oldState: oldState,
-    );
-  }
-
-  /// creates an empty state
-  static Empty<T> createEmpty<T>([ReadyListState<T>? oldState]) {
-    return Empty(oldState);
-  }
-
-  /// creates an error state
-  static ErrorState<T> createError<T>(String error,
-      [ReadyListState<T>? oldState]) {
-    return ErrorState((ctx) => error, oldState);
-  }
-
-  /// creates an error state
-  static ErrorState<T> createErrorWith<T>(String Function(BuildContext) display,
-      [ReadyListState<T>? oldState]) {
-    return ErrorState<T>(display, oldState);
-  }
-
   /// use this if you need to wait for something
   /// and then use needFirstLoading to load the first state
   const factory ReadyListState.initializing({
@@ -48,105 +47,57 @@ class ReadyListState<T> with _$ReadyListState<T> {
     dynamic args,
   }) = Initializing<T>;
 
-  /// when there is no data
+  /// this will fire first loading
   /// *************************************************************************
-  @Implements.fromString('IRemoteResult<T>')
-  const factory ReadyListState.isEmpty([ReadyListState<T>? oldState]) =
-      Empty<T>;
-
-  /// when there is any error
-  /// *************************************************************************
-  @Implements.fromString('IRemoteResult<T>')
-  const factory ReadyListState.error(ErrorDisplayCallBack display,
-      [ReadyListState<T>? oldState]) = ErrorState<T>;
-
-  /// data loaded
-  /// *************************************************************************
-  @Implements.fromString('IRemoteResult<T>')
-  const factory ReadyListState.isLoaded({
-    required Iterable<T> items,
-    required int totalCount,
-    ReadyListState<T>? oldState,
-  }) = Loaded<T>;
+  @With.fromString("IRequestFirstLoading<T>")
+  const factory ReadyListState.requestFirstLoading({
+    int? pageSize,
+    ReadyListState<T>? previousState,
+  }) = RequestFirstLoading<T>;
 
   /// loading first time
   const factory ReadyListState.isLoadingFirst({
     ICancelToken? cancelToken,
     int? pageSize,
+    required IRequestFirstLoading<T> previousState,
   }) = FirstLoading<T>;
+
+  /// when there is any error
+  /// *************************************************************************
+  const factory ReadyListState.error(ErrorDisplayCallBack display) =
+      ErrorState<T>;
+
+  /// data loaded
+  /// *************************************************************************
+  @With.fromString("ILoaded<T>")
+  const factory ReadyListState.isLoaded(
+      {required Iterable<T> items, required int totalCount}) = Loaded<T>;
+
+  /// this will fire next loading
+  /// *************************************************************************
+  @With.fromString("IRequestNext<T>")
+  const factory ReadyListState.requestNext({
+    int? pageSize,
+    required ILoaded<T> previousState,
+  }) = RequestNext<T>;
 
   /// when loading next data
   const factory ReadyListState.isLoadingNext({
     ICancelToken? cancelToken,
-    int? pageSize,
-    required Iterable<T> items,
-    required int totalCount,
+    required IRequestNext<T> previousState,
   }) = LoadingNext<T>;
+
+  /// this will fire refresh
+  /// *************************************************************************
+  @With.fromString("IRequestRefresh<T>")
+  const factory ReadyListState.requestRefresh({
+    int? pageSize,
+    required ILoaded<T> previousState,
+  }) = RequestRefresh<T>;
 
   /// refreshing data
   const factory ReadyListState.isRefreshing({
     ICancelToken? cancelToken,
-    int? pageSize,
-    required Iterable<T> items,
-    required int totalCount,
+    required IRequestRefresh<T> previousState,
   }) = Refreshing<T>;
-
-  /// this will fire next loading
-  /// *************************************************************************
-  const factory ReadyListState.requestNext({
-    int? pageSize,
-    required Iterable<T> items,
-    required int totalCount,
-  }) = RequestNext<T>;
-
-  /// this will fire refresh
-  /// *************************************************************************
-  const factory ReadyListState.requestRefresh({
-    int? pageSize,
-    required Iterable<T> items,
-    required int totalCount,
-  }) = RequestRefresh<T>;
-
-  /// this will fire first loading
-  /// *************************************************************************
-  const factory ReadyListState.requestFirstLoading({
-    int? pageSize,
-    ReadyListState<T>? oldState,
-  }) = RequestFirstLoading<T>;
-}
-
-extension ReadyStateExt<T> on ReadyListController<T> {
-  // /// creates  first loading state
-  // RequestFirstLoading<T> createRequestFirstLoading([int? pageSize]) {
-  //   return RequestFirstLoading<T>(
-  //     pageSize: pageSize,
-  //     oldState: state,
-  //   );
-  // }
-
-  // /// emit refresh state
-  // RequestRefresh<T> createRequestRefresh({
-  //   int? pageSize,
-  //   required Iterable<T> items,
-  //   required int totalCount,
-  // }) {
-  //   return RequestRefresh<T>(
-  //     pageSize: pageSize,
-  //     items: items,
-  //     totalCount: totalCount,
-  //   );
-  // }
-
-  // /// emit next loading state
-  // RequestNext<T> createRequestNext({
-  //   int? pageSize,
-  //   required Iterable<T> items,
-  //   required int totalCount,
-  // }) {
-  //   return RequestNext<T>(
-  //     pageSize: pageSize,
-  //     items: items,
-  //     totalCount: totalCount,
-  //   );
-  // }
 }

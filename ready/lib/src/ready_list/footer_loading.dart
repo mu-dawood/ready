@@ -26,8 +26,7 @@ class _FooterLoading<T, TController extends ReadyListController<T>>
               onPressed: () {
                 controller.emit(ReadyListState.requestNext(
                   pageSize: config.pageSize,
-                  items: state.items,
-                  totalCount: state.totalCount,
+                  previousState: state,
                 ));
               },
               child: Text(config.loadMoreText),

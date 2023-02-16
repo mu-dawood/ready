@@ -142,28 +142,27 @@ class _DataTableState<T, TController extends ReadyListController<T>>
     return widget.options.dataTable!.refreshButton!(
       enabled: controller.state.maybeMap(
         orElse: () => false,
-        isLoaded: (_) => true,
-        isEmpty: (_) => true,
+        isLoaded: (state) => state.items.isEmpty,
         error: (message) => true,
       ),
       onRefresh: () {
         controller.state.mapOrNull(
-          isEmpty: (_) {
-            widget.source.controller.emit(ReadyListState.requestFirstLoading(
-              pageSize: widget.source.paging.rowsPerPage,
-            ));
-          },
           error: (e) {
             widget.source.controller.emit(ReadyListState.requestFirstLoading(
               pageSize: widget.source.paging.rowsPerPage,
             ));
           },
           isLoaded: (state) {
-            widget.source.controller.emit(ReadyListState.requestRefresh(
-              pageSize: widget.source.paging.rowsPerPage,
-              items: state.items,
-              totalCount: state.totalCount,
-            ));
+            if (state.items.isEmpty) {
+              widget.source.controller.emit(ReadyListState.requestFirstLoading(
+                pageSize: widget.source.paging.rowsPerPage,
+              ));
+            } else {
+              widget.source.controller.emit(ReadyListState.requestRefresh(
+                pageSize: widget.source.paging.rowsPerPage,
+                previousState: state,
+              ));
+            }
           },
         );
       },

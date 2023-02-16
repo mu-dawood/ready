@@ -244,18 +244,18 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
           return NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
               if (configuration.allowLoadNext) {
-                state.whenOrNull(
-                  isLoaded: (items, total, old) {
-                    if (items.length < total) {
+                state.mapOrNull(
+                  isLoaded: (state) {
+                    if (state.items.length < state.totalCount) {
                       if (scrollInfo.metrics.pixels > 0) {
                         if (scrollInfo.metrics.pixels >=
                             scrollInfo.metrics.maxScrollExtent - 200) {
                           if (configuration.allowLoadNext) {
                             widget.controller.emit(
                               ReadyListState.requestNext(
-                                  pageSize: configuration.pageSize,
-                                  items: items,
-                                  totalCount: total),
+                                pageSize: configuration.pageSize,
+                                previousState: state,
+                              ),
                             );
                           }
                         }
@@ -286,8 +286,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
         if (isVisible) {
           widget.controller.emit(ReadyListState.requestRefresh(
             pageSize: configuration.pageSize,
-            items: state.items,
-            totalCount: state.totalCount,
+            previousState: state,
           ));
           return widget.controller.stream.first;
         }
@@ -362,10 +361,15 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
                         : null,
                   ),
                   orElse: () => widget._slivers!(state, () => null),
-                  isEmpty: (_) => widget._slivers!(
-                      state,
-                      () => _buildPlaceholders(
-                          shrinkWrap, configuration, false, null)),
+                  isLoaded: (value) {
+                    if (value.items.isEmpty) {
+                      return widget._slivers!(
+                          state,
+                          () => _buildPlaceholders(
+                              shrinkWrap, configuration, false, null));
+                    }
+                    return widget._slivers!(state, () => null);
+                  },
                 )
               else
                 state.maybeMap(
@@ -373,20 +377,30 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
                       ? _buildPlaceholders(
                           shrinkWrap, configuration, true, null)
                       : _buildBody(constraints, configuration),
-                  isEmpty: (_) => _buildPlaceholders(
-                      shrinkWrap, configuration, false, null),
                   error: (state) => _buildPlaceholders(
                       shrinkWrap, configuration, false, state.display(context)),
                   isRefreshing: (state) => _buildBody(
-                      constraints, configuration, _filteredItems(state.items)),
-                  requestRefresh: (state) => _buildBody(
-                      constraints, configuration, _filteredItems(state.items)),
+                      constraints,
+                      configuration,
+                      _filteredItems(
+                          state.previousState().previousState.items)),
+                  requestRefresh: (state) => _buildBody(constraints,
+                      configuration, _filteredItems(state.previousState.items)),
                   isLoadingNext: (state) => _buildBody(
-                      constraints, configuration, _filteredItems(state.items)),
-                  requestNext: (state) => _buildBody(
-                      constraints, configuration, _filteredItems(state.items)),
-                  isLoaded: (state) => _buildBody(
-                      constraints, configuration, _filteredItems(state.items)),
+                      constraints,
+                      configuration,
+                      _filteredItems(
+                          state.previousState().previousState.items)),
+                  requestNext: (state) => _buildBody(constraints, configuration,
+                      _filteredItems(state.previousState.items)),
+                  isLoaded: (state) {
+                    if (state.items.isEmpty) {
+                      return _buildPlaceholders(
+                          shrinkWrap, configuration, false, null);
+                    }
+                    return _buildBody(constraints, configuration,
+                        _filteredItems(state.items));
+                  },
                 ),
               if (widget.innerFooterSlivers != null)
                 ...widget.innerFooterSlivers!(state),
@@ -491,18 +505,18 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
                 pageSize: configuration.pageSize,
               ));
         },
-        isEmpty: (_) {
-          return () =>
-              widget.controller.emit(ReadyListState.requestFirstLoading(
-                pageSize: configuration.pageSize,
-              ));
-        },
         isLoaded: (state) {
-          return () => ctrl.emit(ReadyListState.requestRefresh(
-                pageSize: configuration.pageSize,
-                totalCount: state.totalCount,
-                items: state.items,
-              ));
+          if (state.items.isEmpty) {
+            return () =>
+                widget.controller.emit(ReadyListState.requestFirstLoading(
+                  pageSize: configuration.pageSize,
+                ));
+          } else {
+            return () => ctrl.emit(ReadyListState.requestRefresh(
+                  pageSize: configuration.pageSize,
+                  previousState: state,
+                ));
+          }
         },
       ),
     );

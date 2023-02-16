@@ -11,143 +11,426 @@ abstract class ReadyListController<T> {
   void emit(ReadyListState<T> state);
 }
 
-extension ReadyListControllerExt<T> on ReadyListController<T> {
-  void addItem(T item) {
-    state.whenOrNull(
-      isLoaded: (items, totalCount, _) {
-        emit(ReadyListState.isLoaded(
-            items: [...items, item], totalCount: totalCount + 1));
+extension ReadyListStateExt<T> on ReadyListState<T> {
+  ReadyListState<T> add(Iterable<T> items) {
+    return map(
+      isLoaded: (state) {
+        return state.copyWith(
+          items: [...state.items, ...items],
+          totalCount: state.totalCount + items.length,
+        );
+      },
+      initializing: (state) {
+        return ReadyListState.isLoaded(items: items, totalCount: items.length);
+      },
+      requestFirstLoading: (state) {
+        return state.copyWith(previousState: state.previousState?.add(items));
+      },
+      error: (ErrorState<T> state) {
+        return ReadyListState.isLoaded(items: items, totalCount: items.length);
+      },
+      isLoadingFirst: (FirstLoading<T> state) {
+        return state.copyWith(
+            previousState:
+                state.previousState().add(items) as RequestFirstLoading<T>);
+      },
+      isLoadingNext: (LoadingNext<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.copyWith(
+            previousState: previous.previousState().add(items) as Loaded<T>,
+          ),
+        );
+      },
+      isRefreshing: (Refreshing<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.copyWith(
+            previousState: previous.previousState().add(items) as Loaded<T>,
+          ),
+        );
+      },
+      requestNext: (RequestNext<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.add(items) as Loaded<T>,
+        );
+      },
+      requestRefresh: (RequestRefresh<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.add(items) as Loaded<T>,
+        );
       },
     );
+  }
+
+  ReadyListState<T> insert(Iterable<T> items) {
+    return map(
+      isLoaded: (state) {
+        return state.copyWith(
+          items: [...items, ...state.items],
+          totalCount: state.totalCount + items.length,
+        );
+      },
+      initializing: (state) {
+        return ReadyListState.isLoaded(items: items, totalCount: items.length);
+      },
+      requestFirstLoading: (state) {
+        return state.copyWith(
+            previousState: state.previousState?.insert(items));
+      },
+      error: (ErrorState<T> state) {
+        return ReadyListState.isLoaded(items: items, totalCount: items.length);
+      },
+      isLoadingFirst: (FirstLoading<T> state) {
+        return state.copyWith(
+            previousState:
+                state.previousState().insert(items) as RequestFirstLoading<T>);
+      },
+      isLoadingNext: (LoadingNext<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.copyWith(
+            previousState: previous.previousState().insert(items) as Loaded<T>,
+          ),
+        );
+      },
+      isRefreshing: (Refreshing<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.copyWith(
+            previousState: previous.previousState().insert(items) as Loaded<T>,
+          ),
+        );
+      },
+      requestNext: (RequestNext<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.insert(items) as Loaded<T>,
+        );
+      },
+      requestRefresh: (RequestRefresh<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.insert(items) as Loaded<T>,
+        );
+      },
+    );
+  }
+
+  ReadyListState<T> remove(Iterable<T> items) {
+    return map(
+      isLoaded: (state) {
+        var oldLength = state.items.length;
+        var newItems = state.items.where((element) => !items.contains(element));
+        var newLength = newItems.length;
+        var removedLength = oldLength - newLength;
+        return state.copyWith(
+          items: newItems,
+          totalCount: state.totalCount - removedLength,
+        );
+      },
+      initializing: (state) => state,
+      requestFirstLoading: (state) {
+        return state.copyWith(
+            previousState: state.previousState?.remove(items));
+      },
+      error: (ErrorState<T> state) => state,
+      isLoadingFirst: (FirstLoading<T> state) {
+        return state.copyWith(
+            previousState:
+                state.previousState().remove(items) as RequestFirstLoading<T>);
+      },
+      isLoadingNext: (LoadingNext<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.copyWith(
+            previousState: previous.previousState().remove(items) as Loaded<T>,
+          ),
+        );
+      },
+      isRefreshing: (Refreshing<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.copyWith(
+            previousState: previous.previousState().remove(items) as Loaded<T>,
+          ),
+        );
+      },
+      requestNext: (RequestNext<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.remove(items) as Loaded<T>,
+        );
+      },
+      requestRefresh: (RequestRefresh<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.remove(items) as Loaded<T>,
+        );
+      },
+    );
+  }
+
+  ReadyListState<T> removeWhere(bool Function(T element) test) {
+    return map(
+      isLoaded: (state) {
+        var oldLength = state.items.length;
+        var newItems = state.items.where((element) => !test(element));
+        var newLength = newItems.length;
+        var removedLength = oldLength - newLength;
+        return state.copyWith(
+          items: newItems,
+          totalCount: state.totalCount - removedLength,
+        );
+      },
+      initializing: (state) => state,
+      requestFirstLoading: (state) {
+        return state.copyWith(
+            previousState: state.previousState?.removeWhere(test));
+      },
+      error: (ErrorState<T> state) => state,
+      isLoadingFirst: (FirstLoading<T> state) {
+        return state.copyWith(
+            previousState: state.previousState().removeWhere(test)
+                as RequestFirstLoading<T>);
+      },
+      isLoadingNext: (LoadingNext<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.copyWith(
+            previousState:
+                previous.previousState().removeWhere(test) as Loaded<T>,
+          ),
+        );
+      },
+      isRefreshing: (Refreshing<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.copyWith(
+            previousState:
+                previous.previousState().removeWhere(test) as Loaded<T>,
+          ),
+        );
+      },
+      requestNext: (RequestNext<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.removeWhere(test) as Loaded<T>,
+        );
+      },
+      requestRefresh: (RequestRefresh<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.removeWhere(test) as Loaded<T>,
+        );
+      },
+    );
+  }
+
+  ReadyListState<T> removeAt(List<int> indexes) {
+    return map(
+      isLoaded: (state) {
+        var oldLength = state.items.length;
+        List<T> newItems = [];
+        for (var i = 0; i < state.items.length; i++) {
+          if (!indexes.contains(i)) {
+            newItems.add(state.items.elementAt(i));
+          }
+        }
+        var newLength = newItems.length;
+        var removedLength = oldLength - newLength;
+        return state.copyWith(
+          items: newItems,
+          totalCount: state.totalCount - removedLength,
+        );
+      },
+      initializing: (state) => state,
+      requestFirstLoading: (state) {
+        return state.copyWith(
+            previousState: state.previousState?.removeAt(indexes));
+      },
+      error: (ErrorState<T> state) => state,
+      isLoadingFirst: (FirstLoading<T> state) {
+        return state.copyWith(
+            previousState: state.previousState().removeAt(indexes)
+                as RequestFirstLoading<T>);
+      },
+      isLoadingNext: (LoadingNext<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.copyWith(
+            previousState:
+                previous.previousState().removeAt(indexes) as Loaded<T>,
+          ),
+        );
+      },
+      isRefreshing: (Refreshing<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.copyWith(
+            previousState:
+                previous.previousState().removeAt(indexes) as Loaded<T>,
+          ),
+        );
+      },
+      requestNext: (RequestNext<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.removeAt(indexes) as Loaded<T>,
+        );
+      },
+      requestRefresh: (RequestRefresh<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.removeAt(indexes) as Loaded<T>,
+        );
+      },
+    );
+  }
+
+  ReadyListState<T> mapItems(T Function(T) mapper) {
+    return map(
+      isLoaded: (state) {
+        return state.copyWith(items: state.items.map(mapper));
+      },
+      initializing: (state) => state,
+      requestFirstLoading: (state) {
+        return state.copyWith(
+            previousState: state.previousState?.mapItems(mapper));
+      },
+      error: (ErrorState<T> state) => state,
+      isLoadingFirst: (FirstLoading<T> state) {
+        return state.copyWith(
+            previousState: state.previousState().mapItems(mapper)
+                as RequestFirstLoading<T>);
+      },
+      isLoadingNext: (LoadingNext<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.copyWith(
+            previousState:
+                previous.previousState().mapItems(mapper) as Loaded<T>,
+          ),
+        );
+      },
+      isRefreshing: (Refreshing<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.copyWith(
+            previousState:
+                previous.previousState().mapItems(mapper) as Loaded<T>,
+          ),
+        );
+      },
+      requestNext: (RequestNext<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.mapItems(mapper) as Loaded<T>,
+        );
+      },
+      requestRefresh: (RequestRefresh<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.mapItems(mapper) as Loaded<T>,
+        );
+      },
+    );
+  }
+
+  ReadyListState<T> clear() {
+    return map(
+      isLoaded: (state) {
+        return state.copyWith(
+          items: [],
+          totalCount: state.totalCount - state.items.length,
+        );
+      },
+      initializing: (state) => state,
+      requestFirstLoading: (state) {
+        return state.copyWith(previousState: state.previousState?.clear());
+      },
+      error: (ErrorState<T> state) => state,
+      isLoadingFirst: (FirstLoading<T> state) {
+        return state.copyWith(
+            previousState:
+                state.previousState().clear() as RequestFirstLoading<T>);
+      },
+      isLoadingNext: (LoadingNext<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.copyWith(
+            previousState: previous.previousState().clear() as Loaded<T>,
+          ),
+        );
+      },
+      isRefreshing: (Refreshing<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.copyWith(
+            previousState: previous.previousState().clear() as Loaded<T>,
+          ),
+        );
+      },
+      requestNext: (RequestNext<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.clear() as Loaded<T>,
+        );
+      },
+      requestRefresh: (RequestRefresh<T> state) {
+        var previous = state.previousState();
+        return state.copyWith(
+          previousState: previous.clear() as Loaded<T>,
+        );
+      },
+    );
+  }
+}
+
+extension ReadyListControllerExt<T> on ReadyListController<T> {
+  void addItem(T item) {
+    emit(state.add([item]));
   }
 
   void addItems(Iterable<T> items) {
-    state.whenOrNull(
-      isLoaded: (itm, totalCount, _) {
-        emit(ReadyListState.isLoaded(
-            items: [...itm, ...items], totalCount: totalCount + items.length));
-      },
-    );
+    emit(state.add(items));
   }
 
   void insertItem(T item) {
-    state.whenOrNull(
-      isLoaded: (items, totalCount, _) {
-        emit(ReadyListState.isLoaded(
-            items: [item, ...items], totalCount: totalCount + 1));
-      },
-    );
+    emit(state.insert([item]));
   }
 
   void insertItems(Iterable<T> items) {
-    state.whenOrNull(
-      isLoaded: (itm, totalCount, _) {
-        emit(ReadyListState.isLoaded(
-          items: [...items, ...itm],
-          totalCount: totalCount + items.length,
-        ));
-      },
-    );
+    emit(state.insert(items));
   }
 
   void removeItem(T item) {
-    state.whenOrNull(
-      isLoaded: (items, totalCount, _) {
-        var newValue = items.where((element) => element != item);
-        if (newValue.isEmpty) {
-          emit(const ReadyListState.isEmpty());
-        } else {
-          emit(ReadyListState.isLoaded(
-              items: newValue, totalCount: totalCount - 1));
-        }
-      },
-    );
+    emit(state.remove([item]));
   }
 
   void removeItems(Iterable<T> items) {
-    state.whenOrNull(
-      isLoaded: (itm, totalCount, _) {
-        var newValue = itm.where((a) => !items.any((b) => a == b));
-        if (newValue.isEmpty) {
-          emit(const ReadyListState.isEmpty());
-        } else {
-          emit(ReadyListState.isLoaded(
-              items: newValue,
-              totalCount: totalCount - items.length + newValue.length));
-        }
-      },
-    );
+    emit(state.remove(items));
   }
 
   void removeItemAt(int index) {
-    state.whenOrNull(
-      isLoaded: (items, totalCount, _) {
-        var newValue =
-            items.where((element) => element != items.elementAt(index));
-        if (newValue.isEmpty) {
-          emit(const ReadyListState.isEmpty());
-        } else {
-          emit(ReadyListState.isLoaded(
-              items: newValue, totalCount: totalCount - 1));
-        }
-      },
-    );
+    emit(state.removeAt([index]));
   }
 
   void removeItemsAt(List<int> indexes) {
-    state.whenOrNull(
-      isLoaded: (items, totalCount, _) {
-        var newValue =
-            items.where((a) => !indexes.any((i) => a == items.elementAt(i)));
-        if (newValue.isEmpty) {
-          emit(const ReadyListState.isEmpty());
-        } else {
-          emit(ReadyListState.isLoaded(
-            items: newValue,
-            totalCount: totalCount - items.length + newValue.length,
-          ));
-        }
-      },
-    );
+    emit(state.removeAt(indexes));
   }
 
   void removeWhere(bool Function(T) test) {
-    state.whenOrNull(
-      isLoaded: (items, totalCount, _) {
-        var newValue = items.where((a) => !test(a));
-        if (newValue.isEmpty) {
-          emit(const ReadyListState.isEmpty());
-        } else {
-          emit(ReadyListState.isLoaded(
-            items: newValue,
-            totalCount: totalCount - items.length + newValue.length,
-          ));
-        }
-      },
-    );
+    emit(state.removeWhere(test));
   }
 
   void mapTo(T Function(T) test) {
-    state.whenOrNull(
-      isLoaded: (items, totalCount, _) {
-        var newValue = items.map((a) => test(a));
-        if (newValue.isEmpty) {
-          emit(const ReadyListState.isEmpty());
-        } else {
-          emit(ReadyListState.isLoaded(
-            items: newValue,
-            totalCount: totalCount,
-          ));
-        }
-      },
-    );
+    emit(state.mapItems(test));
   }
 
-  void clear(List<int> indexes) {
-    state.whenOrNull(
-      isLoaded: (items, totalCount, _) {
-        emit(const ReadyListState.isEmpty());
-      },
-    );
+  void clear() {
+    emit(state.clear());
   }
 }

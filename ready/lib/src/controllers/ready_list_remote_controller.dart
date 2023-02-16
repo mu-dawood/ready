@@ -1,7 +1,16 @@
 part of controllers;
 
+@freezed
+class RemoteResult<T> with _$RemoteResult<T> {
+  const factory RemoteResult.error(ErrorDisplayCallBack display) =
+      ErrorResult<T>;
+
+  const factory RemoteResult.success(Iterable<T> items, int totalCount) =
+      SuccessResult<T>;
+}
+
 mixin ReadyRemoteController<T> on ReadyListController<T> {
-  Future<ReadyListState<T>> loadData(int skip, int? pageSize,
+  Future<RemoteResult<T>> loadData(int skip, int? pageSize,
       [ICancelToken? cancelToken]);
 
   @override
@@ -20,12 +29,23 @@ mixin ReadyRemoteController<T> on ReadyListController<T> {
     emit(ReadyListState.isLoadingFirst(
       cancelToken: cancelToken,
       pageSize: state.pageSize,
+      previousState: state,
     ));
     try {
       var results = await loadData(0, state.pageSize, cancelToken);
-      emit(results);
+      emit(results.map(
+        error: (ErrorResult<T> value) {
+          return ReadyListState.error(value.display);
+        },
+        success: (SuccessResult<T> value) {
+          return ReadyListState.isLoaded(
+            items: value.items,
+            totalCount: value.totalCount,
+          );
+        },
+      ));
     } catch (e) {
-      emit(state);
+      emit(ReadyListState.error((context) => e.toString()));
     }
   }
 
@@ -33,35 +53,57 @@ mixin ReadyRemoteController<T> on ReadyListController<T> {
     var cancelToken = generateCancelToken();
     emit(ReadyListState.isLoadingNext(
       cancelToken: cancelToken,
-      pageSize: state.pageSize,
-      items: state.items,
-      totalCount: state.totalCount,
+      previousState: state,
     ));
     try {
       var results = await loadData(
-        state.items.length,
+        state.previousState.items.length,
         state.pageSize,
         cancelToken,
       );
-      emit(results);
+      emit(results.map(
+        error: (ErrorResult<T> value) {
+          return state.previousState();
+        },
+        success: (SuccessResult<T> value) {
+          if (value.items.isEmpty) {
+            return state.previousState();
+          } else {
+            return ReadyListState.isLoaded(
+              items: [...state.previousState.items, ...value.items],
+              totalCount: value.totalCount,
+            );
+          }
+        },
+      ));
     } catch (e) {
-      emit(state);
+      emit(state.previousState());
     }
   }
 
   void _refresh(RequestRefresh<T> state) async {
     var cancelToken = generateCancelToken();
     emit(ReadyListState.isRefreshing(
-      cancelToken: cancelToken,
-      pageSize: state.pageSize,
-      items: state.items,
-      totalCount: state.totalCount,
-    ));
+        cancelToken: cancelToken, previousState: state));
     try {
       var results = await loadData(0, state.pageSize, cancelToken);
-      emit(results);
+      emit(results.map(
+        error: (ErrorResult<T> value) {
+          return state.previousState();
+        },
+        success: (SuccessResult<T> value) {
+          if (value.items.isEmpty) {
+            return state.previousState();
+          } else {
+            return ReadyListState.isLoaded(
+              items: [...state.previousState.items, ...value.items],
+              totalCount: value.totalCount,
+            );
+          }
+        },
+      ));
     } catch (e) {
-      emit(state);
+      emit(state.previousState());
     }
   }
 }
