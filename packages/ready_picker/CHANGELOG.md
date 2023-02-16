@@ -41,3 +41,7 @@
 ## 1.5.9+1
 
 * Use ready version 1.5.9+1
+
+## 1.5.9+2
+
+* Use ready version 1.5.9+2

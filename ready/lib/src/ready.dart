@@ -32,7 +32,7 @@ class Ready {
     ScrollPositionAlignmentPolicy alignmentPolicy =
         ScrollPositionAlignmentPolicy.explicit,
   }) {
-    ScrollableState? scrollable = Scrollable.of(context);
+    ScrollableState? scrollable = Scrollable.maybeOf(context);
     while (scrollable != null) {
       if (!_isVisible(
         scrollable.position,
@@ -42,7 +42,7 @@ class Ready {
         return false;
       }
       context = scrollable.context;
-      scrollable = Scrollable.of(context);
+      scrollable = Scrollable.maybeOf(context);
     }
     return true;
   }

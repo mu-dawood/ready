@@ -1,6 +1,6 @@
 name: ready_picker
 description: Pop up picker that uses ready controllers
-version: 1.5.9+1
+version: 1.5.9+2
 homepage: https://github.com/mo-ah-dawood/ready
 
 environment:
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  ready: ^1.5.9+1
+  ready: ^1.5.9+2
 
 dev_dependencies:
   flutter_test:
