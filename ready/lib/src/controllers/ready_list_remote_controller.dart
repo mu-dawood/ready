@@ -92,14 +92,10 @@ mixin ReadyRemoteController<T> on ReadyListController<T> {
           return state.previousState();
         },
         success: (SuccessResult<T> value) {
-          if (value.items.isEmpty) {
-            return state.previousState();
-          } else {
-            return ReadyListState.isLoaded(
-              items: [...state.previousState.items, ...value.items],
-              totalCount: value.totalCount,
-            );
-          }
+          return ReadyListState.isLoaded(
+            items: value.items,
+            totalCount: value.totalCount,
+          );
         },
       ));
     } catch (e) {
