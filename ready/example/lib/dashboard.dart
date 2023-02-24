@@ -108,7 +108,6 @@ class DashBoardExample extends StatelessWidget {
               shimmer: false,
             );
           },
-          search: (context, v) {},
           icon: const Icon(Icons.list),
           id: 'list1',
           label: 'List',
@@ -117,7 +116,6 @@ class DashBoardExample extends StatelessWidget {
           builder: (Map<String, dynamic> parameters) {
             return const ReadyListExample(shimmer: true);
           },
-          search: (context, v) {},
           icon: const Icon(Icons.list),
           id: 'list2',
           label: 'List with shimmer',
@@ -130,7 +128,6 @@ class DashBoardExample extends StatelessWidget {
               builder: (Map<String, dynamic> parameters) {
                 return const ReadyGridExample(gridDelegate: Grids.columns_1);
               },
-              search: (context, v) {},
               icon: const Icon(Icons.local_cafe),
               id: 'grid 1',
               label: 'Grid 1',
@@ -139,7 +136,6 @@ class DashBoardExample extends StatelessWidget {
               builder: (Map<String, dynamic> parameters) {
                 return const ReadyGridExample(gridDelegate: Grids.columns_2);
               },
-              search: (context, v) {},
               icon: const Icon(Icons.local_cafe),
               id: 'grid 2',
               label: 'Grid 2',
@@ -148,7 +144,6 @@ class DashBoardExample extends StatelessWidget {
               builder: (Map<String, dynamic> parameters) {
                 return const ReadyGridExample(gridDelegate: Grids.columns_3);
               },
-              search: (context, v) {},
               icon: const Icon(Icons.local_cafe),
               id: 'grid 3',
               label: 'Grid 3',
@@ -157,7 +152,6 @@ class DashBoardExample extends StatelessWidget {
               builder: (Map<String, dynamic> parameters) {
                 return const ReadyGridExample(gridDelegate: Grids.columns_4);
               },
-              search: (context, v) {},
               icon: const Icon(Icons.local_cafe),
               id: 'grid 4',
               label: 'Grid 4',
@@ -166,7 +160,6 @@ class DashBoardExample extends StatelessWidget {
               builder: (Map<String, dynamic> parameters) {
                 return ReadyGridExample(gridDelegate: Grids.extent(150));
               },
-              search: (context, v) {},
               icon: const Icon(Icons.local_cafe),
               id: 'extent grid',
               label: 'Extent grid',
@@ -181,7 +174,6 @@ class DashBoardExample extends StatelessWidget {
               builder: (Map<String, dynamic> parameters) {
                 return ResponsiveList();
               },
-              search: (context, v) {},
               icon: const Icon(Icons.table_chart),
               id: 'responsive',
               label: 'Data table',
@@ -190,7 +182,6 @@ class DashBoardExample extends StatelessWidget {
               builder: (Map<String, dynamic> parameters) {
                 return const ReadyGridExample(gridDelegate: Grids.responsive);
               },
-              search: (context, v) {},
               icon: const Icon(Icons.local_cafe),
               id: 'grid responsive',
               label: 'Responsive grid',

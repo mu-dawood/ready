@@ -49,7 +49,7 @@ class DashboardItem {
   final Widget? selectedIcon;
   final Widget Function(Map<String, dynamic> parameters) builder;
 
-  final void Function(BuildContext context, String? value)? search;
+  final SearchArgs? search;
   final AppBarOptions? appBarOptions;
   final List<DashboardItem> subItems;
 
@@ -119,7 +119,7 @@ class DashboardItem {
     Widget? icon,
     Widget? selectedIcon,
     Widget Function(Map<String, dynamic> parameters)? builder,
-    void Function(BuildContext context, String? value)? search,
+    SearchArgs? search,
     AppBarOptions? appBarOptions,
     List<DashboardItem>? subItems,
     List<Widget>? actions,
@@ -210,4 +210,26 @@ class NavigatorItem {
     required this.name,
     required this.child,
   });
+}
+
+class SearchArgs extends Equatable {
+  final void Function(BuildContext context, String? value)? onChanged;
+  final void Function(BuildContext context, String? value)? onSubmitted;
+  final String? initialValue;
+  final bool loading;
+
+  const SearchArgs({
+    this.onChanged,
+    this.onSubmitted,
+    this.initialValue,
+    this.loading = false,
+  });
+
+  @override
+  List<Object?> get props => [
+        onChanged,
+        onSubmitted,
+        initialValue,
+        loading,
+      ];
 }

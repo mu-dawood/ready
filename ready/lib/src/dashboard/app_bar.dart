@@ -5,7 +5,7 @@ class AppBarOptions {
   final AppBarTheme? theme;
 
   /// decoration of search box
-  final InputDecoration? inputDecoration;
+  final InputDecoration Function(bool loading)? inputDecoration;
 
   /// {@macro flutter.material.appBar.flexibleSpace}
   ///
@@ -177,22 +177,23 @@ class AppBarOptions {
     );
   }
 
-  AppBarOptions copyWith(
-      {AppBarTheme? theme,
-      InputDecoration? inputDecoration,
-      Widget? flexibleSpace,
-      PreferredSizeWidget? bottom,
-      bool? primary,
-      double? collapsedHeight,
-      double? expandedHeight,
-      bool? floating,
-      bool? pinned,
-      bool? snap,
-      bool? stretch,
-      double? stretchTriggerOffset,
-      AsyncCallback? onStretchTrigger,
-      Widget Function(VoidCallback toggle, AnimationController expansion)?
-          buildDrawerIcon}) {
+  AppBarOptions copyWith({
+    AppBarTheme? theme,
+    InputDecoration Function(bool loading)? inputDecoration,
+    Widget? flexibleSpace,
+    PreferredSizeWidget? bottom,
+    bool? primary,
+    double? collapsedHeight,
+    double? expandedHeight,
+    bool? floating,
+    bool? pinned,
+    bool? snap,
+    bool? stretch,
+    double? stretchTriggerOffset,
+    AsyncCallback? onStretchTrigger,
+    Widget Function(VoidCallback toggle, AnimationController expansion)?
+        buildDrawerIcon,
+  }) {
     return AppBarOptions(
       theme: theme ?? this.theme,
       inputDecoration: inputDecoration ?? this.inputDecoration,
@@ -302,32 +303,46 @@ class _DashBoardAppBar extends StatelessWidget {
             stretchTriggerOffset: appBar.stretchTriggerOffset ?? 100,
             onStretchTrigger: appBar.onStretchTrigger,
             forceElevated: innerBoxIsScrolled,
-            leading: appBar.buildDrawerIcon?.call(() {
-                  _DrawerIcon.toggle(context, expansion);
-                }, expansion) ??
-                _DrawerIcon(expansion: expansion),
-            title: Align(
-              alignment: AlignmentDirectional.centerStart,
-              child: Container(
-                constraints: const BoxConstraints(
-                    maxWidth: 500, maxHeight: kToolbarHeight * 0.75),
-                child: selected.search == null
-                    ? Text(selected.label)
-                    : TextField(
-                        key: Key(selected.id),
-                        focusNode: focusNode,
-                        onChanged: (v) => selected.search!(context, v),
-                        decoration: appBar.inputDecoration ??
-                            InputDecoration(
-                              hintText: Ready.localization(context).search,
-                              // prefixIcon: const Icon(Icons.search),
-                            ),
-                      ),
-              ),
-            ),
+            leading: leading(context, appBar),
+            title: title(context, selected, appBar),
           ),
         );
       },
+    );
+  }
+
+  Widget leading(BuildContext context, AppBarOptions appBar) {
+    return appBar.buildDrawerIcon?.call(() {
+          _DrawerIcon.toggle(context, expansion);
+        }, expansion) ??
+        _DrawerIcon(expansion: expansion);
+  }
+
+  Widget? title(
+      BuildContext context, DashboardItem selected, AppBarOptions appBar) {
+    if (selected.search == null) return Text(selected.label);
+    var decoration = appBar.inputDecoration?.call(selected.search!.loading) ??
+        InputDecoration(
+          isCollapsed: true,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+          hintText: Ready.localization(context).search,
+          suffixIcon: selected.search!.loading
+              ? const CircularProgressIndicator.adaptive()
+              : const Icon(Icons.search),
+        );
+
+    return Container(
+      constraints: const BoxConstraints(maxWidth: 500),
+      child: Align(
+        alignment: AlignmentDirectional.centerStart,
+        child: TextField(
+          key: Key(selected.id),
+          focusNode: focusNode,
+          onChanged: (v) => selected.search!.onChanged?.call(context, v),
+          onSubmitted: (v) => selected.search!.onSubmitted?.call(context, v),
+          decoration: decoration,
+        ),
+      ),
     );
   }
 }
