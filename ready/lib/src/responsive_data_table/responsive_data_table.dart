@@ -159,7 +159,7 @@ class __ResponsiveDataTableState<T, TController extends ReadyListController<T>>
         availableRowsPerPage: availableRowsPerPage,
         rowsPerPage: rowsPerPage,
         columns: options.dataTable!.headers.length +
-            (options.actions.isEmpty ? 0 : 1),
+            (options.rowActions.isEmpty ? 0 : 1),
       ),
     );
     super.initState();
