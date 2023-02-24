@@ -93,7 +93,7 @@ class _DataTableState<T, TController extends ReadyListController<T>>
     return PaginatedDataTable(
       columns: [
         ...widget.options.dataTable!.headers,
-        if (widget.options.actions.isNotEmpty)
+        if (widget.options.rowActions.isNotEmpty)
           const DataColumn(label: Text('')),
       ],
       source: widget.source,
