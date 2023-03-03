@@ -10,7 +10,6 @@ abstract class ICancelToken {
 abstract class ILoaded<T> {
   Iterable<T> get items;
   int get totalCount;
-
   Loaded<T> call() => Loaded(items: items, totalCount: totalCount);
 }
 
@@ -64,14 +63,19 @@ class ReadyListState<T> with _$ReadyListState<T> {
 
   /// when there is any error
   /// *************************************************************************
-  const factory ReadyListState.error(ErrorDisplayCallBack display) =
-      ErrorState<T>;
+  const factory ReadyListState.error(
+    ErrorDisplayCallBack display,
+    int? pageSize,
+  ) = ErrorState<T>;
 
   /// data loaded
   /// *************************************************************************
   @With.fromString("ILoaded<T>")
-  const factory ReadyListState.isLoaded(
-      {required Iterable<T> items, required int totalCount}) = Loaded<T>;
+  const factory ReadyListState.isLoaded({
+    required Iterable<T> items,
+    required int totalCount,
+    int? pageSize,
+  }) = Loaded<T>;
 
   /// this will fire next loading
   /// *************************************************************************

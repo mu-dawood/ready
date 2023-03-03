@@ -1,29 +1,38 @@
 part of responsive_data_table;
 
 class _DefaultInputDecoration extends InputDecoration {
-  const _DefaultInputDecoration()
+  const _DefaultInputDecoration([Widget? suffixIcon])
       : super(
-          prefixIcon: const Icon(Icons.search),
+          suffixIcon: suffixIcon,
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
           prefixIconConstraints:
               const BoxConstraints(maxWidth: 50, minWidth: 30),
         );
 }
 
 /// search filter
-class SearchFilter extends StatefulWidget implements _DataTableFilter<String?> {
+class SearchFilter extends StatefulWidget
+    with DecoratedDataTableFilter<String?> {
   @override
   final String? value;
+  @override
   final InputDecoration decoration;
   @override
   final ValueChanged<String?> onChange;
   const SearchFilter({
     Key? key,
     this.value,
-    this.decoration = const _DefaultInputDecoration(),
+    this.decoration = const _DefaultInputDecoration(Icon(Icons.search)),
     required this.onChange,
   }) : super(key: key);
   @override
   State<SearchFilter> createState() => _SearchFilterState();
+
+  @override
+  String hintText(ReadyListLocalizations tr) {
+    return tr.search;
+  }
 }
 
 class _SearchFilterState extends State<SearchFilter>
@@ -64,13 +73,7 @@ class _SearchFilterState extends State<SearchFilter>
 
   @override
   Widget build(BuildContext context) {
-    var decoration = widget.decoration is _DefaultInputDecoration
-        ? widget.decoration.copyWith(
-            hintText: Ready.localization(context).search,
-          )
-        : widget.decoration;
-    final effectiveDecoration =
-        decoration.applyDefaults(Theme.of(context).inputDecorationTheme);
+    final effectiveDecoration = widget._effectiveDecoration(context);
     return AnimatedSize(
       alignment: AlignmentDirectional.centerStart,
       duration: const Duration(milliseconds: 300),

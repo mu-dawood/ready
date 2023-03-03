@@ -5,7 +5,13 @@ import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'ready_localizations_ar.dart';
+import 'ready_localizations_de.dart';
 import 'ready_localizations_en.dart';
+import 'ready_localizations_fr.dart';
+import 'ready_localizations_hi.dart';
+import 'ready_localizations_tr.dart';
+import 'ready_localizations_ur.dart';
+import 'ready_localizations_zh.dart';
 
 /// Callers can lookup localized strings with an instance of ReadyListLocalizations
 /// returned by `ReadyListLocalizations.of(context)`.
@@ -75,7 +81,13 @@ abstract class ReadyListLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('ar'),
-    Locale('en')
+    Locale('de'),
+    Locale('en'),
+    Locale('fr'),
+    Locale('hi'),
+    Locale('tr'),
+    Locale('ur'),
+    Locale('zh')
   ];
 
   /// No description provided for @edit.
@@ -179,6 +191,18 @@ abstract class ReadyListLocalizations {
   /// In en, this message translates to:
   /// **'Date'**
   String get date;
+
+  /// No description provided for @dateRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Date range'**
+  String get dateRange;
+
+  /// No description provided for @clear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clear;
 }
 
 class _ReadyListLocalizationsDelegate
@@ -192,8 +216,16 @@ class _ReadyListLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['ar', 'en'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>[
+        'ar',
+        'de',
+        'en',
+        'fr',
+        'hi',
+        'tr',
+        'ur',
+        'zh'
+      ].contains(locale.languageCode);
 
   @override
   bool shouldReload(_ReadyListLocalizationsDelegate old) => false;
@@ -204,8 +236,20 @@ ReadyListLocalizations lookupReadyListLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'ar':
       return ReadyListLocalizationsAr();
+    case 'de':
+      return ReadyListLocalizationsDe();
     case 'en':
       return ReadyListLocalizationsEn();
+    case 'fr':
+      return ReadyListLocalizationsFr();
+    case 'hi':
+      return ReadyListLocalizationsHi();
+    case 'tr':
+      return ReadyListLocalizationsTr();
+    case 'ur':
+      return ReadyListLocalizationsUr();
+    case 'zh':
+      return ReadyListLocalizationsZh();
   }
 
   throw FlutterError(

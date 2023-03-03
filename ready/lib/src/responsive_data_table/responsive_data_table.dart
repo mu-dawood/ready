@@ -1,6 +1,7 @@
 library responsive_data_table;
 
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,12 +10,14 @@ import '../animated_items/animated_item.dart';
 import '../controllers/controllers.dart';
 import '../dashboard/dashboard.dart';
 import '../enums.dart';
+import '../l10n/ready_localizations.dart';
 import '../ready.dart';
 import '../ready_list/ready_list.dart';
 import '../shimmers/shimmers.dart';
 import '../utils.dart';
 
 part '_options.dart';
+part 'custom_data_table.dart';
 part 'data_table.dart';
 part 'data_table_action.dart';
 part 'data_table_source.dart';
@@ -22,6 +25,7 @@ part 'date_time_filter.dart';
 part 'filters_button.dart';
 part 'interfaces.dart';
 part 'loading_button.dart';
+part 'multi_option_filters.dart';
 part 'search_filter.dart';
 part 'single_option_filters.dart';
 part 'time_filter.dart';
@@ -39,7 +43,7 @@ part 'toggle_filter.dart';
 class ResponsiveDataTable<T, TController extends ReadyListController<T>>
     extends InheritedWidget {
   /// show custom filter view
-  final Future Function(Widget filters)? showFilters;
+  final Widget Function(Widget filters)? buildFilters;
 
   /// Widget to show when there is selection
   /// if this is null , then there is no selection handlers will be added
@@ -56,7 +60,7 @@ class ResponsiveDataTable<T, TController extends ReadyListController<T>>
   final TController controller;
 
   /// when is not empty filter button will be added to the top of [DataTable]
-  final List<Widget> filters;
+  final List<DataTableFilter> filters;
 
   /// This will keep the state of tab
   final bool keepAlive;
@@ -76,7 +80,7 @@ class ResponsiveDataTable<T, TController extends ReadyListController<T>>
     ResponsiveDataTableType? type,
     this.rowActions = const [],
     required this.controller,
-    this.showFilters,
+    this.buildFilters,
     this.selectionButton,
     this.filters = const [],
   }) : super(
@@ -432,17 +436,14 @@ class _ListAppBar<T, TController extends ReadyListController<T>>
     var filters = options.filters;
 
     var canSelect = (options.selectionButton != null);
+    var showSelectionButton = canSelect && source.hasSelection;
 
     var buttons = [
-      if (!source.hasSelection || options.selectionButton == null) ...[
+      if (!showSelectionButton) ...[
         ...options.actions,
         if (filters.isNotEmpty)
-          _FiltersButton(
-            filters: filters,
-            controller: source.controller,
-            showFilters: options.showFilters,
-          ),
-      ] else if (options.selectionButton != null)
+          _FiltersButton(filters: filters, controller: source.controller),
+      ] else
         options.selectionButton!
             .call(ResponsiveDataTableType.list, source.selectedItems),
     ];

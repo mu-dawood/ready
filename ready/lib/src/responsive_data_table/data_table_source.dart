@@ -61,7 +61,7 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
   List<int> get selectedItems => _selectedItems;
   bool get allSelected => controller.state.maybeWhen(
         orElse: () => false,
-        isLoaded: (items, __) => selectedItems.length >= items.length,
+        isLoaded: (items, __, ___) => selectedItems.length >= items.length,
       );
 
   void selectAll() {

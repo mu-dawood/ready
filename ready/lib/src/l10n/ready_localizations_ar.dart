@@ -54,4 +54,10 @@ class ReadyListLocalizationsAr extends ReadyListLocalizations {
 
   @override
   String get date => 'التاريخ';
+
+  @override
+  String get dateRange => 'المدة';
+
+  @override
+  String get clear => 'مسح';
 }

@@ -2,32 +2,53 @@ part of responsive_data_table;
 
 /// time filter
 class TimeFilter extends StatelessWidget
-    implements _DataTableFilter<TimeOfDay?> {
+    with DecoratedDataTableFilter<TimeOfDay?> {
   @override
   final ValueChanged<TimeOfDay?> onChange;
   final String? display;
   @override
   final TimeOfDay? value;
+  @override
+  final InputDecoration decoration;
   const TimeFilter({
     Key? key,
     required this.onChange,
     this.value,
     this.display,
+    this.decoration =
+        const _DefaultInputDecoration(Icon(Icons.calendar_month_rounded)),
   }) : super(key: key);
   @override
+  String hintText(ReadyListLocalizations tr) {
+    return display ?? tr.time;
+  }
+
   @override
   Widget build(BuildContext context) {
-    var text = value == null
-        ? display ?? Ready.localization(context).time
-        : value!.format(context);
-    return TextButton.icon(
-      onPressed: () {
-        buildShowTimePicker(context).then((value) {
-          onChange(value);
-        });
+    final effectiveDecoration = _effectiveDecoration(context);
+
+    return buildTab(
+        context,
+        IntrinsicWidth(
+          child: InputDecorator(
+            decoration: effectiveDecoration,
+            isEmpty: value == null,
+            textAlignVertical: TextAlignVertical.center,
+            child: Text(value?.format(context) ?? ""),
+          ),
+        ));
+  }
+
+  Widget buildTab(BuildContext context, Widget child) {
+    return InkWell(
+      onTap: () {
+        buildShowTimePicker(context).then(
+          (value) {
+            if (value != null) onChange(value);
+          },
+        );
       },
-      icon: const Icon(Icons.timer),
-      label: Text(text),
+      child: child,
     );
   }
 

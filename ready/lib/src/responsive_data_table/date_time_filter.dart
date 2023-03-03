@@ -2,12 +2,14 @@ part of responsive_data_table;
 
 /// filter for  DateTime
 class DateFilter extends StatelessWidget
-    implements _DataTableFilter<DateTime?> {
+    with DecoratedDataTableFilter<DateTime?> {
   /// Filter display
   final String? display;
   @override
   final DateTime? value;
   final DateTime? minDte;
+  @override
+  final InputDecoration decoration;
   @override
   final ValueChanged<DateTime?> onChange;
   const DateFilter({
@@ -16,22 +18,42 @@ class DateFilter extends StatelessWidget
     this.minDte,
     this.display,
     required this.onChange,
+    this.decoration =
+        const _DefaultInputDecoration(Icon(Icons.calendar_month_rounded)),
   }) : super(key: key);
+
+  @override
+  String hintText(ReadyListLocalizations tr) {
+    return display ?? tr.date;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final effectiveDecoration = _effectiveDecoration(context);
     final localizations = MaterialLocalizations.of(context);
+    String? displayValue =
+        value == null ? '' : localizations.formatFullDate(value!);
 
-    var text = value == null
-        ? display ?? Ready.localization(context).date
-        : localizations.formatFullDate(value!);
-    return TextButton.icon(
-      onPressed: () {
+    return buildTab(
+        context,
+        IntrinsicWidth(
+          child: InputDecorator(
+            textAlignVertical: TextAlignVertical.center,
+            decoration: effectiveDecoration,
+            isEmpty: value == null,
+            child: Text(displayValue),
+          ),
+        ));
+  }
+
+  Widget buildTab(BuildContext context, Widget child) {
+    return InkWell(
+      onTap: () {
         buildShowDatePicker(context).then((value) {
-          onChange(value);
+          if (value != null) onChange(value);
         });
       },
-      icon: const Icon(Icons.calendar_today),
-      label: Text(text),
+      child: child,
     );
   }
 

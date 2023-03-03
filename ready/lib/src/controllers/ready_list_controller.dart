@@ -290,7 +290,7 @@ extension ReadyListStateExt<T> on ReadyListState<T> {
     );
   }
 
-  ReadyListState<T> mapItems(T Function(T) mapper) {
+  ReadyListState<T> updateItems(T Function(T) mapper) {
     return map(
       isLoaded: (state) {
         return state.copyWith(items: state.items.map(mapper));
@@ -298,12 +298,12 @@ extension ReadyListStateExt<T> on ReadyListState<T> {
       initializing: (state) => state,
       requestFirstLoading: (state) {
         return state.copyWith(
-            previousState: state.previousState?.mapItems(mapper));
+            previousState: state.previousState?.updateItems(mapper));
       },
       error: (ErrorState<T> state) => state,
       isLoadingFirst: (FirstLoading<T> state) {
         return state.copyWith(
-            previousState: state.previousState().mapItems(mapper)
+            previousState: state.previousState().updateItems(mapper)
                 as RequestFirstLoading<T>);
       },
       isLoadingNext: (LoadingNext<T> state) {
@@ -311,7 +311,7 @@ extension ReadyListStateExt<T> on ReadyListState<T> {
         return state.copyWith(
           previousState: previous.copyWith(
             previousState:
-                previous.previousState().mapItems(mapper) as Loaded<T>,
+                previous.previousState().updateItems(mapper) as Loaded<T>,
           ),
         );
       },
@@ -320,20 +320,20 @@ extension ReadyListStateExt<T> on ReadyListState<T> {
         return state.copyWith(
           previousState: previous.copyWith(
             previousState:
-                previous.previousState().mapItems(mapper) as Loaded<T>,
+                previous.previousState().updateItems(mapper) as Loaded<T>,
           ),
         );
       },
       requestNext: (RequestNext<T> state) {
         var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.mapItems(mapper) as Loaded<T>,
+          previousState: previous.updateItems(mapper) as Loaded<T>,
         );
       },
       requestRefresh: (RequestRefresh<T> state) {
         var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.mapItems(mapper) as Loaded<T>,
+          previousState: previous.updateItems(mapper) as Loaded<T>,
         );
       },
     );
@@ -426,8 +426,8 @@ extension ReadyListControllerExt<T> on ReadyListController<T> {
     emit(state.removeWhere(test));
   }
 
-  void mapTo(T Function(T) test) {
-    emit(state.mapItems(test));
+  void updateItems(T Function(T) test) {
+    emit(state.updateItems(test));
   }
 
   void clear() {

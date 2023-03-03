@@ -163,19 +163,26 @@ class PageInfo extends StatefulWidget {
         navigator = null,
         super(key: key);
   @override
-  State<PageInfo> createState() => _PageInfoState();
+  State<PageInfo> createState() => PageInfoState();
 
   static PageInfo? of(BuildContext context) =>
-      context.findAncestorStateOfType<_PageInfoState>()?.widget;
+      context.findAncestorStateOfType<PageInfoState>()?.widget;
 }
 
-class _PageInfoState extends State<PageInfo> {
+class PageInfoState extends State<PageInfo> {
   GlobalKey<NavigatorState>? navigatorKey;
+  ReadyDashboardState? layout;
   @override
   void initState() {
     navigatorKey = widget.navigator?.getNavigatorKey?.call(widget._item!.id);
 
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    layout = ReadyDashboard.of(context);
+    super.didChangeDependencies();
   }
 
   @override

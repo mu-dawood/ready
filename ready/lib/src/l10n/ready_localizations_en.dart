@@ -54,4 +54,10 @@ class ReadyListLocalizationsEn extends ReadyListLocalizations {
 
   @override
   String get date => 'Date';
+
+  @override
+  String get dateRange => 'Date range';
+
+  @override
+  String get clear => 'Clear';
 }

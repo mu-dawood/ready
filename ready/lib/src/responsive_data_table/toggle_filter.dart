@@ -1,7 +1,7 @@
 part of responsive_data_table;
 
 /// toggle filter
-class ToggleFilter extends StatelessWidget implements _DataTableFilter<bool> {
+class ToggleFilter extends StatelessWidget implements DataTableFilter<bool> {
   @override
   final ValueChanged<bool?> onChange;
   final String? activeText;
@@ -15,21 +15,23 @@ class ToggleFilter extends StatelessWidget implements _DataTableFilter<bool> {
     this.notActiveText,
     this.value = false,
   }) : super(key: key);
-
+  @override
   @override
   Widget build(BuildContext context) {
     var val = value;
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
-      child: ActionChip(
+      child: ChoiceChip(
         key: Key('$val'),
+        visualDensity: VisualDensity.comfortable
+            .copyWith(vertical: VisualDensity.minimumDensity),
         avatar: Icon(val == true ? Icons.check_circle : Icons.remove_circle),
-        backgroundColor: val == true ? Colors.greenAccent : Colors.redAccent,
+        selected: val,
         label: Text(val == true
             ? (activeText ?? Ready.localization(context).active)
             : (notActiveText ?? Ready.localization(context).notActive)),
-        onPressed: () {
-          onChange(!val);
+        onSelected: (val) {
+          onChange(val);
         },
       ),
     );

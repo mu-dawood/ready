@@ -265,7 +265,7 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
 
   Widget _listView(BuildContext context) {
     var dashboard = ReadyDashboard.of(context)!;
-    var items = dashboard.items;
+    var items = dashboard.widget.items;
     assert(items.isNotEmpty);
     return _tileListView(context, items, widget.options);
   }

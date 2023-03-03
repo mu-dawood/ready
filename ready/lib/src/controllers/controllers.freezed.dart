@@ -364,8 +364,10 @@ mixin _$ReadyListState<T> {
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)
         isLoadingFirst,
-    required TResult Function(ErrorDisplayCallBack display) error,
-    required TResult Function(Iterable<T> items, int totalCount) isLoaded,
+    required TResult Function(ErrorDisplayCallBack display, int? pageSize)
+        error,
+    required TResult Function(Iterable<T> items, int totalCount, int? pageSize)
+        isLoaded,
     required TResult Function(int? pageSize, ILoaded<T> previousState)
         requestNext,
     required TResult Function(
@@ -386,8 +388,9 @@ mixin _$ReadyListState<T> {
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)?
         isLoadingFirst,
-    TResult? Function(ErrorDisplayCallBack display)? error,
-    TResult? Function(Iterable<T> items, int totalCount)? isLoaded,
+    TResult? Function(ErrorDisplayCallBack display, int? pageSize)? error,
+    TResult? Function(Iterable<T> items, int totalCount, int? pageSize)?
+        isLoaded,
     TResult? Function(int? pageSize, ILoaded<T> previousState)? requestNext,
     TResult? Function(ICancelToken? cancelToken, IRequestNext<T> previousState)?
         isLoadingNext,
@@ -405,8 +408,9 @@ mixin _$ReadyListState<T> {
     TResult Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)?
         isLoadingFirst,
-    TResult Function(ErrorDisplayCallBack display)? error,
-    TResult Function(Iterable<T> items, int totalCount)? isLoaded,
+    TResult Function(ErrorDisplayCallBack display, int? pageSize)? error,
+    TResult Function(Iterable<T> items, int totalCount, int? pageSize)?
+        isLoaded,
     TResult Function(int? pageSize, ILoaded<T> previousState)? requestNext,
     TResult Function(ICancelToken? cancelToken, IRequestNext<T> previousState)?
         isLoadingNext,
@@ -559,8 +563,10 @@ class _$Initializing<T> implements Initializing<T> {
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)
         isLoadingFirst,
-    required TResult Function(ErrorDisplayCallBack display) error,
-    required TResult Function(Iterable<T> items, int totalCount) isLoaded,
+    required TResult Function(ErrorDisplayCallBack display, int? pageSize)
+        error,
+    required TResult Function(Iterable<T> items, int totalCount, int? pageSize)
+        isLoaded,
     required TResult Function(int? pageSize, ILoaded<T> previousState)
         requestNext,
     required TResult Function(
@@ -584,8 +590,9 @@ class _$Initializing<T> implements Initializing<T> {
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)?
         isLoadingFirst,
-    TResult? Function(ErrorDisplayCallBack display)? error,
-    TResult? Function(Iterable<T> items, int totalCount)? isLoaded,
+    TResult? Function(ErrorDisplayCallBack display, int? pageSize)? error,
+    TResult? Function(Iterable<T> items, int totalCount, int? pageSize)?
+        isLoaded,
     TResult? Function(int? pageSize, ILoaded<T> previousState)? requestNext,
     TResult? Function(ICancelToken? cancelToken, IRequestNext<T> previousState)?
         isLoadingNext,
@@ -606,8 +613,9 @@ class _$Initializing<T> implements Initializing<T> {
     TResult Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)?
         isLoadingFirst,
-    TResult Function(ErrorDisplayCallBack display)? error,
-    TResult Function(Iterable<T> items, int totalCount)? isLoaded,
+    TResult Function(ErrorDisplayCallBack display, int? pageSize)? error,
+    TResult Function(Iterable<T> items, int totalCount, int? pageSize)?
+        isLoaded,
     TResult Function(int? pageSize, ILoaded<T> previousState)? requestNext,
     TResult Function(ICancelToken? cancelToken, IRequestNext<T> previousState)?
         isLoadingNext,
@@ -785,8 +793,10 @@ class _$RequestFirstLoading<T>
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)
         isLoadingFirst,
-    required TResult Function(ErrorDisplayCallBack display) error,
-    required TResult Function(Iterable<T> items, int totalCount) isLoaded,
+    required TResult Function(ErrorDisplayCallBack display, int? pageSize)
+        error,
+    required TResult Function(Iterable<T> items, int totalCount, int? pageSize)
+        isLoaded,
     required TResult Function(int? pageSize, ILoaded<T> previousState)
         requestNext,
     required TResult Function(
@@ -810,8 +820,9 @@ class _$RequestFirstLoading<T>
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)?
         isLoadingFirst,
-    TResult? Function(ErrorDisplayCallBack display)? error,
-    TResult? Function(Iterable<T> items, int totalCount)? isLoaded,
+    TResult? Function(ErrorDisplayCallBack display, int? pageSize)? error,
+    TResult? Function(Iterable<T> items, int totalCount, int? pageSize)?
+        isLoaded,
     TResult? Function(int? pageSize, ILoaded<T> previousState)? requestNext,
     TResult? Function(ICancelToken? cancelToken, IRequestNext<T> previousState)?
         isLoadingNext,
@@ -832,8 +843,9 @@ class _$RequestFirstLoading<T>
     TResult Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)?
         isLoadingFirst,
-    TResult Function(ErrorDisplayCallBack display)? error,
-    TResult Function(Iterable<T> items, int totalCount)? isLoaded,
+    TResult Function(ErrorDisplayCallBack display, int? pageSize)? error,
+    TResult Function(Iterable<T> items, int totalCount, int? pageSize)?
+        isLoaded,
     TResult Function(int? pageSize, ILoaded<T> previousState)? requestNext,
     TResult Function(ICancelToken? cancelToken, IRequestNext<T> previousState)?
         isLoadingNext,
@@ -1010,8 +1022,10 @@ class _$FirstLoading<T> implements FirstLoading<T> {
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)
         isLoadingFirst,
-    required TResult Function(ErrorDisplayCallBack display) error,
-    required TResult Function(Iterable<T> items, int totalCount) isLoaded,
+    required TResult Function(ErrorDisplayCallBack display, int? pageSize)
+        error,
+    required TResult Function(Iterable<T> items, int totalCount, int? pageSize)
+        isLoaded,
     required TResult Function(int? pageSize, ILoaded<T> previousState)
         requestNext,
     required TResult Function(
@@ -1035,8 +1049,9 @@ class _$FirstLoading<T> implements FirstLoading<T> {
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)?
         isLoadingFirst,
-    TResult? Function(ErrorDisplayCallBack display)? error,
-    TResult? Function(Iterable<T> items, int totalCount)? isLoaded,
+    TResult? Function(ErrorDisplayCallBack display, int? pageSize)? error,
+    TResult? Function(Iterable<T> items, int totalCount, int? pageSize)?
+        isLoaded,
     TResult? Function(int? pageSize, ILoaded<T> previousState)? requestNext,
     TResult? Function(ICancelToken? cancelToken, IRequestNext<T> previousState)?
         isLoadingNext,
@@ -1057,8 +1072,9 @@ class _$FirstLoading<T> implements FirstLoading<T> {
     TResult Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)?
         isLoadingFirst,
-    TResult Function(ErrorDisplayCallBack display)? error,
-    TResult Function(Iterable<T> items, int totalCount)? isLoaded,
+    TResult Function(ErrorDisplayCallBack display, int? pageSize)? error,
+    TResult Function(Iterable<T> items, int totalCount, int? pageSize)?
+        isLoaded,
     TResult Function(int? pageSize, ILoaded<T> previousState)? requestNext,
     TResult Function(ICancelToken? cancelToken, IRequestNext<T> previousState)?
         isLoadingNext,
@@ -1148,7 +1164,7 @@ abstract class _$$ErrorStateCopyWith<T, $Res> {
           _$ErrorState<T> value, $Res Function(_$ErrorState<T>) then) =
       __$$ErrorStateCopyWithImpl<T, $Res>;
   @useResult
-  $Res call({ErrorDisplayCallBack display});
+  $Res call({ErrorDisplayCallBack display, int? pageSize});
 }
 
 /// @nodoc
@@ -1163,12 +1179,17 @@ class __$$ErrorStateCopyWithImpl<T, $Res>
   @override
   $Res call({
     Object? display = null,
+    Object? pageSize = freezed,
   }) {
     return _then(_$ErrorState<T>(
       null == display
           ? _value.display
           : display // ignore: cast_nullable_to_non_nullable
               as ErrorDisplayCallBack,
+      freezed == pageSize
+          ? _value.pageSize
+          : pageSize // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -1176,14 +1197,16 @@ class __$$ErrorStateCopyWithImpl<T, $Res>
 /// @nodoc
 
 class _$ErrorState<T> implements ErrorState<T> {
-  const _$ErrorState(this.display);
+  const _$ErrorState(this.display, this.pageSize);
 
   @override
   final ErrorDisplayCallBack display;
+  @override
+  final int? pageSize;
 
   @override
   String toString() {
-    return 'ReadyListState<$T>.error(display: $display)';
+    return 'ReadyListState<$T>.error(display: $display, pageSize: $pageSize)';
   }
 
   @override
@@ -1191,11 +1214,13 @@ class _$ErrorState<T> implements ErrorState<T> {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ErrorState<T> &&
-            (identical(other.display, display) || other.display == display));
+            (identical(other.display, display) || other.display == display) &&
+            (identical(other.pageSize, pageSize) ||
+                other.pageSize == pageSize));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, display);
+  int get hashCode => Object.hash(runtimeType, display, pageSize);
 
   @JsonKey(ignore: true)
   @override
@@ -1213,8 +1238,10 @@ class _$ErrorState<T> implements ErrorState<T> {
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)
         isLoadingFirst,
-    required TResult Function(ErrorDisplayCallBack display) error,
-    required TResult Function(Iterable<T> items, int totalCount) isLoaded,
+    required TResult Function(ErrorDisplayCallBack display, int? pageSize)
+        error,
+    required TResult Function(Iterable<T> items, int totalCount, int? pageSize)
+        isLoaded,
     required TResult Function(int? pageSize, ILoaded<T> previousState)
         requestNext,
     required TResult Function(
@@ -1226,7 +1253,7 @@ class _$ErrorState<T> implements ErrorState<T> {
             ICancelToken? cancelToken, IRequestRefresh<T> previousState)
         isRefreshing,
   }) {
-    return error(display);
+    return error(display, pageSize);
   }
 
   @override
@@ -1238,8 +1265,9 @@ class _$ErrorState<T> implements ErrorState<T> {
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)?
         isLoadingFirst,
-    TResult? Function(ErrorDisplayCallBack display)? error,
-    TResult? Function(Iterable<T> items, int totalCount)? isLoaded,
+    TResult? Function(ErrorDisplayCallBack display, int? pageSize)? error,
+    TResult? Function(Iterable<T> items, int totalCount, int? pageSize)?
+        isLoaded,
     TResult? Function(int? pageSize, ILoaded<T> previousState)? requestNext,
     TResult? Function(ICancelToken? cancelToken, IRequestNext<T> previousState)?
         isLoadingNext,
@@ -1248,7 +1276,7 @@ class _$ErrorState<T> implements ErrorState<T> {
             ICancelToken? cancelToken, IRequestRefresh<T> previousState)?
         isRefreshing,
   }) {
-    return error?.call(display);
+    return error?.call(display, pageSize);
   }
 
   @override
@@ -1260,8 +1288,9 @@ class _$ErrorState<T> implements ErrorState<T> {
     TResult Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)?
         isLoadingFirst,
-    TResult Function(ErrorDisplayCallBack display)? error,
-    TResult Function(Iterable<T> items, int totalCount)? isLoaded,
+    TResult Function(ErrorDisplayCallBack display, int? pageSize)? error,
+    TResult Function(Iterable<T> items, int totalCount, int? pageSize)?
+        isLoaded,
     TResult Function(int? pageSize, ILoaded<T> previousState)? requestNext,
     TResult Function(ICancelToken? cancelToken, IRequestNext<T> previousState)?
         isLoadingNext,
@@ -1272,7 +1301,7 @@ class _$ErrorState<T> implements ErrorState<T> {
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error(display);
+      return error(display, pageSize);
     }
     return orElse();
   }
@@ -1331,10 +1360,12 @@ class _$ErrorState<T> implements ErrorState<T> {
 }
 
 abstract class ErrorState<T> implements ReadyListState<T> {
-  const factory ErrorState(final ErrorDisplayCallBack display) =
+  const factory ErrorState(
+          final ErrorDisplayCallBack display, final int? pageSize) =
       _$ErrorState<T>;
 
   ErrorDisplayCallBack get display;
+  int? get pageSize;
   @JsonKey(ignore: true)
   _$$ErrorStateCopyWith<T, _$ErrorState<T>> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1346,7 +1377,7 @@ abstract class _$$LoadedCopyWith<T, $Res> {
           _$Loaded<T> value, $Res Function(_$Loaded<T>) then) =
       __$$LoadedCopyWithImpl<T, $Res>;
   @useResult
-  $Res call({Iterable<T> items, int totalCount});
+  $Res call({Iterable<T> items, int totalCount, int? pageSize});
 }
 
 /// @nodoc
@@ -1361,6 +1392,7 @@ class __$$LoadedCopyWithImpl<T, $Res>
   $Res call({
     Object? items = null,
     Object? totalCount = null,
+    Object? pageSize = freezed,
   }) {
     return _then(_$Loaded<T>(
       items: null == items
@@ -1371,6 +1403,10 @@ class __$$LoadedCopyWithImpl<T, $Res>
           ? _value.totalCount
           : totalCount // ignore: cast_nullable_to_non_nullable
               as int,
+      pageSize: freezed == pageSize
+          ? _value.pageSize
+          : pageSize // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -1378,16 +1414,19 @@ class __$$LoadedCopyWithImpl<T, $Res>
 /// @nodoc
 
 class _$Loaded<T> with ILoaded<T> implements Loaded<T> {
-  const _$Loaded({required this.items, required this.totalCount});
+  const _$Loaded(
+      {required this.items, required this.totalCount, this.pageSize});
 
   @override
   final Iterable<T> items;
   @override
   final int totalCount;
+  @override
+  final int? pageSize;
 
   @override
   String toString() {
-    return 'ReadyListState<$T>.isLoaded(items: $items, totalCount: $totalCount)';
+    return 'ReadyListState<$T>.isLoaded(items: $items, totalCount: $totalCount, pageSize: $pageSize)';
   }
 
   @override
@@ -1397,12 +1436,14 @@ class _$Loaded<T> with ILoaded<T> implements Loaded<T> {
             other is _$Loaded<T> &&
             const DeepCollectionEquality().equals(other.items, items) &&
             (identical(other.totalCount, totalCount) ||
-                other.totalCount == totalCount));
+                other.totalCount == totalCount) &&
+            (identical(other.pageSize, pageSize) ||
+                other.pageSize == pageSize));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(items), totalCount);
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(items), totalCount, pageSize);
 
   @JsonKey(ignore: true)
   @override
@@ -1420,8 +1461,10 @@ class _$Loaded<T> with ILoaded<T> implements Loaded<T> {
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)
         isLoadingFirst,
-    required TResult Function(ErrorDisplayCallBack display) error,
-    required TResult Function(Iterable<T> items, int totalCount) isLoaded,
+    required TResult Function(ErrorDisplayCallBack display, int? pageSize)
+        error,
+    required TResult Function(Iterable<T> items, int totalCount, int? pageSize)
+        isLoaded,
     required TResult Function(int? pageSize, ILoaded<T> previousState)
         requestNext,
     required TResult Function(
@@ -1433,7 +1476,7 @@ class _$Loaded<T> with ILoaded<T> implements Loaded<T> {
             ICancelToken? cancelToken, IRequestRefresh<T> previousState)
         isRefreshing,
   }) {
-    return isLoaded(items, totalCount);
+    return isLoaded(items, totalCount, pageSize);
   }
 
   @override
@@ -1445,8 +1488,9 @@ class _$Loaded<T> with ILoaded<T> implements Loaded<T> {
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)?
         isLoadingFirst,
-    TResult? Function(ErrorDisplayCallBack display)? error,
-    TResult? Function(Iterable<T> items, int totalCount)? isLoaded,
+    TResult? Function(ErrorDisplayCallBack display, int? pageSize)? error,
+    TResult? Function(Iterable<T> items, int totalCount, int? pageSize)?
+        isLoaded,
     TResult? Function(int? pageSize, ILoaded<T> previousState)? requestNext,
     TResult? Function(ICancelToken? cancelToken, IRequestNext<T> previousState)?
         isLoadingNext,
@@ -1455,7 +1499,7 @@ class _$Loaded<T> with ILoaded<T> implements Loaded<T> {
             ICancelToken? cancelToken, IRequestRefresh<T> previousState)?
         isRefreshing,
   }) {
-    return isLoaded?.call(items, totalCount);
+    return isLoaded?.call(items, totalCount, pageSize);
   }
 
   @override
@@ -1467,8 +1511,9 @@ class _$Loaded<T> with ILoaded<T> implements Loaded<T> {
     TResult Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)?
         isLoadingFirst,
-    TResult Function(ErrorDisplayCallBack display)? error,
-    TResult Function(Iterable<T> items, int totalCount)? isLoaded,
+    TResult Function(ErrorDisplayCallBack display, int? pageSize)? error,
+    TResult Function(Iterable<T> items, int totalCount, int? pageSize)?
+        isLoaded,
     TResult Function(int? pageSize, ILoaded<T> previousState)? requestNext,
     TResult Function(ICancelToken? cancelToken, IRequestNext<T> previousState)?
         isLoadingNext,
@@ -1479,7 +1524,7 @@ class _$Loaded<T> with ILoaded<T> implements Loaded<T> {
     required TResult orElse(),
   }) {
     if (isLoaded != null) {
-      return isLoaded(items, totalCount);
+      return isLoaded(items, totalCount, pageSize);
     }
     return orElse();
   }
@@ -1540,10 +1585,12 @@ class _$Loaded<T> with ILoaded<T> implements Loaded<T> {
 abstract class Loaded<T> implements ReadyListState<T>, ILoaded<T> {
   const factory Loaded(
       {required final Iterable<T> items,
-      required final int totalCount}) = _$Loaded<T>;
+      required final int totalCount,
+      final int? pageSize}) = _$Loaded<T>;
 
   Iterable<T> get items;
   int get totalCount;
+  int? get pageSize;
   @JsonKey(ignore: true)
   _$$LoadedCopyWith<T, _$Loaded<T>> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1630,8 +1677,10 @@ class _$RequestNext<T> with IRequestNext<T> implements RequestNext<T> {
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)
         isLoadingFirst,
-    required TResult Function(ErrorDisplayCallBack display) error,
-    required TResult Function(Iterable<T> items, int totalCount) isLoaded,
+    required TResult Function(ErrorDisplayCallBack display, int? pageSize)
+        error,
+    required TResult Function(Iterable<T> items, int totalCount, int? pageSize)
+        isLoaded,
     required TResult Function(int? pageSize, ILoaded<T> previousState)
         requestNext,
     required TResult Function(
@@ -1655,8 +1704,9 @@ class _$RequestNext<T> with IRequestNext<T> implements RequestNext<T> {
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)?
         isLoadingFirst,
-    TResult? Function(ErrorDisplayCallBack display)? error,
-    TResult? Function(Iterable<T> items, int totalCount)? isLoaded,
+    TResult? Function(ErrorDisplayCallBack display, int? pageSize)? error,
+    TResult? Function(Iterable<T> items, int totalCount, int? pageSize)?
+        isLoaded,
     TResult? Function(int? pageSize, ILoaded<T> previousState)? requestNext,
     TResult? Function(ICancelToken? cancelToken, IRequestNext<T> previousState)?
         isLoadingNext,
@@ -1677,8 +1727,9 @@ class _$RequestNext<T> with IRequestNext<T> implements RequestNext<T> {
     TResult Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)?
         isLoadingFirst,
-    TResult Function(ErrorDisplayCallBack display)? error,
-    TResult Function(Iterable<T> items, int totalCount)? isLoaded,
+    TResult Function(ErrorDisplayCallBack display, int? pageSize)? error,
+    TResult Function(Iterable<T> items, int totalCount, int? pageSize)?
+        isLoaded,
     TResult Function(int? pageSize, ILoaded<T> previousState)? requestNext,
     TResult Function(ICancelToken? cancelToken, IRequestNext<T> previousState)?
         isLoadingNext,
@@ -1840,8 +1891,10 @@ class _$LoadingNext<T> implements LoadingNext<T> {
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)
         isLoadingFirst,
-    required TResult Function(ErrorDisplayCallBack display) error,
-    required TResult Function(Iterable<T> items, int totalCount) isLoaded,
+    required TResult Function(ErrorDisplayCallBack display, int? pageSize)
+        error,
+    required TResult Function(Iterable<T> items, int totalCount, int? pageSize)
+        isLoaded,
     required TResult Function(int? pageSize, ILoaded<T> previousState)
         requestNext,
     required TResult Function(
@@ -1865,8 +1918,9 @@ class _$LoadingNext<T> implements LoadingNext<T> {
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)?
         isLoadingFirst,
-    TResult? Function(ErrorDisplayCallBack display)? error,
-    TResult? Function(Iterable<T> items, int totalCount)? isLoaded,
+    TResult? Function(ErrorDisplayCallBack display, int? pageSize)? error,
+    TResult? Function(Iterable<T> items, int totalCount, int? pageSize)?
+        isLoaded,
     TResult? Function(int? pageSize, ILoaded<T> previousState)? requestNext,
     TResult? Function(ICancelToken? cancelToken, IRequestNext<T> previousState)?
         isLoadingNext,
@@ -1887,8 +1941,9 @@ class _$LoadingNext<T> implements LoadingNext<T> {
     TResult Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)?
         isLoadingFirst,
-    TResult Function(ErrorDisplayCallBack display)? error,
-    TResult Function(Iterable<T> items, int totalCount)? isLoaded,
+    TResult Function(ErrorDisplayCallBack display, int? pageSize)? error,
+    TResult Function(Iterable<T> items, int totalCount, int? pageSize)?
+        isLoaded,
     TResult Function(int? pageSize, ILoaded<T> previousState)? requestNext,
     TResult Function(ICancelToken? cancelToken, IRequestNext<T> previousState)?
         isLoadingNext,
@@ -2050,8 +2105,10 @@ class _$RequestRefresh<T> with IRequestRefresh<T> implements RequestRefresh<T> {
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)
         isLoadingFirst,
-    required TResult Function(ErrorDisplayCallBack display) error,
-    required TResult Function(Iterable<T> items, int totalCount) isLoaded,
+    required TResult Function(ErrorDisplayCallBack display, int? pageSize)
+        error,
+    required TResult Function(Iterable<T> items, int totalCount, int? pageSize)
+        isLoaded,
     required TResult Function(int? pageSize, ILoaded<T> previousState)
         requestNext,
     required TResult Function(
@@ -2075,8 +2132,9 @@ class _$RequestRefresh<T> with IRequestRefresh<T> implements RequestRefresh<T> {
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)?
         isLoadingFirst,
-    TResult? Function(ErrorDisplayCallBack display)? error,
-    TResult? Function(Iterable<T> items, int totalCount)? isLoaded,
+    TResult? Function(ErrorDisplayCallBack display, int? pageSize)? error,
+    TResult? Function(Iterable<T> items, int totalCount, int? pageSize)?
+        isLoaded,
     TResult? Function(int? pageSize, ILoaded<T> previousState)? requestNext,
     TResult? Function(ICancelToken? cancelToken, IRequestNext<T> previousState)?
         isLoadingNext,
@@ -2097,8 +2155,9 @@ class _$RequestRefresh<T> with IRequestRefresh<T> implements RequestRefresh<T> {
     TResult Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)?
         isLoadingFirst,
-    TResult Function(ErrorDisplayCallBack display)? error,
-    TResult Function(Iterable<T> items, int totalCount)? isLoaded,
+    TResult Function(ErrorDisplayCallBack display, int? pageSize)? error,
+    TResult Function(Iterable<T> items, int totalCount, int? pageSize)?
+        isLoaded,
     TResult Function(int? pageSize, ILoaded<T> previousState)? requestNext,
     TResult Function(ICancelToken? cancelToken, IRequestNext<T> previousState)?
         isLoadingNext,
@@ -2261,8 +2320,10 @@ class _$Refreshing<T> implements Refreshing<T> {
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)
         isLoadingFirst,
-    required TResult Function(ErrorDisplayCallBack display) error,
-    required TResult Function(Iterable<T> items, int totalCount) isLoaded,
+    required TResult Function(ErrorDisplayCallBack display, int? pageSize)
+        error,
+    required TResult Function(Iterable<T> items, int totalCount, int? pageSize)
+        isLoaded,
     required TResult Function(int? pageSize, ILoaded<T> previousState)
         requestNext,
     required TResult Function(
@@ -2286,8 +2347,9 @@ class _$Refreshing<T> implements Refreshing<T> {
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)?
         isLoadingFirst,
-    TResult? Function(ErrorDisplayCallBack display)? error,
-    TResult? Function(Iterable<T> items, int totalCount)? isLoaded,
+    TResult? Function(ErrorDisplayCallBack display, int? pageSize)? error,
+    TResult? Function(Iterable<T> items, int totalCount, int? pageSize)?
+        isLoaded,
     TResult? Function(int? pageSize, ILoaded<T> previousState)? requestNext,
     TResult? Function(ICancelToken? cancelToken, IRequestNext<T> previousState)?
         isLoadingNext,
@@ -2308,8 +2370,9 @@ class _$Refreshing<T> implements Refreshing<T> {
     TResult Function(ICancelToken? cancelToken, int? pageSize,
             IRequestFirstLoading<T> previousState)?
         isLoadingFirst,
-    TResult Function(ErrorDisplayCallBack display)? error,
-    TResult Function(Iterable<T> items, int totalCount)? isLoaded,
+    TResult Function(ErrorDisplayCallBack display, int? pageSize)? error,
+    TResult Function(Iterable<T> items, int totalCount, int? pageSize)?
+        isLoaded,
     TResult Function(int? pageSize, ILoaded<T> previousState)? requestNext,
     TResult Function(ICancelToken? cancelToken, IRequestNext<T> previousState)?
         isLoadingNext,

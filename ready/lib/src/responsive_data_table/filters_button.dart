@@ -2,48 +2,38 @@ part of responsive_data_table;
 
 class _FiltersButton<T, TController extends ReadyListController<T>>
     extends StatelessWidget {
-  final List<Widget> filters;
+  final List<DataTableFilter> filters;
   final TController controller;
-  final Future Function(Widget filters)? showFilters;
   const _FiltersButton({
     Key? key,
     required this.filters,
     required this.controller,
-    required this.showFilters,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    var hasFilters = filters
-        .whereType<_DataTableFilter>()
-        .any((element) => element.value != null);
+    var hasValue = filters.any((element) => element.value != null);
+
     return IconButton(
       icon: Icon(
         Icons.sort,
         color: controller.state.maybeMap(
           orElse: () => Theme.of(context).disabledColor,
           isLoaded: (_) =>
-              (hasFilters ? Theme.of(context).colorScheme.secondary : null),
+              (hasValue ? Theme.of(context).colorScheme.secondary : null),
         ),
       ),
       onPressed: controller.state.mapOrNull(
         isLoaded: (_) {
           return () async {
-            if (showFilters != null) {
-              await showFilters!(_FiltersButtonSheet(
-                controller: () => controller,
-                filters: filters,
-              ));
-            } else {
-              await showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (ctx) {
-                    return _FiltersButtonSheet(
-                      controller: () => controller,
-                      filters: filters,
-                    );
-                  });
-            }
+            await showDialog(
+              context: context,
+              builder: (ctx) {
+                return _FiltersButtonSheet(
+                  controller: () => controller,
+                  filters: filters,
+                );
+              },
+            );
           };
         },
       ),
@@ -53,7 +43,7 @@ class _FiltersButton<T, TController extends ReadyListController<T>>
 
 class _FiltersButtonSheet<T, TController extends ReadyListController<T>>
     extends StatelessWidget {
-  final List<Widget> filters;
+  final List<DataTableFilter> filters;
   final TController Function() controller;
   const _FiltersButtonSheet({
     Key? key,
@@ -73,25 +63,25 @@ class _FiltersButtonSheet<T, TController extends ReadyListController<T>>
               requestRefresh: (_) => const LinearProgressIndicator(),
             );
 
-        return SafeArea(
-          top: false,
-          child: Padding(
-            padding: MediaQuery.of(context).viewInsets,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
+        return AlertDialog(
+          content: SingleChildScrollView(
+            child: ListBody(
               children: [
+                ...filters,
                 if (loading != null) loading,
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Wrap(
-                    spacing: 20,
-                    children: filters,
-                  ),
-                ),
               ],
             ),
           ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                  foregroundColor: Theme.of(context).colorScheme.error),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+            ),
+          ],
         );
       },
     );

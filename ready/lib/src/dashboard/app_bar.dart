@@ -243,7 +243,8 @@ class _DashBoardAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var options = ReadyDashboard.of(context)!;
+    var layout = ReadyDashboard.of(context)!;
+    var options = layout.widget;
 
     return TabControllerBuilder(
       builder: (int index) {
@@ -259,12 +260,12 @@ class _DashBoardAppBar extends StatelessWidget {
               foregroundColor: DefaultTextStyle.of(context).style.color,
               elevation: 0,
             );
-        var drawerTheme = theme.drawerTheme;
         var border = OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
           borderSide: const BorderSide(width: 0, color: Colors.transparent),
         );
         var actions = [
+          ...layout._appBarActions,
           ...selected.actions,
           if (!selected.overrideActions) ...options.actions,
         ];
@@ -273,7 +274,7 @@ class _DashBoardAppBar extends StatelessWidget {
             appBarTheme: appBarTheme,
             inputDecorationTheme: InputDecorationTheme(
               fillColor:
-                  drawerOptions.backgroundColor ?? drawerTheme.backgroundColor,
+                  theme.inputDecorationTheme.fillColor ?? Colors.transparent,
               border: border,
               isDense: true,
               filled: true,
@@ -297,7 +298,7 @@ class _DashBoardAppBar extends StatelessWidget {
             collapsedHeight: appBar.collapsedHeight,
             expandedHeight: appBar.expandedHeight,
             floating: appBar.floating ?? false,
-            pinned: appBar.pinned ?? false,
+            pinned: appBar.pinned ?? !Scaffold.of(context).hasDrawer,
             snap: appBar.snap ?? false,
             stretch: appBar.stretch ?? false,
             stretchTriggerOffset: appBar.stretchTriggerOffset ?? 100,
@@ -319,7 +320,10 @@ class _DashBoardAppBar extends StatelessWidget {
   }
 
   Widget? title(
-      BuildContext context, DashboardItem selected, AppBarOptions appBar) {
+    BuildContext context,
+    DashboardItem selected,
+    AppBarOptions appBar,
+  ) {
     if (selected.search == null) return Text(selected.label);
     var decoration = appBar.inputDecoration?.call(selected.search!.loading) ??
         InputDecoration(

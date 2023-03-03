@@ -113,7 +113,7 @@ class ReadyDashboard extends StatefulWidget {
     required Widget child,
     List<TextSpan> titleSpan = const [],
   }) {
-    var dashboard = context.findAncestorStateOfType<_ReadyDashboardState>()!;
+    var dashboard = context.findAncestorStateOfType<ReadyDashboardState>()!;
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return dashboard._buildChild(
@@ -127,16 +127,30 @@ class ReadyDashboard extends StatefulWidget {
   }
 
   @override
-  State<ReadyDashboard> createState() => _ReadyDashboardState();
+  State<ReadyDashboard> createState() => ReadyDashboardState();
 
-  static ReadyDashboard? of(BuildContext context) =>
-      context.findAncestorStateOfType<_ReadyDashboardState>()?.widget;
+  static ReadyDashboardState? of(BuildContext context) =>
+      context.findAncestorStateOfType<ReadyDashboardState>();
 }
 
-class _ReadyDashboardState extends State<ReadyDashboard>
+class ReadyDashboardState extends State<ReadyDashboard>
     with TickerProviderStateMixin {
   late AnimationController expansionController;
   late FocusNode _focusNode;
+  List<Widget> _appBarActions = [];
+  void setAppBarActions(List<Widget> actions) {
+    _appBarActions = actions
+        .map((e) => Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: e,
+            ))
+        .toList();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) setState(() {});
+    });
+  }
+
   @override
   void initState() {
     _focusNode = FocusNode();

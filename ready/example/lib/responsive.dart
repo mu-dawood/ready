@@ -11,66 +11,91 @@ class ResponsiveList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: ResponsiveDataTable(
-        controller: controller,
-        dataTable: DataTableOptions(
-          buildItem: (int index, FakeItem item) {
-            return [
-              Text(item.id),
-              Text(item.name),
-              Text(item.rate.toString()),
-            ];
-          },
-          headers: ['#', "Name", "Rate"].toDataColumns(),
-        ),
-        list: ListOptions(
-          title: (FakeItem item) => Text(item.name),
-        ),
-        actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
-        ],
-        filters: [
-          SearchFilter(
-            decoration: const InputDecoration(hintText: 'Search here'),
-            onChange: (String? value) {
-              controller
-                  .emit(const ReadyListState.requestFirstLoading(pageSize: 20));
-            },
-          ),
-        ],
-        selectionButton: (type, selected) {
-          return IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.delete),
-          );
+    return ResponsiveDataTable(
+      controller: controller,
+      dataTable: DataTableOptions(
+        buildItem: (int index, FakeItem item) {
+          return [
+            Text(item.id),
+            for (var i = 0; i < 10; i++) Text(item.name),
+            Text(item.rate.toString()),
+          ];
         },
-        rowActions: [
-          IconAction.view(
-            action: (BuildContext context, ReadyListCubit controller,
-                FakeItem item) {
-              return showDialog(
-                context: context,
-                builder: (_) {
-                  return AlertDialog(
-                    title: Text(item.id),
-                    content: ListTile(
-                      title: Text(item.name),
-                      trailing: Text(item.rate.toString()),
-                    ),
-                  );
-                },
-              );
-            },
-          ),
-          IconAction.delete(action: (BuildContext context,
-              ReadyListCubit controller, FakeItem item) async {
-            await Future.delayed(const Duration(seconds: 1));
-            controller.removeItem(item);
-          }),
-        ],
+        headers: ['#', ...List.generate(10, (index) => 'Name'), "Rate"]
+            .toDataColumns(),
       ),
+      list: ListOptions(
+        title: (FakeItem item) => Text(item.name),
+      ),
+      actions: [
+        IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+      ],
+      filters: [
+        SearchFilter(
+          onChange: (String? value) {
+            controller
+                .emit(const ReadyListState.requestFirstLoading(pageSize: 20));
+          },
+        ),
+        SingleOptionFilter(
+          display: 'Single option',
+          value: 1,
+          items: List.generate(
+              10,
+              (index) =>
+                  OptionFilterItem(display: 'option $index', value: index)),
+          onChange: (value) {},
+        ),
+        MultiOptionFilter(
+          display: 'Multiple options',
+          value: const {1, 8},
+          items: List.generate(
+              10,
+              (index) =>
+                  OptionFilterItem(display: 'option $index', value: index)),
+          onChange: (value) {},
+        ),
+        DateFilter(
+          value: DateTime.now(),
+          onChange: (DateTime? value) {},
+        ),
+        // TimeFilter(
+        //   onChange: (TimeOfDay? value) {},
+        // ),
+        // ToggleFilter(
+        //   onChange: (bool? value) {},
+        // ),
+      ],
+      selectionButton: (type, selected) {
+        return IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.delete),
+        );
+      },
+      rowActions: [
+        IconAction.view(
+          action:
+              (BuildContext context, ReadyListCubit controller, FakeItem item) {
+            return showDialog(
+              context: context,
+              builder: (_) {
+                return AlertDialog(
+                  title: Text(item.id),
+                  content: ListTile(
+                    title: Text(item.name),
+                    trailing: Text(item.rate.toString()),
+                  ),
+                );
+              },
+            );
+          },
+        ),
+        IconAction.delete(action: (BuildContext context,
+            ReadyListCubit controller, FakeItem item) async {
+          await Future.delayed(const Duration(seconds: 1));
+          controller.removeItem(item);
+        }),
+      ],
     );
   }
 }

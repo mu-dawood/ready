@@ -35,17 +35,18 @@ mixin ReadyRemoteController<T> on ReadyListController<T> {
       var results = await loadData(0, state.pageSize, cancelToken);
       emit(results.map(
         error: (ErrorResult<T> value) {
-          return ReadyListState.error(value.display);
+          return ReadyListState.error(value.display, state.pageSize);
         },
         success: (SuccessResult<T> value) {
           return ReadyListState.isLoaded(
             items: value.items,
             totalCount: value.totalCount,
+            pageSize: state.pageSize,
           );
         },
       ));
     } catch (e) {
-      emit(ReadyListState.error((context) => e.toString()));
+      emit(ReadyListState.error((context) => e.toString(), state.pageSize));
     }
   }
 
@@ -72,6 +73,7 @@ mixin ReadyRemoteController<T> on ReadyListController<T> {
             return ReadyListState.isLoaded(
               items: [...state.previousState.items, ...value.items],
               totalCount: value.totalCount,
+              pageSize: state.pageSize,
             );
           }
         },
@@ -95,11 +97,24 @@ mixin ReadyRemoteController<T> on ReadyListController<T> {
           return ReadyListState.isLoaded(
             items: value.items,
             totalCount: value.totalCount,
+            pageSize: state.pageSize,
           );
         },
       ));
     } catch (e) {
       emit(state.previousState());
     }
+  }
+
+  void requestRefresh() {
+    state.mapOrNull(
+      initializing: (state) => emit(const ReadyListState.requestFirstLoading()),
+      error: (state) =>
+          emit(ReadyListState.requestFirstLoading(pageSize: state.pageSize)),
+      isLoaded: (state) => emit(ReadyListState.requestRefresh(
+        pageSize: state.pageSize,
+        previousState: state,
+      )),
+    );
   }
 }
