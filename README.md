@@ -1,8 +1,12 @@
 # Ready
-
 [![N|Ready][releasesPadge]][releases] 
 
 [![N|GitHub forks][forksPadge]][forks] [![N|GitHub Repo stars][starsPadge]][stars] [![N|GitHub watchers][watchersPadge]][watchers] [![N|Ready][pubPadge]][pubUrl]
+
+# Other languages
+- [Arabic](https://github.com/mo-ah-dawood/ready/blob/main/docs/ar/index.md)
+- [Chineese](https://github.com/mo-ah-dawood/ready/blob/main/docs/ch/index.md)
+
 
 ##### - Ready is very simple package to allow you create your admin panel with flutter
 
@@ -40,7 +44,7 @@
  > Here will explain each feature
  > Click on the feature name to see how to use it
  
- [x] [ReadyDashboard](https://github.com/mo-ah-dawood/ready/wiki/ReadyDashboard)
+ [x] [ReadyDashboard](ready_dashboard)
  - Admin panel layout in easy way
  - [responsive] it can work in any device except watch of course😄😄
  - ability to group drawer items
@@ -49,7 +53,7 @@
  - ability to add search input field in the top app bar
  
 
- [x] [ReadyList](https://github.com/mo-ah-dawood/ready/wiki/ReadyList)
+ [x] [ReadyList](ready_list)
  - Pull to refresh
  - Infinite scroll
  - headers and footers
@@ -57,7 +61,7 @@
  - can be grid or list or your own builder
  - contains ready grid delegates to make it simple
  
-  [x] [ResponsiveDataTable](https://github.com/mo-ah-dawood/ready/wiki/ResponsiveDataTable)
+  [x] [ResponsiveDataTable](responsive_data_table)
  - Responsive widget that show DataTable in large devices and list or grid in smaller one
  - 6 layouts
  - can be configured to use list or DataTable
@@ -65,14 +69,14 @@
  - can add filters , actions or actions for each row
  - work with the same controller [ReadyList] 
  
- [x] [Animated](https://github.com/mo-ah-dawood/ready/wiki/Animated)
+ [x] [Animated]()
  - Fancy animations
  - able to merge between (flip , scale , fade, translate)
  - scoped  animated runs animations one after one
  - non scoped run all animations in parallel
  - ReadyList contains a scope so you don't need to add it
  
- [x] [Shimmer](https://github.com/mo-ah-dawood/ready/wiki/Shimmer)
+ [x] [Shimmer](shimmer)
  - Show shimmer effect on a widget
  - drawing the shimmer on the whole scope the shimmer is in so the full page may has one scope and will paint the shimmer gradient on all [Shimmer] children in its tree
  -like this
@@ -100,6 +104,12 @@ There is related packages that related  to  ready and you can use it
 * instead we will add the new features in separate packages and list it in the packages section
 * in this way if any one need the new feature he can add its package to his project
 * any package must has a good docs before it listed in packages list
+
+[ready_dashboard]: https://github.com/mo-ah-dawood/ready/blob/main/docs/en/ready_dashboard.md
+[animated]: https://github.com/mo-ah-dawood/ready/blob/main/docs/en/animated.md
+[ready_list]: https://github.com/mo-ah-dawood/ready/blob/main/docs/en/ready_list.md
+[responsive_data_table]: https://github.com/mo-ah-dawood/ready/blob/main/docs/en/responsive_data_table.md
+[shimmer]: https://github.com/mo-ah-dawood/ready/blob/main/docs/en/shimmer.md
 
 [demo]: https://ready-19c04.web.app
 [pubUrl]: https://pub.dev/packages/ready
