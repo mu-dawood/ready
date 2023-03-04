@@ -11,6 +11,71 @@ abstract class ReadyListController<T> {
   void emit(ReadyListState<T> state);
 }
 
+extension CurrentDataExt<T> on CurrentData<T> {
+  CurrentData<T> add(Iterable<T> items) {
+    return copyWith(
+      items: [...this.items, ...items],
+      totalCount: totalCount + items.length,
+    );
+  }
+
+  CurrentData<T> insert(Iterable<T> items) {
+    return copyWith(
+      items: [...items, ...this.items],
+      totalCount: totalCount + items.length,
+    );
+  }
+
+  CurrentData<T> remove(Iterable<T> items) {
+    var oldLength = this.items.length;
+    var newItems = this.items.where((element) => !items.contains(element));
+    var newLength = newItems.length;
+    var removedLength = oldLength - newLength;
+    return copyWith(
+      items: newItems,
+      totalCount: totalCount - removedLength,
+    );
+  }
+
+  CurrentData<T> removeWhere(bool Function(T element) test) {
+    var oldLength = items.length;
+    var newItems = items.where((element) => !test(element));
+    var newLength = newItems.length;
+    var removedLength = oldLength - newLength;
+    return copyWith(
+      items: newItems,
+      totalCount: totalCount - removedLength,
+    );
+  }
+
+  CurrentData<T> removeAt(List<int> indexes) {
+    var oldLength = items.length;
+    List<T> newItems = [];
+    for (var i = 0; i < items.length; i++) {
+      if (!indexes.contains(i)) {
+        newItems.add(items.elementAt(i));
+      }
+    }
+    var newLength = newItems.length;
+    var removedLength = oldLength - newLength;
+    return copyWith(
+      items: newItems,
+      totalCount: totalCount - removedLength,
+    );
+  }
+
+  CurrentData<T> updateItems(T Function(T) mapper) {
+    return copyWith(items: items.map(mapper));
+  }
+
+  CurrentData<T> clear() {
+    return copyWith(
+      items: [],
+      totalCount: totalCount - items.length,
+    );
+  }
+}
+
 extension ReadyListStateExt<T> on ReadyListState<T> {
   ReadyListState<T> add(Iterable<T> items) {
     return map(
@@ -21,45 +86,43 @@ extension ReadyListStateExt<T> on ReadyListState<T> {
         );
       },
       initializing: (state) {
-        return ReadyListState.isLoaded(items: items, totalCount: items.length);
+        return ReadyListState.isLoaded(
+          items: items,
+          totalCount: items.length,
+          args: state.args,
+        );
       },
       requestFirstLoading: (state) {
-        return state.copyWith(previousState: state.previousState?.add(items));
+        return state.copyWith(currentData: state.currentData?.add(items));
       },
       error: (ErrorState<T> state) {
-        return ReadyListState.isLoaded(items: items, totalCount: items.length);
+        return state.copyWith(
+          currentData: state.currentData?.add(items),
+        );
       },
       isLoadingFirst: (FirstLoading<T> state) {
         return state.copyWith(
-            previousState:
-                state.previousState().add(items) as RequestFirstLoading<T>);
+          currentData: state.currentData?.add(items),
+        );
       },
       isLoadingNext: (LoadingNext<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.copyWith(
-            previousState: previous.previousState().add(items) as Loaded<T>,
-          ),
+          currentData: state.currentData.add(items),
         );
       },
       isRefreshing: (Refreshing<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.copyWith(
-            previousState: previous.previousState().add(items) as Loaded<T>,
-          ),
+          currentData: state.currentData.add(items),
         );
       },
       requestNext: (RequestNext<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.add(items) as Loaded<T>,
+          currentData: state.currentData.add(items),
         );
       },
       requestRefresh: (RequestRefresh<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.add(items) as Loaded<T>,
+          currentData: state.currentData.add(items),
         );
       },
     );
@@ -74,46 +137,45 @@ extension ReadyListStateExt<T> on ReadyListState<T> {
         );
       },
       initializing: (state) {
-        return ReadyListState.isLoaded(items: items, totalCount: items.length);
+        return ReadyListState.isLoaded(
+          items: items,
+          totalCount: items.length,
+          args: args,
+        );
       },
       requestFirstLoading: (state) {
         return state.copyWith(
-            previousState: state.previousState?.insert(items));
+          currentData: state.currentData?.insert(items),
+        );
       },
       error: (ErrorState<T> state) {
-        return ReadyListState.isLoaded(items: items, totalCount: items.length);
+        return state.copyWith(
+          currentData: state.currentData?.insert(items),
+        );
       },
       isLoadingFirst: (FirstLoading<T> state) {
         return state.copyWith(
-            previousState:
-                state.previousState().insert(items) as RequestFirstLoading<T>);
+          currentData: state.currentData?.insert(items),
+        );
       },
       isLoadingNext: (LoadingNext<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.copyWith(
-            previousState: previous.previousState().insert(items) as Loaded<T>,
-          ),
+          currentData: state.currentData.insert(items),
         );
       },
       isRefreshing: (Refreshing<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.copyWith(
-            previousState: previous.previousState().insert(items) as Loaded<T>,
-          ),
+          currentData: state.currentData.insert(items),
         );
       },
       requestNext: (RequestNext<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.insert(items) as Loaded<T>,
+          currentData: state.currentData.insert(items),
         );
       },
       requestRefresh: (RequestRefresh<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.insert(items) as Loaded<T>,
+          currentData: state.currentData.insert(items),
         );
       },
     );
@@ -134,40 +196,35 @@ extension ReadyListStateExt<T> on ReadyListState<T> {
       initializing: (state) => state,
       requestFirstLoading: (state) {
         return state.copyWith(
-            previousState: state.previousState?.remove(items));
+          currentData: state.currentData?.remove(items),
+        );
       },
-      error: (ErrorState<T> state) => state,
+      error: (ErrorState<T> state) => state.copyWith(
+        currentData: state.currentData?.remove(items),
+      ),
       isLoadingFirst: (FirstLoading<T> state) {
         return state.copyWith(
-            previousState:
-                state.previousState().remove(items) as RequestFirstLoading<T>);
+          currentData: state.currentData?.remove(items),
+        );
       },
       isLoadingNext: (LoadingNext<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.copyWith(
-            previousState: previous.previousState().remove(items) as Loaded<T>,
-          ),
+          currentData: state.currentData.remove(items),
         );
       },
       isRefreshing: (Refreshing<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.copyWith(
-            previousState: previous.previousState().remove(items) as Loaded<T>,
-          ),
+          currentData: state.currentData.remove(items),
         );
       },
       requestNext: (RequestNext<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.remove(items) as Loaded<T>,
+          currentData: state.currentData.remove(items),
         );
       },
       requestRefresh: (RequestRefresh<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.remove(items) as Loaded<T>,
+          currentData: state.currentData.remove(items),
         );
       },
     );
@@ -188,42 +245,33 @@ extension ReadyListStateExt<T> on ReadyListState<T> {
       initializing: (state) => state,
       requestFirstLoading: (state) {
         return state.copyWith(
-            previousState: state.previousState?.removeWhere(test));
+          currentData: state.currentData?.removeWhere(test),
+        );
       },
       error: (ErrorState<T> state) => state,
       isLoadingFirst: (FirstLoading<T> state) {
         return state.copyWith(
-            previousState: state.previousState().removeWhere(test)
-                as RequestFirstLoading<T>);
+          currentData: state.currentData?.removeWhere(test),
+        );
       },
       isLoadingNext: (LoadingNext<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.copyWith(
-            previousState:
-                previous.previousState().removeWhere(test) as Loaded<T>,
-          ),
+          currentData: state.currentData.removeWhere(test),
         );
       },
       isRefreshing: (Refreshing<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.copyWith(
-            previousState:
-                previous.previousState().removeWhere(test) as Loaded<T>,
-          ),
+          currentData: state.currentData.removeWhere(test),
         );
       },
       requestNext: (RequestNext<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.removeWhere(test) as Loaded<T>,
+          currentData: state.currentData.removeWhere(test),
         );
       },
       requestRefresh: (RequestRefresh<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.removeWhere(test) as Loaded<T>,
+          currentData: state.currentData.removeWhere(test),
         );
       },
     );
@@ -249,42 +297,33 @@ extension ReadyListStateExt<T> on ReadyListState<T> {
       initializing: (state) => state,
       requestFirstLoading: (state) {
         return state.copyWith(
-            previousState: state.previousState?.removeAt(indexes));
+          currentData: state.currentData?.removeAt(indexes),
+        );
       },
       error: (ErrorState<T> state) => state,
       isLoadingFirst: (FirstLoading<T> state) {
         return state.copyWith(
-            previousState: state.previousState().removeAt(indexes)
-                as RequestFirstLoading<T>);
+          currentData: state.currentData?.removeAt(indexes),
+        );
       },
       isLoadingNext: (LoadingNext<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.copyWith(
-            previousState:
-                previous.previousState().removeAt(indexes) as Loaded<T>,
-          ),
+          currentData: state.currentData.removeAt(indexes),
         );
       },
       isRefreshing: (Refreshing<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.copyWith(
-            previousState:
-                previous.previousState().removeAt(indexes) as Loaded<T>,
-          ),
+          currentData: state.currentData.removeAt(indexes),
         );
       },
       requestNext: (RequestNext<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.removeAt(indexes) as Loaded<T>,
+          currentData: state.currentData.removeAt(indexes),
         );
       },
       requestRefresh: (RequestRefresh<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.removeAt(indexes) as Loaded<T>,
+          currentData: state.currentData.removeAt(indexes),
         );
       },
     );
@@ -298,42 +337,35 @@ extension ReadyListStateExt<T> on ReadyListState<T> {
       initializing: (state) => state,
       requestFirstLoading: (state) {
         return state.copyWith(
-            previousState: state.previousState?.updateItems(mapper));
+          currentData: state.currentData?.updateItems(mapper),
+        );
       },
-      error: (ErrorState<T> state) => state,
+      error: (ErrorState<T> state) => state.copyWith(
+        currentData: state.currentData?.updateItems(mapper),
+      ),
       isLoadingFirst: (FirstLoading<T> state) {
         return state.copyWith(
-            previousState: state.previousState().updateItems(mapper)
-                as RequestFirstLoading<T>);
+          currentData: state.currentData?.updateItems(mapper),
+        );
       },
       isLoadingNext: (LoadingNext<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.copyWith(
-            previousState:
-                previous.previousState().updateItems(mapper) as Loaded<T>,
-          ),
+          currentData: state.currentData.updateItems(mapper),
         );
       },
       isRefreshing: (Refreshing<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.copyWith(
-            previousState:
-                previous.previousState().updateItems(mapper) as Loaded<T>,
-          ),
+          currentData: state.currentData.updateItems(mapper),
         );
       },
       requestNext: (RequestNext<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.updateItems(mapper) as Loaded<T>,
+          currentData: state.currentData.updateItems(mapper),
         );
       },
       requestRefresh: (RequestRefresh<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.updateItems(mapper) as Loaded<T>,
+          currentData: state.currentData.updateItems(mapper),
         );
       },
     );
@@ -349,40 +381,36 @@ extension ReadyListStateExt<T> on ReadyListState<T> {
       },
       initializing: (state) => state,
       requestFirstLoading: (state) {
-        return state.copyWith(previousState: state.previousState?.clear());
+        return state.copyWith(
+          currentData: state.currentData?.clear(),
+        );
       },
-      error: (ErrorState<T> state) => state,
+      error: (ErrorState<T> state) => state.copyWith(
+        currentData: state.currentData?.clear(),
+      ),
       isLoadingFirst: (FirstLoading<T> state) {
         return state.copyWith(
-            previousState:
-                state.previousState().clear() as RequestFirstLoading<T>);
+          currentData: state.currentData?.clear(),
+        );
       },
       isLoadingNext: (LoadingNext<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.copyWith(
-            previousState: previous.previousState().clear() as Loaded<T>,
-          ),
+          currentData: state.currentData.clear(),
         );
       },
       isRefreshing: (Refreshing<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.copyWith(
-            previousState: previous.previousState().clear() as Loaded<T>,
-          ),
+          currentData: state.currentData.clear(),
         );
       },
       requestNext: (RequestNext<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.clear() as Loaded<T>,
+          currentData: state.currentData.clear(),
         );
       },
       requestRefresh: (RequestRefresh<T> state) {
-        var previous = state.previousState();
         return state.copyWith(
-          previousState: previous.clear() as Loaded<T>,
+          currentData: state.currentData.clear(),
         );
       },
     );

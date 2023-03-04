@@ -264,11 +264,20 @@ class _DashBoardAppBar extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           borderSide: const BorderSide(width: 0, color: Colors.transparent),
         );
-        var actions = [
-          ...layout._appBarActions,
-          ...selected.actions,
-          if (!selected.overrideActions) ...options.actions,
-        ];
+        List<Widget> actions = layout._appBarActions[index]?.call() ?? [];
+        actions = actions
+            .map<Widget>((e) => Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: e,
+                ))
+            .toList();
+        if (selected.overrideActions) {
+          actions.addAll(selected.actions);
+        } else {
+          actions.addAll(selected.actions);
+          actions.addAll(options.actions);
+        }
         return Theme(
           data: theme.copyWith(
             appBarTheme: appBarTheme,

@@ -1,0 +1,134 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ready",
+            "cwd": "ready/example",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "ready (profile mode)",
+            "cwd": "ready/example",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "ready (release mode)",
+            "cwd": "ready/example",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "ready_form",
+            "cwd": "packages/ready_form/example",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "ready_form (profile mode)",
+            "cwd": "packages/ready_form/example",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "ready_form (release mode)",
+            "cwd": "packages/ready_form/example",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "ready_image",
+            "cwd": "packages/ready_image/example",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "ready_image (profile mode)",
+            "cwd": "packages/ready_image/example",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "ready_image (release mode)",
+            "cwd": "packages/ready_image/example",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "ready_picker",
+            "cwd": "packages/ready_picker",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "ready_picker (profile mode)",
+            "cwd": "packages/ready_picker/example",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "ready_picker (release mode)",
+            "cwd": "packages/ready_picker/example",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "ready_validation",
+            "cwd": "packages/ready_validation/example",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "ready_validation (profile mode)",
+            "cwd": "packages/ready_validation/example",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "ready_validation (release mode)",
+            "cwd": "packages/ready_validation/example",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "extensions",
+            "cwd": "packages/ready_extensions/extensions/example",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "extensions (profile mode)",
+            "cwd": "packages/ready_extensions/extensions/example",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "extensions (release mode)",
+            "cwd": "packages/ready_extensions/extensions/example",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "ready_extensions_dart",
+            "cwd": "packages/ready_extensions/ready_extensions_dart/example",
+            "request": "launch",
+            "type": "dart"
+        }
+    ]
+}

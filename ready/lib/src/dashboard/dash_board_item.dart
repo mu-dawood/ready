@@ -146,11 +146,13 @@ class PageInfo extends StatefulWidget {
   final List<TextSpan> titleSpans;
   final Widget? _child;
   final NavigatorOptions? navigator;
+  final int index;
   const PageInfo({
     Key? key,
     required DashboardItem item,
     required this.titleSpans,
     required this.navigator,
+    required this.index,
   })  : _child = null,
         _item = item,
         super(key: key);
@@ -160,6 +162,7 @@ class PageInfo extends StatefulWidget {
     required this.titleSpans,
   })  : _child = child,
         _item = null,
+        index = -1,
         navigator = null,
         super(key: key);
   @override
@@ -167,11 +170,17 @@ class PageInfo extends StatefulWidget {
 
   static PageInfo? of(BuildContext context) =>
       context.findAncestorStateOfType<PageInfoState>()?.widget;
+  static PageInfoState? state(BuildContext context) =>
+      context.findAncestorStateOfType<PageInfoState>();
 }
 
 class PageInfoState extends State<PageInfo> {
   GlobalKey<NavigatorState>? navigatorKey;
-  ReadyDashboardState? layout;
+  late ReadyDashboardState layout;
+  void setAppBarActions(List<Widget> actions) {
+    layout._setAppBarActions(widget.index, () => actions);
+  }
+
   @override
   void initState() {
     navigatorKey = widget.navigator?.getNavigatorKey?.call(widget._item!.id);
@@ -181,7 +190,7 @@ class PageInfoState extends State<PageInfo> {
 
   @override
   void didChangeDependencies() {
-    layout = ReadyDashboard.of(context);
+    layout = ReadyDashboard.of(context)!;
     super.didChangeDependencies();
   }
 

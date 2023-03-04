@@ -59,9 +59,17 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
   }
   List<int> _selectedItems = List<int>.empty(growable: true);
   List<int> get selectedItems => _selectedItems;
-  bool get allSelected => controller.state.maybeWhen(
+  bool get allSelected => controller.state.maybeMap(
         orElse: () => false,
-        isLoaded: (items, __, ___) => selectedItems.length >= items.length,
+        isLoaded: (state) => selectedItems.length >= state.items.length,
+        requestNext: (state) =>
+            selectedItems.length >= state.currentData.items.length,
+        isLoadingNext: (state) =>
+            selectedItems.length >= state.currentData.items.length,
+        requestRefresh: (state) =>
+            selectedItems.length >= state.currentData.items.length,
+        isRefreshing: (state) =>
+            selectedItems.length >= state.currentData.items.length,
       );
 
   void selectAll() {
@@ -106,10 +114,17 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
         if (state.items.length >= state.totalCount) return;
         var len = paging.rowsPerPage + v - state.items.length;
         if (len > 0) {
-          controller.emit(ReadyListState.requestNext(
-            previousState: state,
-            pageSize: len,
-          ));
+          controller.emit(
+            ReadyListState.requestNext(
+              pageSize: len,
+              args: state.args,
+              currentData: CurrentData(
+                items: state.items,
+                totalCount: state.totalCount,
+                args: state.args,
+              ),
+            ),
+          );
         }
       },
     );
@@ -126,10 +141,17 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
       isLoaded: (state) {
         if (state.items.length >= state.totalCount) return;
         if (v > state.items.length) {
-          controller.emit(ReadyListState.requestNext(
-            previousState: state,
-            pageSize: paging.rowsPerPage,
-          ));
+          controller.emit(
+            ReadyListState.requestNext(
+              pageSize: paging.rowsPerPage,
+              args: state.args,
+              currentData: CurrentData(
+                items: state.items,
+                totalCount: state.totalCount,
+                args: state.args,
+              ),
+            ),
+          );
         }
       },
     );
@@ -175,12 +197,10 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
       requestFirstLoading: (_) => _fakeRow(true),
       initializing: (_) => _fakeRow(true),
       isLoaded: (state) => _getRow(state.items, index),
-      isRefreshing: (state) =>
-          _getRow(state.previousState().previousState.items, index),
-      isLoadingNext: (state) =>
-          _getRow(state.previousState().previousState.items, index),
-      requestRefresh: (state) => _getRow(state.previousState.items, index),
-      requestNext: (state) => _getRow(state.previousState.items, index),
+      isRefreshing: (state) => _getRow(state.currentData.items, index),
+      isLoadingNext: (state) => _getRow(state.currentData.items, index),
+      requestRefresh: (state) => _getRow(state.currentData.items, index),
+      requestNext: (state) => _getRow(state.currentData.items, index),
     );
   }
 
@@ -192,11 +212,10 @@ class _DataTableSource<T, TController extends ReadyListController<T>>
     return controller.state.maybeMap(
       orElse: () => 0,
       isLoaded: (state) => state.totalCount,
-      isRefreshing: (state) => state.previousState().previousState.items.length,
-      isLoadingNext: (state) =>
-          state.previousState().previousState.items.length,
-      requestNext: (state) => state.previousState.items.length,
-      requestRefresh: (state) => state.previousState.items.length,
+      isRefreshing: (state) => state.currentData.items.length,
+      isLoadingNext: (state) => state.currentData.items.length,
+      requestNext: (state) => state.currentData.items.length,
+      requestRefresh: (state) => state.currentData.items.length,
     );
   }
 

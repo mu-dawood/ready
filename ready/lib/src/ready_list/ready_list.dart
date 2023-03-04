@@ -254,7 +254,12 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
                             widget.controller.emit(
                               ReadyListState.requestNext(
                                 pageSize: configuration.pageSize,
-                                previousState: state,
+                                args: state.args,
+                                currentData: CurrentData(
+                                  items: state.items,
+                                  totalCount: state.totalCount,
+                                  args: state.args,
+                                ),
                               ),
                             );
                           }
@@ -284,10 +289,17 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
       isLoaded: (state) {
         var isVisible = Ready.isVisible(context);
         if (isVisible) {
-          widget.controller.emit(ReadyListState.requestRefresh(
-            pageSize: configuration.pageSize,
-            previousState: state,
-          ));
+          widget.controller.emit(
+            ReadyListState.requestNext(
+              pageSize: configuration.pageSize,
+              args: state.args,
+              currentData: CurrentData(
+                items: state.items,
+                totalCount: state.totalCount,
+                args: state.args,
+              ),
+            ),
+          );
           return widget.controller.stream.first;
         }
         return Future.value();
@@ -379,20 +391,14 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
                       : _buildBody(constraints, configuration),
                   error: (state) => _buildPlaceholders(
                       shrinkWrap, configuration, false, state.display(context)),
-                  isRefreshing: (state) => _buildBody(
-                      constraints,
-                      configuration,
-                      _filteredItems(
-                          state.previousState().previousState.items)),
+                  isRefreshing: (state) => _buildBody(constraints,
+                      configuration, _filteredItems(state.currentData.items)),
                   requestRefresh: (state) => _buildBody(constraints,
-                      configuration, _filteredItems(state.previousState.items)),
-                  isLoadingNext: (state) => _buildBody(
-                      constraints,
-                      configuration,
-                      _filteredItems(
-                          state.previousState().previousState.items)),
+                      configuration, _filteredItems(state.currentData.items)),
+                  isLoadingNext: (state) => _buildBody(constraints,
+                      configuration, _filteredItems(state.currentData.items)),
                   requestNext: (state) => _buildBody(constraints, configuration,
-                      _filteredItems(state.previousState.items)),
+                      _filteredItems(state.currentData.items)),
                   isLoaded: (state) {
                     if (state.items.isEmpty) {
                       return _buildPlaceholders(
@@ -512,10 +518,17 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
                   pageSize: configuration.pageSize,
                 ));
           } else {
-            return () => ctrl.emit(ReadyListState.requestRefresh(
-                  pageSize: configuration.pageSize,
-                  previousState: state,
-                ));
+            return () => ctrl.emit(
+                  ReadyListState.requestRefresh(
+                    pageSize: configuration.pageSize,
+                    args: state.args,
+                    currentData: CurrentData(
+                      items: state.items,
+                      totalCount: state.totalCount,
+                      args: state.args,
+                    ),
+                  ),
+                );
           }
         },
       ),

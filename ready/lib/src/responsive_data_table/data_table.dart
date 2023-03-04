@@ -21,17 +21,17 @@ class _DataTableState<T, TController extends ReadyListController<T>>
   final GlobalKey<_PaginatedDataTableState> _table =
       GlobalKey<_PaginatedDataTableState>();
   bool _hasSelection = false;
-  ReadyDashboardState? layout;
+  PageInfoState? page;
   @override
   void initState() {
-    widget.source.controller.state.whenOrNull(
-      requestRefresh: (pageSize, previousState) {
+    widget.source.controller.state.mapOrNull(
+      requestRefresh: (state) {
         _table.currentState?.toFirst();
       },
-      initializing: (value, _) {
-        if (!value) return;
+      initializing: (state) {
         widget.source.controller.emit(ReadyListState.requestFirstLoading(
           pageSize: widget.source.paging.rowsPerPage,
+          args: state.args,
         ));
       },
     );
@@ -66,7 +66,7 @@ class _DataTableState<T, TController extends ReadyListController<T>>
 
   @override
   void dispose() {
-    layout?.setAppBarActions([]);
+    page?.setAppBarActions([]);
     widget.source.removeListener(_onSourceChange);
 
     super.dispose();
@@ -74,7 +74,7 @@ class _DataTableState<T, TController extends ReadyListController<T>>
 
   @override
   void didChangeDependencies() {
-    layout = ReadyDashboard.of(context);
+    page = PageInfo.state(context);
     super.didChangeDependencies();
   }
 
@@ -139,18 +139,18 @@ class _DataTableState<T, TController extends ReadyListController<T>>
           loading,
           const SizedBox(width: 10),
         ],
-        if (layout == null)
+        if (page == null)
           Text.rich(TextSpan(
             children: PageInfo.of(context)?.titleSpans ?? [],
           )),
       ],
     );
-    if (layout != null && loading != null) {
+    if (page != null && loading != null) {
       actions.insert(0, loading);
     }
 
-    if (layout != null) {
-      layout!.setAppBarActions(actions);
+    if (page != null) {
+      page!.setAppBarActions(actions);
     }
 
     return _PaginatedDataTable(
@@ -162,10 +162,10 @@ class _DataTableState<T, TController extends ReadyListController<T>>
       ],
       constraints: constraints,
       source: widget.source,
-      actions: layout == null ? actions : null,
+      actions: page == null ? actions : null,
       horizontalMargin: 0,
       headingRowHeight: 40,
-      header: layout == null ? header : null,
+      header: page == null ? header : null,
       availableRowsPerPage: widget.source.paging.availableRowsPerPage,
       rowsPerPage: widget.source.paging.rowsPerPage,
       onPageChanged: (v) {
@@ -198,10 +198,17 @@ class _DataTableState<T, TController extends ReadyListController<T>>
                 pageSize: widget.source.paging.rowsPerPage,
               ));
             } else {
-              widget.source.controller.emit(ReadyListState.requestRefresh(
-                pageSize: widget.source.paging.rowsPerPage,
-                previousState: state,
-              ));
+              widget.source.controller.emit(
+                ReadyListState.requestRefresh(
+                  pageSize: widget.source.paging.rowsPerPage,
+                  args: state.args,
+                  currentData: CurrentData(
+                    items: state.items,
+                    totalCount: state.totalCount,
+                    args: state.args,
+                  ),
+                ),
+              );
             }
           },
         );

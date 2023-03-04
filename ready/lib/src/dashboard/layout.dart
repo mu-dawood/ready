@@ -137,15 +137,9 @@ class ReadyDashboardState extends State<ReadyDashboard>
     with TickerProviderStateMixin {
   late AnimationController expansionController;
   late FocusNode _focusNode;
-  List<Widget> _appBarActions = [];
-  void setAppBarActions(List<Widget> actions) {
-    _appBarActions = actions
-        .map((e) => Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: e,
-            ))
-        .toList();
+  final Map<int, List<Widget> Function()> _appBarActions = {};
+  void _setAppBarActions(int i, List<Widget> Function() actions) {
+    _appBarActions[i] = actions;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) setState(() {});
     });
@@ -189,8 +183,13 @@ class ReadyDashboardState extends State<ReadyDashboard>
 
   @override
   Widget build(BuildContext context) {
+    var index = 0;
+    int fn() {
+      return index++;
+    }
+
     var widgets = <PageInfo>[
-      for (var item in widget.items) ...children(item),
+      for (var item in widget.items) ...children(fn, item),
     ];
     return DefaultTabController(
       length: widgets.length,
@@ -299,12 +298,14 @@ class ReadyDashboardState extends State<ReadyDashboard>
     return base == fragment;
   }
 
-  List<PageInfo> children(DashboardItem e, [TextSpan? parent]) {
+  List<PageInfo> children(int Function() getIndex, DashboardItem e,
+      [TextSpan? parent]) {
     if (e.hasBuilder) {
       return [
         PageInfo(
           item: e,
           navigator: widget.navigator,
+          index: getIndex(),
           titleSpans: [
             if (parent != null) ...[
               parent,
@@ -318,7 +319,7 @@ class ReadyDashboardState extends State<ReadyDashboard>
       ];
     } else {
       return e.subItems
-          .map((p) => children(p, TextSpan(text: e.label)))
+          .map((p) => children(getIndex, p, TextSpan(text: e.label)))
           .expand((element) => element)
           .toList();
     }

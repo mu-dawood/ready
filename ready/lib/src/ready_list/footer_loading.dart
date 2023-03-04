@@ -24,10 +24,17 @@ class _FooterLoading<T, TController extends ReadyListController<T>>
           return _buildWidget(
             TextButton(
               onPressed: () {
-                controller.emit(ReadyListState.requestNext(
-                  pageSize: config.pageSize,
-                  previousState: state,
-                ));
+                controller.emit(
+                  ReadyListState.requestNext(
+                    pageSize: config.pageSize,
+                    args: state.args,
+                    currentData: CurrentData(
+                      items: state.items,
+                      totalCount: state.totalCount,
+                      args: state.args,
+                    ),
+                  ),
+                );
               },
               child: Text(config.loadMoreText),
             ),
