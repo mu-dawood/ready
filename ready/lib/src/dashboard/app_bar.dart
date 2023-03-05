@@ -230,94 +230,113 @@ class _DashBoardAppBar extends StatelessWidget {
     required this.expansion,
   }) : super(key: key);
 
-  List<DashboardItem> items(DashboardItem e) {
-    if (e.hasBuilder) {
-      return [e];
-    } else {
-      return e.subItems
-          .map((e) => items(e))
-          .expand((element) => element)
-          .toList();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    var layout = ReadyDashboard.of(context)!;
-    var options = layout.widget;
+    var layout = ReadyDashboard.of(context);
 
-    return TabControllerBuilder(
-      builder: (int index) {
-        var val = [
-          for (var item in options.items) ...items(item),
-        ];
-        var selected = val[index];
-        var appBar = appBarOptions._copyWith(selected.appBarOptions);
-        var theme = Theme.of(context);
-        var appBarTheme = appBar.theme ??
-            theme.appBarTheme.copyWith(
-              backgroundColor: Colors.transparent,
-              foregroundColor: DefaultTextStyle.of(context).style.color,
-              elevation: 0,
-            );
-        var border = OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(width: 0, color: Colors.transparent),
-        );
-        List<Widget> actions = layout._appBarActions[index]?.call() ?? [];
-        actions = actions
-            .map<Widget>((e) => Container(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: e,
-                ))
-            .toList();
-        if (selected.overrideActions) {
-          actions.addAll(selected.actions);
-        } else {
-          actions.addAll(selected.actions);
-          actions.addAll(options.actions);
+    return ValueListenableBuilder(
+      valueListenable: layout._currentPage,
+      builder: (BuildContext context, __PageInfoState? value, Widget? child) {
+        var item = value?.widget.item;
+        var appBar = appBarOptions._copyWith(item?.appBarOptions);
+        if (value == null) {
+          return _build(
+            context: context,
+            appBar: appBar,
+            actions: [],
+            info: value,
+            layout: layout,
+          );
         }
-        return Theme(
-          data: theme.copyWith(
-            appBarTheme: appBarTheme,
-            inputDecorationTheme: InputDecorationTheme(
-              fillColor:
-                  theme.inputDecorationTheme.fillColor ?? Colors.transparent,
-              border: border,
-              isDense: true,
-              filled: true,
-              enabledBorder: border,
-              focusedBorder: border,
-            ),
-          ),
-          child: SliverAppBar(
-            flexibleSpace: appBar.flexibleSpace,
-            actions: [
-              if (mergeActions && actions.length > 1)
-                _MoreMenu(children: actions)
-              else ...[
-                ...actions,
-                const SizedBox(),
-                const SizedBox(),
-              ]
-            ],
-            bottom: appBar.bottom,
-            primary: appBar.primary ?? true,
-            collapsedHeight: appBar.collapsedHeight,
-            expandedHeight: appBar.expandedHeight,
-            floating: appBar.floating ?? false,
-            pinned: appBar.pinned ?? !Scaffold.of(context).hasDrawer,
-            snap: appBar.snap ?? false,
-            stretch: appBar.stretch ?? false,
-            stretchTriggerOffset: appBar.stretchTriggerOffset ?? 100,
-            onStretchTrigger: appBar.onStretchTrigger,
-            forceElevated: innerBoxIsScrolled,
-            leading: leading(context, appBar),
-            title: title(context, selected, appBar),
-          ),
+        return ValueListenableBuilder(
+          valueListenable: value._actions,
+          builder: (context, List<Widget> actions, child) {
+            return _build(
+              context: context,
+              appBar: appBar,
+              actions: actions,
+              info: value,
+              layout: layout,
+            );
+          },
         );
       },
+    );
+  }
+
+  Widget _build({
+    required BuildContext context,
+    required AppBarOptions appBar,
+    required List<Widget> actions,
+    required __PageInfoState? info,
+    required ReadyDashboardState layout,
+  }) {
+    var options = layout.widget;
+
+    var theme = Theme.of(context);
+    var appBarTheme = appBar.theme ??
+        theme.appBarTheme.copyWith(
+          backgroundColor: Colors.transparent,
+          foregroundColor: DefaultTextStyle.of(context).style.color,
+          elevation: 0,
+        );
+    actions = actions
+        .map<Widget>((e) => Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: e,
+            ))
+        .toList();
+    var border = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(15),
+      borderSide: const BorderSide(width: 0, color: Colors.transparent),
+    );
+    if (info?.widget.item.overrideActions == true) {
+      actions.addAll(info?.widget.item.actions ?? []);
+    } else {
+      if (info != null) actions.addAll(info.widget.item.actions);
+      actions.addAll(options.actions);
+    }
+    return Theme(
+      data: theme.copyWith(
+        appBarTheme: appBarTheme,
+        inputDecorationTheme: InputDecorationTheme(
+          fillColor: theme.inputDecorationTheme.fillColor ?? Colors.transparent,
+          border: border,
+          isDense: true,
+          filled: true,
+          enabledBorder: border,
+          focusedBorder: border,
+        ),
+      ),
+      child: SliverAppBar(
+        flexibleSpace: appBar.flexibleSpace,
+        actions: [
+          if (mergeActions && actions.length > 1)
+            _MoreMenu(children: actions)
+          else ...[
+            ...actions,
+            const SizedBox(),
+            const SizedBox(),
+          ]
+        ],
+        bottom: appBar.bottom,
+        primary: appBar.primary ?? true,
+        collapsedHeight: appBar.collapsedHeight,
+        expandedHeight: appBar.expandedHeight,
+        floating: appBar.floating ?? false,
+        pinned: appBar.pinned ?? !Scaffold.of(context).hasDrawer,
+        snap: appBar.snap ?? false,
+        stretch: appBar.stretch ?? false,
+        stretchTriggerOffset: appBar.stretchTriggerOffset ?? 100,
+        onStretchTrigger: appBar.onStretchTrigger,
+        forceElevated: innerBoxIsScrolled,
+        leading: info?.canPop != true
+            ? leading(context, appBar)
+            : BackButton(onPressed: info?.mayBePop),
+        title:
+            info == null ? const Text('') : title(context, info.widget, appBar),
+      ),
     );
   }
 
@@ -330,29 +349,33 @@ class _DashBoardAppBar extends StatelessWidget {
 
   Widget? title(
     BuildContext context,
-    DashboardItem selected,
+    _PageInfo info,
     AppBarOptions appBar,
   ) {
-    if (selected.search == null) return Text(selected.label);
-    var decoration = appBar.inputDecoration?.call(selected.search!.loading) ??
-        InputDecoration(
-          isCollapsed: true,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-          hintText: Ready.localization(context).search,
-          suffixIcon: selected.search!.loading
-              ? const CircularProgressIndicator.adaptive()
-              : const Icon(Icons.search),
-        );
+    var item = info.item;
+    if (item.search == null) {
+      return Text.rich(TextSpan(children: info.titleSpans));
+    }
+    var decoration =
+        appBar.inputDecoration?.call(item.search?.loading == true) ??
+            InputDecoration(
+              isCollapsed: true,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+              hintText: Ready.localization(context).search,
+              suffixIcon: item.search?.loading == true
+                  ? const CircularProgressIndicator.adaptive()
+                  : const Icon(Icons.search),
+            );
 
     return Container(
       constraints: const BoxConstraints(maxWidth: 500),
       child: Align(
         alignment: AlignmentDirectional.centerStart,
         child: TextField(
-          key: Key(selected.id),
+          key: Key(item.id),
           focusNode: focusNode,
-          onChanged: (v) => selected.search!.onChanged?.call(context, v),
-          onSubmitted: (v) => selected.search!.onSubmitted?.call(context, v),
+          onChanged: (v) => item.search?.onChanged?.call(context, v),
+          onSubmitted: (v) => item.search?.onSubmitted?.call(context, v),
           decoration: decoration,
         ),
       ),

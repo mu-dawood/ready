@@ -59,7 +59,9 @@ class DashboardItem {
   final List<Widget> actions;
 
   final bool overrideActions;
+  final GlobalKey<NavigatorState>? navigatorKey;
   bool get hasBuilder => subItems.isEmpty;
+
   DashboardItem._({
     required this.label,
     required this.id,
@@ -72,6 +74,7 @@ class DashboardItem {
     required this.actions,
     required this.authorization,
     required this.subItems,
+    required this.navigatorKey,
   });
 
   const DashboardItem({
@@ -85,6 +88,7 @@ class DashboardItem {
     this.overrideActions = false,
     this.actions = const [],
     this.authorization = const Authorization(types: [AccessType.admin()]),
+    this.navigatorKey,
   }) : subItems = const [];
 
   const DashboardItem.items({
@@ -95,6 +99,7 @@ class DashboardItem {
   })  : selectedIcon = null,
         appBarOptions = null,
         id = '',
+        navigatorKey = null,
         builder = _sizedBox,
         search = null,
         overrideActions = false,
@@ -124,9 +129,11 @@ class DashboardItem {
     List<DashboardItem>? subItems,
     List<Widget>? actions,
     bool? overrideActions,
+    GlobalKey<NavigatorState>? navigatorKey,
   }) {
     return DashboardItem._(
       authorization: authorization ?? this.authorization,
+      navigatorKey: navigatorKey ?? this.navigatorKey,
       id: id ?? this.id,
       label: label ?? this.label,
       icon: icon ?? this.icon,
@@ -139,93 +146,6 @@ class DashboardItem {
       overrideActions: overrideActions ?? this.overrideActions,
     );
   }
-}
-
-class PageInfo extends StatefulWidget {
-  final DashboardItem? _item;
-  final List<TextSpan> titleSpans;
-  final Widget? _child;
-  final NavigatorOptions? navigator;
-  final int index;
-  const PageInfo({
-    Key? key,
-    required DashboardItem item,
-    required this.titleSpans,
-    required this.navigator,
-    required this.index,
-  })  : _child = null,
-        _item = item,
-        super(key: key);
-  const PageInfo.child({
-    Key? key,
-    required Widget child,
-    required this.titleSpans,
-  })  : _child = child,
-        _item = null,
-        index = -1,
-        navigator = null,
-        super(key: key);
-  @override
-  State<PageInfo> createState() => PageInfoState();
-
-  static PageInfo? of(BuildContext context) =>
-      context.findAncestorStateOfType<PageInfoState>()?.widget;
-  static PageInfoState? state(BuildContext context) =>
-      context.findAncestorStateOfType<PageInfoState>();
-}
-
-class PageInfoState extends State<PageInfo> {
-  GlobalKey<NavigatorState>? navigatorKey;
-  late ReadyDashboardState layout;
-  void setAppBarActions(List<Widget> actions) {
-    layout._setAppBarActions(widget.index, () => actions);
-  }
-
-  @override
-  void initState() {
-    navigatorKey = widget.navigator?.getNavigatorKey?.call(widget._item!.id);
-
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    layout = ReadyDashboard.of(context)!;
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    widget.navigator?.dispose?.call(widget._item!.id);
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    var item = widget._item;
-    if (item == null) {
-      return widget._child ?? const SizedBox();
-    }
-    if (widget.navigator != null) {
-      return Navigator(
-        onPopPage: (route, result) =>
-            widget.navigator!.onPopPage?.call(item.id, route, result) ?? true,
-        key: navigatorKey,
-        pages: [MaterialPage(child: item.builder({}))],
-      );
-    } else {
-      return item.builder({});
-    }
-  }
-}
-
-class NavigatorItem {
-  final String name;
-  final Widget child;
-  NavigatorItem({
-    required this.name,
-    required this.child,
-  });
 }
 
 class SearchArgs extends Equatable {

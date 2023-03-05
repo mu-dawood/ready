@@ -252,6 +252,7 @@ class __ResponsiveDataTableState<T, TController extends ReadyListController<T>>
     return _ChangeNotifierListener(
       notifier: source,
       builder: (BuildContext context) {
+        PageInfo.mayBeOf(context)?.clearActions();
         return Stack(
           fit: StackFit.expand,
           children: [

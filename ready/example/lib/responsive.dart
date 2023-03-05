@@ -5,8 +5,10 @@ import 'package:ready/ready.dart';
 
 class ResponsiveList extends StatelessWidget {
   final controller = ReadyListCubit(const ReadyListState.initializing());
+  final bool sub;
   ResponsiveList({
     Key? key,
+    this.sub = false,
   }) : super(key: key);
 
   @override
@@ -28,7 +30,14 @@ class ResponsiveList extends StatelessWidget {
         title: (FakeItem item) => Text(item.name),
       ),
       actions: [
-        IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+        if (!sub)
+          IconButton(
+              onPressed: () {
+                PageInfo.of(context).pushNewPage(
+                    builder: (context) => ResponsiveList(sub: true),
+                    titleSpans: [const TextSpan(text: 'sub')]);
+              },
+              icon: const Icon(Icons.add)),
       ],
       filters: [
         SearchFilter(
@@ -37,34 +46,30 @@ class ResponsiveList extends StatelessWidget {
                 .emit(const ReadyListState.requestFirstLoading(pageSize: 20));
           },
         ),
-        SingleOptionFilter(
-          display: 'Single option',
-          value: 1,
-          items: List.generate(
-              10,
-              (index) =>
-                  OptionFilterItem(display: 'option $index', value: index)),
-          onChange: (value) {},
-        ),
-        MultiOptionFilter(
-          display: 'Multiple options',
-          value: const {1, 8},
-          items: List.generate(
-              10,
-              (index) =>
-                  OptionFilterItem(display: 'option $index', value: index)),
-          onChange: (value) {},
-        ),
-        DateFilter(
-          value: DateTime.now(),
-          onChange: (DateTime? value) {},
-        ),
-        // TimeFilter(
-        //   onChange: (TimeOfDay? value) {},
-        // ),
-        // ToggleFilter(
-        //   onChange: (bool? value) {},
-        // ),
+        if (!sub) ...[
+          SingleOptionFilter(
+            display: 'Single option',
+            value: 1,
+            items: List.generate(
+                10,
+                (index) =>
+                    OptionFilterItem(display: 'option $index', value: index)),
+            onChange: (value) {},
+          ),
+          MultiOptionFilter(
+            display: 'Multiple options',
+            value: const {1, 8},
+            items: List.generate(
+                10,
+                (index) =>
+                    OptionFilterItem(display: 'option $index', value: index)),
+            onChange: (value) {},
+          ),
+          DateFilter(
+            value: DateTime.now(),
+            onChange: (DateTime? value) {},
+          ),
+        ], // ),
       ],
       selectionButton: (type, selected) {
         return IconButton(

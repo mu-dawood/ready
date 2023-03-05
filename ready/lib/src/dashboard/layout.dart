@@ -81,7 +81,7 @@ class ReadyDashboard extends StatefulWidget {
   final ValueChanged<String>? onPageChanged;
 
   /// if passed will add a navigator around the entire dashboard
-  final NavigatorOptions? navigator;
+  final NavigatorOptions navigator;
 
   /// {@macro flutter.material.appBar.actions}
   ///
@@ -97,7 +97,7 @@ class ReadyDashboard extends StatefulWidget {
     this.appBarOptions = _appBarOptions,
     this.wrapPageWithCard = _wrapPageWithCard,
     this.iconsWhenCollapsedInDesktop = false,
-    this.navigator,
+    this.navigator = const NavigatorOptions(),
     this.onPageChanged,
     this.actions = const [],
   })  : assert(items.isNotEmpty),
@@ -108,28 +108,13 @@ class ReadyDashboard extends StatefulWidget {
   static EdgeInsetsGeometry _padding(bool phone) => EdgeInsets.zero;
   static AppBarOptions _appBarOptions(bool phone) => const AppBarOptions();
   static bool _wrapPageWithCard(bool phone) => false;
-  static Widget createPage({
-    required BuildContext context,
-    required Widget child,
-    List<TextSpan> titleSpan = const [],
-  }) {
-    var dashboard = context.findAncestorStateOfType<ReadyDashboardState>()!;
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        return dashboard._buildChild(
-            PageInfo.child(
-              titleSpans: titleSpan,
-              child: child,
-            ),
-            dashboard._isSmall(constraints.maxWidth));
-      },
-    );
-  }
 
   @override
   State<ReadyDashboard> createState() => ReadyDashboardState();
 
-  static ReadyDashboardState? of(BuildContext context) =>
+  static ReadyDashboardState of(BuildContext context) =>
+      context.findAncestorStateOfType<ReadyDashboardState>()!;
+  static ReadyDashboardState? mayBeOf(BuildContext context) =>
       context.findAncestorStateOfType<ReadyDashboardState>();
 }
 
@@ -137,13 +122,9 @@ class ReadyDashboardState extends State<ReadyDashboard>
     with TickerProviderStateMixin {
   late AnimationController expansionController;
   late FocusNode _focusNode;
-  final Map<int, List<Widget> Function()> _appBarActions = {};
-  void _setAppBarActions(int i, List<Widget> Function() actions) {
-    _appBarActions[i] = actions;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) setState(() {});
-    });
-  }
+
+  final ValueNotifier<__PageInfoState?> _currentPage =
+      ValueNotifier<__PageInfoState?>(null);
 
   @override
   void initState() {
@@ -160,6 +141,7 @@ class ReadyDashboardState extends State<ReadyDashboard>
   void dispose() {
     _focusNode.dispose();
     expansionController.dispose();
+    _currentPage.dispose();
     super.dispose();
   }
 
@@ -188,15 +170,16 @@ class ReadyDashboardState extends State<ReadyDashboard>
       return index++;
     }
 
-    var widgets = <PageInfo>[
-      for (var item in widget.items) ...children(fn, item),
+    var widgets = <_PageInfo>[
+      for (var item in widget.items) ..._children(fn, item),
     ];
     return DefaultTabController(
       length: widgets.length,
       initialIndex: widget.initialIndex ?? 0,
       child: TabControllerListener(
         onPageChanged: (int index) {
-          widget.onPageChanged?.call(widgets[index]._item!.id);
+          var info = widgets[index];
+          widget.onPageChanged?.call(info.item.id);
         },
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
@@ -298,28 +281,29 @@ class ReadyDashboardState extends State<ReadyDashboard>
     return base == fragment;
   }
 
-  List<PageInfo> children(int Function() getIndex, DashboardItem e,
-      [TextSpan? parent]) {
+  List<_PageInfo> _children(int Function() getIndex, DashboardItem e,
+      [List<TextSpan> parent = const []]) {
+    List<TextSpan> spans = [
+      if (parent.isNotEmpty) ...[
+        ...parent,
+        TextSpan(
+            text: ' / ',
+            style: TextStyle(color: Theme.of(context).disabledColor)),
+      ],
+      TextSpan(text: e.label),
+    ];
     if (e.hasBuilder) {
       return [
-        PageInfo(
+        _PageInfo(
           item: e,
           navigator: widget.navigator,
           index: getIndex(),
-          titleSpans: [
-            if (parent != null) ...[
-              parent,
-              TextSpan(
-                  text: ' / ',
-                  style: TextStyle(color: Theme.of(context).disabledColor)),
-            ],
-            TextSpan(text: e.label),
-          ],
+          titleSpans: spans,
         ),
       ];
     } else {
       return e.subItems
-          .map((p) => children(getIndex, p, TextSpan(text: e.label)))
+          .map((p) => _children(getIndex, p, spans))
           .expand((element) => element)
           .toList();
     }
@@ -346,17 +330,13 @@ class ReadyDashboardState extends State<ReadyDashboard>
 }
 
 class NavigatorOptions {
+  static bool _defaultPob(Route<dynamic> route, dynamic result) => true;
   final bool reportsRouteUpdateToEngine;
   final List<NavigatorObserver> observers;
-  final GlobalKey<NavigatorState> Function(String id)? getNavigatorKey;
-  final bool Function(String id, Route<dynamic>, dynamic)? onPopPage;
-  final Function(String id)? dispose;
-
-  NavigatorOptions({
+  final PopPageCallback onPopPage;
+  const NavigatorOptions({
     this.reportsRouteUpdateToEngine = false,
     this.observers = const [],
-    this.getNavigatorKey,
-    this.onPopPage,
-    this.dispose,
+    this.onPopPage = _defaultPob,
   });
 }

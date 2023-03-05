@@ -8,18 +8,32 @@ class AnimatedScopeItemsExample extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedItemsScope(
       delay: const Duration(seconds: 1),
-      child: GridView.count(
-        crossAxisCount: 5,
-        padding: const EdgeInsets.all(20),
-        children: [
-          /// this will be run at first
-          Animated(transforms: const [ScaleAnimation.y()], child: const Card()),
+      child: CustomScrollView(
+        slivers: [
+          SliverOverlapInjector(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
+          SliverPadding(
+            padding: const EdgeInsets.all(20),
+            sliver: SliverGrid.count(
+              crossAxisCount: 5,
+              children: [
+                /// this will be run at first
+                Animated(
+                    transforms: const [ScaleAnimation.y()],
+                    child: const Card()),
 
-          /// then this will be run
-          Animated(transforms: const [ScaleAnimation.x()], child: const Card()),
+                /// then this will be run
+                Animated(
+                    transforms: const [ScaleAnimation.x()],
+                    child: const Card()),
 
-          /// then this
-          Animated(transforms: const [ScaleAnimation.z()], child: const Card()),
+                /// then this
+                Animated(
+                    transforms: const [ScaleAnimation.z()],
+                    child: const Card()),
+              ],
+            ),
+          ),
         ],
       ),
     );

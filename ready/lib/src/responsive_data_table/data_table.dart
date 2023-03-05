@@ -16,12 +16,12 @@ class _DataTable<T, TController extends ReadyListController<T>>
 }
 
 class _DataTableState<T, TController extends ReadyListController<T>>
-    extends State<_DataTable<T, TController>> {
+    extends State<_DataTable<T, TController>> with PageInfoAware {
   TController get controller => widget.source.controller;
   final GlobalKey<_PaginatedDataTableState> _table =
       GlobalKey<_PaginatedDataTableState>();
   bool _hasSelection = false;
-  PageInfoState? page;
+
   @override
   void initState() {
     widget.source.controller.state.mapOrNull(
@@ -65,17 +65,32 @@ class _DataTableState<T, TController extends ReadyListController<T>>
   }
 
   @override
-  void dispose() {
-    page?.setAppBarActions([]);
-    widget.source.removeListener(_onSourceChange);
-
-    super.dispose();
+  List<Widget> getAppBarActions() {
+    var actions = buildHeaderActions(context);
+    if (pagInfoState != null) {
+      actions.insert(
+          0,
+          StreamBuilder(
+            stream: controller.stream,
+            builder: (_, __) {
+              return controller.state.maybeMap(
+                orElse: () => const SizedBox(),
+                isLoadingFirst: (_) => const CupertinoActivityIndicator(),
+                requestFirstLoading: (_) => const CupertinoActivityIndicator(),
+                isLoadingNext: (_) => const CupertinoActivityIndicator(),
+                requestNext: (_) => const CupertinoActivityIndicator(),
+              );
+            },
+          ));
+    }
+    return actions;
   }
 
   @override
-  void didChangeDependencies() {
-    page = PageInfo.state(context);
-    super.didChangeDependencies();
+  void dispose() {
+    widget.source.removeListener(_onSourceChange);
+
+    super.dispose();
   }
 
   @override
@@ -124,8 +139,7 @@ class _DataTableState<T, TController extends ReadyListController<T>>
     );
   }
 
-  Widget _buildTable(BoxConstraints constraints) {
-    var actions = buildHeaderActions(context);
+  Widget _header() {
     Widget? loading = controller.state.maybeMap(
       orElse: () => null,
       isLoadingFirst: (_) => const CupertinoActivityIndicator(),
@@ -133,26 +147,21 @@ class _DataTableState<T, TController extends ReadyListController<T>>
       isLoadingNext: (_) => const CupertinoActivityIndicator(),
       requestNext: (_) => const CupertinoActivityIndicator(),
     );
-    var header = Row(
+    return Row(
       children: [
         if (loading != null) ...[
           loading,
           const SizedBox(width: 10),
         ],
-        if (page == null)
+        if (pagInfoState == null)
           Text.rich(TextSpan(
-            children: PageInfo.of(context)?.titleSpans ?? [],
+            children: PageInfo.mayBeOf(context)?.widget.titleSpans ?? [],
           )),
       ],
     );
-    if (page != null && loading != null) {
-      actions.insert(0, loading);
-    }
+  }
 
-    if (page != null) {
-      page!.setAppBarActions(actions);
-    }
-
+  Widget _buildTable(BoxConstraints constraints) {
     return _PaginatedDataTable(
       key: _table,
       columns: [
@@ -162,10 +171,10 @@ class _DataTableState<T, TController extends ReadyListController<T>>
       ],
       constraints: constraints,
       source: widget.source,
-      actions: page == null ? actions : null,
+      actions: pagInfoState == null ? getAppBarActions() : null,
       horizontalMargin: 0,
       headingRowHeight: 40,
-      header: page == null ? header : null,
+      header: pagInfoState == null ? _header() : null,
       availableRowsPerPage: widget.source.paging.availableRowsPerPage,
       rowsPerPage: widget.source.paging.rowsPerPage,
       onPageChanged: (v) {

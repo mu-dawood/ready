@@ -52,6 +52,28 @@ class DashBoardExample extends StatelessWidget {
         ),
       ],
       items: [
+        DashboardItem.items(
+          icon: const Icon(Icons.table_chart),
+          label: 'Responsive',
+          subItems: [
+            DashboardItem(
+              builder: (Map<String, dynamic> parameters) {
+                return ResponsiveList();
+              },
+              icon: const Icon(Icons.table_chart),
+              id: 'responsive',
+              label: 'Data table',
+            ),
+            DashboardItem(
+              builder: (Map<String, dynamic> parameters) {
+                return const ReadyGridExample(gridDelegate: Grids.responsive);
+              },
+              icon: const Icon(Icons.local_cafe),
+              id: 'grid responsive',
+              label: 'Responsive grid',
+            ),
+          ],
+        ),
         DashboardItem(
           builder: (Map<String, dynamic> parameters) {
             return const AnimatedItemsExample();
@@ -79,8 +101,18 @@ class DashBoardExample extends StatelessWidget {
             )
           ],
           builder: (Map<String, dynamic> parameters) {
-            return Column(
-              children: const [Text('App bar actions'), TextField()],
+            return Builder(
+              builder: (context) {
+                return CustomScrollView(
+                  slivers: [
+                    SliverOverlapInjector(
+                        handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                            context)),
+                    const SliverToBoxAdapter(child: Text('App bar actions')),
+                    const SliverToBoxAdapter(child: TextField())
+                  ],
+                );
+              },
             );
           },
           icon: const Icon(Icons.attractions),
@@ -95,7 +127,19 @@ class DashBoardExample extends StatelessWidget {
             )
           ],
           builder: (Map<String, dynamic> parameters) {
-            return const Text('Override app bar actions');
+            return Builder(
+              builder: (context) {
+                return CustomScrollView(
+                  slivers: [
+                    SliverOverlapInjector(
+                        handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                            context)),
+                    const SliverToBoxAdapter(
+                        child: Text('Override app bar actions')),
+                  ],
+                );
+              },
+            );
           },
           icon: const Icon(Icons.attractions),
           id: 'actions2',
@@ -163,28 +207,6 @@ class DashBoardExample extends StatelessWidget {
               icon: const Icon(Icons.local_cafe),
               id: 'extent grid',
               label: 'Extent grid',
-            ),
-          ],
-        ),
-        DashboardItem.items(
-          icon: const Icon(Icons.table_chart),
-          label: 'Responsive',
-          subItems: [
-            DashboardItem(
-              builder: (Map<String, dynamic> parameters) {
-                return ResponsiveList();
-              },
-              icon: const Icon(Icons.table_chart),
-              id: 'responsive',
-              label: 'Data table',
-            ),
-            DashboardItem(
-              builder: (Map<String, dynamic> parameters) {
-                return const ReadyGridExample(gridDelegate: Grids.responsive);
-              },
-              icon: const Icon(Icons.local_cafe),
-              id: 'grid responsive',
-              label: 'Responsive grid',
             ),
           ],
         ),

@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
         Locale('ar'),
         Locale('en'),
       ],
-      locale: const Locale('ar'),
+      locale: const Locale('en'),
       home: DashBoardExample(
         onModeChanged: (value) {
           setState(() {
