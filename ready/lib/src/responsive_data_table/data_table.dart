@@ -47,6 +47,7 @@ class _DataTableState<T, TController extends ReadyListController<T>>
       changed = true;
     }
     if (changed && mounted) {
+      forceUpdate();
       setState(() {});
     }
   }

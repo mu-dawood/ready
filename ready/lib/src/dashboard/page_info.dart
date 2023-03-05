@@ -173,6 +173,11 @@ class PageInfoState extends State<PageInfo> with RouteAware {
   List<Widget> get actions => child?.getAppBarActions() ?? [];
   late __PageInfoState _state;
   PageInfoAware? child;
+
+  void _forceUpdate() {
+    _state.setAppBarActions(actions);
+  }
+
   @override
   void didPopNext() {
     _state.setAppBarActions(actions);
@@ -187,14 +192,14 @@ class PageInfoState extends State<PageInfo> with RouteAware {
     _state.clearActions();
   }
 
-  void setAwareWidget(PageInfoAware child) {
+  void _setAwareWidget(PageInfoAware child) {
     if (child != this.child) {
       this.child = child;
       _state.setAppBarActions(actions);
     }
   }
 
-  void removeAwareWidget(PageInfoAware child) {
+  void _removeAwareWidget(PageInfoAware child) {
     if (child == this.child) {
       this.child = null;
     }
@@ -225,24 +230,27 @@ class PageInfoState extends State<PageInfo> with RouteAware {
 mixin PageInfoAware<T extends StatefulWidget> on State<T> {
   PageInfoState? pagInfoState;
   List<Widget> getAppBarActions();
+  void forceUpdate() {
+    pagInfoState?._forceUpdate();
+  }
 
   @override
   void didChangeDependencies() {
     pagInfoState = PageInfo.mayBeOf(context);
-    pagInfoState?.setAwareWidget(this);
+    pagInfoState?._setAwareWidget(this);
     super.didChangeDependencies();
   }
 
   @override
   void didUpdateWidget(covariant oldWidget) {
     pagInfoState = PageInfo.mayBeOf(context);
-    pagInfoState?.setAwareWidget(this);
+    pagInfoState?._setAwareWidget(this);
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   void dispose() {
-    pagInfoState?.removeAwareWidget(this);
+    pagInfoState?._removeAwareWidget(this);
     super.dispose();
   }
 }
