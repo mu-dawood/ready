@@ -208,28 +208,31 @@ class __ResponsiveDataTableState<T, TController extends ReadyListController<T>>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    var width = widget.constraints.maxWidth;
-    var layout = Utils.detectLayout(width);
-    var type = widget.type;
-    if (type == null) {
-      switch (layout) {
-        case LayoutType.xSmall:
-        case LayoutType.small:
-        case LayoutType.medium:
-          return list(context, layout);
-        case LayoutType.large:
-        case LayoutType.xLarge:
-        case LayoutType.xxLarge:
-          return dataTable(context);
+
+    return PageInfo.insureValid(context, (context) {
+      var width = widget.constraints.maxWidth;
+      var layout = Utils.detectLayout(width);
+      var type = widget.type;
+      if (type == null) {
+        switch (layout) {
+          case LayoutType.xSmall:
+          case LayoutType.small:
+          case LayoutType.medium:
+            return list(context, layout);
+          case LayoutType.large:
+          case LayoutType.xLarge:
+          case LayoutType.xxLarge:
+            return dataTable(context);
+        }
+      } else {
+        switch (type) {
+          case ResponsiveDataTableType.table:
+            return dataTable(context);
+          case ResponsiveDataTableType.list:
+            return list(context, layout);
+        }
       }
-    } else {
-      switch (type) {
-        case ResponsiveDataTableType.table:
-          return dataTable(context);
-        case ResponsiveDataTableType.list:
-          return list(context, layout);
-      }
-    }
+    });
   }
 
   Widget dataTable(BuildContext context) {

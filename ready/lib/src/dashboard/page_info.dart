@@ -41,41 +41,17 @@ class __PageInfoState extends State<_PageInfo> {
     var state = _navigator ?? Navigator.of(context);
     var result = await state.push<T>(MaterialPageRoute(
       builder: (context) {
-        return _createPage(
+        return PageInfo._createPage(
           state: state,
           titleSpans: titleSpans,
           builder: builder,
+          observer: _routeObserver,
+          layout: layout,
+          info: widget,
         );
       },
     ));
     return result;
-  }
-
-  LayoutBuilder _createPage({
-    required NavigatorState state,
-    required List<TextSpan> titleSpans,
-    required WidgetBuilder builder,
-  }) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        return layout._buildChild(
-            PageInfo._(
-              observer: _routeObserver,
-              item: widget.item,
-              titleSpans: [
-                ...widget.titleSpans,
-                for (var item in titleSpans) ...[
-                  TextSpan(
-                      text: ' / ',
-                      style: TextStyle(color: Theme.of(context).disabledColor)),
-                  item
-                ]
-              ],
-              builder: builder,
-            ),
-            layout._isSmall(constraints.maxWidth));
-      },
-    );
   }
 
   void setAppBarActions(List<Widget> actions) {
@@ -167,6 +143,56 @@ class PageInfo extends StatefulWidget {
       context.findAncestorStateOfType<PageInfoState>();
   static PageInfoState of(BuildContext context) =>
       context.findAncestorStateOfType<PageInfoState>()!;
+
+  static Widget insureValid(
+    BuildContext context,
+    WidgetBuilder builder,
+  ) {
+    var parent = mayBeOf(context);
+    if (parent != null) return builder(context);
+    var info = context.findAncestorStateOfType<__PageInfoState>();
+    if (info == null) return builder(context);
+    var state = info._navigator ?? Navigator.of(context);
+
+    return _createPage(
+      layout: info.layout,
+      observer: info._routeObserver,
+      info: info.widget,
+      state: state,
+      titleSpans: [],
+      builder: builder,
+    );
+  }
+
+  static LayoutBuilder _createPage({
+    required ReadyDashboardState layout,
+    required RouteObserver<ModalRoute<dynamic>> observer,
+    required _PageInfo info,
+    required NavigatorState state,
+    required List<TextSpan> titleSpans,
+    required WidgetBuilder builder,
+  }) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return layout._buildChild(
+            PageInfo._(
+              observer: observer,
+              item: info.item,
+              titleSpans: [
+                ...info.titleSpans,
+                for (var item in titleSpans) ...[
+                  TextSpan(
+                      text: ' / ',
+                      style: TextStyle(color: Theme.of(context).disabledColor)),
+                  item
+                ]
+              ],
+              builder: builder,
+            ),
+            layout._isSmall(constraints.maxWidth));
+      },
+    );
+  }
 }
 
 class PageInfoState extends State<PageInfo> with RouteAware {
