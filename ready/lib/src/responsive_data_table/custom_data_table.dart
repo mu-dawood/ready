@@ -174,6 +174,7 @@ class _PaginatedDataTableState extends State<_PaginatedDataTable> {
   late int _firstRowIndex;
   late int _rowCount;
   late bool _rowCountApproximate;
+  late ScrollController _defaultController;
   int _selectedRowCount = 0;
   final Map<int, DataRow?> _rows = <int, DataRow?>{};
 
@@ -183,12 +184,14 @@ class _PaginatedDataTableState extends State<_PaginatedDataTable> {
     _firstRowIndex =
         PageStorage.maybeOf(context)?.readState(context) as int? ?? 0;
     widget.source.addListener(_handleDataSourceChanged);
+    _defaultController = ScrollController();
     _handleDataSourceChanged();
   }
 
   @override
   void didUpdateWidget(_PaginatedDataTable oldWidget) {
     super.didUpdateWidget(oldWidget);
+
     if (oldWidget.source != widget.source) {
       oldWidget.source.removeListener(_handleDataSourceChanged);
       widget.source.addListener(_handleDataSourceChanged);
@@ -213,6 +216,7 @@ class _PaginatedDataTableState extends State<_PaginatedDataTable> {
 
   /// Ensures that the given row is visible.
   void pageTo(int rowIndex) {
+    _defaultController.dispose();
     final int oldFirstRowIndex = _firstRowIndex;
     setState(() {
       final int rowsPerPage = widget.rowsPerPage;
@@ -422,10 +426,11 @@ class _PaginatedDataTableState extends State<_PaginatedDataTable> {
           ),
         Expanded(
           child: Scrollbar(
+            controller: widget.controller ?? _defaultController,
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               primary: widget.primary,
-              controller: widget.controller,
+              controller: widget.controller ?? _defaultController,
               child: ConstrainedBox(
                 constraints:
                     BoxConstraints(minWidth: widget.constraints.minWidth),

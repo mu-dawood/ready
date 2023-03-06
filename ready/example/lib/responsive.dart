@@ -116,7 +116,7 @@ class ReadyListCubit extends BaseController with ReadyRemoteController {
   @override
   Future<RemoteResult<FakeItem>> loadData(int skip, int? pageSize,
       [ICancelToken? cancelToken]) async {
-    var list = await FakeRepo.asyncList(pageSize ?? 30);
+    var list = await FakeRepo.asyncList(skip > 0 ? 0 : 3);
     return RemoteResult.success(list, 100);
   }
 }

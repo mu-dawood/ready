@@ -76,7 +76,7 @@ class ReadyDashboard extends StatefulWidget {
   final DrawerOptions Function(bool phone) drawerOptions;
   final AppBarOptions Function(bool phone) appBarOptions;
   final EdgeInsetsGeometry Function(bool phone) padding;
-  final bool Function(bool phone) wrapPageWithCard;
+  final Widget Function(bool phone, Widget child)? buildPage;
   final bool iconsWhenCollapsedInDesktop;
   final ValueChanged<String>? onPageChanged;
 
@@ -95,7 +95,7 @@ class ReadyDashboard extends StatefulWidget {
     this.initialIndex,
     this.padding = _padding,
     this.appBarOptions = _appBarOptions,
-    this.wrapPageWithCard = _wrapPageWithCard,
+    this.buildPage,
     this.iconsWhenCollapsedInDesktop = false,
     this.navigator = const NavigatorOptions(),
     this.onPageChanged,
@@ -107,7 +107,6 @@ class ReadyDashboard extends StatefulWidget {
   static DrawerOptions _drawerOptions(bool phone) => const DrawerOptions();
   static EdgeInsetsGeometry _padding(bool phone) => EdgeInsets.zero;
   static AppBarOptions _appBarOptions(bool phone) => const AppBarOptions();
-  static bool _wrapPageWithCard(bool phone) => false;
 
   @override
   State<ReadyDashboard> createState() => ReadyDashboardState();
@@ -310,15 +309,7 @@ class ReadyDashboardState extends State<ReadyDashboard>
   }
 
   Widget _buildChild(Widget child, bool small) {
-    if (small || !widget.wrapPageWithCard(small)) return child;
-
-    return Card(
-      margin: const EdgeInsets.only(top: 10),
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: child,
-      ),
-    );
+    return widget.buildPage?.call(small, child) ?? child;
   }
 
   Widget tabView(List<Widget> widgets, bool small) {
