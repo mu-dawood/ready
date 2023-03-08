@@ -24,3 +24,7 @@
 ## 1.2.0
 
 * Use keyboard visibility
+
+## 1.2.1
+
+* Remove keyboard actions

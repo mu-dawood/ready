@@ -241,26 +241,34 @@ class _DataTableState<T, TController extends ReadyListController<T>>
             .call(ResponsiveDataTableType.list, widget.source.selectedItems),
       ];
     }
+    Widget fn(WidgetBuilder builder) {
+      if (pagInfoState == null) return builder(context);
+      return StreamBuilder(
+        stream: controller.stream,
+        builder: (context, __) => builder(context),
+      );
+    }
+
     List<Widget> children = [];
     if (filters.isNotEmpty && filters.length <= 5) {
       children.addAll(filters.map((e) {
-        return AbsorbPointer(
-          absorbing: controller.state.maybeMap(
-            orElse: () => true,
-            isLoaded: (value) => false,
-          ),
-          child: e,
-        );
+        return fn((_) => AbsorbPointer(
+              absorbing: controller.state.maybeMap(
+                orElse: () => true,
+                isLoaded: (value) => false,
+              ),
+              child: e,
+            ));
       }).toList());
     } else if (filters.isNotEmpty) {
-      children.add(_FiltersButton(
-        filters: filters,
-        controller: widget.source.controller,
-      ));
+      children.add(fn((_) => _FiltersButton(
+            filters: filters,
+            controller: widget.source.controller,
+          )));
     }
 
     if (widget.options.dataTable?.refreshButton != null) {
-      children.add(_buildRefreshIcon());
+      children.add(fn((_) => _buildRefreshIcon()));
     }
 
     children.addAll(widget.options.actions);

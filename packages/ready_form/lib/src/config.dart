@@ -42,15 +42,11 @@ class FormSubmitState {
     if (identical(this, other)) return true;
     final collectionEquals = const DeepCollectionEquality().equals;
 
-    return other is FormSubmitState &&
-        other.submitting == submitting &&
-        collectionEquals(other.submitActions, submitActions) &&
-        collectionEquals(other.submitErrors, submitErrors);
+    return other is FormSubmitState && other.submitting == submitting && collectionEquals(other.submitActions, submitActions) && collectionEquals(other.submitErrors, submitErrors);
   }
 
   @override
-  int get hashCode =>
-      submitting.hashCode ^ submitActions.hashCode ^ submitErrors.hashCode;
+  int get hashCode => submitting.hashCode ^ submitActions.hashCode ^ submitErrors.hashCode;
 }
 
 abstract class ReadyFormState {
@@ -126,23 +122,6 @@ class RevealConfig {
   }
 }
 
-class KeyBoardActionConfig {
-  final bool? enabled;
-  final FocusTraversalPolicy? policy;
-
-  const KeyBoardActionConfig({
-    this.enabled,
-    this.policy,
-  });
-
-  KeyBoardActionConfig copyWith(KeyBoardActionConfig? other) {
-    return KeyBoardActionConfig(
-      enabled: other?.enabled ?? enabled,
-      policy: other?.policy ?? policy,
-    );
-  }
-}
-
 class ReadyFormConfig extends InheritedWidget {
   /// show reveal effect, disabled by default
   final RevealConfig revealConfig;
@@ -159,8 +138,8 @@ class ReadyFormConfig extends InheritedWidget {
   /// disable taping and editing form fields while submitting defaults to [false]
   final bool? disableEditingOnSubmit;
 
-  /// if [true] then it will add keyboard actions , enabled by default
-  final KeyBoardActionConfig keyBoardActionConfig;
+  /// if [true] key board will be hidden if user tap outside inputs , enabled by default
+  final bool unfocusOnTapOutSide;
 
   /// [Form.autovalidateMode] defaults to [FormAutoValidateMode.onSave]
   final FormAutoValidateMode? autoValidateMode;
@@ -174,7 +153,7 @@ class ReadyFormConfig extends InheritedWidget {
     this.cancelRequestTitle,
     this.cancelRequestContent,
     this.disableEditingOnSubmit,
-    this.keyBoardActionConfig = const KeyBoardActionConfig(),
+    this.unfocusOnTapOutSide = true,
     this.yes,
     this.no,
     this.autoValidateMode,

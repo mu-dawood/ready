@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../circular_reveal.dart';
 import '../config.dart';
-import '../keyboard_actions.dart';
 
 part 'ensure_visible.dart';
 part 'listeners.dart';
@@ -15,8 +14,7 @@ part 'submit_error_message_for.dart';
 class ReadyFormKey implements ReadyFormState {
   final GlobalKey<_ReadyFormState> _key;
   const ReadyFormKey._(this._key);
-  factory ReadyFormKey({String? debugLabel}) =>
-      ReadyFormKey._(GlobalKey<_ReadyFormState>(debugLabel: debugLabel));
+  factory ReadyFormKey({String? debugLabel}) => ReadyFormKey._(GlobalKey<_ReadyFormState>(debugLabel: debugLabel));
 
   /// manually validate form
   @override
@@ -28,8 +26,7 @@ class ReadyFormKey implements ReadyFormState {
 
   /// get invalid fields in the current form
   @override
-  List<FormFieldState> invalidFields() =>
-      _key.currentState?.invalidFields() ?? [];
+  List<FormFieldState> invalidFields() => _key.currentState?.invalidFields() ?? [];
 
   @override
   FormSubmitState get submitState => _key.currentState!.submitState;
@@ -69,11 +66,11 @@ class ReadyForm extends StatefulWidget {
   /// [Form.autovalidateMode] defaults to [FormAutoValidateMode.onSave]
   final FormAutoValidateMode? autoValidateMode;
 
-  /// if [true] then it will add keyboard actions , enabled by default
-  final KeyBoardActionConfig keyBoardActionConfig;
-
   /// called before validation
   final ValueChanged<ReadyFormState>? beforeValidate;
+
+  /// if true the key board will be hidden if user taps outside the inputs
+  final bool? unfocusOnTapOutSide;
   ReadyForm({
     ReadyFormKey? key,
     required this.onPostData,
@@ -86,15 +83,14 @@ class ReadyForm extends StatefulWidget {
     this.disableEditingOnSubmit,
     this.yes,
     this.autoValidateMode,
-    this.keyBoardActionConfig = const KeyBoardActionConfig(),
     this.no,
+    this.unfocusOnTapOutSide,
   }) : super(key: key?._key);
 
   factory ReadyForm.builder({
     ReadyFormKey? key,
     required OnPostDataCallBack onPostData,
-    required Widget Function(BuildContext context, FormSubmitState state)
-        builder,
+    required Widget Function(BuildContext context, FormSubmitState state) builder,
     RevealConfig revealConfig = const RevealConfig(),
     ValueChanged<ReadyFormState>? beforeValidate,
     Widget? cancelRequestTitle,
@@ -102,8 +98,8 @@ class ReadyForm extends StatefulWidget {
     Widget? yes,
     Widget? no,
     bool? disableEditingOnSubmit,
-    KeyBoardActionConfig keyBoardActionConfig = const KeyBoardActionConfig(),
     FormAutoValidateMode? autoValidateMode,
+    bool? unfocusOnTapOutSide,
   }) =>
       ReadyForm(
         key: key,
@@ -114,9 +110,9 @@ class ReadyForm extends StatefulWidget {
         beforeValidate: beforeValidate,
         disableEditingOnSubmit: false,
         no: no,
-        keyBoardActionConfig: keyBoardActionConfig,
         onPostData: onPostData,
         autoValidateMode: autoValidateMode,
+        unfocusOnTapOutSide: unfocusOnTapOutSide,
         child: FormStateListener(
           builder: (BuildContext context, FormSubmitState state) {
             return builder(context, state);
@@ -124,17 +120,11 @@ class ReadyForm extends StatefulWidget {
         ),
       );
 
-  static ReadyFormState? of(BuildContext context) =>
-      context.findAncestorStateOfType<_ReadyFormState>();
-  static _ReadyFormState? _of(BuildContext context) =>
-      context.findAncestorStateOfType<_ReadyFormState>();
+  static ReadyFormState? of(BuildContext context) => context.findAncestorStateOfType<_ReadyFormState>();
+  static _ReadyFormState? _of(BuildContext context) => context.findAncestorStateOfType<_ReadyFormState>();
 
   static Set<ReadyFormState> formsOf(BuildContext context) {
-    return FocusScope.of(context)
-        .children
-        .map((e) => e.context == null ? null : ReadyForm.of(e.context!))
-        .whereType<_ReadyFormState>()
-        .toSet();
+    return FocusScope.of(context).children.map((e) => e.context == null ? null : ReadyForm.of(e.context!)).whereType<_ReadyFormState>().toSet();
   }
 
   @override
@@ -178,11 +168,9 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
     return formKey.currentState!.validate();
   }
 
-  bool get _disableEditingOnSubmit =>
-      widget.disableEditingOnSubmit ?? config?.disableEditingOnSubmit ?? false;
+  bool get _disableEditingOnSubmit => widget.disableEditingOnSubmit ?? config?.disableEditingOnSubmit ?? false;
 
-  void _visitElements(
-      Element element, bool Function(StatefulElement element) check) {
+  void _visitElements(Element element, bool Function(StatefulElement element) check) {
     element.visitChildren((element) {
       if (element is StatefulElement) {
         if (check(element)) {
@@ -239,8 +227,7 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
   }
 
   Future _makeContextVisible(BuildContext context) async {
-    var ensureVisible =
-        context.findAncestorStateOfType<_EnsureContextVisibleState>()?.widget;
+    var ensureVisible = context.findAncestorStateOfType<_EnsureContextVisibleState>()?.widget;
     if (ensureVisible != null && ensureVisible._ensureVisible != null) {
       return ensureVisible._ensureVisible!(context);
     }
@@ -252,11 +239,7 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
     if (scope.hasFocus) {
       var focus = _firstOrDefault<FocusNode>(
         scope.children,
-        (element) =>
-            element.context
-                ?.findAncestorStateOfType<FormFieldState>()
-                ?.context ==
-            context,
+        (element) => element.context?.findAncestorStateOfType<FormFieldState>()?.context == context,
       );
       if (focus != null && focus != scope.focusedChild) {
         scope.requestFocus(focus);
@@ -290,8 +273,7 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
       isSubmitting: _state.value.submitting,
     );
     if (action.isSubmitting) {
-      _state.value = _state.value
-          .copyWith(submitActions: [..._state.value.submitActions, action]);
+      _state.value = _state.value.copyWith(submitActions: [..._state.value.submitActions, action]);
       return false;
     }
     action = action.copyWith(isSubmitting: false);
@@ -302,10 +284,7 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
       var res = await _validationSuccess(action);
       return res.errors.isEmpty;
     } else {
-      _state.value = _state.value.copyWith(submitActions: [
-        ..._state.value.submitActions,
-        action.copyWith(isValid: false)
-      ]);
+      _state.value = _state.value.copyWith(submitActions: [..._state.value.submitActions, action.copyWith(isValid: false)]);
       await _moveToFirstInvalid();
       return false;
     }
@@ -322,10 +301,7 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
       var res = await widget.onPostData();
       _state.value = _state.value.copyWith(
         submitting: false,
-        submitActions: [
-          ..._state.value.submitActions,
-          action.copyWith(isValid: res.errors.isEmpty)
-        ],
+        submitActions: [..._state.value.submitActions, action.copyWith(isValid: res.errors.isEmpty)],
         submitErrors: res.errors,
       );
 
@@ -343,10 +319,7 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
     } catch (e) {
       _state.value = _state.value.copyWith(
         submitting: false,
-        submitActions: [
-          ..._state.value.submitActions,
-          action.copyWith(isValid: false)
-        ],
+        submitActions: [..._state.value.submitActions, action.copyWith(isValid: false)],
       );
       rethrow;
     }
@@ -354,29 +327,14 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
 
   @override
   Widget build(BuildContext context) {
-    var reveal = config?.revealConfig.copyWith(widget.revealConfig) ??
-        widget.revealConfig;
+    var reveal = config?.revealConfig.copyWith(widget.revealConfig) ?? widget.revealConfig;
     if (reveal.enabled == true) {
       return CircularReveal(
         revealColor: reveal.color,
         build: (CircularRevealController ctrl) {
           controller = ctrl;
-          return _build(context);
+          return _buildForm(context);
         },
-      );
-    } else {
-      return _build(context);
-    }
-  }
-
-  Widget _build(BuildContext context) {
-    var keyBoardActionConfig =
-        config?.keyBoardActionConfig.copyWith(widget.keyBoardActionConfig) ??
-            widget.keyBoardActionConfig;
-    if (keyBoardActionConfig.enabled != false) {
-      return KeyboardActions(
-        policy: keyBoardActionConfig.policy,
-        child: _buildForm(context),
       );
     } else {
       return _buildForm(context);
@@ -394,9 +352,7 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
       case FormAutoValidateMode.onUserInteraction:
         return AutovalidateMode.onUserInteraction;
       case FormAutoValidateMode.onSubmit:
-        return state.submitActions.isEmpty
-            ? AutovalidateMode.disabled
-            : AutovalidateMode.always;
+        return state.submitActions.isEmpty ? AutovalidateMode.disabled : AutovalidateMode.always;
     }
   }
 
@@ -434,7 +390,17 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
           return res == "yes";
         },
         autovalidateMode: _getAutoValidateMode(_state.value),
-        child: widget.child,
+        child: Builder(builder: (context) {
+          var unfocusOnTapOutSide = config?.unfocusOnTapOutSide ?? widget.unfocusOnTapOutSide ?? true;
+          return GestureDetector(
+            onTap: () {
+              if (unfocusOnTapOutSide) {
+                FocusScope.of(context).unfocus();
+              }
+            },
+            child: widget.child,
+          );
+        }),
       ),
     );
   }
@@ -470,12 +436,8 @@ class CancelDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: cancelRequestTitle ??
-          config?.cancelRequestTitle ??
-          const Text("Cancel request"),
-      content: cancelRequestContent ??
-          config?.cancelRequestContent ??
-          const Text("Do you want to leave and cancel the current action?"),
+      title: cancelRequestTitle ?? config?.cancelRequestTitle ?? const Text("Cancel request"),
+      content: cancelRequestContent ?? config?.cancelRequestContent ?? const Text("Do you want to leave and cancel the current action?"),
       actions: [
         TextButton(
           onPressed: () {
@@ -488,8 +450,7 @@ class CancelDialog extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop("no");
           },
-          style: TextButton.styleFrom(
-              foregroundColor: Theme.of(context).colorScheme.error),
+          style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.error),
           child: no ?? config?.no ?? const Text("No"),
         )
       ],
