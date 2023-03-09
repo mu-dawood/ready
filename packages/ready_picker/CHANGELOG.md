@@ -53,3 +53,7 @@
 ## 1.5.9+5
 
 * Use ready version 1.5.9+5
+
+## 1.6.0
+
+* Use ready version 1.6.0
