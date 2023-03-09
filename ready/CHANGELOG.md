@@ -37,3 +37,7 @@
 ## 1.5.9
 
 *  Add authorization
+
+## 1.6.0
+
+*  add extension methods to controller and state

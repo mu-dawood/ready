@@ -98,7 +98,7 @@ class ResponsiveList extends StatelessWidget {
         IconAction.delete(action: (BuildContext context,
             ReadyListCubit controller, FakeItem item) async {
           await Future.delayed(const Duration(seconds: 1));
-          controller.removeItem(item);
+          controller.remove(item);
         }),
       ],
     );

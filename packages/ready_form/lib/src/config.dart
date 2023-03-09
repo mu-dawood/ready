@@ -147,12 +147,16 @@ class ReadyFormConfig extends InheritedWidget {
   /// no button
   final Widget? no;
 
+  /// if set will wrap the form child with [FocusTraversalGroup]
+  final FocusTraversalPolicy Function()? generateFocusTraversalPolicy;
+
   const ReadyFormConfig({
     Key? key,
     this.revealConfig = const RevealConfig(),
     this.cancelRequestTitle,
     this.cancelRequestContent,
     this.disableEditingOnSubmit,
+    this.generateFocusTraversalPolicy,
     this.unfocusOnTapOutSide = true,
     this.yes,
     this.no,
@@ -169,6 +173,8 @@ class ReadyFormConfig extends InheritedWidget {
     return revealConfig != oldWidget.revealConfig ||
         cancelRequestTitle != oldWidget.cancelRequestTitle ||
         disableEditingOnSubmit != oldWidget.disableEditingOnSubmit ||
+        generateFocusTraversalPolicy != oldWidget.generateFocusTraversalPolicy ||
+        unfocusOnTapOutSide != oldWidget.unfocusOnTapOutSide ||
         cancelRequestContent != oldWidget.cancelRequestContent ||
         autoValidateMode != oldWidget.autoValidateMode ||
         yes != oldWidget.yes ||

@@ -28,3 +28,7 @@
 ## 1.2.1
 
 * Remove keyboard actions
+
+## 1.2.2
+
+* FocusTraversalGroup

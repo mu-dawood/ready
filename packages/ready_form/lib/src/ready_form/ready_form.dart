@@ -71,6 +71,9 @@ class ReadyForm extends StatefulWidget {
 
   /// if true the key board will be hidden if user taps outside the inputs
   final bool? unfocusOnTapOutSide;
+
+  /// if set will wrap the form child with [FocusTraversalGroup]
+  final FocusTraversalPolicy? focusTraversalPolicy;
   ReadyForm({
     ReadyFormKey? key,
     required this.onPostData,
@@ -85,6 +88,7 @@ class ReadyForm extends StatefulWidget {
     this.autoValidateMode,
     this.no,
     this.unfocusOnTapOutSide,
+    this.focusTraversalPolicy,
   }) : super(key: key?._key);
 
   factory ReadyForm.builder({
@@ -100,6 +104,7 @@ class ReadyForm extends StatefulWidget {
     bool? disableEditingOnSubmit,
     FormAutoValidateMode? autoValidateMode,
     bool? unfocusOnTapOutSide,
+    FocusTraversalPolicy? focusTraversalPolicy,
   }) =>
       ReadyForm(
         key: key,
@@ -107,6 +112,7 @@ class ReadyForm extends StatefulWidget {
         cancelRequestContent: cancelRequestContent,
         cancelRequestTitle: cancelRequestTitle,
         yes: yes,
+        focusTraversalPolicy: focusTraversalPolicy,
         beforeValidate: beforeValidate,
         disableEditingOnSubmit: false,
         no: no,
@@ -342,7 +348,7 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
   }
 
   AutovalidateMode? _getAutoValidateMode(FormSubmitState state) {
-    var mode = config?.autoValidateMode ?? widget.autoValidateMode;
+    var mode = widget.autoValidateMode ?? config?.autoValidateMode;
     if (mode == null) return null;
     switch (mode) {
       case FormAutoValidateMode.disabled:
@@ -366,6 +372,26 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
   }
 
   Widget _buildForm(BuildContext context) {
+    Widget child = Builder(
+      builder: (context) {
+        var unfocusOnTapOutSide = widget.unfocusOnTapOutSide ?? config?.unfocusOnTapOutSide ?? true;
+        return GestureDetector(
+          onTap: () {
+            if (unfocusOnTapOutSide) {
+              FocusScope.of(context).unfocus();
+            }
+          },
+          child: widget.child,
+        );
+      },
+    );
+    var policy = widget.focusTraversalPolicy ?? config?.generateFocusTraversalPolicy?.call();
+    if (policy != null) {
+      child = FocusTraversalGroup(
+        policy: policy,
+        child: child,
+      );
+    }
     return AbsorbPointer(
       absorbing: _disableEditingOnSubmit && _state.value.submitting,
       child: Form(
@@ -390,17 +416,7 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
           return res == "yes";
         },
         autovalidateMode: _getAutoValidateMode(_state.value),
-        child: Builder(builder: (context) {
-          var unfocusOnTapOutSide = config?.unfocusOnTapOutSide ?? widget.unfocusOnTapOutSide ?? true;
-          return GestureDetector(
-            onTap: () {
-              if (unfocusOnTapOutSide) {
-                FocusScope.of(context).unfocus();
-              }
-            },
-            child: widget.child,
-          );
-        }),
+        child: child,
       ),
     );
   }
