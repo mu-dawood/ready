@@ -69,6 +69,16 @@ class CurrentUser {
   }
 }
 
+Widget _buildPage(bool phone, Widget child) {
+  if (phone) return child;
+  return Card(
+    margin: const EdgeInsets.all(10),
+    child: child,
+  );
+}
+
+bool _defaultOverlap(bool phone) => phone;
+
 class ReadyDashboard extends StatefulWidget {
   final CurrentUser currentUser;
   final List<DashboardItem> items;
@@ -76,7 +86,7 @@ class ReadyDashboard extends StatefulWidget {
   final DrawerOptions Function(bool phone) drawerOptions;
   final AppBarOptions Function(bool phone) appBarOptions;
   final EdgeInsetsGeometry Function(bool phone) padding;
-  final Widget Function(bool phone, Widget child)? buildPage;
+  final Widget Function(bool phone, Widget child) buildPage;
   final bool iconsWhenCollapsedInDesktop;
   final ValueChanged<String>? onPageChanged;
 
@@ -87,6 +97,7 @@ class ReadyDashboard extends StatefulWidget {
   ///
   /// This property is used to configure an [AppBar].
   final List<Widget> actions;
+  final bool Function(bool phone) overlapAppBar;
   ReadyDashboard({
     Key? key,
     required List<DashboardItem> items,
@@ -95,8 +106,9 @@ class ReadyDashboard extends StatefulWidget {
     this.initialIndex,
     this.padding = _padding,
     this.appBarOptions = _appBarOptions,
-    this.buildPage,
-    this.iconsWhenCollapsedInDesktop = false,
+    this.buildPage = _buildPage,
+    this.overlapAppBar = _defaultOverlap,
+    this.iconsWhenCollapsedInDesktop = true,
     this.navigator = const NavigatorOptions(),
     this.onPageChanged,
     this.actions = const [],
@@ -218,25 +230,23 @@ class ReadyDashboardState extends State<ReadyDashboard>
                               body: tabView(widgets, small),
                               headerSliverBuilder: (BuildContext context,
                                   bool innerBoxIsScrolled) {
-                                return [
-                                  SliverOverlapAbsorber(
-                                    handle: NestedScrollView
-                                        .sliverOverlapAbsorberHandleFor(
-                                            context),
-                                    sliver: _DashBoardAppBar(
-                                      focusNode: _focusNode,
-                                      drawerOptions:
-                                          widget.drawerOptions(small),
-                                      appBarOptions:
-                                          widget.appBarOptions(small),
-                                      mergeActions:
-                                          layout == LayoutType.small ||
-                                              layout == LayoutType.xSmall,
-                                      expansion: expansionController,
-                                      innerBoxIsScrolled: innerBoxIsScrolled,
-                                    ),
-                                  )
-                                ];
+                                Widget appBar = _DashBoardAppBar(
+                                  focusNode: _focusNode,
+                                  drawerOptions: widget.drawerOptions(small),
+                                  appBarOptions: widget.appBarOptions(small),
+                                  mergeActions: layout == LayoutType.small ||
+                                      layout == LayoutType.xSmall,
+                                  expansion: expansionController,
+                                  innerBoxIsScrolled: innerBoxIsScrolled,
+                                );
+                                if (widget.overlapAppBar(small)) {
+                                  appBar = SliverOverlapAbsorber(
+                                      handle: NestedScrollView
+                                          .sliverOverlapAbsorberHandleFor(
+                                              context),
+                                      sliver: appBar);
+                                }
+                                return [appBar];
                               },
                             ),
                           ),
@@ -309,7 +319,7 @@ class ReadyDashboardState extends State<ReadyDashboard>
   }
 
   Widget _buildChild(Widget child, bool small) {
-    return widget.buildPage?.call(small, child) ?? child;
+    return widget.buildPage.call(small, child);
   }
 
   Widget tabView(List<Widget> widgets, bool small) {

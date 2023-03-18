@@ -358,7 +358,6 @@ mixin _$CurrentData<T> {
   Iterable<T> get items => throw _privateConstructorUsedError;
   int get totalCount => throw _privateConstructorUsedError;
   int? get pageSize => throw _privateConstructorUsedError;
-  dynamic get args => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CurrentDataCopyWith<T, CurrentData<T>> get copyWith =>
@@ -371,7 +370,7 @@ abstract class $CurrentDataCopyWith<T, $Res> {
           CurrentData<T> value, $Res Function(CurrentData<T>) then) =
       _$CurrentDataCopyWithImpl<T, $Res, CurrentData<T>>;
   @useResult
-  $Res call({Iterable<T> items, int totalCount, int? pageSize, dynamic args});
+  $Res call({Iterable<T> items, int totalCount, int? pageSize});
 }
 
 /// @nodoc
@@ -390,7 +389,6 @@ class _$CurrentDataCopyWithImpl<T, $Res, $Val extends CurrentData<T>>
     Object? items = null,
     Object? totalCount = null,
     Object? pageSize = freezed,
-    Object? args = freezed,
   }) {
     return _then(_value.copyWith(
       items: null == items
@@ -405,10 +403,6 @@ class _$CurrentDataCopyWithImpl<T, $Res, $Val extends CurrentData<T>>
           ? _value.pageSize
           : pageSize // ignore: cast_nullable_to_non_nullable
               as int?,
-      args: freezed == args
-          ? _value.args
-          : args // ignore: cast_nullable_to_non_nullable
-              as dynamic,
     ) as $Val);
   }
 }
@@ -421,7 +415,7 @@ abstract class _$$_CurrentDataCopyWith<T, $Res>
       __$$_CurrentDataCopyWithImpl<T, $Res>;
   @override
   @useResult
-  $Res call({Iterable<T> items, int totalCount, int? pageSize, dynamic args});
+  $Res call({Iterable<T> items, int totalCount, int? pageSize});
 }
 
 /// @nodoc
@@ -438,7 +432,6 @@ class __$$_CurrentDataCopyWithImpl<T, $Res>
     Object? items = null,
     Object? totalCount = null,
     Object? pageSize = freezed,
-    Object? args = freezed,
   }) {
     return _then(_$_CurrentData<T>(
       items: null == items
@@ -453,10 +446,6 @@ class __$$_CurrentDataCopyWithImpl<T, $Res>
           ? _value.pageSize
           : pageSize // ignore: cast_nullable_to_non_nullable
               as int?,
-      args: freezed == args
-          ? _value.args
-          : args // ignore: cast_nullable_to_non_nullable
-              as dynamic,
     ));
   }
 }
@@ -465,10 +454,7 @@ class __$$_CurrentDataCopyWithImpl<T, $Res>
 
 class _$_CurrentData<T> implements _CurrentData<T> {
   const _$_CurrentData(
-      {required this.items,
-      required this.totalCount,
-      this.pageSize,
-      this.args});
+      {required this.items, required this.totalCount, this.pageSize});
 
   @override
   final Iterable<T> items;
@@ -476,12 +462,10 @@ class _$_CurrentData<T> implements _CurrentData<T> {
   final int totalCount;
   @override
   final int? pageSize;
-  @override
-  final dynamic args;
 
   @override
   String toString() {
-    return 'CurrentData<$T>(items: $items, totalCount: $totalCount, pageSize: $pageSize, args: $args)';
+    return 'CurrentData<$T>(items: $items, totalCount: $totalCount, pageSize: $pageSize)';
   }
 
   @override
@@ -493,17 +477,12 @@ class _$_CurrentData<T> implements _CurrentData<T> {
             (identical(other.totalCount, totalCount) ||
                 other.totalCount == totalCount) &&
             (identical(other.pageSize, pageSize) ||
-                other.pageSize == pageSize) &&
-            const DeepCollectionEquality().equals(other.args, args));
+                other.pageSize == pageSize));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(items),
-      totalCount,
-      pageSize,
-      const DeepCollectionEquality().hash(args));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(items), totalCount, pageSize);
 
   @JsonKey(ignore: true)
   @override
@@ -516,8 +495,7 @@ abstract class _CurrentData<T> implements CurrentData<T> {
   const factory _CurrentData(
       {required final Iterable<T> items,
       required final int totalCount,
-      final int? pageSize,
-      final dynamic args}) = _$_CurrentData<T>;
+      final int? pageSize}) = _$_CurrentData<T>;
 
   @override
   Iterable<T> get items;
@@ -526,157 +504,156 @@ abstract class _CurrentData<T> implements CurrentData<T> {
   @override
   int? get pageSize;
   @override
-  dynamic get args;
-  @override
   @JsonKey(ignore: true)
   _$$_CurrentDataCopyWith<T, _$_CurrentData<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-mixin _$ReadyListState<T> {
-  dynamic get args => throw _privateConstructorUsedError;
+mixin _$ReadyListState<T, Args> {
+  Args get args => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool requestFirstLoading, dynamic args)
-        initializing,
+    required TResult Function(bool requestFirstLoading, Args args) initializing,
     required TResult Function(
-            int? pageSize, CurrentData<T>? currentData, dynamic args)
+            int? pageSize, CurrentData<T>? currentData, Args args)
         requestFirstLoading,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)
+            CurrentData<T>? currentData, Args args)
         isLoadingFirst,
-    required TResult Function(ErrorDisplayCallBack display,
-            CurrentData<T>? currentData, dynamic args)
+    required TResult Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)
         error,
     required TResult Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)
+            Iterable<T> items, int totalCount, int? pageSize, Args args)
         isLoaded,
     required TResult Function(
-            int? pageSize, CurrentData<T> currentData, dynamic args)
+            int? pageSize, CurrentData<T> currentData, Args args)
         requestNext,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)
+            CurrentData<T> currentData, Args args)
         isLoadingNext,
     required TResult Function(
-            int? pageSize, CurrentData<T> currentData, dynamic args)
+            int? pageSize, CurrentData<T> currentData, Args args)
         requestRefresh,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)
+            CurrentData<T> currentData, Args args)
         isRefreshing,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool requestFirstLoading, dynamic args)? initializing,
-    TResult? Function(int? pageSize, CurrentData<T>? currentData, dynamic args)?
+    TResult? Function(bool requestFirstLoading, Args args)? initializing,
+    TResult? Function(int? pageSize, CurrentData<T>? currentData, Args args)?
         requestFirstLoading,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)?
+            CurrentData<T>? currentData, Args args)?
         isLoadingFirst,
-    TResult? Function(ErrorDisplayCallBack display, CurrentData<T>? currentData,
-            dynamic args)?
+    TResult? Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)?
         error,
     TResult? Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)?
+            Iterable<T> items, int totalCount, int? pageSize, Args args)?
         isLoaded,
-    TResult? Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult? Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestNext,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isLoadingNext,
-    TResult? Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult? Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestRefresh,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isRefreshing,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool requestFirstLoading, dynamic args)? initializing,
-    TResult Function(int? pageSize, CurrentData<T>? currentData, dynamic args)?
+    TResult Function(bool requestFirstLoading, Args args)? initializing,
+    TResult Function(int? pageSize, CurrentData<T>? currentData, Args args)?
         requestFirstLoading,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)?
+            CurrentData<T>? currentData, Args args)?
         isLoadingFirst,
-    TResult Function(ErrorDisplayCallBack display, CurrentData<T>? currentData,
-            dynamic args)?
+    TResult Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)?
         error,
     TResult Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)?
+            Iterable<T> items, int totalCount, int? pageSize, Args args)?
         isLoaded,
-    TResult Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestNext,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isLoadingNext,
-    TResult Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestRefresh,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isRefreshing,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Initializing<T> value) initializing,
-    required TResult Function(RequestFirstLoading<T> value) requestFirstLoading,
-    required TResult Function(FirstLoading<T> value) isLoadingFirst,
-    required TResult Function(ErrorState<T> value) error,
-    required TResult Function(Loaded<T> value) isLoaded,
-    required TResult Function(RequestNext<T> value) requestNext,
-    required TResult Function(LoadingNext<T> value) isLoadingNext,
-    required TResult Function(RequestRefresh<T> value) requestRefresh,
-    required TResult Function(Refreshing<T> value) isRefreshing,
+    required TResult Function(Initializing<T, Args> value) initializing,
+    required TResult Function(RequestFirstLoading<T, Args> value)
+        requestFirstLoading,
+    required TResult Function(FirstLoading<T, Args> value) isLoadingFirst,
+    required TResult Function(ErrorState<T, Args> value) error,
+    required TResult Function(Loaded<T, Args> value) isLoaded,
+    required TResult Function(RequestNext<T, Args> value) requestNext,
+    required TResult Function(LoadingNext<T, Args> value) isLoadingNext,
+    required TResult Function(RequestRefresh<T, Args> value) requestRefresh,
+    required TResult Function(Refreshing<T, Args> value) isRefreshing,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Initializing<T> value)? initializing,
-    TResult? Function(RequestFirstLoading<T> value)? requestFirstLoading,
-    TResult? Function(FirstLoading<T> value)? isLoadingFirst,
-    TResult? Function(ErrorState<T> value)? error,
-    TResult? Function(Loaded<T> value)? isLoaded,
-    TResult? Function(RequestNext<T> value)? requestNext,
-    TResult? Function(LoadingNext<T> value)? isLoadingNext,
-    TResult? Function(RequestRefresh<T> value)? requestRefresh,
-    TResult? Function(Refreshing<T> value)? isRefreshing,
+    TResult? Function(Initializing<T, Args> value)? initializing,
+    TResult? Function(RequestFirstLoading<T, Args> value)? requestFirstLoading,
+    TResult? Function(FirstLoading<T, Args> value)? isLoadingFirst,
+    TResult? Function(ErrorState<T, Args> value)? error,
+    TResult? Function(Loaded<T, Args> value)? isLoaded,
+    TResult? Function(RequestNext<T, Args> value)? requestNext,
+    TResult? Function(LoadingNext<T, Args> value)? isLoadingNext,
+    TResult? Function(RequestRefresh<T, Args> value)? requestRefresh,
+    TResult? Function(Refreshing<T, Args> value)? isRefreshing,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initializing<T> value)? initializing,
-    TResult Function(RequestFirstLoading<T> value)? requestFirstLoading,
-    TResult Function(FirstLoading<T> value)? isLoadingFirst,
-    TResult Function(ErrorState<T> value)? error,
-    TResult Function(Loaded<T> value)? isLoaded,
-    TResult Function(RequestNext<T> value)? requestNext,
-    TResult Function(LoadingNext<T> value)? isLoadingNext,
-    TResult Function(RequestRefresh<T> value)? requestRefresh,
-    TResult Function(Refreshing<T> value)? isRefreshing,
+    TResult Function(Initializing<T, Args> value)? initializing,
+    TResult Function(RequestFirstLoading<T, Args> value)? requestFirstLoading,
+    TResult Function(FirstLoading<T, Args> value)? isLoadingFirst,
+    TResult Function(ErrorState<T, Args> value)? error,
+    TResult Function(Loaded<T, Args> value)? isLoaded,
+    TResult Function(RequestNext<T, Args> value)? requestNext,
+    TResult Function(LoadingNext<T, Args> value)? isLoadingNext,
+    TResult Function(RequestRefresh<T, Args> value)? requestRefresh,
+    TResult Function(Refreshing<T, Args> value)? isRefreshing,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $ReadyListStateCopyWith<T, ReadyListState<T>> get copyWith =>
+  $ReadyListStateCopyWith<T, Args, ReadyListState<T, Args>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ReadyListStateCopyWith<T, $Res> {
-  factory $ReadyListStateCopyWith(
-          ReadyListState<T> value, $Res Function(ReadyListState<T>) then) =
-      _$ReadyListStateCopyWithImpl<T, $Res, ReadyListState<T>>;
+abstract class $ReadyListStateCopyWith<T, Args, $Res> {
+  factory $ReadyListStateCopyWith(ReadyListState<T, Args> value,
+          $Res Function(ReadyListState<T, Args>) then) =
+      _$ReadyListStateCopyWithImpl<T, Args, $Res, ReadyListState<T, Args>>;
   @useResult
-  $Res call({dynamic args});
+  $Res call({Args args});
 }
 
 /// @nodoc
-class _$ReadyListStateCopyWithImpl<T, $Res, $Val extends ReadyListState<T>>
-    implements $ReadyListStateCopyWith<T, $Res> {
+class _$ReadyListStateCopyWithImpl<T, Args, $Res,
+        $Val extends ReadyListState<T, Args>>
+    implements $ReadyListStateCopyWith<T, Args, $Res> {
   _$ReadyListStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -693,28 +670,28 @@ class _$ReadyListStateCopyWithImpl<T, $Res, $Val extends ReadyListState<T>>
       args: freezed == args
           ? _value.args
           : args // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as Args,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$InitializingCopyWith<T, $Res>
-    implements $ReadyListStateCopyWith<T, $Res> {
-  factory _$$InitializingCopyWith(
-          _$Initializing<T> value, $Res Function(_$Initializing<T>) then) =
-      __$$InitializingCopyWithImpl<T, $Res>;
+abstract class _$$InitializingCopyWith<T, Args, $Res>
+    implements $ReadyListStateCopyWith<T, Args, $Res> {
+  factory _$$InitializingCopyWith(_$Initializing<T, Args> value,
+          $Res Function(_$Initializing<T, Args>) then) =
+      __$$InitializingCopyWithImpl<T, Args, $Res>;
   @override
   @useResult
-  $Res call({bool requestFirstLoading, dynamic args});
+  $Res call({bool requestFirstLoading, Args args});
 }
 
 /// @nodoc
-class __$$InitializingCopyWithImpl<T, $Res>
-    extends _$ReadyListStateCopyWithImpl<T, $Res, _$Initializing<T>>
-    implements _$$InitializingCopyWith<T, $Res> {
-  __$$InitializingCopyWithImpl(
-      _$Initializing<T> _value, $Res Function(_$Initializing<T>) _then)
+class __$$InitializingCopyWithImpl<T, Args, $Res>
+    extends _$ReadyListStateCopyWithImpl<T, Args, $Res, _$Initializing<T, Args>>
+    implements _$$InitializingCopyWith<T, Args, $Res> {
+  __$$InitializingCopyWithImpl(_$Initializing<T, Args> _value,
+      $Res Function(_$Initializing<T, Args>) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -723,7 +700,7 @@ class __$$InitializingCopyWithImpl<T, $Res>
     Object? requestFirstLoading = null,
     Object? args = freezed,
   }) {
-    return _then(_$Initializing<T>(
+    return _then(_$Initializing<T, Args>(
       requestFirstLoading: null == requestFirstLoading
           ? _value.requestFirstLoading
           : requestFirstLoading // ignore: cast_nullable_to_non_nullable
@@ -731,32 +708,32 @@ class __$$InitializingCopyWithImpl<T, $Res>
       args: freezed == args
           ? _value.args
           : args // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as Args,
     ));
   }
 }
 
 /// @nodoc
 
-class _$Initializing<T> implements Initializing<T> {
-  const _$Initializing({this.requestFirstLoading = true, this.args});
+class _$Initializing<T, Args> implements Initializing<T, Args> {
+  const _$Initializing({this.requestFirstLoading = true, required this.args});
 
   @override
   @JsonKey()
   final bool requestFirstLoading;
   @override
-  final dynamic args;
+  final Args args;
 
   @override
   String toString() {
-    return 'ReadyListState<$T>.initializing(requestFirstLoading: $requestFirstLoading, args: $args)';
+    return 'ReadyListState<$T, $Args>.initializing(requestFirstLoading: $requestFirstLoading, args: $args)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$Initializing<T> &&
+            other is _$Initializing<T, Args> &&
             (identical(other.requestFirstLoading, requestFirstLoading) ||
                 other.requestFirstLoading == requestFirstLoading) &&
             const DeepCollectionEquality().equals(other.args, args));
@@ -769,37 +746,37 @@ class _$Initializing<T> implements Initializing<T> {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$InitializingCopyWith<T, _$Initializing<T>> get copyWith =>
-      __$$InitializingCopyWithImpl<T, _$Initializing<T>>(this, _$identity);
+  _$$InitializingCopyWith<T, Args, _$Initializing<T, Args>> get copyWith =>
+      __$$InitializingCopyWithImpl<T, Args, _$Initializing<T, Args>>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool requestFirstLoading, dynamic args)
-        initializing,
+    required TResult Function(bool requestFirstLoading, Args args) initializing,
     required TResult Function(
-            int? pageSize, CurrentData<T>? currentData, dynamic args)
+            int? pageSize, CurrentData<T>? currentData, Args args)
         requestFirstLoading,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)
+            CurrentData<T>? currentData, Args args)
         isLoadingFirst,
-    required TResult Function(ErrorDisplayCallBack display,
-            CurrentData<T>? currentData, dynamic args)
+    required TResult Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)
         error,
     required TResult Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)
+            Iterable<T> items, int totalCount, int? pageSize, Args args)
         isLoaded,
     required TResult Function(
-            int? pageSize, CurrentData<T> currentData, dynamic args)
+            int? pageSize, CurrentData<T> currentData, Args args)
         requestNext,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)
+            CurrentData<T> currentData, Args args)
         isLoadingNext,
     required TResult Function(
-            int? pageSize, CurrentData<T> currentData, dynamic args)
+            int? pageSize, CurrentData<T> currentData, Args args)
         requestRefresh,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)
+            CurrentData<T> currentData, Args args)
         isRefreshing,
   }) {
     return initializing(this.requestFirstLoading, args);
@@ -808,27 +785,27 @@ class _$Initializing<T> implements Initializing<T> {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool requestFirstLoading, dynamic args)? initializing,
-    TResult? Function(int? pageSize, CurrentData<T>? currentData, dynamic args)?
+    TResult? Function(bool requestFirstLoading, Args args)? initializing,
+    TResult? Function(int? pageSize, CurrentData<T>? currentData, Args args)?
         requestFirstLoading,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)?
+            CurrentData<T>? currentData, Args args)?
         isLoadingFirst,
-    TResult? Function(ErrorDisplayCallBack display, CurrentData<T>? currentData,
-            dynamic args)?
+    TResult? Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)?
         error,
     TResult? Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)?
+            Iterable<T> items, int totalCount, int? pageSize, Args args)?
         isLoaded,
-    TResult? Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult? Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestNext,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isLoadingNext,
-    TResult? Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult? Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestRefresh,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isRefreshing,
   }) {
     return initializing?.call(this.requestFirstLoading, args);
@@ -837,27 +814,27 @@ class _$Initializing<T> implements Initializing<T> {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool requestFirstLoading, dynamic args)? initializing,
-    TResult Function(int? pageSize, CurrentData<T>? currentData, dynamic args)?
+    TResult Function(bool requestFirstLoading, Args args)? initializing,
+    TResult Function(int? pageSize, CurrentData<T>? currentData, Args args)?
         requestFirstLoading,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)?
+            CurrentData<T>? currentData, Args args)?
         isLoadingFirst,
-    TResult Function(ErrorDisplayCallBack display, CurrentData<T>? currentData,
-            dynamic args)?
+    TResult Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)?
         error,
     TResult Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)?
+            Iterable<T> items, int totalCount, int? pageSize, Args args)?
         isLoaded,
-    TResult Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestNext,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isLoadingNext,
-    TResult Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestRefresh,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isRefreshing,
     required TResult orElse(),
   }) {
@@ -870,15 +847,16 @@ class _$Initializing<T> implements Initializing<T> {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Initializing<T> value) initializing,
-    required TResult Function(RequestFirstLoading<T> value) requestFirstLoading,
-    required TResult Function(FirstLoading<T> value) isLoadingFirst,
-    required TResult Function(ErrorState<T> value) error,
-    required TResult Function(Loaded<T> value) isLoaded,
-    required TResult Function(RequestNext<T> value) requestNext,
-    required TResult Function(LoadingNext<T> value) isLoadingNext,
-    required TResult Function(RequestRefresh<T> value) requestRefresh,
-    required TResult Function(Refreshing<T> value) isRefreshing,
+    required TResult Function(Initializing<T, Args> value) initializing,
+    required TResult Function(RequestFirstLoading<T, Args> value)
+        requestFirstLoading,
+    required TResult Function(FirstLoading<T, Args> value) isLoadingFirst,
+    required TResult Function(ErrorState<T, Args> value) error,
+    required TResult Function(Loaded<T, Args> value) isLoaded,
+    required TResult Function(RequestNext<T, Args> value) requestNext,
+    required TResult Function(LoadingNext<T, Args> value) isLoadingNext,
+    required TResult Function(RequestRefresh<T, Args> value) requestRefresh,
+    required TResult Function(Refreshing<T, Args> value) isRefreshing,
   }) {
     return initializing(this);
   }
@@ -886,15 +864,15 @@ class _$Initializing<T> implements Initializing<T> {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Initializing<T> value)? initializing,
-    TResult? Function(RequestFirstLoading<T> value)? requestFirstLoading,
-    TResult? Function(FirstLoading<T> value)? isLoadingFirst,
-    TResult? Function(ErrorState<T> value)? error,
-    TResult? Function(Loaded<T> value)? isLoaded,
-    TResult? Function(RequestNext<T> value)? requestNext,
-    TResult? Function(LoadingNext<T> value)? isLoadingNext,
-    TResult? Function(RequestRefresh<T> value)? requestRefresh,
-    TResult? Function(Refreshing<T> value)? isRefreshing,
+    TResult? Function(Initializing<T, Args> value)? initializing,
+    TResult? Function(RequestFirstLoading<T, Args> value)? requestFirstLoading,
+    TResult? Function(FirstLoading<T, Args> value)? isLoadingFirst,
+    TResult? Function(ErrorState<T, Args> value)? error,
+    TResult? Function(Loaded<T, Args> value)? isLoaded,
+    TResult? Function(RequestNext<T, Args> value)? requestNext,
+    TResult? Function(LoadingNext<T, Args> value)? isLoadingNext,
+    TResult? Function(RequestRefresh<T, Args> value)? requestRefresh,
+    TResult? Function(Refreshing<T, Args> value)? isRefreshing,
   }) {
     return initializing?.call(this);
   }
@@ -902,15 +880,15 @@ class _$Initializing<T> implements Initializing<T> {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initializing<T> value)? initializing,
-    TResult Function(RequestFirstLoading<T> value)? requestFirstLoading,
-    TResult Function(FirstLoading<T> value)? isLoadingFirst,
-    TResult Function(ErrorState<T> value)? error,
-    TResult Function(Loaded<T> value)? isLoaded,
-    TResult Function(RequestNext<T> value)? requestNext,
-    TResult Function(LoadingNext<T> value)? isLoadingNext,
-    TResult Function(RequestRefresh<T> value)? requestRefresh,
-    TResult Function(Refreshing<T> value)? isRefreshing,
+    TResult Function(Initializing<T, Args> value)? initializing,
+    TResult Function(RequestFirstLoading<T, Args> value)? requestFirstLoading,
+    TResult Function(FirstLoading<T, Args> value)? isLoadingFirst,
+    TResult Function(ErrorState<T, Args> value)? error,
+    TResult Function(Loaded<T, Args> value)? isLoaded,
+    TResult Function(RequestNext<T, Args> value)? requestNext,
+    TResult Function(LoadingNext<T, Args> value)? isLoadingNext,
+    TResult Function(RequestRefresh<T, Args> value)? requestRefresh,
+    TResult Function(Refreshing<T, Args> value)? isRefreshing,
     required TResult orElse(),
   }) {
     if (initializing != null) {
@@ -920,38 +898,40 @@ class _$Initializing<T> implements Initializing<T> {
   }
 }
 
-abstract class Initializing<T> implements ReadyListState<T> {
+abstract class Initializing<T, Args> implements ReadyListState<T, Args> {
   const factory Initializing(
-      {final bool requestFirstLoading, final dynamic args}) = _$Initializing<T>;
+      {final bool requestFirstLoading,
+      required final Args args}) = _$Initializing<T, Args>;
 
   bool get requestFirstLoading;
   @override
-  dynamic get args;
+  Args get args;
   @override
   @JsonKey(ignore: true)
-  _$$InitializingCopyWith<T, _$Initializing<T>> get copyWith =>
+  _$$InitializingCopyWith<T, Args, _$Initializing<T, Args>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$RequestFirstLoadingCopyWith<T, $Res>
-    implements $ReadyListStateCopyWith<T, $Res> {
-  factory _$$RequestFirstLoadingCopyWith(_$RequestFirstLoading<T> value,
-          $Res Function(_$RequestFirstLoading<T>) then) =
-      __$$RequestFirstLoadingCopyWithImpl<T, $Res>;
+abstract class _$$RequestFirstLoadingCopyWith<T, Args, $Res>
+    implements $ReadyListStateCopyWith<T, Args, $Res> {
+  factory _$$RequestFirstLoadingCopyWith(_$RequestFirstLoading<T, Args> value,
+          $Res Function(_$RequestFirstLoading<T, Args>) then) =
+      __$$RequestFirstLoadingCopyWithImpl<T, Args, $Res>;
   @override
   @useResult
-  $Res call({int? pageSize, CurrentData<T>? currentData, dynamic args});
+  $Res call({int? pageSize, CurrentData<T>? currentData, Args args});
 
   $CurrentDataCopyWith<T, $Res>? get currentData;
 }
 
 /// @nodoc
-class __$$RequestFirstLoadingCopyWithImpl<T, $Res>
-    extends _$ReadyListStateCopyWithImpl<T, $Res, _$RequestFirstLoading<T>>
-    implements _$$RequestFirstLoadingCopyWith<T, $Res> {
-  __$$RequestFirstLoadingCopyWithImpl(_$RequestFirstLoading<T> _value,
-      $Res Function(_$RequestFirstLoading<T>) _then)
+class __$$RequestFirstLoadingCopyWithImpl<T, Args, $Res>
+    extends _$ReadyListStateCopyWithImpl<T, Args, $Res,
+        _$RequestFirstLoading<T, Args>>
+    implements _$$RequestFirstLoadingCopyWith<T, Args, $Res> {
+  __$$RequestFirstLoadingCopyWithImpl(_$RequestFirstLoading<T, Args> _value,
+      $Res Function(_$RequestFirstLoading<T, Args>) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -961,7 +941,7 @@ class __$$RequestFirstLoadingCopyWithImpl<T, $Res>
     Object? currentData = freezed,
     Object? args = freezed,
   }) {
-    return _then(_$RequestFirstLoading<T>(
+    return _then(_$RequestFirstLoading<T, Args>(
       pageSize: freezed == pageSize
           ? _value.pageSize
           : pageSize // ignore: cast_nullable_to_non_nullable
@@ -973,7 +953,7 @@ class __$$RequestFirstLoadingCopyWithImpl<T, $Res>
       args: freezed == args
           ? _value.args
           : args // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as Args,
     ));
   }
 
@@ -992,26 +972,27 @@ class __$$RequestFirstLoadingCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$RequestFirstLoading<T> implements RequestFirstLoading<T> {
-  const _$RequestFirstLoading({this.pageSize, this.currentData, this.args});
+class _$RequestFirstLoading<T, Args> implements RequestFirstLoading<T, Args> {
+  const _$RequestFirstLoading(
+      {this.pageSize, this.currentData, required this.args});
 
   @override
   final int? pageSize;
   @override
   final CurrentData<T>? currentData;
   @override
-  final dynamic args;
+  final Args args;
 
   @override
   String toString() {
-    return 'ReadyListState<$T>.requestFirstLoading(pageSize: $pageSize, currentData: $currentData, args: $args)';
+    return 'ReadyListState<$T, $Args>.requestFirstLoading(pageSize: $pageSize, currentData: $currentData, args: $args)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RequestFirstLoading<T> &&
+            other is _$RequestFirstLoading<T, Args> &&
             (identical(other.pageSize, pageSize) ||
                 other.pageSize == pageSize) &&
             (identical(other.currentData, currentData) ||
@@ -1026,38 +1007,37 @@ class _$RequestFirstLoading<T> implements RequestFirstLoading<T> {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$RequestFirstLoadingCopyWith<T, _$RequestFirstLoading<T>> get copyWith =>
-      __$$RequestFirstLoadingCopyWithImpl<T, _$RequestFirstLoading<T>>(
-          this, _$identity);
+  _$$RequestFirstLoadingCopyWith<T, Args, _$RequestFirstLoading<T, Args>>
+      get copyWith => __$$RequestFirstLoadingCopyWithImpl<T, Args,
+          _$RequestFirstLoading<T, Args>>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool requestFirstLoading, dynamic args)
-        initializing,
+    required TResult Function(bool requestFirstLoading, Args args) initializing,
     required TResult Function(
-            int? pageSize, CurrentData<T>? currentData, dynamic args)
+            int? pageSize, CurrentData<T>? currentData, Args args)
         requestFirstLoading,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)
+            CurrentData<T>? currentData, Args args)
         isLoadingFirst,
-    required TResult Function(ErrorDisplayCallBack display,
-            CurrentData<T>? currentData, dynamic args)
+    required TResult Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)
         error,
     required TResult Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)
+            Iterable<T> items, int totalCount, int? pageSize, Args args)
         isLoaded,
     required TResult Function(
-            int? pageSize, CurrentData<T> currentData, dynamic args)
+            int? pageSize, CurrentData<T> currentData, Args args)
         requestNext,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)
+            CurrentData<T> currentData, Args args)
         isLoadingNext,
     required TResult Function(
-            int? pageSize, CurrentData<T> currentData, dynamic args)
+            int? pageSize, CurrentData<T> currentData, Args args)
         requestRefresh,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)
+            CurrentData<T> currentData, Args args)
         isRefreshing,
   }) {
     return requestFirstLoading(pageSize, currentData, args);
@@ -1066,27 +1046,27 @@ class _$RequestFirstLoading<T> implements RequestFirstLoading<T> {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool requestFirstLoading, dynamic args)? initializing,
-    TResult? Function(int? pageSize, CurrentData<T>? currentData, dynamic args)?
+    TResult? Function(bool requestFirstLoading, Args args)? initializing,
+    TResult? Function(int? pageSize, CurrentData<T>? currentData, Args args)?
         requestFirstLoading,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)?
+            CurrentData<T>? currentData, Args args)?
         isLoadingFirst,
-    TResult? Function(ErrorDisplayCallBack display, CurrentData<T>? currentData,
-            dynamic args)?
+    TResult? Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)?
         error,
     TResult? Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)?
+            Iterable<T> items, int totalCount, int? pageSize, Args args)?
         isLoaded,
-    TResult? Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult? Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestNext,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isLoadingNext,
-    TResult? Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult? Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestRefresh,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isRefreshing,
   }) {
     return requestFirstLoading?.call(pageSize, currentData, args);
@@ -1095,27 +1075,27 @@ class _$RequestFirstLoading<T> implements RequestFirstLoading<T> {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool requestFirstLoading, dynamic args)? initializing,
-    TResult Function(int? pageSize, CurrentData<T>? currentData, dynamic args)?
+    TResult Function(bool requestFirstLoading, Args args)? initializing,
+    TResult Function(int? pageSize, CurrentData<T>? currentData, Args args)?
         requestFirstLoading,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)?
+            CurrentData<T>? currentData, Args args)?
         isLoadingFirst,
-    TResult Function(ErrorDisplayCallBack display, CurrentData<T>? currentData,
-            dynamic args)?
+    TResult Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)?
         error,
     TResult Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)?
+            Iterable<T> items, int totalCount, int? pageSize, Args args)?
         isLoaded,
-    TResult Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestNext,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isLoadingNext,
-    TResult Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestRefresh,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isRefreshing,
     required TResult orElse(),
   }) {
@@ -1128,15 +1108,16 @@ class _$RequestFirstLoading<T> implements RequestFirstLoading<T> {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Initializing<T> value) initializing,
-    required TResult Function(RequestFirstLoading<T> value) requestFirstLoading,
-    required TResult Function(FirstLoading<T> value) isLoadingFirst,
-    required TResult Function(ErrorState<T> value) error,
-    required TResult Function(Loaded<T> value) isLoaded,
-    required TResult Function(RequestNext<T> value) requestNext,
-    required TResult Function(LoadingNext<T> value) isLoadingNext,
-    required TResult Function(RequestRefresh<T> value) requestRefresh,
-    required TResult Function(Refreshing<T> value) isRefreshing,
+    required TResult Function(Initializing<T, Args> value) initializing,
+    required TResult Function(RequestFirstLoading<T, Args> value)
+        requestFirstLoading,
+    required TResult Function(FirstLoading<T, Args> value) isLoadingFirst,
+    required TResult Function(ErrorState<T, Args> value) error,
+    required TResult Function(Loaded<T, Args> value) isLoaded,
+    required TResult Function(RequestNext<T, Args> value) requestNext,
+    required TResult Function(LoadingNext<T, Args> value) isLoadingNext,
+    required TResult Function(RequestRefresh<T, Args> value) requestRefresh,
+    required TResult Function(Refreshing<T, Args> value) isRefreshing,
   }) {
     return requestFirstLoading(this);
   }
@@ -1144,15 +1125,15 @@ class _$RequestFirstLoading<T> implements RequestFirstLoading<T> {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Initializing<T> value)? initializing,
-    TResult? Function(RequestFirstLoading<T> value)? requestFirstLoading,
-    TResult? Function(FirstLoading<T> value)? isLoadingFirst,
-    TResult? Function(ErrorState<T> value)? error,
-    TResult? Function(Loaded<T> value)? isLoaded,
-    TResult? Function(RequestNext<T> value)? requestNext,
-    TResult? Function(LoadingNext<T> value)? isLoadingNext,
-    TResult? Function(RequestRefresh<T> value)? requestRefresh,
-    TResult? Function(Refreshing<T> value)? isRefreshing,
+    TResult? Function(Initializing<T, Args> value)? initializing,
+    TResult? Function(RequestFirstLoading<T, Args> value)? requestFirstLoading,
+    TResult? Function(FirstLoading<T, Args> value)? isLoadingFirst,
+    TResult? Function(ErrorState<T, Args> value)? error,
+    TResult? Function(Loaded<T, Args> value)? isLoaded,
+    TResult? Function(RequestNext<T, Args> value)? requestNext,
+    TResult? Function(LoadingNext<T, Args> value)? isLoadingNext,
+    TResult? Function(RequestRefresh<T, Args> value)? requestRefresh,
+    TResult? Function(Refreshing<T, Args> value)? isRefreshing,
   }) {
     return requestFirstLoading?.call(this);
   }
@@ -1160,15 +1141,15 @@ class _$RequestFirstLoading<T> implements RequestFirstLoading<T> {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initializing<T> value)? initializing,
-    TResult Function(RequestFirstLoading<T> value)? requestFirstLoading,
-    TResult Function(FirstLoading<T> value)? isLoadingFirst,
-    TResult Function(ErrorState<T> value)? error,
-    TResult Function(Loaded<T> value)? isLoaded,
-    TResult Function(RequestNext<T> value)? requestNext,
-    TResult Function(LoadingNext<T> value)? isLoadingNext,
-    TResult Function(RequestRefresh<T> value)? requestRefresh,
-    TResult Function(Refreshing<T> value)? isRefreshing,
+    TResult Function(Initializing<T, Args> value)? initializing,
+    TResult Function(RequestFirstLoading<T, Args> value)? requestFirstLoading,
+    TResult Function(FirstLoading<T, Args> value)? isLoadingFirst,
+    TResult Function(ErrorState<T, Args> value)? error,
+    TResult Function(Loaded<T, Args> value)? isLoaded,
+    TResult Function(RequestNext<T, Args> value)? requestNext,
+    TResult Function(LoadingNext<T, Args> value)? isLoadingNext,
+    TResult Function(RequestRefresh<T, Args> value)? requestRefresh,
+    TResult Function(Refreshing<T, Args> value)? isRefreshing,
     required TResult orElse(),
   }) {
     if (requestFirstLoading != null) {
@@ -1178,45 +1159,45 @@ class _$RequestFirstLoading<T> implements RequestFirstLoading<T> {
   }
 }
 
-abstract class RequestFirstLoading<T> implements ReadyListState<T> {
+abstract class RequestFirstLoading<T, Args> implements ReadyListState<T, Args> {
   const factory RequestFirstLoading(
       {final int? pageSize,
       final CurrentData<T>? currentData,
-      final dynamic args}) = _$RequestFirstLoading<T>;
+      required final Args args}) = _$RequestFirstLoading<T, Args>;
 
   int? get pageSize;
   CurrentData<T>? get currentData;
   @override
-  dynamic get args;
+  Args get args;
   @override
   @JsonKey(ignore: true)
-  _$$RequestFirstLoadingCopyWith<T, _$RequestFirstLoading<T>> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$RequestFirstLoadingCopyWith<T, Args, _$RequestFirstLoading<T, Args>>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$FirstLoadingCopyWith<T, $Res>
-    implements $ReadyListStateCopyWith<T, $Res> {
-  factory _$$FirstLoadingCopyWith(
-          _$FirstLoading<T> value, $Res Function(_$FirstLoading<T>) then) =
-      __$$FirstLoadingCopyWithImpl<T, $Res>;
+abstract class _$$FirstLoadingCopyWith<T, Args, $Res>
+    implements $ReadyListStateCopyWith<T, Args, $Res> {
+  factory _$$FirstLoadingCopyWith(_$FirstLoading<T, Args> value,
+          $Res Function(_$FirstLoading<T, Args>) then) =
+      __$$FirstLoadingCopyWithImpl<T, Args, $Res>;
   @override
   @useResult
   $Res call(
       {ICancelToken? cancelToken,
       int? pageSize,
       CurrentData<T>? currentData,
-      dynamic args});
+      Args args});
 
   $CurrentDataCopyWith<T, $Res>? get currentData;
 }
 
 /// @nodoc
-class __$$FirstLoadingCopyWithImpl<T, $Res>
-    extends _$ReadyListStateCopyWithImpl<T, $Res, _$FirstLoading<T>>
-    implements _$$FirstLoadingCopyWith<T, $Res> {
-  __$$FirstLoadingCopyWithImpl(
-      _$FirstLoading<T> _value, $Res Function(_$FirstLoading<T>) _then)
+class __$$FirstLoadingCopyWithImpl<T, Args, $Res>
+    extends _$ReadyListStateCopyWithImpl<T, Args, $Res, _$FirstLoading<T, Args>>
+    implements _$$FirstLoadingCopyWith<T, Args, $Res> {
+  __$$FirstLoadingCopyWithImpl(_$FirstLoading<T, Args> _value,
+      $Res Function(_$FirstLoading<T, Args>) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1227,7 +1208,7 @@ class __$$FirstLoadingCopyWithImpl<T, $Res>
     Object? currentData = freezed,
     Object? args = freezed,
   }) {
-    return _then(_$FirstLoading<T>(
+    return _then(_$FirstLoading<T, Args>(
       cancelToken: freezed == cancelToken
           ? _value.cancelToken
           : cancelToken // ignore: cast_nullable_to_non_nullable
@@ -1243,7 +1224,7 @@ class __$$FirstLoadingCopyWithImpl<T, $Res>
       args: freezed == args
           ? _value.args
           : args // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as Args,
     ));
   }
 
@@ -1262,9 +1243,9 @@ class __$$FirstLoadingCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$FirstLoading<T> implements FirstLoading<T> {
+class _$FirstLoading<T, Args> implements FirstLoading<T, Args> {
   const _$FirstLoading(
-      {this.cancelToken, this.pageSize, this.currentData, this.args});
+      {this.cancelToken, this.pageSize, this.currentData, required this.args});
 
   @override
   final ICancelToken? cancelToken;
@@ -1273,18 +1254,18 @@ class _$FirstLoading<T> implements FirstLoading<T> {
   @override
   final CurrentData<T>? currentData;
   @override
-  final dynamic args;
+  final Args args;
 
   @override
   String toString() {
-    return 'ReadyListState<$T>.isLoadingFirst(cancelToken: $cancelToken, pageSize: $pageSize, currentData: $currentData, args: $args)';
+    return 'ReadyListState<$T, $Args>.isLoadingFirst(cancelToken: $cancelToken, pageSize: $pageSize, currentData: $currentData, args: $args)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FirstLoading<T> &&
+            other is _$FirstLoading<T, Args> &&
             (identical(other.cancelToken, cancelToken) ||
                 other.cancelToken == cancelToken) &&
             (identical(other.pageSize, pageSize) ||
@@ -1301,37 +1282,37 @@ class _$FirstLoading<T> implements FirstLoading<T> {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$FirstLoadingCopyWith<T, _$FirstLoading<T>> get copyWith =>
-      __$$FirstLoadingCopyWithImpl<T, _$FirstLoading<T>>(this, _$identity);
+  _$$FirstLoadingCopyWith<T, Args, _$FirstLoading<T, Args>> get copyWith =>
+      __$$FirstLoadingCopyWithImpl<T, Args, _$FirstLoading<T, Args>>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool requestFirstLoading, dynamic args)
-        initializing,
+    required TResult Function(bool requestFirstLoading, Args args) initializing,
     required TResult Function(
-            int? pageSize, CurrentData<T>? currentData, dynamic args)
+            int? pageSize, CurrentData<T>? currentData, Args args)
         requestFirstLoading,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)
+            CurrentData<T>? currentData, Args args)
         isLoadingFirst,
-    required TResult Function(ErrorDisplayCallBack display,
-            CurrentData<T>? currentData, dynamic args)
+    required TResult Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)
         error,
     required TResult Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)
+            Iterable<T> items, int totalCount, int? pageSize, Args args)
         isLoaded,
     required TResult Function(
-            int? pageSize, CurrentData<T> currentData, dynamic args)
+            int? pageSize, CurrentData<T> currentData, Args args)
         requestNext,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)
+            CurrentData<T> currentData, Args args)
         isLoadingNext,
     required TResult Function(
-            int? pageSize, CurrentData<T> currentData, dynamic args)
+            int? pageSize, CurrentData<T> currentData, Args args)
         requestRefresh,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)
+            CurrentData<T> currentData, Args args)
         isRefreshing,
   }) {
     return isLoadingFirst(cancelToken, pageSize, currentData, args);
@@ -1340,27 +1321,27 @@ class _$FirstLoading<T> implements FirstLoading<T> {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool requestFirstLoading, dynamic args)? initializing,
-    TResult? Function(int? pageSize, CurrentData<T>? currentData, dynamic args)?
+    TResult? Function(bool requestFirstLoading, Args args)? initializing,
+    TResult? Function(int? pageSize, CurrentData<T>? currentData, Args args)?
         requestFirstLoading,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)?
+            CurrentData<T>? currentData, Args args)?
         isLoadingFirst,
-    TResult? Function(ErrorDisplayCallBack display, CurrentData<T>? currentData,
-            dynamic args)?
+    TResult? Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)?
         error,
     TResult? Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)?
+            Iterable<T> items, int totalCount, int? pageSize, Args args)?
         isLoaded,
-    TResult? Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult? Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestNext,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isLoadingNext,
-    TResult? Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult? Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestRefresh,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isRefreshing,
   }) {
     return isLoadingFirst?.call(cancelToken, pageSize, currentData, args);
@@ -1369,27 +1350,27 @@ class _$FirstLoading<T> implements FirstLoading<T> {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool requestFirstLoading, dynamic args)? initializing,
-    TResult Function(int? pageSize, CurrentData<T>? currentData, dynamic args)?
+    TResult Function(bool requestFirstLoading, Args args)? initializing,
+    TResult Function(int? pageSize, CurrentData<T>? currentData, Args args)?
         requestFirstLoading,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)?
+            CurrentData<T>? currentData, Args args)?
         isLoadingFirst,
-    TResult Function(ErrorDisplayCallBack display, CurrentData<T>? currentData,
-            dynamic args)?
+    TResult Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)?
         error,
     TResult Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)?
+            Iterable<T> items, int totalCount, int? pageSize, Args args)?
         isLoaded,
-    TResult Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestNext,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isLoadingNext,
-    TResult Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestRefresh,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isRefreshing,
     required TResult orElse(),
   }) {
@@ -1402,15 +1383,16 @@ class _$FirstLoading<T> implements FirstLoading<T> {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Initializing<T> value) initializing,
-    required TResult Function(RequestFirstLoading<T> value) requestFirstLoading,
-    required TResult Function(FirstLoading<T> value) isLoadingFirst,
-    required TResult Function(ErrorState<T> value) error,
-    required TResult Function(Loaded<T> value) isLoaded,
-    required TResult Function(RequestNext<T> value) requestNext,
-    required TResult Function(LoadingNext<T> value) isLoadingNext,
-    required TResult Function(RequestRefresh<T> value) requestRefresh,
-    required TResult Function(Refreshing<T> value) isRefreshing,
+    required TResult Function(Initializing<T, Args> value) initializing,
+    required TResult Function(RequestFirstLoading<T, Args> value)
+        requestFirstLoading,
+    required TResult Function(FirstLoading<T, Args> value) isLoadingFirst,
+    required TResult Function(ErrorState<T, Args> value) error,
+    required TResult Function(Loaded<T, Args> value) isLoaded,
+    required TResult Function(RequestNext<T, Args> value) requestNext,
+    required TResult Function(LoadingNext<T, Args> value) isLoadingNext,
+    required TResult Function(RequestRefresh<T, Args> value) requestRefresh,
+    required TResult Function(Refreshing<T, Args> value) isRefreshing,
   }) {
     return isLoadingFirst(this);
   }
@@ -1418,15 +1400,15 @@ class _$FirstLoading<T> implements FirstLoading<T> {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Initializing<T> value)? initializing,
-    TResult? Function(RequestFirstLoading<T> value)? requestFirstLoading,
-    TResult? Function(FirstLoading<T> value)? isLoadingFirst,
-    TResult? Function(ErrorState<T> value)? error,
-    TResult? Function(Loaded<T> value)? isLoaded,
-    TResult? Function(RequestNext<T> value)? requestNext,
-    TResult? Function(LoadingNext<T> value)? isLoadingNext,
-    TResult? Function(RequestRefresh<T> value)? requestRefresh,
-    TResult? Function(Refreshing<T> value)? isRefreshing,
+    TResult? Function(Initializing<T, Args> value)? initializing,
+    TResult? Function(RequestFirstLoading<T, Args> value)? requestFirstLoading,
+    TResult? Function(FirstLoading<T, Args> value)? isLoadingFirst,
+    TResult? Function(ErrorState<T, Args> value)? error,
+    TResult? Function(Loaded<T, Args> value)? isLoaded,
+    TResult? Function(RequestNext<T, Args> value)? requestNext,
+    TResult? Function(LoadingNext<T, Args> value)? isLoadingNext,
+    TResult? Function(RequestRefresh<T, Args> value)? requestRefresh,
+    TResult? Function(Refreshing<T, Args> value)? isRefreshing,
   }) {
     return isLoadingFirst?.call(this);
   }
@@ -1434,15 +1416,15 @@ class _$FirstLoading<T> implements FirstLoading<T> {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initializing<T> value)? initializing,
-    TResult Function(RequestFirstLoading<T> value)? requestFirstLoading,
-    TResult Function(FirstLoading<T> value)? isLoadingFirst,
-    TResult Function(ErrorState<T> value)? error,
-    TResult Function(Loaded<T> value)? isLoaded,
-    TResult Function(RequestNext<T> value)? requestNext,
-    TResult Function(LoadingNext<T> value)? isLoadingNext,
-    TResult Function(RequestRefresh<T> value)? requestRefresh,
-    TResult Function(Refreshing<T> value)? isRefreshing,
+    TResult Function(Initializing<T, Args> value)? initializing,
+    TResult Function(RequestFirstLoading<T, Args> value)? requestFirstLoading,
+    TResult Function(FirstLoading<T, Args> value)? isLoadingFirst,
+    TResult Function(ErrorState<T, Args> value)? error,
+    TResult Function(Loaded<T, Args> value)? isLoaded,
+    TResult Function(RequestNext<T, Args> value)? requestNext,
+    TResult Function(LoadingNext<T, Args> value)? isLoadingNext,
+    TResult Function(RequestRefresh<T, Args> value)? requestRefresh,
+    TResult Function(Refreshing<T, Args> value)? isRefreshing,
     required TResult orElse(),
   }) {
     if (isLoadingFirst != null) {
@@ -1452,68 +1434,66 @@ class _$FirstLoading<T> implements FirstLoading<T> {
   }
 }
 
-abstract class FirstLoading<T> implements ReadyListState<T> {
+abstract class FirstLoading<T, Args> implements ReadyListState<T, Args> {
   const factory FirstLoading(
       {final ICancelToken? cancelToken,
       final int? pageSize,
       final CurrentData<T>? currentData,
-      final dynamic args}) = _$FirstLoading<T>;
+      required final Args args}) = _$FirstLoading<T, Args>;
 
   ICancelToken? get cancelToken;
   int? get pageSize;
   CurrentData<T>? get currentData;
   @override
-  dynamic get args;
+  Args get args;
   @override
   @JsonKey(ignore: true)
-  _$$FirstLoadingCopyWith<T, _$FirstLoading<T>> get copyWith =>
+  _$$FirstLoadingCopyWith<T, Args, _$FirstLoading<T, Args>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ErrorStateCopyWith<T, $Res>
-    implements $ReadyListStateCopyWith<T, $Res> {
-  factory _$$ErrorStateCopyWith(
-          _$ErrorState<T> value, $Res Function(_$ErrorState<T>) then) =
-      __$$ErrorStateCopyWithImpl<T, $Res>;
+abstract class _$$ErrorStateCopyWith<T, Args, $Res>
+    implements $ReadyListStateCopyWith<T, Args, $Res> {
+  factory _$$ErrorStateCopyWith(_$ErrorState<T, Args> value,
+          $Res Function(_$ErrorState<T, Args>) then) =
+      __$$ErrorStateCopyWithImpl<T, Args, $Res>;
   @override
   @useResult
   $Res call(
-      {ErrorDisplayCallBack display,
-      CurrentData<T>? currentData,
-      dynamic args});
+      {Args args, ErrorDisplayCallBack display, CurrentData<T>? currentData});
 
   $CurrentDataCopyWith<T, $Res>? get currentData;
 }
 
 /// @nodoc
-class __$$ErrorStateCopyWithImpl<T, $Res>
-    extends _$ReadyListStateCopyWithImpl<T, $Res, _$ErrorState<T>>
-    implements _$$ErrorStateCopyWith<T, $Res> {
+class __$$ErrorStateCopyWithImpl<T, Args, $Res>
+    extends _$ReadyListStateCopyWithImpl<T, Args, $Res, _$ErrorState<T, Args>>
+    implements _$$ErrorStateCopyWith<T, Args, $Res> {
   __$$ErrorStateCopyWithImpl(
-      _$ErrorState<T> _value, $Res Function(_$ErrorState<T>) _then)
+      _$ErrorState<T, Args> _value, $Res Function(_$ErrorState<T, Args>) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? args = freezed,
     Object? display = null,
     Object? currentData = freezed,
-    Object? args = freezed,
   }) {
-    return _then(_$ErrorState<T>(
-      null == display
+    return _then(_$ErrorState<T, Args>(
+      args: freezed == args
+          ? _value.args
+          : args // ignore: cast_nullable_to_non_nullable
+              as Args,
+      display: null == display
           ? _value.display
           : display // ignore: cast_nullable_to_non_nullable
               as ErrorDisplayCallBack,
-      freezed == currentData
+      currentData: freezed == currentData
           ? _value.currentData
           : currentData // ignore: cast_nullable_to_non_nullable
               as CurrentData<T>?,
-      freezed == args
-          ? _value.args
-          : args // ignore: cast_nullable_to_non_nullable
-              as dynamic,
     ));
   }
 
@@ -1532,133 +1512,134 @@ class __$$ErrorStateCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$ErrorState<T> implements ErrorState<T> {
-  const _$ErrorState(this.display, this.currentData, this.args);
+class _$ErrorState<T, Args> implements ErrorState<T, Args> {
+  const _$ErrorState(
+      {required this.args, required this.display, this.currentData});
 
+  @override
+  final Args args;
   @override
   final ErrorDisplayCallBack display;
   @override
   final CurrentData<T>? currentData;
-  @override
-  final dynamic args;
 
   @override
   String toString() {
-    return 'ReadyListState<$T>.error(display: $display, currentData: $currentData, args: $args)';
+    return 'ReadyListState<$T, $Args>.error(args: $args, display: $display, currentData: $currentData)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ErrorState<T> &&
+            other is _$ErrorState<T, Args> &&
+            const DeepCollectionEquality().equals(other.args, args) &&
             (identical(other.display, display) || other.display == display) &&
             (identical(other.currentData, currentData) ||
-                other.currentData == currentData) &&
-            const DeepCollectionEquality().equals(other.args, args));
+                other.currentData == currentData));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, display, currentData,
-      const DeepCollectionEquality().hash(args));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(args), display, currentData);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ErrorStateCopyWith<T, _$ErrorState<T>> get copyWith =>
-      __$$ErrorStateCopyWithImpl<T, _$ErrorState<T>>(this, _$identity);
+  _$$ErrorStateCopyWith<T, Args, _$ErrorState<T, Args>> get copyWith =>
+      __$$ErrorStateCopyWithImpl<T, Args, _$ErrorState<T, Args>>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool requestFirstLoading, dynamic args)
-        initializing,
+    required TResult Function(bool requestFirstLoading, Args args) initializing,
     required TResult Function(
-            int? pageSize, CurrentData<T>? currentData, dynamic args)
+            int? pageSize, CurrentData<T>? currentData, Args args)
         requestFirstLoading,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)
+            CurrentData<T>? currentData, Args args)
         isLoadingFirst,
-    required TResult Function(ErrorDisplayCallBack display,
-            CurrentData<T>? currentData, dynamic args)
+    required TResult Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)
         error,
     required TResult Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)
+            Iterable<T> items, int totalCount, int? pageSize, Args args)
         isLoaded,
     required TResult Function(
-            int? pageSize, CurrentData<T> currentData, dynamic args)
+            int? pageSize, CurrentData<T> currentData, Args args)
         requestNext,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)
+            CurrentData<T> currentData, Args args)
         isLoadingNext,
     required TResult Function(
-            int? pageSize, CurrentData<T> currentData, dynamic args)
+            int? pageSize, CurrentData<T> currentData, Args args)
         requestRefresh,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)
+            CurrentData<T> currentData, Args args)
         isRefreshing,
   }) {
-    return error(display, currentData, args);
+    return error(args, display, currentData);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool requestFirstLoading, dynamic args)? initializing,
-    TResult? Function(int? pageSize, CurrentData<T>? currentData, dynamic args)?
+    TResult? Function(bool requestFirstLoading, Args args)? initializing,
+    TResult? Function(int? pageSize, CurrentData<T>? currentData, Args args)?
         requestFirstLoading,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)?
+            CurrentData<T>? currentData, Args args)?
         isLoadingFirst,
-    TResult? Function(ErrorDisplayCallBack display, CurrentData<T>? currentData,
-            dynamic args)?
+    TResult? Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)?
         error,
     TResult? Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)?
+            Iterable<T> items, int totalCount, int? pageSize, Args args)?
         isLoaded,
-    TResult? Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult? Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestNext,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isLoadingNext,
-    TResult? Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult? Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestRefresh,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isRefreshing,
   }) {
-    return error?.call(display, currentData, args);
+    return error?.call(args, display, currentData);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool requestFirstLoading, dynamic args)? initializing,
-    TResult Function(int? pageSize, CurrentData<T>? currentData, dynamic args)?
+    TResult Function(bool requestFirstLoading, Args args)? initializing,
+    TResult Function(int? pageSize, CurrentData<T>? currentData, Args args)?
         requestFirstLoading,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)?
+            CurrentData<T>? currentData, Args args)?
         isLoadingFirst,
-    TResult Function(ErrorDisplayCallBack display, CurrentData<T>? currentData,
-            dynamic args)?
+    TResult Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)?
         error,
     TResult Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)?
+            Iterable<T> items, int totalCount, int? pageSize, Args args)?
         isLoaded,
-    TResult Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestNext,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isLoadingNext,
-    TResult Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestRefresh,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isRefreshing,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error(display, currentData, args);
+      return error(args, display, currentData);
     }
     return orElse();
   }
@@ -1666,15 +1647,16 @@ class _$ErrorState<T> implements ErrorState<T> {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Initializing<T> value) initializing,
-    required TResult Function(RequestFirstLoading<T> value) requestFirstLoading,
-    required TResult Function(FirstLoading<T> value) isLoadingFirst,
-    required TResult Function(ErrorState<T> value) error,
-    required TResult Function(Loaded<T> value) isLoaded,
-    required TResult Function(RequestNext<T> value) requestNext,
-    required TResult Function(LoadingNext<T> value) isLoadingNext,
-    required TResult Function(RequestRefresh<T> value) requestRefresh,
-    required TResult Function(Refreshing<T> value) isRefreshing,
+    required TResult Function(Initializing<T, Args> value) initializing,
+    required TResult Function(RequestFirstLoading<T, Args> value)
+        requestFirstLoading,
+    required TResult Function(FirstLoading<T, Args> value) isLoadingFirst,
+    required TResult Function(ErrorState<T, Args> value) error,
+    required TResult Function(Loaded<T, Args> value) isLoaded,
+    required TResult Function(RequestNext<T, Args> value) requestNext,
+    required TResult Function(LoadingNext<T, Args> value) isLoadingNext,
+    required TResult Function(RequestRefresh<T, Args> value) requestRefresh,
+    required TResult Function(Refreshing<T, Args> value) isRefreshing,
   }) {
     return error(this);
   }
@@ -1682,15 +1664,15 @@ class _$ErrorState<T> implements ErrorState<T> {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Initializing<T> value)? initializing,
-    TResult? Function(RequestFirstLoading<T> value)? requestFirstLoading,
-    TResult? Function(FirstLoading<T> value)? isLoadingFirst,
-    TResult? Function(ErrorState<T> value)? error,
-    TResult? Function(Loaded<T> value)? isLoaded,
-    TResult? Function(RequestNext<T> value)? requestNext,
-    TResult? Function(LoadingNext<T> value)? isLoadingNext,
-    TResult? Function(RequestRefresh<T> value)? requestRefresh,
-    TResult? Function(Refreshing<T> value)? isRefreshing,
+    TResult? Function(Initializing<T, Args> value)? initializing,
+    TResult? Function(RequestFirstLoading<T, Args> value)? requestFirstLoading,
+    TResult? Function(FirstLoading<T, Args> value)? isLoadingFirst,
+    TResult? Function(ErrorState<T, Args> value)? error,
+    TResult? Function(Loaded<T, Args> value)? isLoaded,
+    TResult? Function(RequestNext<T, Args> value)? requestNext,
+    TResult? Function(LoadingNext<T, Args> value)? isLoadingNext,
+    TResult? Function(RequestRefresh<T, Args> value)? requestRefresh,
+    TResult? Function(Refreshing<T, Args> value)? isRefreshing,
   }) {
     return error?.call(this);
   }
@@ -1698,15 +1680,15 @@ class _$ErrorState<T> implements ErrorState<T> {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initializing<T> value)? initializing,
-    TResult Function(RequestFirstLoading<T> value)? requestFirstLoading,
-    TResult Function(FirstLoading<T> value)? isLoadingFirst,
-    TResult Function(ErrorState<T> value)? error,
-    TResult Function(Loaded<T> value)? isLoaded,
-    TResult Function(RequestNext<T> value)? requestNext,
-    TResult Function(LoadingNext<T> value)? isLoadingNext,
-    TResult Function(RequestRefresh<T> value)? requestRefresh,
-    TResult Function(Refreshing<T> value)? isRefreshing,
+    TResult Function(Initializing<T, Args> value)? initializing,
+    TResult Function(RequestFirstLoading<T, Args> value)? requestFirstLoading,
+    TResult Function(FirstLoading<T, Args> value)? isLoadingFirst,
+    TResult Function(ErrorState<T, Args> value)? error,
+    TResult Function(Loaded<T, Args> value)? isLoaded,
+    TResult Function(RequestNext<T, Args> value)? requestNext,
+    TResult Function(LoadingNext<T, Args> value)? isLoadingNext,
+    TResult Function(RequestRefresh<T, Args> value)? requestRefresh,
+    TResult Function(Refreshing<T, Args> value)? isRefreshing,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -1716,36 +1698,39 @@ class _$ErrorState<T> implements ErrorState<T> {
   }
 }
 
-abstract class ErrorState<T> implements ReadyListState<T> {
-  const factory ErrorState(final ErrorDisplayCallBack display,
-      final CurrentData<T>? currentData, final dynamic args) = _$ErrorState<T>;
+abstract class ErrorState<T, Args> implements ReadyListState<T, Args> {
+  const factory ErrorState(
+      {required final Args args,
+      required final ErrorDisplayCallBack display,
+      final CurrentData<T>? currentData}) = _$ErrorState<T, Args>;
 
+  @override
+  Args get args;
   ErrorDisplayCallBack get display;
   CurrentData<T>? get currentData;
   @override
-  dynamic get args;
-  @override
   @JsonKey(ignore: true)
-  _$$ErrorStateCopyWith<T, _$ErrorState<T>> get copyWith =>
+  _$$ErrorStateCopyWith<T, Args, _$ErrorState<T, Args>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$LoadedCopyWith<T, $Res>
-    implements $ReadyListStateCopyWith<T, $Res> {
+abstract class _$$LoadedCopyWith<T, Args, $Res>
+    implements $ReadyListStateCopyWith<T, Args, $Res> {
   factory _$$LoadedCopyWith(
-          _$Loaded<T> value, $Res Function(_$Loaded<T>) then) =
-      __$$LoadedCopyWithImpl<T, $Res>;
+          _$Loaded<T, Args> value, $Res Function(_$Loaded<T, Args>) then) =
+      __$$LoadedCopyWithImpl<T, Args, $Res>;
   @override
   @useResult
-  $Res call({Iterable<T> items, int totalCount, int? pageSize, dynamic args});
+  $Res call({Iterable<T> items, int totalCount, int? pageSize, Args args});
 }
 
 /// @nodoc
-class __$$LoadedCopyWithImpl<T, $Res>
-    extends _$ReadyListStateCopyWithImpl<T, $Res, _$Loaded<T>>
-    implements _$$LoadedCopyWith<T, $Res> {
-  __$$LoadedCopyWithImpl(_$Loaded<T> _value, $Res Function(_$Loaded<T>) _then)
+class __$$LoadedCopyWithImpl<T, Args, $Res>
+    extends _$ReadyListStateCopyWithImpl<T, Args, $Res, _$Loaded<T, Args>>
+    implements _$$LoadedCopyWith<T, Args, $Res> {
+  __$$LoadedCopyWithImpl(
+      _$Loaded<T, Args> _value, $Res Function(_$Loaded<T, Args>) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1756,7 +1741,7 @@ class __$$LoadedCopyWithImpl<T, $Res>
     Object? pageSize = freezed,
     Object? args = freezed,
   }) {
-    return _then(_$Loaded<T>(
+    return _then(_$Loaded<T, Args>(
       items: null == items
           ? _value.items
           : items // ignore: cast_nullable_to_non_nullable
@@ -1772,19 +1757,19 @@ class __$$LoadedCopyWithImpl<T, $Res>
       args: freezed == args
           ? _value.args
           : args // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as Args,
     ));
   }
 }
 
 /// @nodoc
 
-class _$Loaded<T> implements Loaded<T> {
+class _$Loaded<T, Args> implements Loaded<T, Args> {
   const _$Loaded(
       {required this.items,
       required this.totalCount,
       this.pageSize,
-      this.args});
+      required this.args});
 
   @override
   final Iterable<T> items;
@@ -1793,18 +1778,18 @@ class _$Loaded<T> implements Loaded<T> {
   @override
   final int? pageSize;
   @override
-  final dynamic args;
+  final Args args;
 
   @override
   String toString() {
-    return 'ReadyListState<$T>.isLoaded(items: $items, totalCount: $totalCount, pageSize: $pageSize, args: $args)';
+    return 'ReadyListState<$T, $Args>.isLoaded(items: $items, totalCount: $totalCount, pageSize: $pageSize, args: $args)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$Loaded<T> &&
+            other is _$Loaded<T, Args> &&
             const DeepCollectionEquality().equals(other.items, items) &&
             (identical(other.totalCount, totalCount) ||
                 other.totalCount == totalCount) &&
@@ -1824,37 +1809,36 @@ class _$Loaded<T> implements Loaded<T> {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$LoadedCopyWith<T, _$Loaded<T>> get copyWith =>
-      __$$LoadedCopyWithImpl<T, _$Loaded<T>>(this, _$identity);
+  _$$LoadedCopyWith<T, Args, _$Loaded<T, Args>> get copyWith =>
+      __$$LoadedCopyWithImpl<T, Args, _$Loaded<T, Args>>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool requestFirstLoading, dynamic args)
-        initializing,
+    required TResult Function(bool requestFirstLoading, Args args) initializing,
     required TResult Function(
-            int? pageSize, CurrentData<T>? currentData, dynamic args)
+            int? pageSize, CurrentData<T>? currentData, Args args)
         requestFirstLoading,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)
+            CurrentData<T>? currentData, Args args)
         isLoadingFirst,
-    required TResult Function(ErrorDisplayCallBack display,
-            CurrentData<T>? currentData, dynamic args)
+    required TResult Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)
         error,
     required TResult Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)
+            Iterable<T> items, int totalCount, int? pageSize, Args args)
         isLoaded,
     required TResult Function(
-            int? pageSize, CurrentData<T> currentData, dynamic args)
+            int? pageSize, CurrentData<T> currentData, Args args)
         requestNext,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)
+            CurrentData<T> currentData, Args args)
         isLoadingNext,
     required TResult Function(
-            int? pageSize, CurrentData<T> currentData, dynamic args)
+            int? pageSize, CurrentData<T> currentData, Args args)
         requestRefresh,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)
+            CurrentData<T> currentData, Args args)
         isRefreshing,
   }) {
     return isLoaded(items, totalCount, pageSize, args);
@@ -1863,27 +1847,27 @@ class _$Loaded<T> implements Loaded<T> {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool requestFirstLoading, dynamic args)? initializing,
-    TResult? Function(int? pageSize, CurrentData<T>? currentData, dynamic args)?
+    TResult? Function(bool requestFirstLoading, Args args)? initializing,
+    TResult? Function(int? pageSize, CurrentData<T>? currentData, Args args)?
         requestFirstLoading,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)?
+            CurrentData<T>? currentData, Args args)?
         isLoadingFirst,
-    TResult? Function(ErrorDisplayCallBack display, CurrentData<T>? currentData,
-            dynamic args)?
+    TResult? Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)?
         error,
     TResult? Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)?
+            Iterable<T> items, int totalCount, int? pageSize, Args args)?
         isLoaded,
-    TResult? Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult? Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestNext,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isLoadingNext,
-    TResult? Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult? Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestRefresh,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isRefreshing,
   }) {
     return isLoaded?.call(items, totalCount, pageSize, args);
@@ -1892,27 +1876,27 @@ class _$Loaded<T> implements Loaded<T> {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool requestFirstLoading, dynamic args)? initializing,
-    TResult Function(int? pageSize, CurrentData<T>? currentData, dynamic args)?
+    TResult Function(bool requestFirstLoading, Args args)? initializing,
+    TResult Function(int? pageSize, CurrentData<T>? currentData, Args args)?
         requestFirstLoading,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)?
+            CurrentData<T>? currentData, Args args)?
         isLoadingFirst,
-    TResult Function(ErrorDisplayCallBack display, CurrentData<T>? currentData,
-            dynamic args)?
+    TResult Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)?
         error,
     TResult Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)?
+            Iterable<T> items, int totalCount, int? pageSize, Args args)?
         isLoaded,
-    TResult Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestNext,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isLoadingNext,
-    TResult Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestRefresh,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isRefreshing,
     required TResult orElse(),
   }) {
@@ -1925,15 +1909,16 @@ class _$Loaded<T> implements Loaded<T> {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Initializing<T> value) initializing,
-    required TResult Function(RequestFirstLoading<T> value) requestFirstLoading,
-    required TResult Function(FirstLoading<T> value) isLoadingFirst,
-    required TResult Function(ErrorState<T> value) error,
-    required TResult Function(Loaded<T> value) isLoaded,
-    required TResult Function(RequestNext<T> value) requestNext,
-    required TResult Function(LoadingNext<T> value) isLoadingNext,
-    required TResult Function(RequestRefresh<T> value) requestRefresh,
-    required TResult Function(Refreshing<T> value) isRefreshing,
+    required TResult Function(Initializing<T, Args> value) initializing,
+    required TResult Function(RequestFirstLoading<T, Args> value)
+        requestFirstLoading,
+    required TResult Function(FirstLoading<T, Args> value) isLoadingFirst,
+    required TResult Function(ErrorState<T, Args> value) error,
+    required TResult Function(Loaded<T, Args> value) isLoaded,
+    required TResult Function(RequestNext<T, Args> value) requestNext,
+    required TResult Function(LoadingNext<T, Args> value) isLoadingNext,
+    required TResult Function(RequestRefresh<T, Args> value) requestRefresh,
+    required TResult Function(Refreshing<T, Args> value) isRefreshing,
   }) {
     return isLoaded(this);
   }
@@ -1941,15 +1926,15 @@ class _$Loaded<T> implements Loaded<T> {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Initializing<T> value)? initializing,
-    TResult? Function(RequestFirstLoading<T> value)? requestFirstLoading,
-    TResult? Function(FirstLoading<T> value)? isLoadingFirst,
-    TResult? Function(ErrorState<T> value)? error,
-    TResult? Function(Loaded<T> value)? isLoaded,
-    TResult? Function(RequestNext<T> value)? requestNext,
-    TResult? Function(LoadingNext<T> value)? isLoadingNext,
-    TResult? Function(RequestRefresh<T> value)? requestRefresh,
-    TResult? Function(Refreshing<T> value)? isRefreshing,
+    TResult? Function(Initializing<T, Args> value)? initializing,
+    TResult? Function(RequestFirstLoading<T, Args> value)? requestFirstLoading,
+    TResult? Function(FirstLoading<T, Args> value)? isLoadingFirst,
+    TResult? Function(ErrorState<T, Args> value)? error,
+    TResult? Function(Loaded<T, Args> value)? isLoaded,
+    TResult? Function(RequestNext<T, Args> value)? requestNext,
+    TResult? Function(LoadingNext<T, Args> value)? isLoadingNext,
+    TResult? Function(RequestRefresh<T, Args> value)? requestRefresh,
+    TResult? Function(Refreshing<T, Args> value)? isRefreshing,
   }) {
     return isLoaded?.call(this);
   }
@@ -1957,15 +1942,15 @@ class _$Loaded<T> implements Loaded<T> {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initializing<T> value)? initializing,
-    TResult Function(RequestFirstLoading<T> value)? requestFirstLoading,
-    TResult Function(FirstLoading<T> value)? isLoadingFirst,
-    TResult Function(ErrorState<T> value)? error,
-    TResult Function(Loaded<T> value)? isLoaded,
-    TResult Function(RequestNext<T> value)? requestNext,
-    TResult Function(LoadingNext<T> value)? isLoadingNext,
-    TResult Function(RequestRefresh<T> value)? requestRefresh,
-    TResult Function(Refreshing<T> value)? isRefreshing,
+    TResult Function(Initializing<T, Args> value)? initializing,
+    TResult Function(RequestFirstLoading<T, Args> value)? requestFirstLoading,
+    TResult Function(FirstLoading<T, Args> value)? isLoadingFirst,
+    TResult Function(ErrorState<T, Args> value)? error,
+    TResult Function(Loaded<T, Args> value)? isLoaded,
+    TResult Function(RequestNext<T, Args> value)? requestNext,
+    TResult Function(LoadingNext<T, Args> value)? isLoadingNext,
+    TResult Function(RequestRefresh<T, Args> value)? requestRefresh,
+    TResult Function(Refreshing<T, Args> value)? isRefreshing,
     required TResult orElse(),
   }) {
     if (isLoaded != null) {
@@ -1975,43 +1960,43 @@ class _$Loaded<T> implements Loaded<T> {
   }
 }
 
-abstract class Loaded<T> implements ReadyListState<T> {
+abstract class Loaded<T, Args> implements ReadyListState<T, Args> {
   const factory Loaded(
       {required final Iterable<T> items,
       required final int totalCount,
       final int? pageSize,
-      final dynamic args}) = _$Loaded<T>;
+      required final Args args}) = _$Loaded<T, Args>;
 
   Iterable<T> get items;
   int get totalCount;
   int? get pageSize;
   @override
-  dynamic get args;
+  Args get args;
   @override
   @JsonKey(ignore: true)
-  _$$LoadedCopyWith<T, _$Loaded<T>> get copyWith =>
+  _$$LoadedCopyWith<T, Args, _$Loaded<T, Args>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$RequestNextCopyWith<T, $Res>
-    implements $ReadyListStateCopyWith<T, $Res> {
-  factory _$$RequestNextCopyWith(
-          _$RequestNext<T> value, $Res Function(_$RequestNext<T>) then) =
-      __$$RequestNextCopyWithImpl<T, $Res>;
+abstract class _$$RequestNextCopyWith<T, Args, $Res>
+    implements $ReadyListStateCopyWith<T, Args, $Res> {
+  factory _$$RequestNextCopyWith(_$RequestNext<T, Args> value,
+          $Res Function(_$RequestNext<T, Args>) then) =
+      __$$RequestNextCopyWithImpl<T, Args, $Res>;
   @override
   @useResult
-  $Res call({int? pageSize, CurrentData<T> currentData, dynamic args});
+  $Res call({int? pageSize, CurrentData<T> currentData, Args args});
 
   $CurrentDataCopyWith<T, $Res> get currentData;
 }
 
 /// @nodoc
-class __$$RequestNextCopyWithImpl<T, $Res>
-    extends _$ReadyListStateCopyWithImpl<T, $Res, _$RequestNext<T>>
-    implements _$$RequestNextCopyWith<T, $Res> {
-  __$$RequestNextCopyWithImpl(
-      _$RequestNext<T> _value, $Res Function(_$RequestNext<T>) _then)
+class __$$RequestNextCopyWithImpl<T, Args, $Res>
+    extends _$ReadyListStateCopyWithImpl<T, Args, $Res, _$RequestNext<T, Args>>
+    implements _$$RequestNextCopyWith<T, Args, $Res> {
+  __$$RequestNextCopyWithImpl(_$RequestNext<T, Args> _value,
+      $Res Function(_$RequestNext<T, Args>) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2021,7 +2006,7 @@ class __$$RequestNextCopyWithImpl<T, $Res>
     Object? currentData = null,
     Object? args = freezed,
   }) {
-    return _then(_$RequestNext<T>(
+    return _then(_$RequestNext<T, Args>(
       pageSize: freezed == pageSize
           ? _value.pageSize
           : pageSize // ignore: cast_nullable_to_non_nullable
@@ -2033,7 +2018,7 @@ class __$$RequestNextCopyWithImpl<T, $Res>
       args: freezed == args
           ? _value.args
           : args // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as Args,
     ));
   }
 
@@ -2048,26 +2033,27 @@ class __$$RequestNextCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$RequestNext<T> implements RequestNext<T> {
-  const _$RequestNext({this.pageSize, required this.currentData, this.args});
+class _$RequestNext<T, Args> implements RequestNext<T, Args> {
+  const _$RequestNext(
+      {this.pageSize, required this.currentData, required this.args});
 
   @override
   final int? pageSize;
   @override
   final CurrentData<T> currentData;
   @override
-  final dynamic args;
+  final Args args;
 
   @override
   String toString() {
-    return 'ReadyListState<$T>.requestNext(pageSize: $pageSize, currentData: $currentData, args: $args)';
+    return 'ReadyListState<$T, $Args>.requestNext(pageSize: $pageSize, currentData: $currentData, args: $args)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RequestNext<T> &&
+            other is _$RequestNext<T, Args> &&
             (identical(other.pageSize, pageSize) ||
                 other.pageSize == pageSize) &&
             (identical(other.currentData, currentData) ||
@@ -2082,37 +2068,37 @@ class _$RequestNext<T> implements RequestNext<T> {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$RequestNextCopyWith<T, _$RequestNext<T>> get copyWith =>
-      __$$RequestNextCopyWithImpl<T, _$RequestNext<T>>(this, _$identity);
+  _$$RequestNextCopyWith<T, Args, _$RequestNext<T, Args>> get copyWith =>
+      __$$RequestNextCopyWithImpl<T, Args, _$RequestNext<T, Args>>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool requestFirstLoading, dynamic args)
-        initializing,
+    required TResult Function(bool requestFirstLoading, Args args) initializing,
     required TResult Function(
-            int? pageSize, CurrentData<T>? currentData, dynamic args)
+            int? pageSize, CurrentData<T>? currentData, Args args)
         requestFirstLoading,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)
+            CurrentData<T>? currentData, Args args)
         isLoadingFirst,
-    required TResult Function(ErrorDisplayCallBack display,
-            CurrentData<T>? currentData, dynamic args)
+    required TResult Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)
         error,
     required TResult Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)
+            Iterable<T> items, int totalCount, int? pageSize, Args args)
         isLoaded,
     required TResult Function(
-            int? pageSize, CurrentData<T> currentData, dynamic args)
+            int? pageSize, CurrentData<T> currentData, Args args)
         requestNext,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)
+            CurrentData<T> currentData, Args args)
         isLoadingNext,
     required TResult Function(
-            int? pageSize, CurrentData<T> currentData, dynamic args)
+            int? pageSize, CurrentData<T> currentData, Args args)
         requestRefresh,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)
+            CurrentData<T> currentData, Args args)
         isRefreshing,
   }) {
     return requestNext(pageSize, currentData, args);
@@ -2121,27 +2107,27 @@ class _$RequestNext<T> implements RequestNext<T> {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool requestFirstLoading, dynamic args)? initializing,
-    TResult? Function(int? pageSize, CurrentData<T>? currentData, dynamic args)?
+    TResult? Function(bool requestFirstLoading, Args args)? initializing,
+    TResult? Function(int? pageSize, CurrentData<T>? currentData, Args args)?
         requestFirstLoading,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)?
+            CurrentData<T>? currentData, Args args)?
         isLoadingFirst,
-    TResult? Function(ErrorDisplayCallBack display, CurrentData<T>? currentData,
-            dynamic args)?
+    TResult? Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)?
         error,
     TResult? Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)?
+            Iterable<T> items, int totalCount, int? pageSize, Args args)?
         isLoaded,
-    TResult? Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult? Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestNext,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isLoadingNext,
-    TResult? Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult? Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestRefresh,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isRefreshing,
   }) {
     return requestNext?.call(pageSize, currentData, args);
@@ -2150,27 +2136,27 @@ class _$RequestNext<T> implements RequestNext<T> {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool requestFirstLoading, dynamic args)? initializing,
-    TResult Function(int? pageSize, CurrentData<T>? currentData, dynamic args)?
+    TResult Function(bool requestFirstLoading, Args args)? initializing,
+    TResult Function(int? pageSize, CurrentData<T>? currentData, Args args)?
         requestFirstLoading,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)?
+            CurrentData<T>? currentData, Args args)?
         isLoadingFirst,
-    TResult Function(ErrorDisplayCallBack display, CurrentData<T>? currentData,
-            dynamic args)?
+    TResult Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)?
         error,
     TResult Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)?
+            Iterable<T> items, int totalCount, int? pageSize, Args args)?
         isLoaded,
-    TResult Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestNext,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isLoadingNext,
-    TResult Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestRefresh,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isRefreshing,
     required TResult orElse(),
   }) {
@@ -2183,15 +2169,16 @@ class _$RequestNext<T> implements RequestNext<T> {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Initializing<T> value) initializing,
-    required TResult Function(RequestFirstLoading<T> value) requestFirstLoading,
-    required TResult Function(FirstLoading<T> value) isLoadingFirst,
-    required TResult Function(ErrorState<T> value) error,
-    required TResult Function(Loaded<T> value) isLoaded,
-    required TResult Function(RequestNext<T> value) requestNext,
-    required TResult Function(LoadingNext<T> value) isLoadingNext,
-    required TResult Function(RequestRefresh<T> value) requestRefresh,
-    required TResult Function(Refreshing<T> value) isRefreshing,
+    required TResult Function(Initializing<T, Args> value) initializing,
+    required TResult Function(RequestFirstLoading<T, Args> value)
+        requestFirstLoading,
+    required TResult Function(FirstLoading<T, Args> value) isLoadingFirst,
+    required TResult Function(ErrorState<T, Args> value) error,
+    required TResult Function(Loaded<T, Args> value) isLoaded,
+    required TResult Function(RequestNext<T, Args> value) requestNext,
+    required TResult Function(LoadingNext<T, Args> value) isLoadingNext,
+    required TResult Function(RequestRefresh<T, Args> value) requestRefresh,
+    required TResult Function(Refreshing<T, Args> value) isRefreshing,
   }) {
     return requestNext(this);
   }
@@ -2199,15 +2186,15 @@ class _$RequestNext<T> implements RequestNext<T> {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Initializing<T> value)? initializing,
-    TResult? Function(RequestFirstLoading<T> value)? requestFirstLoading,
-    TResult? Function(FirstLoading<T> value)? isLoadingFirst,
-    TResult? Function(ErrorState<T> value)? error,
-    TResult? Function(Loaded<T> value)? isLoaded,
-    TResult? Function(RequestNext<T> value)? requestNext,
-    TResult? Function(LoadingNext<T> value)? isLoadingNext,
-    TResult? Function(RequestRefresh<T> value)? requestRefresh,
-    TResult? Function(Refreshing<T> value)? isRefreshing,
+    TResult? Function(Initializing<T, Args> value)? initializing,
+    TResult? Function(RequestFirstLoading<T, Args> value)? requestFirstLoading,
+    TResult? Function(FirstLoading<T, Args> value)? isLoadingFirst,
+    TResult? Function(ErrorState<T, Args> value)? error,
+    TResult? Function(Loaded<T, Args> value)? isLoaded,
+    TResult? Function(RequestNext<T, Args> value)? requestNext,
+    TResult? Function(LoadingNext<T, Args> value)? isLoadingNext,
+    TResult? Function(RequestRefresh<T, Args> value)? requestRefresh,
+    TResult? Function(Refreshing<T, Args> value)? isRefreshing,
   }) {
     return requestNext?.call(this);
   }
@@ -2215,15 +2202,15 @@ class _$RequestNext<T> implements RequestNext<T> {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initializing<T> value)? initializing,
-    TResult Function(RequestFirstLoading<T> value)? requestFirstLoading,
-    TResult Function(FirstLoading<T> value)? isLoadingFirst,
-    TResult Function(ErrorState<T> value)? error,
-    TResult Function(Loaded<T> value)? isLoaded,
-    TResult Function(RequestNext<T> value)? requestNext,
-    TResult Function(LoadingNext<T> value)? isLoadingNext,
-    TResult Function(RequestRefresh<T> value)? requestRefresh,
-    TResult Function(Refreshing<T> value)? isRefreshing,
+    TResult Function(Initializing<T, Args> value)? initializing,
+    TResult Function(RequestFirstLoading<T, Args> value)? requestFirstLoading,
+    TResult Function(FirstLoading<T, Args> value)? isLoadingFirst,
+    TResult Function(ErrorState<T, Args> value)? error,
+    TResult Function(Loaded<T, Args> value)? isLoaded,
+    TResult Function(RequestNext<T, Args> value)? requestNext,
+    TResult Function(LoadingNext<T, Args> value)? isLoadingNext,
+    TResult Function(RequestRefresh<T, Args> value)? requestRefresh,
+    TResult Function(Refreshing<T, Args> value)? isRefreshing,
     required TResult orElse(),
   }) {
     if (requestNext != null) {
@@ -2233,45 +2220,45 @@ class _$RequestNext<T> implements RequestNext<T> {
   }
 }
 
-abstract class RequestNext<T> implements ReadyListState<T> {
+abstract class RequestNext<T, Args> implements ReadyListState<T, Args> {
   const factory RequestNext(
       {final int? pageSize,
       required final CurrentData<T> currentData,
-      final dynamic args}) = _$RequestNext<T>;
+      required final Args args}) = _$RequestNext<T, Args>;
 
   int? get pageSize;
   CurrentData<T> get currentData;
   @override
-  dynamic get args;
+  Args get args;
   @override
   @JsonKey(ignore: true)
-  _$$RequestNextCopyWith<T, _$RequestNext<T>> get copyWith =>
+  _$$RequestNextCopyWith<T, Args, _$RequestNext<T, Args>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$LoadingNextCopyWith<T, $Res>
-    implements $ReadyListStateCopyWith<T, $Res> {
-  factory _$$LoadingNextCopyWith(
-          _$LoadingNext<T> value, $Res Function(_$LoadingNext<T>) then) =
-      __$$LoadingNextCopyWithImpl<T, $Res>;
+abstract class _$$LoadingNextCopyWith<T, Args, $Res>
+    implements $ReadyListStateCopyWith<T, Args, $Res> {
+  factory _$$LoadingNextCopyWith(_$LoadingNext<T, Args> value,
+          $Res Function(_$LoadingNext<T, Args>) then) =
+      __$$LoadingNextCopyWithImpl<T, Args, $Res>;
   @override
   @useResult
   $Res call(
       {ICancelToken? cancelToken,
       int? pageSize,
       CurrentData<T> currentData,
-      dynamic args});
+      Args args});
 
   $CurrentDataCopyWith<T, $Res> get currentData;
 }
 
 /// @nodoc
-class __$$LoadingNextCopyWithImpl<T, $Res>
-    extends _$ReadyListStateCopyWithImpl<T, $Res, _$LoadingNext<T>>
-    implements _$$LoadingNextCopyWith<T, $Res> {
-  __$$LoadingNextCopyWithImpl(
-      _$LoadingNext<T> _value, $Res Function(_$LoadingNext<T>) _then)
+class __$$LoadingNextCopyWithImpl<T, Args, $Res>
+    extends _$ReadyListStateCopyWithImpl<T, Args, $Res, _$LoadingNext<T, Args>>
+    implements _$$LoadingNextCopyWith<T, Args, $Res> {
+  __$$LoadingNextCopyWithImpl(_$LoadingNext<T, Args> _value,
+      $Res Function(_$LoadingNext<T, Args>) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2282,7 +2269,7 @@ class __$$LoadingNextCopyWithImpl<T, $Res>
     Object? currentData = null,
     Object? args = freezed,
   }) {
-    return _then(_$LoadingNext<T>(
+    return _then(_$LoadingNext<T, Args>(
       cancelToken: freezed == cancelToken
           ? _value.cancelToken
           : cancelToken // ignore: cast_nullable_to_non_nullable
@@ -2298,7 +2285,7 @@ class __$$LoadingNextCopyWithImpl<T, $Res>
       args: freezed == args
           ? _value.args
           : args // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as Args,
     ));
   }
 
@@ -2313,9 +2300,12 @@ class __$$LoadingNextCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$LoadingNext<T> implements LoadingNext<T> {
+class _$LoadingNext<T, Args> implements LoadingNext<T, Args> {
   const _$LoadingNext(
-      {this.cancelToken, this.pageSize, required this.currentData, this.args});
+      {this.cancelToken,
+      this.pageSize,
+      required this.currentData,
+      required this.args});
 
   @override
   final ICancelToken? cancelToken;
@@ -2324,18 +2314,18 @@ class _$LoadingNext<T> implements LoadingNext<T> {
   @override
   final CurrentData<T> currentData;
   @override
-  final dynamic args;
+  final Args args;
 
   @override
   String toString() {
-    return 'ReadyListState<$T>.isLoadingNext(cancelToken: $cancelToken, pageSize: $pageSize, currentData: $currentData, args: $args)';
+    return 'ReadyListState<$T, $Args>.isLoadingNext(cancelToken: $cancelToken, pageSize: $pageSize, currentData: $currentData, args: $args)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LoadingNext<T> &&
+            other is _$LoadingNext<T, Args> &&
             (identical(other.cancelToken, cancelToken) ||
                 other.cancelToken == cancelToken) &&
             (identical(other.pageSize, pageSize) ||
@@ -2352,37 +2342,37 @@ class _$LoadingNext<T> implements LoadingNext<T> {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$LoadingNextCopyWith<T, _$LoadingNext<T>> get copyWith =>
-      __$$LoadingNextCopyWithImpl<T, _$LoadingNext<T>>(this, _$identity);
+  _$$LoadingNextCopyWith<T, Args, _$LoadingNext<T, Args>> get copyWith =>
+      __$$LoadingNextCopyWithImpl<T, Args, _$LoadingNext<T, Args>>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool requestFirstLoading, dynamic args)
-        initializing,
+    required TResult Function(bool requestFirstLoading, Args args) initializing,
     required TResult Function(
-            int? pageSize, CurrentData<T>? currentData, dynamic args)
+            int? pageSize, CurrentData<T>? currentData, Args args)
         requestFirstLoading,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)
+            CurrentData<T>? currentData, Args args)
         isLoadingFirst,
-    required TResult Function(ErrorDisplayCallBack display,
-            CurrentData<T>? currentData, dynamic args)
+    required TResult Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)
         error,
     required TResult Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)
+            Iterable<T> items, int totalCount, int? pageSize, Args args)
         isLoaded,
     required TResult Function(
-            int? pageSize, CurrentData<T> currentData, dynamic args)
+            int? pageSize, CurrentData<T> currentData, Args args)
         requestNext,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)
+            CurrentData<T> currentData, Args args)
         isLoadingNext,
     required TResult Function(
-            int? pageSize, CurrentData<T> currentData, dynamic args)
+            int? pageSize, CurrentData<T> currentData, Args args)
         requestRefresh,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)
+            CurrentData<T> currentData, Args args)
         isRefreshing,
   }) {
     return isLoadingNext(cancelToken, pageSize, currentData, args);
@@ -2391,27 +2381,27 @@ class _$LoadingNext<T> implements LoadingNext<T> {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool requestFirstLoading, dynamic args)? initializing,
-    TResult? Function(int? pageSize, CurrentData<T>? currentData, dynamic args)?
+    TResult? Function(bool requestFirstLoading, Args args)? initializing,
+    TResult? Function(int? pageSize, CurrentData<T>? currentData, Args args)?
         requestFirstLoading,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)?
+            CurrentData<T>? currentData, Args args)?
         isLoadingFirst,
-    TResult? Function(ErrorDisplayCallBack display, CurrentData<T>? currentData,
-            dynamic args)?
+    TResult? Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)?
         error,
     TResult? Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)?
+            Iterable<T> items, int totalCount, int? pageSize, Args args)?
         isLoaded,
-    TResult? Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult? Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestNext,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isLoadingNext,
-    TResult? Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult? Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestRefresh,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isRefreshing,
   }) {
     return isLoadingNext?.call(cancelToken, pageSize, currentData, args);
@@ -2420,27 +2410,27 @@ class _$LoadingNext<T> implements LoadingNext<T> {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool requestFirstLoading, dynamic args)? initializing,
-    TResult Function(int? pageSize, CurrentData<T>? currentData, dynamic args)?
+    TResult Function(bool requestFirstLoading, Args args)? initializing,
+    TResult Function(int? pageSize, CurrentData<T>? currentData, Args args)?
         requestFirstLoading,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)?
+            CurrentData<T>? currentData, Args args)?
         isLoadingFirst,
-    TResult Function(ErrorDisplayCallBack display, CurrentData<T>? currentData,
-            dynamic args)?
+    TResult Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)?
         error,
     TResult Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)?
+            Iterable<T> items, int totalCount, int? pageSize, Args args)?
         isLoaded,
-    TResult Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestNext,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isLoadingNext,
-    TResult Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestRefresh,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isRefreshing,
     required TResult orElse(),
   }) {
@@ -2453,15 +2443,16 @@ class _$LoadingNext<T> implements LoadingNext<T> {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Initializing<T> value) initializing,
-    required TResult Function(RequestFirstLoading<T> value) requestFirstLoading,
-    required TResult Function(FirstLoading<T> value) isLoadingFirst,
-    required TResult Function(ErrorState<T> value) error,
-    required TResult Function(Loaded<T> value) isLoaded,
-    required TResult Function(RequestNext<T> value) requestNext,
-    required TResult Function(LoadingNext<T> value) isLoadingNext,
-    required TResult Function(RequestRefresh<T> value) requestRefresh,
-    required TResult Function(Refreshing<T> value) isRefreshing,
+    required TResult Function(Initializing<T, Args> value) initializing,
+    required TResult Function(RequestFirstLoading<T, Args> value)
+        requestFirstLoading,
+    required TResult Function(FirstLoading<T, Args> value) isLoadingFirst,
+    required TResult Function(ErrorState<T, Args> value) error,
+    required TResult Function(Loaded<T, Args> value) isLoaded,
+    required TResult Function(RequestNext<T, Args> value) requestNext,
+    required TResult Function(LoadingNext<T, Args> value) isLoadingNext,
+    required TResult Function(RequestRefresh<T, Args> value) requestRefresh,
+    required TResult Function(Refreshing<T, Args> value) isRefreshing,
   }) {
     return isLoadingNext(this);
   }
@@ -2469,15 +2460,15 @@ class _$LoadingNext<T> implements LoadingNext<T> {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Initializing<T> value)? initializing,
-    TResult? Function(RequestFirstLoading<T> value)? requestFirstLoading,
-    TResult? Function(FirstLoading<T> value)? isLoadingFirst,
-    TResult? Function(ErrorState<T> value)? error,
-    TResult? Function(Loaded<T> value)? isLoaded,
-    TResult? Function(RequestNext<T> value)? requestNext,
-    TResult? Function(LoadingNext<T> value)? isLoadingNext,
-    TResult? Function(RequestRefresh<T> value)? requestRefresh,
-    TResult? Function(Refreshing<T> value)? isRefreshing,
+    TResult? Function(Initializing<T, Args> value)? initializing,
+    TResult? Function(RequestFirstLoading<T, Args> value)? requestFirstLoading,
+    TResult? Function(FirstLoading<T, Args> value)? isLoadingFirst,
+    TResult? Function(ErrorState<T, Args> value)? error,
+    TResult? Function(Loaded<T, Args> value)? isLoaded,
+    TResult? Function(RequestNext<T, Args> value)? requestNext,
+    TResult? Function(LoadingNext<T, Args> value)? isLoadingNext,
+    TResult? Function(RequestRefresh<T, Args> value)? requestRefresh,
+    TResult? Function(Refreshing<T, Args> value)? isRefreshing,
   }) {
     return isLoadingNext?.call(this);
   }
@@ -2485,15 +2476,15 @@ class _$LoadingNext<T> implements LoadingNext<T> {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initializing<T> value)? initializing,
-    TResult Function(RequestFirstLoading<T> value)? requestFirstLoading,
-    TResult Function(FirstLoading<T> value)? isLoadingFirst,
-    TResult Function(ErrorState<T> value)? error,
-    TResult Function(Loaded<T> value)? isLoaded,
-    TResult Function(RequestNext<T> value)? requestNext,
-    TResult Function(LoadingNext<T> value)? isLoadingNext,
-    TResult Function(RequestRefresh<T> value)? requestRefresh,
-    TResult Function(Refreshing<T> value)? isRefreshing,
+    TResult Function(Initializing<T, Args> value)? initializing,
+    TResult Function(RequestFirstLoading<T, Args> value)? requestFirstLoading,
+    TResult Function(FirstLoading<T, Args> value)? isLoadingFirst,
+    TResult Function(ErrorState<T, Args> value)? error,
+    TResult Function(Loaded<T, Args> value)? isLoaded,
+    TResult Function(RequestNext<T, Args> value)? requestNext,
+    TResult Function(LoadingNext<T, Args> value)? isLoadingNext,
+    TResult Function(RequestRefresh<T, Args> value)? requestRefresh,
+    TResult Function(Refreshing<T, Args> value)? isRefreshing,
     required TResult orElse(),
   }) {
     if (isLoadingNext != null) {
@@ -2503,43 +2494,44 @@ class _$LoadingNext<T> implements LoadingNext<T> {
   }
 }
 
-abstract class LoadingNext<T> implements ReadyListState<T> {
+abstract class LoadingNext<T, Args> implements ReadyListState<T, Args> {
   const factory LoadingNext(
       {final ICancelToken? cancelToken,
       final int? pageSize,
       required final CurrentData<T> currentData,
-      final dynamic args}) = _$LoadingNext<T>;
+      required final Args args}) = _$LoadingNext<T, Args>;
 
   ICancelToken? get cancelToken;
   int? get pageSize;
   CurrentData<T> get currentData;
   @override
-  dynamic get args;
+  Args get args;
   @override
   @JsonKey(ignore: true)
-  _$$LoadingNextCopyWith<T, _$LoadingNext<T>> get copyWith =>
+  _$$LoadingNextCopyWith<T, Args, _$LoadingNext<T, Args>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$RequestRefreshCopyWith<T, $Res>
-    implements $ReadyListStateCopyWith<T, $Res> {
-  factory _$$RequestRefreshCopyWith(
-          _$RequestRefresh<T> value, $Res Function(_$RequestRefresh<T>) then) =
-      __$$RequestRefreshCopyWithImpl<T, $Res>;
+abstract class _$$RequestRefreshCopyWith<T, Args, $Res>
+    implements $ReadyListStateCopyWith<T, Args, $Res> {
+  factory _$$RequestRefreshCopyWith(_$RequestRefresh<T, Args> value,
+          $Res Function(_$RequestRefresh<T, Args>) then) =
+      __$$RequestRefreshCopyWithImpl<T, Args, $Res>;
   @override
   @useResult
-  $Res call({int? pageSize, CurrentData<T> currentData, dynamic args});
+  $Res call({int? pageSize, CurrentData<T> currentData, Args args});
 
   $CurrentDataCopyWith<T, $Res> get currentData;
 }
 
 /// @nodoc
-class __$$RequestRefreshCopyWithImpl<T, $Res>
-    extends _$ReadyListStateCopyWithImpl<T, $Res, _$RequestRefresh<T>>
-    implements _$$RequestRefreshCopyWith<T, $Res> {
-  __$$RequestRefreshCopyWithImpl(
-      _$RequestRefresh<T> _value, $Res Function(_$RequestRefresh<T>) _then)
+class __$$RequestRefreshCopyWithImpl<T, Args, $Res>
+    extends _$ReadyListStateCopyWithImpl<T, Args, $Res,
+        _$RequestRefresh<T, Args>>
+    implements _$$RequestRefreshCopyWith<T, Args, $Res> {
+  __$$RequestRefreshCopyWithImpl(_$RequestRefresh<T, Args> _value,
+      $Res Function(_$RequestRefresh<T, Args>) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2549,7 +2541,7 @@ class __$$RequestRefreshCopyWithImpl<T, $Res>
     Object? currentData = null,
     Object? args = freezed,
   }) {
-    return _then(_$RequestRefresh<T>(
+    return _then(_$RequestRefresh<T, Args>(
       pageSize: freezed == pageSize
           ? _value.pageSize
           : pageSize // ignore: cast_nullable_to_non_nullable
@@ -2561,7 +2553,7 @@ class __$$RequestRefreshCopyWithImpl<T, $Res>
       args: freezed == args
           ? _value.args
           : args // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as Args,
     ));
   }
 
@@ -2576,26 +2568,27 @@ class __$$RequestRefreshCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$RequestRefresh<T> implements RequestRefresh<T> {
-  const _$RequestRefresh({this.pageSize, required this.currentData, this.args});
+class _$RequestRefresh<T, Args> implements RequestRefresh<T, Args> {
+  const _$RequestRefresh(
+      {this.pageSize, required this.currentData, required this.args});
 
   @override
   final int? pageSize;
   @override
   final CurrentData<T> currentData;
   @override
-  final dynamic args;
+  final Args args;
 
   @override
   String toString() {
-    return 'ReadyListState<$T>.requestRefresh(pageSize: $pageSize, currentData: $currentData, args: $args)';
+    return 'ReadyListState<$T, $Args>.requestRefresh(pageSize: $pageSize, currentData: $currentData, args: $args)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RequestRefresh<T> &&
+            other is _$RequestRefresh<T, Args> &&
             (identical(other.pageSize, pageSize) ||
                 other.pageSize == pageSize) &&
             (identical(other.currentData, currentData) ||
@@ -2610,37 +2603,37 @@ class _$RequestRefresh<T> implements RequestRefresh<T> {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$RequestRefreshCopyWith<T, _$RequestRefresh<T>> get copyWith =>
-      __$$RequestRefreshCopyWithImpl<T, _$RequestRefresh<T>>(this, _$identity);
+  _$$RequestRefreshCopyWith<T, Args, _$RequestRefresh<T, Args>> get copyWith =>
+      __$$RequestRefreshCopyWithImpl<T, Args, _$RequestRefresh<T, Args>>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool requestFirstLoading, dynamic args)
-        initializing,
+    required TResult Function(bool requestFirstLoading, Args args) initializing,
     required TResult Function(
-            int? pageSize, CurrentData<T>? currentData, dynamic args)
+            int? pageSize, CurrentData<T>? currentData, Args args)
         requestFirstLoading,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)
+            CurrentData<T>? currentData, Args args)
         isLoadingFirst,
-    required TResult Function(ErrorDisplayCallBack display,
-            CurrentData<T>? currentData, dynamic args)
+    required TResult Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)
         error,
     required TResult Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)
+            Iterable<T> items, int totalCount, int? pageSize, Args args)
         isLoaded,
     required TResult Function(
-            int? pageSize, CurrentData<T> currentData, dynamic args)
+            int? pageSize, CurrentData<T> currentData, Args args)
         requestNext,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)
+            CurrentData<T> currentData, Args args)
         isLoadingNext,
     required TResult Function(
-            int? pageSize, CurrentData<T> currentData, dynamic args)
+            int? pageSize, CurrentData<T> currentData, Args args)
         requestRefresh,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)
+            CurrentData<T> currentData, Args args)
         isRefreshing,
   }) {
     return requestRefresh(pageSize, currentData, args);
@@ -2649,27 +2642,27 @@ class _$RequestRefresh<T> implements RequestRefresh<T> {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool requestFirstLoading, dynamic args)? initializing,
-    TResult? Function(int? pageSize, CurrentData<T>? currentData, dynamic args)?
+    TResult? Function(bool requestFirstLoading, Args args)? initializing,
+    TResult? Function(int? pageSize, CurrentData<T>? currentData, Args args)?
         requestFirstLoading,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)?
+            CurrentData<T>? currentData, Args args)?
         isLoadingFirst,
-    TResult? Function(ErrorDisplayCallBack display, CurrentData<T>? currentData,
-            dynamic args)?
+    TResult? Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)?
         error,
     TResult? Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)?
+            Iterable<T> items, int totalCount, int? pageSize, Args args)?
         isLoaded,
-    TResult? Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult? Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestNext,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isLoadingNext,
-    TResult? Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult? Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestRefresh,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isRefreshing,
   }) {
     return requestRefresh?.call(pageSize, currentData, args);
@@ -2678,27 +2671,27 @@ class _$RequestRefresh<T> implements RequestRefresh<T> {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool requestFirstLoading, dynamic args)? initializing,
-    TResult Function(int? pageSize, CurrentData<T>? currentData, dynamic args)?
+    TResult Function(bool requestFirstLoading, Args args)? initializing,
+    TResult Function(int? pageSize, CurrentData<T>? currentData, Args args)?
         requestFirstLoading,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)?
+            CurrentData<T>? currentData, Args args)?
         isLoadingFirst,
-    TResult Function(ErrorDisplayCallBack display, CurrentData<T>? currentData,
-            dynamic args)?
+    TResult Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)?
         error,
     TResult Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)?
+            Iterable<T> items, int totalCount, int? pageSize, Args args)?
         isLoaded,
-    TResult Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestNext,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isLoadingNext,
-    TResult Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestRefresh,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isRefreshing,
     required TResult orElse(),
   }) {
@@ -2711,15 +2704,16 @@ class _$RequestRefresh<T> implements RequestRefresh<T> {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Initializing<T> value) initializing,
-    required TResult Function(RequestFirstLoading<T> value) requestFirstLoading,
-    required TResult Function(FirstLoading<T> value) isLoadingFirst,
-    required TResult Function(ErrorState<T> value) error,
-    required TResult Function(Loaded<T> value) isLoaded,
-    required TResult Function(RequestNext<T> value) requestNext,
-    required TResult Function(LoadingNext<T> value) isLoadingNext,
-    required TResult Function(RequestRefresh<T> value) requestRefresh,
-    required TResult Function(Refreshing<T> value) isRefreshing,
+    required TResult Function(Initializing<T, Args> value) initializing,
+    required TResult Function(RequestFirstLoading<T, Args> value)
+        requestFirstLoading,
+    required TResult Function(FirstLoading<T, Args> value) isLoadingFirst,
+    required TResult Function(ErrorState<T, Args> value) error,
+    required TResult Function(Loaded<T, Args> value) isLoaded,
+    required TResult Function(RequestNext<T, Args> value) requestNext,
+    required TResult Function(LoadingNext<T, Args> value) isLoadingNext,
+    required TResult Function(RequestRefresh<T, Args> value) requestRefresh,
+    required TResult Function(Refreshing<T, Args> value) isRefreshing,
   }) {
     return requestRefresh(this);
   }
@@ -2727,15 +2721,15 @@ class _$RequestRefresh<T> implements RequestRefresh<T> {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Initializing<T> value)? initializing,
-    TResult? Function(RequestFirstLoading<T> value)? requestFirstLoading,
-    TResult? Function(FirstLoading<T> value)? isLoadingFirst,
-    TResult? Function(ErrorState<T> value)? error,
-    TResult? Function(Loaded<T> value)? isLoaded,
-    TResult? Function(RequestNext<T> value)? requestNext,
-    TResult? Function(LoadingNext<T> value)? isLoadingNext,
-    TResult? Function(RequestRefresh<T> value)? requestRefresh,
-    TResult? Function(Refreshing<T> value)? isRefreshing,
+    TResult? Function(Initializing<T, Args> value)? initializing,
+    TResult? Function(RequestFirstLoading<T, Args> value)? requestFirstLoading,
+    TResult? Function(FirstLoading<T, Args> value)? isLoadingFirst,
+    TResult? Function(ErrorState<T, Args> value)? error,
+    TResult? Function(Loaded<T, Args> value)? isLoaded,
+    TResult? Function(RequestNext<T, Args> value)? requestNext,
+    TResult? Function(LoadingNext<T, Args> value)? isLoadingNext,
+    TResult? Function(RequestRefresh<T, Args> value)? requestRefresh,
+    TResult? Function(Refreshing<T, Args> value)? isRefreshing,
   }) {
     return requestRefresh?.call(this);
   }
@@ -2743,15 +2737,15 @@ class _$RequestRefresh<T> implements RequestRefresh<T> {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initializing<T> value)? initializing,
-    TResult Function(RequestFirstLoading<T> value)? requestFirstLoading,
-    TResult Function(FirstLoading<T> value)? isLoadingFirst,
-    TResult Function(ErrorState<T> value)? error,
-    TResult Function(Loaded<T> value)? isLoaded,
-    TResult Function(RequestNext<T> value)? requestNext,
-    TResult Function(LoadingNext<T> value)? isLoadingNext,
-    TResult Function(RequestRefresh<T> value)? requestRefresh,
-    TResult Function(Refreshing<T> value)? isRefreshing,
+    TResult Function(Initializing<T, Args> value)? initializing,
+    TResult Function(RequestFirstLoading<T, Args> value)? requestFirstLoading,
+    TResult Function(FirstLoading<T, Args> value)? isLoadingFirst,
+    TResult Function(ErrorState<T, Args> value)? error,
+    TResult Function(Loaded<T, Args> value)? isLoaded,
+    TResult Function(RequestNext<T, Args> value)? requestNext,
+    TResult Function(LoadingNext<T, Args> value)? isLoadingNext,
+    TResult Function(RequestRefresh<T, Args> value)? requestRefresh,
+    TResult Function(Refreshing<T, Args> value)? isRefreshing,
     required TResult orElse(),
   }) {
     if (requestRefresh != null) {
@@ -2761,45 +2755,45 @@ class _$RequestRefresh<T> implements RequestRefresh<T> {
   }
 }
 
-abstract class RequestRefresh<T> implements ReadyListState<T> {
+abstract class RequestRefresh<T, Args> implements ReadyListState<T, Args> {
   const factory RequestRefresh(
       {final int? pageSize,
       required final CurrentData<T> currentData,
-      final dynamic args}) = _$RequestRefresh<T>;
+      required final Args args}) = _$RequestRefresh<T, Args>;
 
   int? get pageSize;
   CurrentData<T> get currentData;
   @override
-  dynamic get args;
+  Args get args;
   @override
   @JsonKey(ignore: true)
-  _$$RequestRefreshCopyWith<T, _$RequestRefresh<T>> get copyWith =>
+  _$$RequestRefreshCopyWith<T, Args, _$RequestRefresh<T, Args>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$RefreshingCopyWith<T, $Res>
-    implements $ReadyListStateCopyWith<T, $Res> {
-  factory _$$RefreshingCopyWith(
-          _$Refreshing<T> value, $Res Function(_$Refreshing<T>) then) =
-      __$$RefreshingCopyWithImpl<T, $Res>;
+abstract class _$$RefreshingCopyWith<T, Args, $Res>
+    implements $ReadyListStateCopyWith<T, Args, $Res> {
+  factory _$$RefreshingCopyWith(_$Refreshing<T, Args> value,
+          $Res Function(_$Refreshing<T, Args>) then) =
+      __$$RefreshingCopyWithImpl<T, Args, $Res>;
   @override
   @useResult
   $Res call(
       {ICancelToken? cancelToken,
       int? pageSize,
       CurrentData<T> currentData,
-      dynamic args});
+      Args args});
 
   $CurrentDataCopyWith<T, $Res> get currentData;
 }
 
 /// @nodoc
-class __$$RefreshingCopyWithImpl<T, $Res>
-    extends _$ReadyListStateCopyWithImpl<T, $Res, _$Refreshing<T>>
-    implements _$$RefreshingCopyWith<T, $Res> {
+class __$$RefreshingCopyWithImpl<T, Args, $Res>
+    extends _$ReadyListStateCopyWithImpl<T, Args, $Res, _$Refreshing<T, Args>>
+    implements _$$RefreshingCopyWith<T, Args, $Res> {
   __$$RefreshingCopyWithImpl(
-      _$Refreshing<T> _value, $Res Function(_$Refreshing<T>) _then)
+      _$Refreshing<T, Args> _value, $Res Function(_$Refreshing<T, Args>) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2810,7 +2804,7 @@ class __$$RefreshingCopyWithImpl<T, $Res>
     Object? currentData = null,
     Object? args = freezed,
   }) {
-    return _then(_$Refreshing<T>(
+    return _then(_$Refreshing<T, Args>(
       cancelToken: freezed == cancelToken
           ? _value.cancelToken
           : cancelToken // ignore: cast_nullable_to_non_nullable
@@ -2826,7 +2820,7 @@ class __$$RefreshingCopyWithImpl<T, $Res>
       args: freezed == args
           ? _value.args
           : args // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as Args,
     ));
   }
 
@@ -2841,9 +2835,12 @@ class __$$RefreshingCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$Refreshing<T> implements Refreshing<T> {
+class _$Refreshing<T, Args> implements Refreshing<T, Args> {
   const _$Refreshing(
-      {this.cancelToken, this.pageSize, required this.currentData, this.args});
+      {this.cancelToken,
+      this.pageSize,
+      required this.currentData,
+      required this.args});
 
   @override
   final ICancelToken? cancelToken;
@@ -2852,18 +2849,18 @@ class _$Refreshing<T> implements Refreshing<T> {
   @override
   final CurrentData<T> currentData;
   @override
-  final dynamic args;
+  final Args args;
 
   @override
   String toString() {
-    return 'ReadyListState<$T>.isRefreshing(cancelToken: $cancelToken, pageSize: $pageSize, currentData: $currentData, args: $args)';
+    return 'ReadyListState<$T, $Args>.isRefreshing(cancelToken: $cancelToken, pageSize: $pageSize, currentData: $currentData, args: $args)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$Refreshing<T> &&
+            other is _$Refreshing<T, Args> &&
             (identical(other.cancelToken, cancelToken) ||
                 other.cancelToken == cancelToken) &&
             (identical(other.pageSize, pageSize) ||
@@ -2880,37 +2877,37 @@ class _$Refreshing<T> implements Refreshing<T> {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$RefreshingCopyWith<T, _$Refreshing<T>> get copyWith =>
-      __$$RefreshingCopyWithImpl<T, _$Refreshing<T>>(this, _$identity);
+  _$$RefreshingCopyWith<T, Args, _$Refreshing<T, Args>> get copyWith =>
+      __$$RefreshingCopyWithImpl<T, Args, _$Refreshing<T, Args>>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(bool requestFirstLoading, dynamic args)
-        initializing,
+    required TResult Function(bool requestFirstLoading, Args args) initializing,
     required TResult Function(
-            int? pageSize, CurrentData<T>? currentData, dynamic args)
+            int? pageSize, CurrentData<T>? currentData, Args args)
         requestFirstLoading,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)
+            CurrentData<T>? currentData, Args args)
         isLoadingFirst,
-    required TResult Function(ErrorDisplayCallBack display,
-            CurrentData<T>? currentData, dynamic args)
+    required TResult Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)
         error,
     required TResult Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)
+            Iterable<T> items, int totalCount, int? pageSize, Args args)
         isLoaded,
     required TResult Function(
-            int? pageSize, CurrentData<T> currentData, dynamic args)
+            int? pageSize, CurrentData<T> currentData, Args args)
         requestNext,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)
+            CurrentData<T> currentData, Args args)
         isLoadingNext,
     required TResult Function(
-            int? pageSize, CurrentData<T> currentData, dynamic args)
+            int? pageSize, CurrentData<T> currentData, Args args)
         requestRefresh,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)
+            CurrentData<T> currentData, Args args)
         isRefreshing,
   }) {
     return isRefreshing(cancelToken, pageSize, currentData, args);
@@ -2919,27 +2916,27 @@ class _$Refreshing<T> implements Refreshing<T> {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(bool requestFirstLoading, dynamic args)? initializing,
-    TResult? Function(int? pageSize, CurrentData<T>? currentData, dynamic args)?
+    TResult? Function(bool requestFirstLoading, Args args)? initializing,
+    TResult? Function(int? pageSize, CurrentData<T>? currentData, Args args)?
         requestFirstLoading,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)?
+            CurrentData<T>? currentData, Args args)?
         isLoadingFirst,
-    TResult? Function(ErrorDisplayCallBack display, CurrentData<T>? currentData,
-            dynamic args)?
+    TResult? Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)?
         error,
     TResult? Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)?
+            Iterable<T> items, int totalCount, int? pageSize, Args args)?
         isLoaded,
-    TResult? Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult? Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestNext,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isLoadingNext,
-    TResult? Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult? Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestRefresh,
     TResult? Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isRefreshing,
   }) {
     return isRefreshing?.call(cancelToken, pageSize, currentData, args);
@@ -2948,27 +2945,27 @@ class _$Refreshing<T> implements Refreshing<T> {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(bool requestFirstLoading, dynamic args)? initializing,
-    TResult Function(int? pageSize, CurrentData<T>? currentData, dynamic args)?
+    TResult Function(bool requestFirstLoading, Args args)? initializing,
+    TResult Function(int? pageSize, CurrentData<T>? currentData, Args args)?
         requestFirstLoading,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T>? currentData, dynamic args)?
+            CurrentData<T>? currentData, Args args)?
         isLoadingFirst,
-    TResult Function(ErrorDisplayCallBack display, CurrentData<T>? currentData,
-            dynamic args)?
+    TResult Function(Args args, ErrorDisplayCallBack display,
+            CurrentData<T>? currentData)?
         error,
     TResult Function(
-            Iterable<T> items, int totalCount, int? pageSize, dynamic args)?
+            Iterable<T> items, int totalCount, int? pageSize, Args args)?
         isLoaded,
-    TResult Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestNext,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isLoadingNext,
-    TResult Function(int? pageSize, CurrentData<T> currentData, dynamic args)?
+    TResult Function(int? pageSize, CurrentData<T> currentData, Args args)?
         requestRefresh,
     TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, dynamic args)?
+            CurrentData<T> currentData, Args args)?
         isRefreshing,
     required TResult orElse(),
   }) {
@@ -2981,15 +2978,16 @@ class _$Refreshing<T> implements Refreshing<T> {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Initializing<T> value) initializing,
-    required TResult Function(RequestFirstLoading<T> value) requestFirstLoading,
-    required TResult Function(FirstLoading<T> value) isLoadingFirst,
-    required TResult Function(ErrorState<T> value) error,
-    required TResult Function(Loaded<T> value) isLoaded,
-    required TResult Function(RequestNext<T> value) requestNext,
-    required TResult Function(LoadingNext<T> value) isLoadingNext,
-    required TResult Function(RequestRefresh<T> value) requestRefresh,
-    required TResult Function(Refreshing<T> value) isRefreshing,
+    required TResult Function(Initializing<T, Args> value) initializing,
+    required TResult Function(RequestFirstLoading<T, Args> value)
+        requestFirstLoading,
+    required TResult Function(FirstLoading<T, Args> value) isLoadingFirst,
+    required TResult Function(ErrorState<T, Args> value) error,
+    required TResult Function(Loaded<T, Args> value) isLoaded,
+    required TResult Function(RequestNext<T, Args> value) requestNext,
+    required TResult Function(LoadingNext<T, Args> value) isLoadingNext,
+    required TResult Function(RequestRefresh<T, Args> value) requestRefresh,
+    required TResult Function(Refreshing<T, Args> value) isRefreshing,
   }) {
     return isRefreshing(this);
   }
@@ -2997,15 +2995,15 @@ class _$Refreshing<T> implements Refreshing<T> {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Initializing<T> value)? initializing,
-    TResult? Function(RequestFirstLoading<T> value)? requestFirstLoading,
-    TResult? Function(FirstLoading<T> value)? isLoadingFirst,
-    TResult? Function(ErrorState<T> value)? error,
-    TResult? Function(Loaded<T> value)? isLoaded,
-    TResult? Function(RequestNext<T> value)? requestNext,
-    TResult? Function(LoadingNext<T> value)? isLoadingNext,
-    TResult? Function(RequestRefresh<T> value)? requestRefresh,
-    TResult? Function(Refreshing<T> value)? isRefreshing,
+    TResult? Function(Initializing<T, Args> value)? initializing,
+    TResult? Function(RequestFirstLoading<T, Args> value)? requestFirstLoading,
+    TResult? Function(FirstLoading<T, Args> value)? isLoadingFirst,
+    TResult? Function(ErrorState<T, Args> value)? error,
+    TResult? Function(Loaded<T, Args> value)? isLoaded,
+    TResult? Function(RequestNext<T, Args> value)? requestNext,
+    TResult? Function(LoadingNext<T, Args> value)? isLoadingNext,
+    TResult? Function(RequestRefresh<T, Args> value)? requestRefresh,
+    TResult? Function(Refreshing<T, Args> value)? isRefreshing,
   }) {
     return isRefreshing?.call(this);
   }
@@ -3013,15 +3011,15 @@ class _$Refreshing<T> implements Refreshing<T> {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initializing<T> value)? initializing,
-    TResult Function(RequestFirstLoading<T> value)? requestFirstLoading,
-    TResult Function(FirstLoading<T> value)? isLoadingFirst,
-    TResult Function(ErrorState<T> value)? error,
-    TResult Function(Loaded<T> value)? isLoaded,
-    TResult Function(RequestNext<T> value)? requestNext,
-    TResult Function(LoadingNext<T> value)? isLoadingNext,
-    TResult Function(RequestRefresh<T> value)? requestRefresh,
-    TResult Function(Refreshing<T> value)? isRefreshing,
+    TResult Function(Initializing<T, Args> value)? initializing,
+    TResult Function(RequestFirstLoading<T, Args> value)? requestFirstLoading,
+    TResult Function(FirstLoading<T, Args> value)? isLoadingFirst,
+    TResult Function(ErrorState<T, Args> value)? error,
+    TResult Function(Loaded<T, Args> value)? isLoaded,
+    TResult Function(RequestNext<T, Args> value)? requestNext,
+    TResult Function(LoadingNext<T, Args> value)? isLoadingNext,
+    TResult Function(RequestRefresh<T, Args> value)? requestRefresh,
+    TResult Function(Refreshing<T, Args> value)? isRefreshing,
     required TResult orElse(),
   }) {
     if (isRefreshing != null) {
@@ -3031,20 +3029,20 @@ class _$Refreshing<T> implements Refreshing<T> {
   }
 }
 
-abstract class Refreshing<T> implements ReadyListState<T> {
+abstract class Refreshing<T, Args> implements ReadyListState<T, Args> {
   const factory Refreshing(
       {final ICancelToken? cancelToken,
       final int? pageSize,
       required final CurrentData<T> currentData,
-      final dynamic args}) = _$Refreshing<T>;
+      required final Args args}) = _$Refreshing<T, Args>;
 
   ICancelToken? get cancelToken;
   int? get pageSize;
   CurrentData<T> get currentData;
   @override
-  dynamic get args;
+  Args get args;
   @override
   @JsonKey(ignore: true)
-  _$$RefreshingCopyWith<T, _$Refreshing<T>> get copyWith =>
+  _$$RefreshingCopyWith<T, Args, _$Refreshing<T, Args>> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -4,7 +4,7 @@ typedef TotalCountResolver = int Function(
     int currentTotalCount, int difference);
 int _defaultResolver(int current, int difference) => current + difference;
 
-extension CurrentDataExt<T> on CurrentData<T> {
+extension CurrentDataExt<T, Args> on CurrentData<T> {
   int diff(int original, int current) {
     return current - original;
   }
@@ -408,6 +408,13 @@ extension CurrentDataExt<T> on CurrentData<T> {
   /// Invokes [action] on each element of this iterable in iteration order.
   void forEach(void Function(T) action) {
     items.forEach(action);
+  }
+
+  /// Invokes [action] on each element of this iterable in iteration order.
+  void forEachIndex(void Function(int i, T item) action) {
+    for (var i = 0; i < items.length; i++) {
+      action(i, items.elementAt(i));
+    }
   }
 
   /// Checks whether any element of this iterable satisfies [test].

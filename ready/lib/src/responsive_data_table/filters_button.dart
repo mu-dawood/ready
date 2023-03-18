@@ -1,6 +1,6 @@
 part of responsive_data_table;
 
-class _FiltersButton<T, TController extends ReadyListController<T>>
+class _FiltersButton<T, Args, TController extends ReadyListController<T, Args>>
     extends StatelessWidget {
   final List<DataTableFilter> filters;
   final TController controller;
@@ -41,8 +41,8 @@ class _FiltersButton<T, TController extends ReadyListController<T>>
   }
 }
 
-class _FiltersButtonSheet<T, TController extends ReadyListController<T>>
-    extends StatelessWidget {
+class _FiltersButtonSheet<T, Args,
+    TController extends ReadyListController<T, Args>> extends StatelessWidget {
   final List<DataTableFilter> filters;
   final TController Function() controller;
   const _FiltersButtonSheet({
@@ -54,8 +54,8 @@ class _FiltersButtonSheet<T, TController extends ReadyListController<T>>
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: controller().stream,
-      builder:
-          (BuildContext context, AsyncSnapshot<ReadyListState<T>> snapshot) {
+      builder: (BuildContext context,
+          AsyncSnapshot<ReadyListState<T, Args>> snapshot) {
         var loading = controller().state.mapOrNull(
               isLoadingFirst: (_) => const LinearProgressIndicator(),
               requestFirstLoading: (_) => const LinearProgressIndicator(),

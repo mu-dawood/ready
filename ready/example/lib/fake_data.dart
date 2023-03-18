@@ -6,6 +6,18 @@ class FakeItem {
   final int rate;
 
   FakeItem(this.id, this.name, this.rate);
+
+  FakeItem copyWith({
+    String? id,
+    String? name,
+    int? rate,
+  }) {
+    return FakeItem(
+      id ?? this.id,
+      name ?? this.name,
+      rate ?? this.rate,
+    );
+  }
 }
 
 class FakeRepo {
@@ -34,12 +46,12 @@ class FakeRepo {
   }
 
   static Future<List<FakeItem>> asyncList(int count,
-      [Duration duration = const Duration(seconds: 1)]) async {
+      [int skip = 0, Duration duration = const Duration(seconds: 1)]) async {
     await Future.delayed(duration);
     return List.generate(count, (index) {
       Random rnd = Random();
       var n = rnd.nextInt(_names.length - 1);
-      return FakeItem(index.toString(), _names[n], rnd.nextInt(5));
+      return FakeItem((index + skip + 1).toString(), _names[n], rnd.nextInt(5));
     });
   }
 

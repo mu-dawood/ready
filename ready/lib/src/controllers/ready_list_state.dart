@@ -13,42 +13,41 @@ class CurrentData<T> with _$CurrentData<T> {
     required Iterable<T> items,
     required int totalCount,
     int? pageSize,
-    dynamic args,
   }) = _CurrentData<T>;
 }
 
 @freezed
-class ReadyListState<T> with _$ReadyListState<T> {
+class ReadyListState<T, Args> with _$ReadyListState<T, Args> {
   /// use this if you need to wait for something
   /// and then use needFirstLoading to load the first state
   const factory ReadyListState.initializing({
     @Default(true) bool requestFirstLoading,
-    dynamic args,
-  }) = Initializing<T>;
+    required Args args,
+  }) = Initializing<T, Args>;
 
   /// this will fire first loading
   /// *************************************************************************
   const factory ReadyListState.requestFirstLoading({
     int? pageSize,
     CurrentData<T>? currentData,
-    dynamic args,
-  }) = RequestFirstLoading<T>;
+    required Args args,
+  }) = RequestFirstLoading<T, Args>;
 
   /// loading first time
   const factory ReadyListState.isLoadingFirst({
     ICancelToken? cancelToken,
     int? pageSize,
     CurrentData<T>? currentData,
-    dynamic args,
-  }) = FirstLoading<T>;
+    required Args args,
+  }) = FirstLoading<T, Args>;
 
   /// when there is any error
   /// *************************************************************************
-  const factory ReadyListState.error(
-    ErrorDisplayCallBack display,
+  const factory ReadyListState.error({
+    required Args args,
+    required ErrorDisplayCallBack display,
     CurrentData<T>? currentData,
-    dynamic args,
-  ) = ErrorState<T>;
+  }) = ErrorState<T, Args>;
 
   /// data loaded
   /// *************************************************************************
@@ -56,38 +55,38 @@ class ReadyListState<T> with _$ReadyListState<T> {
     required Iterable<T> items,
     required int totalCount,
     int? pageSize,
-    dynamic args,
-  }) = Loaded<T>;
+    required Args args,
+  }) = Loaded<T, Args>;
 
   /// this will fire next loading
   /// *************************************************************************
   const factory ReadyListState.requestNext({
     int? pageSize,
     required CurrentData<T> currentData,
-    dynamic args,
-  }) = RequestNext<T>;
+    required Args args,
+  }) = RequestNext<T, Args>;
 
   /// when loading next data
   const factory ReadyListState.isLoadingNext({
     ICancelToken? cancelToken,
     int? pageSize,
     required CurrentData<T> currentData,
-    dynamic args,
-  }) = LoadingNext<T>;
+    required Args args,
+  }) = LoadingNext<T, Args>;
 
   /// this will fire refresh
   /// *************************************************************************
   const factory ReadyListState.requestRefresh({
     int? pageSize,
     required CurrentData<T> currentData,
-    dynamic args,
-  }) = RequestRefresh<T>;
+    required Args args,
+  }) = RequestRefresh<T, Args>;
 
   /// refreshing data
   const factory ReadyListState.isRefreshing({
     ICancelToken? cancelToken,
     int? pageSize,
     required CurrentData<T> currentData,
-    dynamic args,
-  }) = Refreshing<T>;
+    required Args args,
+  }) = Refreshing<T, Args>;
 }

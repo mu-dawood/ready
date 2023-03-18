@@ -3,7 +3,7 @@ import 'package:ready/ready.dart';
 
 import 'controller.dart';
 
-class SelectorSheet<T, TController extends ReadyPickerController<T>>
+class SelectorSheet<T, Args, TController extends ReadyPickerController<T, Args>>
     extends StatefulWidget {
   final TController controller;
   final List<T> selectedItems;
@@ -25,12 +25,13 @@ class SelectorSheet<T, TController extends ReadyPickerController<T>>
     required this.buildItem,
   }) : super(key: key);
   @override
-  State<SelectorSheet<T, TController>> createState() =>
-      _SelectorSheetState<T, TController>();
+  State<SelectorSheet<T, Args, TController>> createState() =>
+      _SelectorSheetState<T, Args, TController>();
 }
 
-class _SelectorSheetState<T, TController extends ReadyPickerController<T>>
-    extends State<SelectorSheet<T, TController>>
+class _SelectorSheetState<T, Args,
+        TController extends ReadyPickerController<T, Args>>
+    extends State<SelectorSheet<T, Args, TController>>
     with SingleTickerProviderStateMixin {
   late List<T> selectedItems;
   bool changed = false;

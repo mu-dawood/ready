@@ -16,7 +16,7 @@ class DashBoardExample extends StatelessWidget {
     return ReadyDashboard(
       currentUser: const CurrentUser.admin(),
       drawerOptions: (phone) => DrawerOptions(
-        headers: [
+        headers: (ctrl) => [
           const DrawerHeader(child: CircleAvatar()),
           Builder(builder: (context) {
             var isDark = Theme.of(context).brightness == Brightness.dark;
@@ -30,20 +30,14 @@ class DashBoardExample extends StatelessWidget {
           }),
           const Divider()
         ],
-        footer: const Align(
-          alignment: AlignmentDirectional.bottomStart,
-          child: ListTile(
-            title: Text('© Mohamed dawood @ 2021'),
+        footer: (ctrl) => [
+          const Align(
+            alignment: AlignmentDirectional.bottomStart,
+            child: ListTile(
+              title: Text('© Mohamed dawood @ 2021'),
+            ),
           ),
-        ),
-        logo: Row(
-          children: const [
-            SizedBox(width: 10),
-            FlutterLogo(),
-            SizedBox(width: 10),
-            Text('Dashboard'),
-          ],
-        ),
+        ],
       ),
       actions: [
         IconButton(

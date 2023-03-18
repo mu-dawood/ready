@@ -3,7 +3,6 @@ library dashboard;
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:ready/src/utils.dart';
 
 import '../enums.dart';

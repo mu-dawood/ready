@@ -1,6 +1,6 @@
 part of ready_list;
 
-class _FooterLoading<T, TController extends ReadyListController<T>>
+class _FooterLoading<T, Args, TController extends ReadyListController<T, Args>>
     extends StatelessWidget {
   final bool shrinkWrap;
   final TController controller;
@@ -24,17 +24,7 @@ class _FooterLoading<T, TController extends ReadyListController<T>>
           return _buildWidget(
             TextButton(
               onPressed: () {
-                controller.emit(
-                  ReadyListState.requestNext(
-                    pageSize: config.pageSize,
-                    args: state.args,
-                    currentData: CurrentData(
-                      items: state.items,
-                      totalCount: state.totalCount,
-                      args: state.args,
-                    ),
-                  ),
-                );
+                controller.requestNext(config.pageSize);
               },
               child: Text(config.loadMoreText),
             ),

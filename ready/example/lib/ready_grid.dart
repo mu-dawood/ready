@@ -28,18 +28,20 @@ class ReadyGridExample extends StatelessWidget {
           ),
         );
       },
-      controller: ReadyListCubit(const ReadyListState.initializing()),
+      controller: ReadyListCubit(const ReadyListState.initializing(args: null)),
     );
   }
 }
 
-abstract class BaseController extends Cubit<ReadyListState<FakeItem>>
-    implements ReadyListController<FakeItem> {
-  BaseController(ReadyListState<FakeItem> initialState) : super(initialState);
+abstract class BaseController extends Cubit<ReadyListState<FakeItem, dynamic>>
+    implements ReadyListController<FakeItem, dynamic> {
+  BaseController(ReadyListState<FakeItem, dynamic> initialState)
+      : super(initialState);
 }
 
 class ReadyListCubit extends BaseController with ReadyRemoteController {
-  ReadyListCubit(ReadyListState<FakeItem> initialState) : super(initialState);
+  ReadyListCubit(ReadyListState<FakeItem, dynamic> initialState)
+      : super(initialState);
 
   @override
   Future<RemoteResult<FakeItem>> loadData(int skip, int? pageSize,

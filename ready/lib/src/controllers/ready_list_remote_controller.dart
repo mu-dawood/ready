@@ -9,12 +9,12 @@ class RemoteResult<T> with _$RemoteResult<T> {
       SuccessResult<T>;
 }
 
-mixin ReadyRemoteController<T> on ReadyListController<T> {
+mixin ReadyRemoteController<T, Args> on ReadyListController<T, Args> {
   Future<RemoteResult<T>> loadData(int skip, int? pageSize,
       [ICancelToken? cancelToken]);
 
   @override
-  void emit(ReadyListState<T> state) {
+  void emit(ReadyListState<T, Args> state) {
     state.mapOrNull(
       requestFirstLoading: _firstLoading,
       requestNext: _loadNext,
@@ -24,7 +24,7 @@ mixin ReadyRemoteController<T> on ReadyListController<T> {
   }
 
   ICancelToken? generateCancelToken() => null;
-  void _firstLoading(RequestFirstLoading<T> state) async {
+  void _firstLoading(RequestFirstLoading<T, Args> state) async {
     var cancelToken = generateCancelToken();
     emit(ReadyListState.isLoadingFirst(
       cancelToken: cancelToken,
@@ -37,9 +37,9 @@ mixin ReadyRemoteController<T> on ReadyListController<T> {
       emit(results.map(
         error: (ErrorResult<T> value) {
           return ReadyListState.error(
-            value.display,
-            state.currentData?.copyWith(pageSize: state.pageSize),
-            state.args,
+            display: value.display,
+            currentData: state.currentData?.copyWith(pageSize: state.pageSize),
+            args: state.args,
           );
         },
         success: (SuccessResult<T> value) {
@@ -53,14 +53,14 @@ mixin ReadyRemoteController<T> on ReadyListController<T> {
       ));
     } catch (e) {
       emit(ReadyListState.error(
-        (context) => e.toString(),
-        state.currentData?.copyWith(pageSize: state.pageSize),
-        state.args,
+        display: (context) => e.toString(),
+        currentData: state.currentData?.copyWith(pageSize: state.pageSize),
+        args: state.args,
       ));
     }
   }
 
-  void _loadNext(RequestNext<T> state) async {
+  void _loadNext(RequestNext<T, Args> state) async {
     var cancelToken = generateCancelToken();
     emit(ReadyListState.isLoadingNext(
       cancelToken: cancelToken,
@@ -80,7 +80,7 @@ mixin ReadyRemoteController<T> on ReadyListController<T> {
             items: state.currentData.items,
             totalCount: state.currentData.totalCount,
             pageSize: state.currentData.pageSize,
-            args: state.currentData.args,
+            args: state.args,
           );
         },
         success: (SuccessResult<T> value) {
@@ -88,7 +88,7 @@ mixin ReadyRemoteController<T> on ReadyListController<T> {
             items: [...state.currentData.items, ...value.items],
             totalCount: value.totalCount,
             pageSize: state.pageSize,
-            args: state.currentData.args,
+            args: state.args,
           );
         },
       ));
@@ -97,12 +97,12 @@ mixin ReadyRemoteController<T> on ReadyListController<T> {
         items: state.currentData.items,
         totalCount: state.currentData.totalCount,
         pageSize: state.currentData.pageSize,
-        args: state.currentData.args,
+        args: state.args,
       ));
     }
   }
 
-  void _refresh(RequestRefresh<T> state) async {
+  void _refresh(RequestRefresh<T, Args> state) async {
     var cancelToken = generateCancelToken();
     emit(ReadyListState.isRefreshing(
       cancelToken: cancelToken,
@@ -119,7 +119,7 @@ mixin ReadyRemoteController<T> on ReadyListController<T> {
             items: state.currentData.items,
             totalCount: state.currentData.totalCount,
             pageSize: state.currentData.pageSize,
-            args: state.currentData.args,
+            args: state.args,
           );
         },
         success: (SuccessResult<T> value) {
@@ -127,7 +127,7 @@ mixin ReadyRemoteController<T> on ReadyListController<T> {
             items: value.items,
             totalCount: value.totalCount,
             pageSize: state.pageSize,
-            args: state.currentData.args,
+            args: state.args,
           );
         },
       ));
@@ -136,29 +136,8 @@ mixin ReadyRemoteController<T> on ReadyListController<T> {
         items: state.currentData.items,
         totalCount: state.currentData.totalCount,
         pageSize: state.currentData.pageSize,
-        args: state.currentData.args,
+        args: state.args,
       ));
     }
-  }
-
-  void requestRefresh() {
-    state.mapOrNull(
-      initializing: (state) =>
-          emit(ReadyListState.requestFirstLoading(args: state.args)),
-      error: (state) => emit(ReadyListState.requestFirstLoading(
-        pageSize: state.currentData?.pageSize,
-        currentData: state.currentData,
-        args: state.args,
-      )),
-      isLoaded: (state) => emit(ReadyListState.requestRefresh(
-          pageSize: state.pageSize,
-          args: state.args,
-          currentData: CurrentData(
-            items: state.items,
-            totalCount: state.totalCount,
-            pageSize: state.pageSize,
-            args: state.args,
-          ))),
-    );
   }
 }

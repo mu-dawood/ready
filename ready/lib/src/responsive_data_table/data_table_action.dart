@@ -2,9 +2,10 @@ part of responsive_data_table;
 
 /// action that used to handle row actions
 
-abstract class Action<T, TController extends ReadyListController<T>> {
+abstract class Action<T, Args,
+    TController extends ReadyListController<T, Args>> {
   /// action callback
-  DataTableActionCallBack<T, TController> get action;
+  DataTableActionCallBack<T, Args, TController> get action;
 
   /// whether if action enabled or not
   DataTableActionProperty<T, bool> get enabled;
@@ -16,8 +17,8 @@ abstract class Action<T, TController extends ReadyListController<T>> {
       bool menuBar);
 }
 
-class IconAction<T, TController extends ReadyListController<T>>
-    extends Action<T, TController> {
+class IconAction<T, Args, TController extends ReadyListController<T, Args>>
+    extends Action<T, Args, TController> {
   static bool _defEnabled(item) => true;
 
   /// icon of the action
@@ -30,7 +31,7 @@ class IconAction<T, TController extends ReadyListController<T>>
   final DataTableActionPropertyCtx<T, String> toolTip;
 
   @override
-  final DataTableActionCallBack<T, TController> action;
+  final DataTableActionCallBack<T, Args, TController> action;
   @override
   final DataTableActionProperty<T, bool> enabled;
   @override
@@ -45,15 +46,15 @@ class IconAction<T, TController extends ReadyListController<T>>
   });
 
   /// copy action properties and return new instate
-  IconAction<T, TController> copyWith({
-    DataTableActionCallBack<T, TController>? action,
+  IconAction<T, Args, TController> copyWith({
+    DataTableActionCallBack<T, Args, TController>? action,
     DataTableActionProperty<T, IconData>? icon,
     DataTableActionProperty<T, Color>? color,
     DataTableActionPropertyCtx<T, String>? toolTip,
     DataTableActionProperty<T, bool>? enabled,
     DataTableActionProperty<T, bool>? visible,
   }) {
-    return IconAction<T, TController>(
+    return IconAction<T, Args, TController>(
       action: action ?? this.action,
       icon: icon ?? this.icon,
       color: color ?? this.color,
@@ -65,7 +66,7 @@ class IconAction<T, TController extends ReadyListController<T>>
 
   /// action for delete
   factory IconAction.delete({
-    required DataTableActionCallBack<T, TController> action,
+    required DataTableActionCallBack<T, Args, TController> action,
     DataTableActionProperty<T, bool>? enabled,
     DataTableActionProperty<T, IconData>? icon,
     DataTableActionProperty<T, Color>? color,
@@ -86,7 +87,7 @@ class IconAction<T, TController extends ReadyListController<T>>
   /// action for edit
 
   factory IconAction.edit({
-    required DataTableActionCallBack<T, TController> action,
+    required DataTableActionCallBack<T, Args, TController> action,
     DataTableActionProperty<T, bool>? enabled,
     DataTableActionProperty<T, IconData>? icon,
     DataTableActionProperty<T, Color>? color,
@@ -106,7 +107,7 @@ class IconAction<T, TController extends ReadyListController<T>>
 
   /// action for view
   factory IconAction.view({
-    required DataTableActionCallBack<T, TController> action,
+    required DataTableActionCallBack<T, Args, TController> action,
     DataTableActionProperty<T, bool>? enabled,
     DataTableActionProperty<T, IconData>? icon,
     DataTableActionProperty<T, Color>? color,
@@ -126,7 +127,7 @@ class IconAction<T, TController extends ReadyListController<T>>
 
   /// action for toggle
   factory IconAction.toggle({
-    required DataTableActionCallBack<T, TController> action,
+    required DataTableActionCallBack<T, Args, TController> action,
     DataTableActionProperty<T, bool>? enabled,
     required DataTableActionProperty<T, bool> isActive,
     DataTableActionProperty<T, IconData>? icon,
@@ -149,7 +150,7 @@ class IconAction<T, TController extends ReadyListController<T>>
 
   /// action for lock
   factory IconAction.deactivate({
-    required DataTableActionCallBack<T, TController> action,
+    required DataTableActionCallBack<T, Args, TController> action,
     DataTableActionProperty<T, bool>? enabled,
     DataTableActionProperty<T, IconData>? icon,
     DataTableActionProperty<T, Color>? color,
@@ -169,7 +170,7 @@ class IconAction<T, TController extends ReadyListController<T>>
 
   /// action for unlock
   factory IconAction.activate({
-    required DataTableActionCallBack<T, TController> action,
+    required DataTableActionCallBack<T, Args, TController> action,
     DataTableActionProperty<T, bool>? enabled,
     DataTableActionProperty<T, IconData>? icon,
     DataTableActionProperty<T, Color>? color,

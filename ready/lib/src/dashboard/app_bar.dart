@@ -239,26 +239,11 @@ class _DashBoardAppBar extends StatelessWidget {
       builder: (BuildContext context, __PageInfoState? value, Widget? child) {
         var item = value?.widget.item;
         var appBar = appBarOptions._copyWith(item?.appBarOptions);
-        if (value == null) {
-          return _build(
-            context: context,
-            appBar: appBar,
-            actions: [],
-            info: value,
-            layout: layout,
-          );
-        }
-        return ValueListenableBuilder(
-          valueListenable: value._actions,
-          builder: (context, List<Widget> actions, child) {
-            return _build(
-              context: context,
-              appBar: appBar,
-              actions: actions,
-              info: value,
-              layout: layout,
-            );
-          },
+        return _build(
+          context: context,
+          appBar: appBar,
+          info: value,
+          layout: layout,
         );
       },
     );
@@ -267,7 +252,6 @@ class _DashBoardAppBar extends StatelessWidget {
   Widget _build({
     required BuildContext context,
     required AppBarOptions appBar,
-    required List<Widget> actions,
     required __PageInfoState? info,
     required ReadyDashboardState layout,
   }) {
@@ -280,13 +264,7 @@ class _DashBoardAppBar extends StatelessWidget {
           foregroundColor: DefaultTextStyle.of(context).style.color,
           elevation: 0,
         );
-    actions = actions
-        .map<Widget>((e) => Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: e,
-            ))
-        .toList();
+    List<Widget> actions = [];
     var border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(15),
       borderSide: const BorderSide(width: 0, color: Colors.transparent),
@@ -325,7 +303,7 @@ class _DashBoardAppBar extends StatelessWidget {
         collapsedHeight: appBar.collapsedHeight,
         expandedHeight: appBar.expandedHeight,
         floating: appBar.floating ?? false,
-        pinned: appBar.pinned ?? !Scaffold.of(context).hasDrawer,
+        pinned: appBar.pinned ?? false,
         snap: appBar.snap ?? false,
         stretch: appBar.stretch ?? false,
         stretchTriggerOffset: appBar.stretchTriggerOffset ?? 100,

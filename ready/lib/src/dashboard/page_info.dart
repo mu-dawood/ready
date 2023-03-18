@@ -22,7 +22,6 @@ class __PageInfoState extends State<_PageInfo> {
   final RouteObserver<ModalRoute> _routeObserver = RouteObserver<ModalRoute>();
   late ReadyDashboardState layout;
   late TabController tabController;
-  final ValueNotifier<List<Widget>> _actions = ValueNotifier<List<Widget>>([]);
   GlobalKey<NavigatorState>? _navKey;
   GlobalKey<NavigatorState> get _navigatorKey =>
       _navKey ??= GlobalKey<NavigatorState>();
@@ -52,26 +51,6 @@ class __PageInfoState extends State<_PageInfo> {
       },
     ));
     return result;
-  }
-
-  void setAppBarActions(List<Widget> actions) {
-    if (SchedulerBinding.instance.schedulerPhase != SchedulerPhase.idle) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _actions.value = actions.map((e) => e).toList();
-      });
-    } else {
-      _actions.value = actions.map((e) => e).toList();
-    }
-  }
-
-  void clearActions() {
-    if (SchedulerBinding.instance.schedulerPhase != SchedulerPhase.idle) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) _actions.value = [];
-      });
-    } else {
-      _actions.value = [];
-    }
   }
 
   void _onPageChanged() {
@@ -195,42 +174,7 @@ class PageInfo extends StatefulWidget {
   }
 }
 
-class PageInfoState extends State<PageInfo> with RouteAware {
-  List<Widget> get actions => child?.getAppBarActions() ?? [];
-  late __PageInfoState _state;
-  PageInfoAware? child;
-
-  void _forceUpdate() {
-    _state.setAppBarActions(actions);
-  }
-
-  @override
-  void didPopNext() {
-    _state.setAppBarActions(actions);
-  }
-
-  @override
-  void didPushNext() {
-    _state.setAppBarActions([]);
-  }
-
-  void clearActions() {
-    _state.clearActions();
-  }
-
-  void _setAwareWidget(PageInfoAware child) {
-    if (child != this.child) {
-      this.child = child;
-      _state.setAppBarActions(actions);
-    }
-  }
-
-  void _removeAwareWidget(PageInfoAware child) {
-    if (child == this.child) {
-      this.child = null;
-    }
-  }
-
+class PageInfoState extends State<PageInfo> {
   Future<T?> pushNewPage<T>({
     required WidgetBuilder builder,
     required List<TextSpan> titleSpans,
@@ -241,42 +185,7 @@ class PageInfoState extends State<PageInfo> with RouteAware {
   }
 
   @override
-  void didChangeDependencies() {
-    _state = context.findAncestorStateOfType<__PageInfoState>()!;
-    widget.observer.subscribe(this, ModalRoute.of(context)!);
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return widget.builder(context);
-  }
-}
-
-mixin PageInfoAware<T extends StatefulWidget> on State<T> {
-  PageInfoState? pagInfoState;
-  List<Widget> getAppBarActions();
-  void forceUpdate() {
-    pagInfoState?._forceUpdate();
-  }
-
-  @override
-  void didChangeDependencies() {
-    pagInfoState = PageInfo.mayBeOf(context);
-    pagInfoState?._setAwareWidget(this);
-    super.didChangeDependencies();
-  }
-
-  @override
-  void didUpdateWidget(covariant oldWidget) {
-    pagInfoState = PageInfo.mayBeOf(context);
-    pagInfoState?._setAwareWidget(this);
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void dispose() {
-    pagInfoState?._removeAwareWidget(this);
-    super.dispose();
   }
 }

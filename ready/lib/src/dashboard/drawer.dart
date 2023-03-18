@@ -26,19 +26,10 @@ class DrawerOptions {
   final Gradient? gradient;
 
   /// drawer top header widgets
-  final List<Widget> headers;
+  final List<Widget> Function(AnimationController expansion)? headers;
 
   /// drawer footer widgets
-  final Widget? footer;
-
-  /// The logo at the top
-  final Widget? logo;
-
-  final bool showDivider;
-
-  /// override the default drawer icon
-  final SliverPersistentHeaderDelegate Function(AnimationController expansion)?
-      buildHeader;
+  final List<Widget> Function(AnimationController expansion)? footer;
 
   /// override the default drawer icon
   final SliverPersistentHeaderDelegate Function(
@@ -47,14 +38,11 @@ class DrawerOptions {
   final Widget Function(Widget child, bool collapsed)? buildDesktop;
   final Widget Function(Widget child)? buildMobile;
   const DrawerOptions({
-    this.headers = const [],
+    this.headers,
     this.footer,
     this.backgroundColor,
     this.image,
     this.gradient,
-    this.logo,
-    this.buildHeader,
-    this.showDivider = true,
     this.buildDrawer,
     this.buildDesktop,
     this.buildMobile,
@@ -232,32 +220,29 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
     List<DashboardItem> items,
   ) {
     return CustomScrollView(
-      // padding: const EdgeInsets.only(bottom: 15),
       slivers: [
-        SliverPersistentHeader(
-          delegate: options.buildHeader?.call(widget.controller) ??
-              _DrawerHeader(
-                logo: options.logo,
-                duration: widget.controller.duration!,
-                collapsed: widget.collapsed,
-                statusBar: MediaQuery.of(context).padding.top,
-              ),
-        ),
-        if (options.showDivider) const SliverToBoxAdapter(child: Divider()),
         SliverList(
-            delegate: SliverChildListDelegate([
-          ...options.headers,
-          if (widget.collapsed)
-            for (var item in expanded)
-              iconButton(context, item, selectedItem, expanded)
-          else
-            for (var item in items)
-              buildTile(options, context, item, selectedItem, expanded),
-        ])),
+          delegate: SliverChildListDelegate(
+            [
+              if (options.headers != null)
+                ...options.headers!(widget.controller),
+              if (widget.collapsed)
+                for (var item in expanded)
+                  iconButton(context, item, selectedItem, expanded)
+              else
+                for (var item in items)
+                  buildTile(options, context, item, selectedItem, expanded),
+            ],
+          ),
+        ),
         if (options.footer != null)
           SliverFillRemaining(
             hasScrollBody: false,
-            child: options.footer,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: options.footer!(widget.controller),
+            ),
           )
       ],
     );
@@ -268,43 +253,6 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
     var items = dashboard.widget.items;
     assert(items.isNotEmpty);
     return _tileListView(context, items, widget.options);
-  }
-}
-
-class _DrawerHeader extends SliverPersistentHeaderDelegate {
-  final Widget? logo;
-  final double statusBar;
-  final bool collapsed;
-  final Duration duration;
-
-  _DrawerHeader({
-    this.logo,
-    required this.statusBar,
-    required this.collapsed,
-    required this.duration,
-  });
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return SafeArea(
-      bottom: false,
-      top: false,
-      child: Align(
-        alignment: AlignmentDirectional.centerStart,
-        child: logo,
-      ),
-    );
-  }
-
-  @override
-  double get maxExtent => kToolbarHeight + statusBar;
-
-  @override
-  double get minExtent => kToolbarHeight;
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return true;
   }
 }
 
@@ -333,14 +281,6 @@ class _IconPaint extends CustomPainter {
       canvas.scale(-1, 1);
       canvas.translate(-size.width, 0);
     }
-    // canvas.drawShadow(
-    //   path,
-    //   Theme.of(context).colorScheme.shadow.withOpacity(0.5),
-    //   1,
-    //   false,
-    // );
-    // canvas.drawPath(
-    //     path, Paint()..color = Theme.of(context).colorScheme.shadow);
   }
 
   @override

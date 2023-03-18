@@ -4,13 +4,13 @@ import 'controller.dart';
 import 'pickers.dart';
 import 'sheet.dart';
 
-class MultiField<T, TController extends ReadyPickerController<T>>
+class MultiField<T, Args, TController extends ReadyPickerController<T, Args>>
     extends StatelessWidget {
   const MultiField({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var picker = ReadyMultiPicker.of<T, TController>(context)!;
+    var picker = ReadyMultiPicker.of<T, Args, TController>(context)!;
     return FormField<List<T>>(
         key: key,
         initialValue: picker.initialValue ?? [],
@@ -18,7 +18,7 @@ class MultiField<T, TController extends ReadyPickerController<T>>
         onSaved: picker.onSaved,
         autovalidateMode: picker.autovalidateMode,
         builder: (FormFieldState<List<T>> field) {
-          return _ReadyMultiPicker<T, TController>(
+          return _ReadyMultiPicker<T, Args, TController>(
             field: field,
             picker: picker,
           );
@@ -26,10 +26,10 @@ class MultiField<T, TController extends ReadyPickerController<T>>
   }
 }
 
-class _ReadyMultiPicker<T, TController extends ReadyPickerController<T>>
-    extends StatefulWidget {
+class _ReadyMultiPicker<T, Args,
+    TController extends ReadyPickerController<T, Args>> extends StatefulWidget {
   final FormFieldState<List<T>> field;
-  final ReadyMultiPicker<T, TController> picker;
+  final ReadyMultiPicker<T, Args, TController> picker;
 
   const _ReadyMultiPicker({
     Key? key,
@@ -38,12 +38,13 @@ class _ReadyMultiPicker<T, TController extends ReadyPickerController<T>>
   }) : super(key: key);
 
   @override
-  __ReadyMultiPickerState<T, TController> createState() =>
-      __ReadyMultiPickerState<T, TController>();
+  __ReadyMultiPickerState<T, Args, TController> createState() =>
+      __ReadyMultiPickerState<T, Args, TController>();
 }
 
-class __ReadyMultiPickerState<T, TController extends ReadyPickerController<T>>
-    extends State<_ReadyMultiPicker<T, TController>>
+class __ReadyMultiPickerState<T, Args,
+        TController extends ReadyPickerController<T, Args>>
+    extends State<_ReadyMultiPicker<T, Args, TController>>
     with AutomaticKeepAliveClientMixin {
   FocusNode get _effectiveFocusNode =>
       widget.picker.focusNode ?? (_focusNode ??= FocusNode());
@@ -75,7 +76,8 @@ class __ReadyMultiPickerState<T, TController extends ReadyPickerController<T>>
   }
 
   @override
-  void didUpdateWidget(covariant _ReadyMultiPicker<T, TController> oldWidget) {
+  void didUpdateWidget(
+      covariant _ReadyMultiPicker<T, Args, TController> oldWidget) {
     _effectiveFocusNode.removeListener(_handleFocusChanged);
     _effectiveFocusNode.addListener(_handleFocusChanged);
     _effectiveFocusNode.canRequestFocus = widget.picker.enabled;
@@ -102,7 +104,7 @@ class __ReadyMultiPickerState<T, TController extends ReadyPickerController<T>>
   Widget build(BuildContext context) {
     attachment.reparent();
     super.build(context);
-    var options = ReadyMultiPicker.of<T, TController>(context)!;
+    var options = ReadyMultiPicker.of<T, Args, TController>(context)!;
 
     final effectiveDecoration = options.decoration
         .applyDefaults(Theme.of(context).inputDecorationTheme);
@@ -159,8 +161,8 @@ class __ReadyMultiPickerState<T, TController extends ReadyPickerController<T>>
     );
   }
 
-  Widget getSheet(ReadyMultiPicker<T, TController> options) {
-    return SelectorSheet<T, TController>(
+  Widget getSheet(ReadyMultiPicker<T, Args, TController> options) {
+    return SelectorSheet<T, Args, TController>(
       controller: options.controller,
       allowMultiple: true,
       buildItem: options.buildItem,
@@ -172,7 +174,7 @@ class __ReadyMultiPickerState<T, TController extends ReadyPickerController<T>>
   }
 
   Future showSheet() {
-    var options = ReadyMultiPicker.of<T, TController>(context)!;
+    var options = ReadyMultiPicker.of<T, Args, TController>(context)!;
     Future future;
     if (options.showItems != null) {
       future = options.showItems!(

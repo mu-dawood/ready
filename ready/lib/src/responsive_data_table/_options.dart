@@ -4,14 +4,16 @@ typedef BuildItemCallBack<T> = List<Widget> Function(int index, T item);
 typedef ListItemBuilder<T> = Widget Function(
     T item, int index, LayoutType layout, List<Widget> actions);
 
-typedef DataTableActionCallBack<T, TController extends ReadyListController<T>>
+typedef DataTableActionCallBack<T, Args,
+        TController extends ReadyListController<T, Args>>
     = Future Function(BuildContext context, TController controller, T item);
 
 typedef DataTableActionProperty<T, Type> = Type Function(T item);
 typedef DataTableActionPropertyCtx<T, Type> = Type Function(
     BuildContext context, T item);
 typedef SelectedButtonCallBack = Widget Function(
-    ResponsiveDataTableType type, List<int> selected);
+    ResponsiveDataTableType type, Set<int> selected);
+typedef TitleBuilderCallBack<T> = Widget Function(int index, T item);
 
 extension DataColumnExtension on List<String> {
   /// extension method to help map [List] of [String] to [List] of [DataColumn]
@@ -46,14 +48,6 @@ extension DataColumnSingleExtension on String {
 
 /// options of DataTable
 class DataTableOptions<T> {
-  static List<int> _availableRowsCount(int preferred) {
-    var list = [preferred, 10, 25, 50, 100];
-    list.sort();
-    return list;
-  }
-
-  static int _initialRowsPerPage(int preferred) => preferred;
-
   /// DataTable headers
   ///
   /// example
@@ -68,11 +62,11 @@ class DataTableOptions<T> {
 
   /// get the [availableRowsCount] which will show menu to allow user select from it
   /// We prefer list that contains [preferred] but its optional
-  final List<int> Function(int preferred) availableRowsCount;
+  final Set<int> availableRowsCount;
 
   /// the initial rows per page
   /// it must be in  [availableRowsCount]
-  final int Function(int preferred) initialRowsPerPage;
+  final int? initialRowsPerPage;
 
   /// whether to show refresh icon or not
   final Widget Function({
@@ -84,37 +78,38 @@ class DataTableOptions<T> {
   /// the initial rows per page
   /// it must be in  [availableRowsCount]
   final EdgeInsetsGeometry padding;
-
-  DataTableOptions({
+  final Color Function(double percent)? headerColor;
+  const DataTableOptions({
     required this.headers,
     required this.buildItem,
     this.padding = const EdgeInsets.symmetric(horizontal: 20),
     this.refreshButton = _DefaultRefreshButton.get,
-    this.availableRowsCount = _availableRowsCount,
-    this.initialRowsPerPage = _initialRowsPerPage,
-  });
+    this.availableRowsCount = const {20, 40, 60, 80, 100},
+    this.initialRowsPerPage,
+    this.headerColor,
+  }) : assert(availableRowsCount.length > 0);
 }
 
 /// options for [ReadyList]
-class ListOptions<T> implements ReadyListConfigOptions {
+class ListOptions<T, Args> implements ReadyListConfigOptions {
   /// specify the grid delegate when the visible layout is [ReadyList]
   final GridDelegateCallback? gridDelegate;
   final ListItemBuilder<T>? _builder;
 
   final Widget Function(T item)? trailing;
-  final Widget Function(T item)? _title;
+  final Widget Function(int index, T item)? _title;
 
   /// scroll controller for [ReadyList]
   final ScrollController? scrollController;
 
   /// [ReadyList.headerSlivers]
-  final ReadyListWidgetBuilder<T>? headerSlivers;
+  final ReadyListWidgetBuilder<T, Args>? headerSlivers;
 
   /// [ReadyList.footerSlivers]
-  final ReadyListWidgetBuilder<T>? footerSlivers;
+  final ReadyListWidgetBuilder<T, Args>? footerSlivers;
 
   /// [ReadyList.innerFooterSlivers]
-  final ReadyListWidgetBuilder<T>? innerFooterSlivers;
+  final ReadyListWidgetBuilder<T, Args>? innerFooterSlivers;
   @override
   final StateResultCallBack<bool>? handleNestedScrollViewOverlap;
   @override
@@ -148,7 +143,8 @@ class ListOptions<T> implements ReadyListConfigOptions {
   final bool? allowFakeItems;
 
   /// [title] is the card title of [ReadyList] item
-  ListOptions({
+  final Color Function(double percent)? headerColor;
+  const ListOptions({
     this.gridDelegate,
     this.trailing,
     this.scrollController,
@@ -164,14 +160,41 @@ class ListOptions<T> implements ReadyListConfigOptions {
     this.reverse,
     this.shimmerScopeGradient,
     this.shrinkWrap,
+    this.headerColor,
     this.axis,
     this.physics,
     this.topLevelFooterSlivers,
     this.topLevelHeaderSlivers,
     this.pageSize,
-    required Widget Function(T item) title,
+    required TitleBuilderCallBack<T> title,
   })  : _builder = null,
         _title = title,
+        allowFakeItems = true;
+
+  const ListOptions._default({
+    this.gridDelegate,
+    this.trailing,
+    this.scrollController,
+    this.headerSlivers,
+    this.footerSlivers,
+    this.innerFooterSlivers,
+    this.placeholdersConfig,
+    this.showNoMoreText,
+    this.handleNestedScrollViewOverlap,
+    this.noMoreText,
+    this.loadMoreText,
+    this.padding,
+    this.reverse,
+    this.shimmerScopeGradient,
+    this.shrinkWrap,
+    this.headerColor,
+    this.axis,
+    this.physics,
+    this.topLevelFooterSlivers,
+    this.topLevelHeaderSlivers,
+    this.pageSize,
+  })  : _builder = null,
+        _title = null,
         allowFakeItems = true;
 
   /// build [ReadyList] item with custom builder
@@ -184,6 +207,7 @@ class ListOptions<T> implements ReadyListConfigOptions {
     this.innerFooterSlivers,
     this.placeholdersConfig,
     this.showNoMoreText,
+    this.headerColor,
     this.noMoreText,
     this.loadMoreText,
     this.padding,

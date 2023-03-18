@@ -1,4 +1,4 @@
-part of responsive_data_table;
+part of 'filters.dart';
 
 /// time filter
 class TimeFilter extends StatelessWidget
@@ -31,9 +31,10 @@ class TimeFilter extends StatelessWidget
         context,
         IntrinsicWidth(
           child: InputDecorator(
+            textAlignVertical: TextAlignVertical.center,
+            textAlign: TextAlign.start,
             decoration: effectiveDecoration,
             isEmpty: value == null,
-            textAlignVertical: TextAlignVertical.center,
             child: Text(value?.format(context) ?? ""),
           ),
         ));

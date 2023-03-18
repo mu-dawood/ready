@@ -4,32 +4,68 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import '../animated_items/animated_item.dart';
 import '../controllers/controllers.dart';
 import '../dashboard/dashboard.dart';
 import '../enums.dart';
-import '../l10n/ready_localizations.dart';
+import '../filters/filters.dart';
 import '../ready.dart';
 import '../ready_list/ready_list.dart';
 import '../shimmers/shimmers.dart';
 import '../utils.dart';
 
 part '_options.dart';
-part 'custom_data_table.dart';
-part 'data_table.dart';
+part 'data_table/data_table.dart';
+part 'data_table/footer.dart';
+part 'data_table/remaining_area.dart';
 part 'data_table_action.dart';
-part 'data_table_source.dart';
-part 'date_time_filter.dart';
 part 'filters_button.dart';
-part 'interfaces.dart';
+part 'header/actions.dart';
+part 'header/default_refresh_button.dart';
+part 'header/header.dart';
+part 'header/header_title.dart';
+part 'header/select_all_check_box.dart';
 part 'loading_button.dart';
-part 'multi_option_filters.dart';
-part 'search_filter.dart';
-part 'single_option_filters.dart';
-part 'time_filter.dart';
 part 'toggle_filter.dart';
+
+class _DataTablePaging {
+  final int currentPage;
+  final int rowsPerPage;
+  int get firstRow => ((currentPage - 1) * rowsPerPage) + 1;
+  int get lastRow => currentPage * rowsPerPage;
+  _DataTablePaging(this.currentPage, this.rowsPerPage);
+
+  _DataTablePaging copyWith({
+    int? currentPage,
+    int? rowsPerPage,
+  }) {
+    return _DataTablePaging(
+      currentPage ?? this.currentPage,
+      rowsPerPage ?? this.rowsPerPage,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is _DataTablePaging &&
+        other.currentPage == currentPage &&
+        other.rowsPerPage == rowsPerPage;
+  }
+
+  @override
+  int get hashCode => currentPage.hashCode ^ rowsPerPage.hashCode;
+
+  @override
+  String toString() {
+    return "Current page: $currentPage        Rows per page: $rowsPerPage";
+  }
+}
 
 /// responsive data table
 ///
@@ -40,8 +76,8 @@ part 'toggle_filter.dart';
 /// if type is null then next:
 ///
 /// if width return  [LayoutType.large] or [LayoutType.xLarge] or [LayoutType.xxLarge]
-class ResponsiveDataTable<T, TController extends ReadyListController<T>>
-    extends InheritedWidget {
+class ResponsiveDataTable<T, Args,
+    TController extends ReadyListController<T, Args>> extends InheritedWidget {
   /// show custom filter view
   final Widget Function(Widget filters)? buildFilters;
 
@@ -54,7 +90,7 @@ class ResponsiveDataTable<T, TController extends ReadyListController<T>>
   final List<Widget> actions;
 
   /// actions that will be assigned to each row
-  final List<Action<T, TController>> rowActions;
+  final List<Action<T, Args, TController>> rowActions;
 
   /// controller that extends [ReadyListController]
   final TController controller;
@@ -66,17 +102,17 @@ class ResponsiveDataTable<T, TController extends ReadyListController<T>>
   final bool keepAlive;
 
   /// DataTable options
-  final DataTableOptions<T>? dataTable;
+  final DataTableOptions<T> dataTable;
 
   /// List options
 
-  final ListOptions<T>? list;
+  final ListOptions<T, Args>? list;
   ResponsiveDataTable({
     Key? key,
     this.keepAlive = true,
     this.actions = const [],
     required this.dataTable,
-    required this.list,
+    this.list = const ListOptions._default(),
     ResponsiveDataTableType? type,
     this.rowActions = const [],
     required this.controller,
@@ -85,26 +121,27 @@ class ResponsiveDataTable<T, TController extends ReadyListController<T>>
     this.filters = const [],
   }) : super(
           key: key,
-          child: _builder<T, TController>(controller, type),
+          child: _builder<T, Args, TController>(controller, type),
         );
 
-  static LayoutBuilder _builder<T, TController extends ReadyListController<T>>(
-      controller, ResponsiveDataTableType? type) {
+  static LayoutBuilder
+      _builder<T, Args, TController extends ReadyListController<T, Args>>(
+          controller, ResponsiveDataTableType? type) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        return _ResponsiveDataTable<T, TController>(
+        return _ResponsiveDataTable<T, Args, TController>(
           controller: controller,
           type: type,
           constraints: constraints,
           options: context.dependOnInheritedWidgetOfExactType<
-              ResponsiveDataTable<T, TController>>()!,
+              ResponsiveDataTable<T, Args, TController>>()!,
         );
       },
     );
   }
 
   @override
-  bool updateShouldNotify(ResponsiveDataTable<T, TController> oldWidget) {
+  bool updateShouldNotify(ResponsiveDataTable<T, Args, TController> oldWidget) {
     return rowActions != oldWidget.rowActions ||
         dataTable != oldWidget.dataTable ||
         list != oldWidget.list ||
@@ -116,12 +153,12 @@ class ResponsiveDataTable<T, TController extends ReadyListController<T>>
   }
 }
 
-class _ResponsiveDataTable<T, TController extends ReadyListController<T>>
-    extends StatefulWidget {
+class _ResponsiveDataTable<T, Args,
+    TController extends ReadyListController<T, Args>> extends StatefulWidget {
   final TController controller;
   final ResponsiveDataTableType? type;
   final BoxConstraints constraints;
-  final ResponsiveDataTable<T, TController> options;
+  final ResponsiveDataTable<T, Args, TController> options;
   const _ResponsiveDataTable({
     required this.type,
     required this.constraints,
@@ -130,79 +167,61 @@ class _ResponsiveDataTable<T, TController extends ReadyListController<T>>
   });
 
   @override
-  __ResponsiveDataTableState<T, TController> createState() =>
-      __ResponsiveDataTableState<T, TController>();
+  __ResponsiveDataTableState<T, Args, TController> createState() =>
+      __ResponsiveDataTableState<T, Args, TController>();
+  static __ResponsiveDataTableState<T, Args, TController>
+      of<T, Args, TController extends ReadyListController<T, Args>>(
+              BuildContext context) =>
+          context.findAncestorStateOfType<
+              __ResponsiveDataTableState<T, Args, TController>>()!;
 }
 
-class __ResponsiveDataTableState<T, TController extends ReadyListController<T>>
-    extends State<_ResponsiveDataTable<T, TController>>
+class __ResponsiveDataTableState<T, Args,
+        TController extends ReadyListController<T, Args>>
+    extends State<_ResponsiveDataTable<T, Args, TController>>
     with AutomaticKeepAliveClientMixin {
-  late _DataTableSource<T, TController> source;
-
-  @override
-  void dispose() {
-    source.dispose();
-    super.dispose();
-  }
-
+  late final ValueNotifier<_DataTablePaging> _paging;
+  late final _SelectedIndices<T, Args, TController> _selectedIndices;
   @override
   void initState() {
-    var options = widget.options;
-    var preferredRows = ((widget.constraints.maxHeight - 170) ~/ 48);
-    var availableRowsPerPage =
-        options.dataTable!.availableRowsCount(preferredRows).toSet().toList();
-    var rowsPerPage = options.dataTable!.initialRowsPerPage(preferredRows);
-    if (!availableRowsPerPage.contains(rowsPerPage)) {
-      rowsPerPage = availableRowsPerPage[0];
-    }
-    source = _DataTableSource<T, TController>(
-      controller: widget.controller,
-      allowSelection: options.selectionButton != null,
-      buildRow: buildRow,
-      paging: _DataTablePaging(
-        availableRowsPerPage: availableRowsPerPage,
-        rowsPerPage: rowsPerPage,
-        columns: options.dataTable!.headers.length +
-            (options.rowActions.isEmpty ? 0 : 1),
-      ),
-    );
+    _selectedIndices =
+        _SelectedIndices<T, Args, TController>({}, widget.controller);
+    _paging = ValueNotifier<_DataTablePaging>(_getPaging());
     super.initState();
   }
 
-  ///! build row and add actions
-  List<Widget> buildRow(TController controller, int index, T item) {
-    var items = widget.options.dataTable!.buildItem(index, item);
-    var cells = <Widget>[];
-    for (var item in items) {
-      cells.add(ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 300, minWidth: 20),
-        child: item,
-      ));
-    }
-    if (widget.options.rowActions.isNotEmpty) {
-      var actions = widget.options.rowActions;
-      List<Widget> rActions = [];
-      if (actions.length <= 3) {
-        rActions.addAll(actions
-            .map((e) => e.build(context, controller, item, index, false)));
-      } else {
-        rActions.add(SubmenuButton(
-          menuChildren: actions
-              .map((e) => e.build(context, controller, item, index, true))
-              .toList(),
-          child: const Icon(Icons.more_vert_rounded),
-        ));
+  _DataTablePaging _getPaging([bool current = false]) {
+    var availableRowsCount = widget.options.dataTable.availableRowsCount;
+    var rowsPerPage = widget.options.dataTable.initialRowsPerPage;
+    if (current) {
+      if (availableRowsCount.contains(_paging.value.rowsPerPage)) {
+        rowsPerPage = _paging.value.rowsPerPage;
       }
-      cells.add(MenuBar(
-        style: MenuStyle(
-          alignment: AlignmentDirectional.centerEnd,
-          backgroundColor: MaterialStateProperty.all(Colors.transparent),
-          elevation: MaterialStateProperty.all(0),
-        ),
-        children: rActions,
-      ));
+      rowsPerPage ??= availableRowsCount.first;
+      return _paging.value.copyWith(
+        rowsPerPage: rowsPerPage,
+      );
+    } else {
+      rowsPerPage ??= availableRowsCount.first;
+      return _DataTablePaging(1, rowsPerPage);
     }
-    return cells;
+  }
+
+  @override
+  void didUpdateWidget(
+      covariant _ResponsiveDataTable<T, Args, TController> oldWidget) {
+    if (widget.options.dataTable.availableRowsCount !=
+        oldWidget.options.dataTable.availableRowsCount) {
+      _paging.value = _getPaging(true);
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    _paging.dispose();
+    _selectedIndices.dispose();
+    super.dispose();
   }
 
   @override
@@ -236,75 +255,54 @@ class __ResponsiveDataTableState<T, TController extends ReadyListController<T>>
   }
 
   Widget dataTable(BuildContext context) {
-    var options = widget.options;
-    return StreamBuilder(
-      stream: widget.controller.stream,
-      builder:
-          (BuildContext context, AsyncSnapshot<ReadyListState<T>> snapshot) {
-        return _DataTable<T, TController>(
-          options: options,
-          source: source,
-        );
-      },
-    );
+    return _DataTable<T, Args, TController>(controller: widget.controller);
   }
 
   Widget list(BuildContext context, LayoutType layout) {
     var options = widget.options;
     var listOptions = widget.options.list!;
-    return _ChangeNotifierListener(
-      notifier: source,
-      builder: (BuildContext context) {
-        PageInfo.mayBeOf(context)?.clearActions();
-        return Stack(
-          fit: StackFit.expand,
-          children: [
-            Positioned.fill(
-              child: Theme(
-                data: Theme.of(context)
-                    .copyWith(dividerColor: Colors.transparent),
-                child: ReadyList<T, TController>.grid(
-                  scrollController: listOptions.scrollController,
-                  footerSlivers: listOptions.footerSlivers,
-                  innerFooterSlivers: listOptions.innerFooterSlivers,
-                  placeholdersConfig: listOptions.placeholdersConfig,
-                  showNoMoreText: listOptions.showNoMoreText,
-                  allowRefresh: listOptions.allowRefresh,
-                  allowLoadNext: listOptions.allowLoadNext,
-                  noMoreText: listOptions.noMoreText,
-                  loadMoreText: listOptions.loadMoreText,
-                  padding: listOptions.padding,
-                  reverse: listOptions.reverse,
-                  allowFakeItems: listOptions.allowFakeItems,
-                  shimmerScopeGradient: listOptions.shimmerScopeGradient,
-                  shrinkWrap: listOptions.shrinkWrap,
-                  axis: listOptions.axis,
-                  physics: listOptions.physics,
-                  topLevelFooterSlivers: listOptions.topLevelFooterSlivers,
-                  topLevelHeaderSlivers: listOptions.topLevelHeaderSlivers,
-                  pageSize: listOptions.pageSize,
-                  handleNestedScrollViewOverlap:
-                      listOptions.handleNestedScrollViewOverlap,
-                  key: Key('$layout'),
-                  keepAlive: false,
-                  controller: widget.controller,
-                  buildItem: (T? item, int index) {
-                    return _buildListItem(context, index, item, layout);
-                  },
-                  headerSlivers: (controller) {
-                    return [
-                      _ListAppBar(source: source, options: options),
-                      if (listOptions.headerSlivers != null)
-                        ...listOptions.headerSlivers!.call(controller),
-                    ];
-                  },
-                  gridDelegate: listOptions.gridDelegate ?? Grids.responsive,
-                ),
-              ),
+    return Theme(
+      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      child: ReadyList<T, Args, TController>.grid(
+        scrollController: listOptions.scrollController,
+        footerSlivers: listOptions.footerSlivers,
+        innerFooterSlivers: listOptions.innerFooterSlivers,
+        placeholdersConfig: listOptions.placeholdersConfig,
+        showNoMoreText: listOptions.showNoMoreText,
+        allowRefresh: listOptions.allowRefresh,
+        allowLoadNext: listOptions.allowLoadNext,
+        noMoreText: listOptions.noMoreText,
+        loadMoreText: listOptions.loadMoreText,
+        padding: listOptions.padding,
+        reverse: listOptions.reverse,
+        allowFakeItems: listOptions.allowFakeItems,
+        shimmerScopeGradient: listOptions.shimmerScopeGradient,
+        shrinkWrap: listOptions.shrinkWrap,
+        axis: listOptions.axis,
+        physics: listOptions.physics,
+        topLevelFooterSlivers: listOptions.topLevelFooterSlivers,
+        topLevelHeaderSlivers: listOptions.topLevelHeaderSlivers,
+        pageSize: listOptions.pageSize,
+        handleNestedScrollViewOverlap:
+            listOptions.handleNestedScrollViewOverlap,
+        key: Key('$layout'),
+        keepAlive: false,
+        controller: widget.controller,
+        buildItem: (T? item, int index) {
+          return _buildListItem(context, index, item, layout);
+        },
+        headerSlivers: (state) {
+          return [
+            _Header<T, Args, TController>(
+              type: ResponsiveDataTableType.list,
+              controller: options.controller,
             ),
-          ],
-        );
-      },
+            if (listOptions.headerSlivers != null)
+              ...listOptions.headerSlivers!.call(state),
+          ];
+        },
+        gridDelegate: listOptions.gridDelegate ?? Grids.responsive,
+      ),
     );
   }
 
@@ -323,8 +321,7 @@ class __ResponsiveDataTableState<T, TController extends ReadyListController<T>>
               initiallyExpanded: true,
               leading: options.selectionButton == null
                   ? null
-                  : Checkbox(
-                      value: source.isSelected(index), onChanged: (v) {}),
+                  : _CheckBox(index: index, placeholder: true),
               children: [
                 const _Info(title: Text('....'), body: Text('........')),
                 Divider(color: Theme.of(context).dividerColor),
@@ -356,27 +353,23 @@ class __ResponsiveDataTableState<T, TController extends ReadyListController<T>>
     }
 
     /// build default
-    var tableOptions = widget.options.dataTable!;
-    var widgets = options.dataTable!.buildItem(index, item);
-
+    var tableOptions = widget.options.dataTable;
+    var widgets = options.dataTable.buildItem(index, item);
+    Widget title;
+    if (listOptions._title == null) {
+      title = widgets.isEmpty ? const SizedBox() : widgets.first;
+    } else {
+      title = listOptions._title!.call(index, item);
+    }
     return Animated(
       fade: const FadeAnimation(),
       child: Card(
         child: ExpansionTile(
-          title: listOptions._title!.call(item),
+          title: title,
           initiallyExpanded: widgets.length < 5,
           trailing: listOptions.trailing?.call(item),
-          leading: options.selectionButton == null
-              ? null
-              : Checkbox(
-                  value: source.isSelected(index),
-                  onChanged: (v) {
-                    if (v == true) {
-                      source.selectItem(index);
-                    } else {
-                      source.unselectItem(index);
-                    }
-                  }),
+          leading:
+              options.selectionButton == null ? null : _CheckBox(index: index),
           children: [
             for (var i = 0; i < widgets.length; i++)
               _Info(
@@ -428,93 +421,73 @@ class _Info extends StatelessWidget {
   }
 }
 
-class _ListAppBar<T, TController extends ReadyListController<T>>
+class _CheckBox<T, Args, TController extends ReadyListController<T, Args>>
     extends StatelessWidget {
-  final _DataTableSource<T, TController> source;
-  final ResponsiveDataTable<T, TController> options;
-  const _ListAppBar({Key? key, required this.source, required this.options})
+  final int index;
+  final bool placeholder;
+  const _CheckBox({Key? key, required this.index, this.placeholder = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var filters = options.filters;
-
-    var canSelect = (options.selectionButton != null);
-    var showSelectionButton = canSelect && source.hasSelection;
-
-    var buttons = [
-      if (!showSelectionButton) ...[
-        ...options.actions,
-        if (filters.isNotEmpty)
-          _FiltersButton(filters: filters, controller: source.controller),
-      ] else
-        options.selectionButton!
-            .call(ResponsiveDataTableType.list, source.selectedItems),
-    ];
-    if (buttons.isNotEmpty || canSelect) {
-      return SliverToBoxAdapter(
-        child: Row(
-          children: [
-            if (canSelect) _checkBox(),
-            Expanded(
-                child: Text(
-              (canSelect && source.hasSelection)
-                  ? MaterialLocalizations.of(context)
-                      .selectedRowCountTitle(source.selectedItems.length)
-                  : '',
-            )),
-            ...buttons,
-          ],
-        ),
-      );
-    } else {
-      return const SliverToBoxAdapter();
-    }
-  }
-
-  Widget _checkBox() {
-    return Checkbox(
-      onChanged: (v) {
-        return !source.allSelected ? source.selectAll() : source.unSelectAll();
+    var parent = _ResponsiveDataTable.of<T, Args, TController>(context);
+    return ValueListenableBuilder(
+      valueListenable: parent._selectedIndices,
+      builder: (context, Set<int> value, child) {
+        return Checkbox(
+          value: value.contains(index),
+          onChanged: placeholder
+              ? null
+              : (v) {
+                  if (v == true) {
+                    parent._selectedIndices.selectItem(index);
+                  } else {
+                    parent._selectedIndices.unselectItem(index);
+                  }
+                },
+        );
       },
-      value: source.allSelected ? true : (source.hasSelection ? true : false),
     );
   }
 }
 
-class _ChangeNotifierListener extends StatefulWidget {
-  final ChangeNotifier notifier;
-  final WidgetBuilder builder;
-  const _ChangeNotifierListener(
-      {Key? key, required this.notifier, required this.builder})
-      : super(key: key);
+class _SelectedIndices<T, Args,
+        TController extends ReadyListController<T, Args>>
+    extends ValueNotifier<Set<int>> {
+  final TController controller;
+  _SelectedIndices(super.value, this.controller);
+  ReadyListState<T, Args> get state => controller.state;
 
-  @override
-  __ChangeNotifierListenerState createState() =>
-      __ChangeNotifierListenerState();
-}
+  bool get hasSelection => value.isNotEmpty;
 
-class __ChangeNotifierListenerState extends State<_ChangeNotifierListener> {
-  _onChanged() {
-    if (mounted) {
-      setState(() {});
-    }
+  bool get allSelected {
+    return controller.state.maybeMap(
+      orElse: () => false,
+      isLoaded: (state) => value.length >= state.items.length,
+      requestNext: (state) => value.length >= state.currentData.items.length,
+      isLoadingNext: (state) => value.length >= state.currentData.items.length,
+      requestRefresh: (state) => value.length >= state.currentData.items.length,
+      isRefreshing: (state) => value.length >= state.currentData.items.length,
+    );
   }
 
-  @override
-  void initState() {
-    widget.notifier.addListener(_onChanged);
-    super.initState();
+  void selectAll() {
+    value = List.generate(state.length, (index) => index).toSet();
   }
 
-  @override
-  void dispose() {
-    widget.notifier.removeListener(_onChanged);
-    super.dispose();
+  void unSelectAll() {
+    value = {};
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return widget.builder(context);
+  void selectItem(int index) {
+    value = {
+      ...value,
+      index,
+    };
+  }
+
+  void unselectItem(int index) {
+    value.remove(index);
+    notifyListeners();
   }
 }

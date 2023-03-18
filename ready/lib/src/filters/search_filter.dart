@@ -1,13 +1,13 @@
-part of responsive_data_table;
+part of 'filters.dart';
 
 class _DefaultInputDecoration extends InputDecoration {
   const _DefaultInputDecoration([Widget? suffixIcon])
       : super(
-          suffixIcon: suffixIcon,
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-          prefixIconConstraints:
-              const BoxConstraints(maxWidth: 50, minWidth: 30),
+
+        // suffixIcon: suffixIcon,
+        // border: InputBorder.none,
+        // contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+        // prefixIconConstraints: const BoxConstraints(maxWidth: 50, minWidth: 30),
         );
 }
 
@@ -84,6 +84,8 @@ class _SearchFilterState extends State<SearchFilter>
           focusNode: node,
           decoration: effectiveDecoration,
           controller: controller,
+          textAlignVertical: TextAlignVertical.center,
+          textAlign: TextAlign.start,
           onChanged: search,
         ),
       ),

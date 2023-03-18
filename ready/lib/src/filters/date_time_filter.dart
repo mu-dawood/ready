@@ -1,4 +1,4 @@
-part of responsive_data_table;
+part of 'filters.dart';
 
 /// filter for  DateTime
 class DateFilter extends StatelessWidget
@@ -7,7 +7,8 @@ class DateFilter extends StatelessWidget
   final String? display;
   @override
   final DateTime? value;
-  final DateTime? minDte;
+  final DateTime? lastDate;
+  final DateTime? firstDate;
   @override
   final InputDecoration decoration;
   @override
@@ -15,7 +16,8 @@ class DateFilter extends StatelessWidget
   const DateFilter({
     Key? key,
     this.value,
-    this.minDte,
+    this.firstDate,
+    this.lastDate,
     this.display,
     required this.onChange,
     this.decoration =
@@ -39,6 +41,7 @@ class DateFilter extends StatelessWidget
         IntrinsicWidth(
           child: InputDecorator(
             textAlignVertical: TextAlignVertical.center,
+            textAlign: TextAlign.start,
             decoration: effectiveDecoration,
             isEmpty: value == null,
             child: Text(displayValue),
@@ -58,17 +61,20 @@ class DateFilter extends StatelessWidget
   }
 
   Future<DateTime?> buildShowDatePicker(BuildContext context) {
-    var min = minDte ?? DateTime(1900);
+    var first =
+        firstDate ?? DateTime.now().subtract(const Duration(days: 3653));
+    var last = lastDate ?? DateTime.now().add(const Duration(days: 3653));
     return showDatePicker(
       context: context,
       selectableDayPredicate: (DateTime date) {
-        if (date.isAfter(min) || date.isAtSameMomentAs(min)) return true;
+        if (date.isAfter(first) || date.isAtSameMomentAs(first)) return true;
         if (value != null || date.isAtSameMomentAs(value!)) return true;
         return false;
       },
       initialDate: value ?? DateTime.now(),
-      firstDate: value == null ? min : (value!.isBefore(min) ? value! : min),
-      lastDate: DateTime(2077),
+      firstDate:
+          value == null ? first : (value!.isBefore(first) ? value! : first),
+      lastDate: value == null ? last : (value!.isAfter(last) ? value! : last),
     );
   }
 }

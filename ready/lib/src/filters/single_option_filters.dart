@@ -1,4 +1,4 @@
-part of responsive_data_table;
+part of 'filters.dart';
 
 /// single option filter
 class OptionFilterItem<T> {
@@ -40,7 +40,7 @@ class SingleOptionFilter<T> extends StatelessWidget
     required this.display,
     this.allowClear = true,
     this.decoration =
-        const _DefaultInputDecoration(Icon(Icons.arrow_drop_down_rounded)),
+        const _DefaultInputDecoration(Icon(Icons.keyboard_arrow_down_rounded)),
   }) : super(key: key);
 
   OptionFilterItem<T>? getSelectedItem() {
@@ -65,12 +65,10 @@ class SingleOptionFilter<T> extends StatelessWidget
         IntrinsicWidth(
           child: InputDecorator(
             textAlignVertical: TextAlignVertical.center,
+            textAlign: TextAlign.start,
             decoration: effectiveDecoration,
             isEmpty: selected == null,
-            child: Align(
-              alignment: AlignmentDirectional.centerStart,
-              child: Text(selected?.display ?? ''),
-            ),
+            child: Text(selected?.display ?? ''),
           ),
         ));
   }

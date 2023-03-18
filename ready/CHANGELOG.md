@@ -41,3 +41,7 @@
 ## 1.6.0
 
 *  add extension methods to controller and state
+
+## 1.7.0
+
+*  use data table instead of PaginatedDataTable

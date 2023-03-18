@@ -19,13 +19,13 @@ part 'footer_loading.dart';
 part 'grids.dart';
 part 'ready_screen_loader.dart';
 
-class ReadyList<T, TController extends ReadyListController<T>>
+class ReadyList<T, Args, TController extends ReadyListController<T, Args>>
     extends StatefulWidget implements ReadyListConfigOptions {
   final ScrollController? scrollController;
-  final ReadyListWidgetBuilder<T>? headerSlivers;
-  final ReadyListWidgetBuilder<T>? footerSlivers;
-  final ReadyListWidgetBuilder<T>? innerFooterSlivers;
-  final ReadyListSliverBuilder<T>? _slivers;
+  final ReadyListWidgetBuilder<T, Args>? headerSlivers;
+  final ReadyListWidgetBuilder<T, Args>? footerSlivers;
+  final ReadyListWidgetBuilder<T, Args>? innerFooterSlivers;
+  final ReadyListSliverBuilder<T, Args>? _slivers;
   final Iterable<T> Function(Iterable<T> items)? filterItems;
   final ReadyListItemBuilder<T>? _buildItem;
   final GridDelegateCallback? _gridDelegate;
@@ -73,7 +73,7 @@ class ReadyList<T, TController extends ReadyListController<T>>
     this.headerSlivers,
     this.innerFooterSlivers,
     this.footerSlivers,
-    required ReadyListSliverBuilder<T> slivers,
+    required ReadyListSliverBuilder<T, Args> slivers,
     required this.controller,
     this.placeholdersConfig,
     this.showNoMoreText,
@@ -172,45 +172,43 @@ class ReadyList<T, TController extends ReadyListController<T>>
         super(key: key);
 
   @override
-  State<ReadyList<T, TController>> createState() =>
-      _ReadyListState<T, TController>();
+  State<ReadyList<T, Args, TController>> createState() =>
+      _ReadyListState<T, Args, TController>();
 }
 
-class _ReadyListState<T, TController extends ReadyListController<T>>
-    extends State<ReadyList<T, TController>>
+class _ReadyListState<T, Args, TController extends ReadyListController<T, Args>>
+    extends State<ReadyList<T, Args, TController>>
     with AutomaticKeepAliveClientMixin {
   final deltaExtent = 75.0;
   StreamSubscription? _subscription;
   @override
   bool get wantKeepAlive => widget.keepAlive;
 
-  ReadyListState<T> get state => widget.controller.state;
+  ReadyListState<T, Args> get state => widget.controller.state;
 
   @override
   void didChangeDependencies() {
     state.whenOrNull(
-      initializing: (value, _) {
+      initializing: (value, args) {
         if (!value) return;
         var configuration =
             _ReadyListConfigOptionsDefaults.effective(widget, context);
         widget.controller.emit(ReadyListState.requestFirstLoading(
-            pageSize: configuration.pageSize));
+            pageSize: configuration.pageSize, args: args));
       },
     );
     super.didChangeDependencies();
   }
 
   @override
-  void didUpdateWidget(covariant ReadyList<T, TController> oldWidget) {
+  void didUpdateWidget(covariant ReadyList<T, Args, TController> oldWidget) {
     state.whenOrNull(
       initializing: (value, _) {
         if (!value) return;
         var configuration =
             _ReadyListConfigOptionsDefaults.effective(widget, context);
 
-        widget.controller.emit(ReadyListState.requestFirstLoading(
-          pageSize: configuration.pageSize,
-        ));
+        widget.controller.requestFirstLoading(configuration.pageSize);
       },
     );
     super.didUpdateWidget(oldWidget);
@@ -231,13 +229,16 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
     } catch (e) {
       absorber = null;
     }
+    if (absorber?.layoutExtent == null) {
+      absorber = null;
+    }
 
     return AnimatedItemsScope(
       child: StreamBuilder(
         stream: widget.controller.stream,
         initialData: widget.controller.state,
-        builder:
-            (BuildContext context, AsyncSnapshot<ReadyListState<T>> snapshot) {
+        builder: (BuildContext context,
+            AsyncSnapshot<ReadyListState<T, Args>> snapshot) {
           var configuration =
               _ReadyListConfigOptionsDefaults.effective(widget, context);
 
@@ -251,17 +252,8 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
                         if (scrollInfo.metrics.pixels >=
                             scrollInfo.metrics.maxScrollExtent - 200) {
                           if (configuration.allowLoadNext) {
-                            widget.controller.emit(
-                              ReadyListState.requestNext(
-                                pageSize: configuration.pageSize,
-                                args: state.args,
-                                currentData: CurrentData(
-                                  items: state.items,
-                                  totalCount: state.totalCount,
-                                  args: state.args,
-                                ),
-                              ),
-                            );
+                            widget.controller
+                                .requestNext(configuration.pageSize);
                           }
                         }
                       }
@@ -289,17 +281,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
       isLoaded: (state) {
         var isVisible = Ready.isVisible(context);
         if (isVisible) {
-          widget.controller.emit(
-            ReadyListState.requestNext(
-              pageSize: configuration.pageSize,
-              args: state.args,
-              currentData: CurrentData(
-                items: state.items,
-                totalCount: state.totalCount,
-                args: state.args,
-              ),
-            ),
-          );
+          widget.controller.requestRefresh(configuration.pageSize);
           return widget.controller.stream.first;
         }
         return Future.value();
@@ -411,7 +393,7 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
               if (widget.innerFooterSlivers != null)
                 ...widget.innerFooterSlivers!(state),
               if (showFooterLoading)
-                _FooterLoading<T, TController>(
+                _FooterLoading<T, Args, TController>(
                   shrinkWrap: shrinkWrap,
                   config: configuration,
                   controller: widget.controller,
@@ -507,28 +489,14 @@ class _ReadyListState<T, TController extends ReadyListController<T>>
       onReload: ctrl.state.mapOrNull(
         error: (_) {
           return () =>
-              widget.controller.emit(ReadyListState.requestFirstLoading(
-                pageSize: configuration.pageSize,
-              ));
+              widget.controller.requestFirstLoading(configuration.pageSize);
         },
         isLoaded: (state) {
           if (state.items.isEmpty) {
             return () =>
-                widget.controller.emit(ReadyListState.requestFirstLoading(
-                  pageSize: configuration.pageSize,
-                ));
+                widget.controller.requestFirstLoading(configuration.pageSize);
           } else {
-            return () => ctrl.emit(
-                  ReadyListState.requestRefresh(
-                    pageSize: configuration.pageSize,
-                    args: state.args,
-                    currentData: CurrentData(
-                      items: state.items,
-                      totalCount: state.totalCount,
-                      args: state.args,
-                    ),
-                  ),
-                );
+            return () => ctrl.requestRefresh(configuration.pageSize);
           }
         },
       ),

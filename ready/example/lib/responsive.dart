@@ -4,7 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ready/ready.dart';
 
 class ResponsiveList extends StatelessWidget {
-  final controller = ReadyListCubit(const ReadyListState.initializing());
+  final controller =
+      ReadyListCubit(const ReadyListState.initializing(args: null));
   final bool sub;
   ResponsiveList({
     Key? key,
@@ -19,15 +20,15 @@ class ResponsiveList extends StatelessWidget {
         buildItem: (int index, FakeItem item) {
           return [
             Text(item.id),
-            for (var i = 0; i < 10; i++) Text(item.name),
+            for (var i = 0; i < 1; i++) Text(item.name),
             Text(item.rate.toString()),
           ];
         },
-        headers: ['#', ...List.generate(10, (index) => 'Name'), "Rate"]
+        headers: ['#', ...List.generate(1, (index) => 'Name'), "Rate"]
             .toDataColumns(),
       ),
       list: ListOptions(
-        title: (FakeItem item) => Text(item.name),
+        title: (int index, FakeItem item) => Text(item.name),
       ),
       actions: [
         if (!sub)
@@ -42,8 +43,8 @@ class ResponsiveList extends StatelessWidget {
       filters: [
         SearchFilter(
           onChange: (String? value) {
-            controller
-                .emit(const ReadyListState.requestFirstLoading(pageSize: 20));
+            controller.emit(const ReadyListState.requestFirstLoading(
+                pageSize: 20, args: null));
           },
         ),
         if (!sub) ...[
@@ -105,18 +106,20 @@ class ResponsiveList extends StatelessWidget {
   }
 }
 
-abstract class BaseController extends Cubit<ReadyListState<FakeItem>>
-    implements ReadyListController<FakeItem> {
-  BaseController(ReadyListState<FakeItem> initialState) : super(initialState);
+abstract class BaseController extends Cubit<ReadyListState<FakeItem, dynamic>>
+    implements ReadyListController<FakeItem, dynamic> {
+  BaseController(ReadyListState<FakeItem, dynamic> initialState)
+      : super(initialState);
 }
 
 class ReadyListCubit extends BaseController with ReadyRemoteController {
-  ReadyListCubit(ReadyListState<FakeItem> initialState) : super(initialState);
+  ReadyListCubit(ReadyListState<FakeItem, dynamic> initialState)
+      : super(initialState);
 
   @override
   Future<RemoteResult<FakeItem>> loadData(int skip, int? pageSize,
       [ICancelToken? cancelToken]) async {
-    var list = await FakeRepo.asyncList(skip > 0 ? 0 : 3);
+    var list = await FakeRepo.asyncList(pageSize ?? 20, skip);
     return RemoteResult.success(list, 100);
   }
 }

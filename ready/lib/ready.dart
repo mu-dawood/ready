@@ -6,6 +6,7 @@ export 'src/animated_items/animated_item.dart';
 export 'src/controllers/controllers.dart';
 export 'src/dashboard/dashboard.dart';
 export 'src/enums.dart';
+export 'src/filters/filters.dart';
 export 'src/ready.dart';
 export 'src/ready_list/ready_list.dart';
 export 'src/responsive_data_table/responsive_data_table.dart';

@@ -1,6 +1,66 @@
 part of controllers;
 
-extension ReadyListControllerExt<T> on ReadyListController<T> {
+extension ReadyListControllerExt<T, Args> on ReadyListController<T, Args> {
+  void requestNext([int? pageSize]) {
+    state.mapOrNull(
+      initializing: (state) => emit(ReadyListState.requestFirstLoading(
+          args: state.args, pageSize: pageSize)),
+      error: (state) => emit(ReadyListState.requestFirstLoading(
+        pageSize: pageSize ?? state.currentData?.pageSize,
+        currentData: state.currentData,
+        args: state.args,
+      )),
+      isLoaded: (state) => emit(ReadyListState.requestNext(
+          pageSize: pageSize ?? state.pageSize,
+          args: state.args,
+          currentData: CurrentData(
+            items: state.items,
+            totalCount: state.totalCount,
+            pageSize: state.pageSize,
+          ))),
+    );
+  }
+
+  void requestRefresh([int? pageSize]) {
+    state.mapOrNull(
+      initializing: (state) => emit(ReadyListState.requestFirstLoading(
+          args: state.args, pageSize: pageSize)),
+      error: (state) => emit(ReadyListState.requestFirstLoading(
+        pageSize: pageSize ?? state.currentData?.pageSize,
+        currentData: state.currentData,
+        args: state.args,
+      )),
+      isLoaded: (state) => emit(ReadyListState.requestRefresh(
+          pageSize: pageSize ?? state.pageSize,
+          args: state.args,
+          currentData: CurrentData(
+            items: state.items,
+            totalCount: state.totalCount,
+            pageSize: state.pageSize,
+          ))),
+    );
+  }
+
+  void requestFirstLoading([int? pageSize]) {
+    state.mapOrNull(
+      initializing: (state) => emit(ReadyListState.requestFirstLoading(
+          args: state.args, pageSize: pageSize)),
+      error: (state) => emit(ReadyListState.requestFirstLoading(
+        pageSize: pageSize ?? state.currentData?.pageSize,
+        currentData: state.currentData,
+        args: state.args,
+      )),
+      isLoaded: (state) => emit(ReadyListState.requestFirstLoading(
+          pageSize: pageSize ?? state.pageSize,
+          args: state.args,
+          currentData: CurrentData(
+            items: state.items,
+            totalCount: state.totalCount,
+            pageSize: state.pageSize,
+          ))),
+    );
+  }
+
   /// Adds [value] to the end of this list,
   /// extending the length by one.
   ///

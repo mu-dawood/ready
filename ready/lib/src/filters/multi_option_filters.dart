@@ -1,4 +1,4 @@
-part of responsive_data_table;
+part of 'filters.dart';
 
 class MultiOptionFilter<T> extends StatelessWidget
     with DecoratedDataTableFilter<Set<T>> {
@@ -41,6 +41,7 @@ class MultiOptionFilter<T> extends StatelessWidget
         IntrinsicWidth(
           child: InputDecorator(
             textAlignVertical: TextAlignVertical.center,
+            textAlign: TextAlign.start,
             decoration: effectiveDecoration,
             isEmpty: selected.isEmpty,
             child: Text(

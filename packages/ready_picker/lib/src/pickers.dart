@@ -4,11 +4,12 @@ import 'controller.dart';
 import 'multi_picker.dart';
 import 'single_picker.dart';
 
-typedef ItemBuilderCallback<T, TController extends ReadyPickerController<T>>
+typedef ItemBuilderCallback<T, Args,
+        TController extends ReadyPickerController<T, Args>>
     = Widget Function(
         TController controller, T? item, bool selected, VoidCallback onTap);
 
-class ReadyPicker<T, TController extends ReadyPickerController<T>>
+class ReadyPicker<T, Args, TController extends ReadyPickerController<T, Args>>
     extends InheritedWidget {
   final InputDecoration decoration;
   final TController controller;
@@ -27,8 +28,8 @@ class ReadyPicker<T, TController extends ReadyPickerController<T>>
   final bool enabled;
   final Future<T> Function(BuildContext context, Widget child)? showItems;
   final Widget Function(FormFieldState<T> field)? builder;
-  final ItemBuilderCallback<T, TController>? _buildItem;
-  ItemBuilderCallback<T, TController>? get buildItem => _buildItem;
+  final ItemBuilderCallback<T, Args, TController>? _buildItem;
+  ItemBuilderCallback<T, Args, TController>? get buildItem => _buildItem;
   ReadyPicker({
     this.decoration = const InputDecoration(),
     required this.controller,
@@ -49,7 +50,7 @@ class ReadyPicker<T, TController extends ReadyPickerController<T>>
     this.focusNode,
   })  : builder = null,
         _buildItem = null,
-        super(key: key, child: SingleField<T, TController>());
+        super(key: key, child: SingleField<T, Args, TController>());
   ReadyPicker.buildItem({
     this.decoration = const InputDecoration(),
     required this.controller,
@@ -73,7 +74,7 @@ class ReadyPicker<T, TController extends ReadyPickerController<T>>
         itemTextStyle = null,
         inActiveColor = null,
         _buildItem = buildItem,
-        super(key: key, child: SingleField<T, TController>());
+        super(key: key, child: SingleField<T, Args, TController>());
 
   ReadyPicker.builder({
     required this.controller,
@@ -95,21 +96,22 @@ class ReadyPicker<T, TController extends ReadyPickerController<T>>
         maxLines = null,
         _buildItem = null,
         textAlign = TextAlign.start,
-        super(key: key, child: SingleField<T, TController>());
+        super(key: key, child: SingleField<T, Args, TController>());
   @override
-  bool updateShouldNotify(ReadyPicker<T, TController> oldWidget) {
+  bool updateShouldNotify(ReadyPicker<T, Args, TController> oldWidget) {
     return true;
   }
 
-  static ReadyPicker<T, TController>?
-      of<T, TController extends ReadyPickerController<T>>(
+  static ReadyPicker<T, Args, TController>?
+      of<T, Args, TController extends ReadyPickerController<T, Args>>(
           BuildContext context) {
-    return context
-        .dependOnInheritedWidgetOfExactType<ReadyPicker<T, TController>>();
+    return context.dependOnInheritedWidgetOfExactType<
+        ReadyPicker<T, Args, TController>>();
   }
 }
 
-class ReadyMultiPicker<T, TController extends ReadyPickerController<T>>
+class ReadyMultiPicker<T, Args,
+        TController extends ReadyPickerController<T, Args>>
     extends InheritedWidget {
   final InputDecoration decoration;
   final TController controller;
@@ -128,8 +130,8 @@ class ReadyMultiPicker<T, TController extends ReadyPickerController<T>>
   final bool enabled;
   final FocusNode? focusNode;
   final Widget Function(FormFieldState<List<T>> field)? builder;
-  final ItemBuilderCallback<T, TController>? _buildItem;
-  ItemBuilderCallback<T, TController>? get buildItem => _buildItem;
+  final ItemBuilderCallback<T, Args, TController>? _buildItem;
+  ItemBuilderCallback<T, Args, TController>? get buildItem => _buildItem;
   ReadyMultiPicker({
     this.decoration = const InputDecoration(),
     required this.controller,
@@ -150,7 +152,7 @@ class ReadyMultiPicker<T, TController extends ReadyPickerController<T>>
     this.showItems,
   })  : builder = null,
         _buildItem = null,
-        super(key: key, child: MultiField<T, TController>());
+        super(key: key, child: MultiField<T, Args, TController>());
   ReadyMultiPicker.buildItem({
     this.decoration = const InputDecoration(),
     required this.controller,
@@ -174,7 +176,7 @@ class ReadyMultiPicker<T, TController extends ReadyPickerController<T>>
         _buildItem = buildItem,
         itemTextStyle = null,
         inActiveColor = null,
-        super(key: key, child: MultiField<T, TController>());
+        super(key: key, child: MultiField<T, Args, TController>());
   ReadyMultiPicker.builder({
     required this.controller,
     required this.builder,
@@ -195,16 +197,16 @@ class ReadyMultiPicker<T, TController extends ReadyPickerController<T>>
         maxLines = null,
         _buildItem = null,
         textAlign = TextAlign.start,
-        super(key: key, child: MultiField<T, TController>());
+        super(key: key, child: MultiField<T, Args, TController>());
   @override
-  bool updateShouldNotify(ReadyMultiPicker<T, TController> oldWidget) {
+  bool updateShouldNotify(ReadyMultiPicker<T, Args, TController> oldWidget) {
     return true;
   }
 
-  static ReadyMultiPicker<T, TController>?
-      of<T, TController extends ReadyPickerController<T>>(
+  static ReadyMultiPicker<T, Args, TController>?
+      of<T, Args, TController extends ReadyPickerController<T, Args>>(
           BuildContext context) {
-    return context
-        .dependOnInheritedWidgetOfExactType<ReadyMultiPicker<T, TController>>();
+    return context.dependOnInheritedWidgetOfExactType<
+        ReadyMultiPicker<T, Args, TController>>();
   }
 }
