@@ -1,6 +1,6 @@
 part of controllers;
 
-abstract class ReadyListController<T, Args> {
+abstract class BaseReadyListController<T, Args> {
   /// The current state
   ReadyListState<T, Args> get state;
 
@@ -10,3 +10,6 @@ abstract class ReadyListController<T, Args> {
   /// emitting new state to stream
   void emit(ReadyListState<T, Args> state);
 }
+
+abstract class ReadyListController<T>
+    extends BaseReadyListController<T, dynamic> {}

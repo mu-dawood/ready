@@ -5,7 +5,7 @@ typedef ListItemBuilder<T> = Widget Function(
     T item, int index, LayoutType layout, List<Widget> actions);
 
 typedef DataTableActionCallBack<T, Args,
-        TController extends ReadyListController<T, Args>>
+        TController extends BaseReadyListController<T, Args>>
     = Future Function(BuildContext context, TController controller, T item);
 
 typedef DataTableActionProperty<T, Type> = Type Function(T item);

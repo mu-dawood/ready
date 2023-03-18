@@ -19,7 +19,7 @@ part 'footer_loading.dart';
 part 'grids.dart';
 part 'ready_screen_loader.dart';
 
-class ReadyList<T, Args, TController extends ReadyListController<T, Args>>
+class ReadyList<T, Args, TController extends BaseReadyListController<T, Args>>
     extends StatefulWidget implements ReadyListConfigOptions {
   final ScrollController? scrollController;
   final ReadyListWidgetBuilder<T, Args>? headerSlivers;
@@ -176,7 +176,8 @@ class ReadyList<T, Args, TController extends ReadyListController<T, Args>>
       _ReadyListState<T, Args, TController>();
 }
 
-class _ReadyListState<T, Args, TController extends ReadyListController<T, Args>>
+class _ReadyListState<T, Args,
+        TController extends BaseReadyListController<T, Args>>
     extends State<ReadyList<T, Args, TController>>
     with AutomaticKeepAliveClientMixin {
   final deltaExtent = 75.0;

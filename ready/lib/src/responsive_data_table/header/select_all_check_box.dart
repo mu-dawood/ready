@@ -1,7 +1,8 @@
 part of responsive_data_table;
 
 class _SelectAllCheckBox<T, Args,
-    TController extends ReadyListController<T, Args>> extends StatelessWidget {
+        TController extends BaseReadyListController<T, Args>>
+    extends StatelessWidget {
   const _SelectAllCheckBox({super.key});
 
   @override

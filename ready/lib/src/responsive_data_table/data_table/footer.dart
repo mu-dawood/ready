@@ -1,6 +1,6 @@
 part of responsive_data_table;
 
-class _Footer<T, Args, TController extends ReadyListController<T, Args>>
+class _Footer<T, Args, TController extends BaseReadyListController<T, Args>>
     extends StatefulWidget {
   final TController controller;
   final ValueNotifier<_DataTablePaging> paging;
@@ -17,7 +17,8 @@ class _Footer<T, Args, TController extends ReadyListController<T, Args>>
       _FooterState<T, Args, TController>();
 }
 
-class _FooterState<T, Args, TController extends ReadyListController<T, Args>>
+class _FooterState<T, Args,
+        TController extends BaseReadyListController<T, Args>>
     extends State<_Footer<T, Args, TController>> {
   late StreamSubscription<ReadyListState<T, Args>> subscription;
   _DataTablePaging get paging => widget.paging.value;

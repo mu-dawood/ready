@@ -1,6 +1,7 @@
 part of ready_list;
 
-class _FooterLoading<T, Args, TController extends ReadyListController<T, Args>>
+class _FooterLoading<T, Args,
+        TController extends BaseReadyListController<T, Args>>
     extends StatelessWidget {
   final bool shrinkWrap;
   final TController controller;

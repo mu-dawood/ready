@@ -1,6 +1,6 @@
 part of responsive_data_table;
 
-class _Header<T, Args, TController extends ReadyListController<T, Args>>
+class _Header<T, Args, TController extends BaseReadyListController<T, Args>>
     extends StatelessWidget {
   final ResponsiveDataTableType type;
   final TController controller;
@@ -39,7 +39,8 @@ class _Header<T, Args, TController extends ReadyListController<T, Args>>
   }
 }
 
-class _HeaderDelegate<T, Args, TController extends ReadyListController<T, Args>>
+class _HeaderDelegate<T, Args,
+        TController extends BaseReadyListController<T, Args>>
     extends SliverPersistentHeaderDelegate {
   final Widget Function(double percent) builder;
   final ResponsiveDataTableType type;
@@ -71,7 +72,7 @@ class _HeaderDelegate<T, Args, TController extends ReadyListController<T, Args>>
   }
 }
 
-class _Child<T, Args, TController extends ReadyListController<T, Args>>
+class _Child<T, Args, TController extends BaseReadyListController<T, Args>>
     extends StatelessWidget {
   final TController controller;
   final ResponsiveDataTableType type;

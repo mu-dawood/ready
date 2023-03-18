@@ -3,7 +3,7 @@ part of responsive_data_table;
 /// action that used to handle row actions
 
 abstract class Action<T, Args,
-    TController extends ReadyListController<T, Args>> {
+    TController extends BaseReadyListController<T, Args>> {
   /// action callback
   DataTableActionCallBack<T, Args, TController> get action;
 
@@ -17,7 +17,7 @@ abstract class Action<T, Args,
       bool menuBar);
 }
 
-class IconAction<T, Args, TController extends ReadyListController<T, Args>>
+class IconAction<T, Args, TController extends BaseReadyListController<T, Args>>
     extends Action<T, Args, TController> {
   static bool _defEnabled(item) => true;
 

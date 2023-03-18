@@ -1,6 +1,6 @@
 part of responsive_data_table;
 
-class _DataTable<T, Args, TController extends ReadyListController<T, Args>>
+class _DataTable<T, Args, TController extends BaseReadyListController<T, Args>>
     extends StatefulWidget {
   final TController controller;
   const _DataTable({Key? key, required this.controller}) : super(key: key);
@@ -10,7 +10,8 @@ class _DataTable<T, Args, TController extends ReadyListController<T, Args>>
       _DataTableState<T, Args, TController>();
 }
 
-class _DataTableState<T, Args, TController extends ReadyListController<T, Args>>
+class _DataTableState<T, Args,
+        TController extends BaseReadyListController<T, Args>>
     extends State<_DataTable<T, Args, TController>> {
   late ScrollController _defaultController;
 

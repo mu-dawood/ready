@@ -1,6 +1,7 @@
 part of responsive_data_table;
 
-class _FiltersButton<T, Args, TController extends ReadyListController<T, Args>>
+class _FiltersButton<T, Args,
+        TController extends BaseReadyListController<T, Args>>
     extends StatelessWidget {
   final List<DataTableFilter> filters;
   final TController controller;
@@ -42,7 +43,8 @@ class _FiltersButton<T, Args, TController extends ReadyListController<T, Args>>
 }
 
 class _FiltersButtonSheet<T, Args,
-    TController extends ReadyListController<T, Args>> extends StatelessWidget {
+        TController extends BaseReadyListController<T, Args>>
+    extends StatelessWidget {
   final List<DataTableFilter> filters;
   final TController Function() controller;
   const _FiltersButtonSheet({

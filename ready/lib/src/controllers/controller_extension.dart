@@ -1,6 +1,6 @@
 part of controllers;
 
-extension ReadyListControllerExt<T, Args> on ReadyListController<T, Args> {
+extension ReadyListControllerExt<T, Args> on BaseReadyListController<T, Args> {
   void requestNext([int? pageSize]) {
     state.mapOrNull(
       initializing: (state) => emit(ReadyListState.requestFirstLoading(

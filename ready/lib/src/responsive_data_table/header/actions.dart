@@ -1,6 +1,7 @@
 part of responsive_data_table;
 
-class _HeaderActions<T, Args, TController extends ReadyListController<T, Args>>
+class _HeaderActions<T, Args,
+        TController extends BaseReadyListController<T, Args>>
     extends StatelessWidget {
   final ResponsiveDataTableType type;
   final TController controller;

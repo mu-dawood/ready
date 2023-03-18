@@ -77,7 +77,8 @@ class _DataTablePaging {
 ///
 /// if width return  [LayoutType.large] or [LayoutType.xLarge] or [LayoutType.xxLarge]
 class ResponsiveDataTable<T, Args,
-    TController extends ReadyListController<T, Args>> extends InheritedWidget {
+        TController extends BaseReadyListController<T, Args>>
+    extends InheritedWidget {
   /// show custom filter view
   final Widget Function(Widget filters)? buildFilters;
 
@@ -92,7 +93,7 @@ class ResponsiveDataTable<T, Args,
   /// actions that will be assigned to each row
   final List<Action<T, Args, TController>> rowActions;
 
-  /// controller that extends [ReadyListController]
+  /// controller that extends [BaseReadyListController]
   final TController controller;
 
   /// when is not empty filter button will be added to the top of [DataTable]
@@ -125,7 +126,7 @@ class ResponsiveDataTable<T, Args,
         );
 
   static LayoutBuilder
-      _builder<T, Args, TController extends ReadyListController<T, Args>>(
+      _builder<T, Args, TController extends BaseReadyListController<T, Args>>(
           controller, ResponsiveDataTableType? type) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
@@ -154,7 +155,8 @@ class ResponsiveDataTable<T, Args,
 }
 
 class _ResponsiveDataTable<T, Args,
-    TController extends ReadyListController<T, Args>> extends StatefulWidget {
+        TController extends BaseReadyListController<T, Args>>
+    extends StatefulWidget {
   final TController controller;
   final ResponsiveDataTableType? type;
   final BoxConstraints constraints;
@@ -170,14 +172,14 @@ class _ResponsiveDataTable<T, Args,
   __ResponsiveDataTableState<T, Args, TController> createState() =>
       __ResponsiveDataTableState<T, Args, TController>();
   static __ResponsiveDataTableState<T, Args, TController>
-      of<T, Args, TController extends ReadyListController<T, Args>>(
+      of<T, Args, TController extends BaseReadyListController<T, Args>>(
               BuildContext context) =>
           context.findAncestorStateOfType<
               __ResponsiveDataTableState<T, Args, TController>>()!;
 }
 
 class __ResponsiveDataTableState<T, Args,
-        TController extends ReadyListController<T, Args>>
+        TController extends BaseReadyListController<T, Args>>
     extends State<_ResponsiveDataTable<T, Args, TController>>
     with AutomaticKeepAliveClientMixin {
   late final ValueNotifier<_DataTablePaging> _paging;
@@ -421,7 +423,7 @@ class _Info extends StatelessWidget {
   }
 }
 
-class _CheckBox<T, Args, TController extends ReadyListController<T, Args>>
+class _CheckBox<T, Args, TController extends BaseReadyListController<T, Args>>
     extends StatelessWidget {
   final int index;
   final bool placeholder;
@@ -452,7 +454,7 @@ class _CheckBox<T, Args, TController extends ReadyListController<T, Args>>
 }
 
 class _SelectedIndices<T, Args,
-        TController extends ReadyListController<T, Args>>
+        TController extends BaseReadyListController<T, Args>>
     extends ValueNotifier<Set<int>> {
   final TController controller;
   _SelectedIndices(super.value, this.controller);

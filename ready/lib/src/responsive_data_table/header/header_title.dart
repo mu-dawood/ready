@@ -1,6 +1,7 @@
 part of responsive_data_table;
 
-class _HeaderTitle<T, Args, TController extends ReadyListController<T, Args>>
+class _HeaderTitle<T, Args,
+        TController extends BaseReadyListController<T, Args>>
     extends StatelessWidget {
   final TController controller;
   const _HeaderTitle({super.key, required this.controller});

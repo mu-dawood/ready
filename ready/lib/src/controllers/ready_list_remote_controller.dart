@@ -9,7 +9,7 @@ class RemoteResult<T> with _$RemoteResult<T> {
       SuccessResult<T>;
 }
 
-mixin ReadyRemoteController<T, Args> on ReadyListController<T, Args> {
+mixin ReadyRemoteController<T, Args> on BaseReadyListController<T, Args> {
   Future<RemoteResult<T>> loadData(int skip, int? pageSize,
       [ICancelToken? cancelToken]);
 

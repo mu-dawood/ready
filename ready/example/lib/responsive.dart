@@ -107,7 +107,7 @@ class ResponsiveList extends StatelessWidget {
 }
 
 abstract class BaseController extends Cubit<ReadyListState<FakeItem, dynamic>>
-    implements ReadyListController<FakeItem, dynamic> {
+    implements ReadyListController<FakeItem> {
   BaseController(ReadyListState<FakeItem, dynamic> initialState)
       : super(initialState);
 }
