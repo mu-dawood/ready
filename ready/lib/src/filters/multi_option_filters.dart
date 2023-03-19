@@ -22,7 +22,7 @@ class MultiOptionFilter<T> extends StatelessWidget
         const _DefaultInputDecoration(Icon(Icons.arrow_drop_down_rounded)),
   }) : super(key: key);
 
-  Set<OptionFilterItem<T>> getSelectedItems() {
+  Set<OptionFilterItem<T>> getSelectedItems(BuildContext context) {
     return items.where((a) => value.any((b) => a.value == b)).toSet();
   }
 
@@ -33,7 +33,7 @@ class MultiOptionFilter<T> extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    var selected = getSelectedItems();
+    var selected = getSelectedItems(context);
 
     final effectiveDecoration = _effectiveDecoration(context);
     return buildTab(

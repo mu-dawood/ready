@@ -30,7 +30,6 @@ part 'header/header.dart';
 part 'header/header_title.dart';
 part 'header/select_all_check_box.dart';
 part 'loading_button.dart';
-part 'toggle_filter.dart';
 
 class _DataTablePaging {
   final int currentPage;
@@ -97,7 +96,7 @@ class ResponsiveDataTable<T, Args,
   final TController controller;
 
   /// when is not empty filter button will be added to the top of [DataTable]
-  final List<DataTableFilter> filters;
+  final List<DataTableFilter Function(BuildContext context)> filters;
 
   /// This will keep the state of tab
   final bool keepAlive;

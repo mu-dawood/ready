@@ -11,6 +11,9 @@ part 'multi_option_filters.dart';
 part 'search_filter.dart';
 part 'single_option_filters.dart';
 part 'time_filter.dart';
+part 'toggle_filter.dart';
+
+typedef ValueGetter<T> = T Function(BuildContext context);
 
 mixin DataTableFilter<T> on Widget {
   /// The current value

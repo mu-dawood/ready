@@ -94,7 +94,7 @@ class _HeaderActions<T, Args,
       children.addAll(options.actions.map((e) => absorber(e)));
       children.add(const Spacer());
       children.addAll(filters.map((e) {
-        return builder(e);
+        return builder(e(context));
       }).toList());
     } else {
       if (type == ResponsiveDataTableType.table) {
@@ -106,7 +106,7 @@ class _HeaderActions<T, Args,
       if (filters.isNotEmpty) {
         children.add(absorber(
           _FiltersButton(
-            filters: filters,
+            filters: filters.map((e) => e(context)).toList(),
             controller: controller,
           ),
         ));

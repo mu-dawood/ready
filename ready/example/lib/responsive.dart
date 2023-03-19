@@ -41,35 +41,41 @@ class ResponsiveList extends StatelessWidget {
               icon: const Icon(Icons.add)),
       ],
       filters: [
-        SearchFilter(
-          onChange: (String? value) {
-            controller.emit(const ReadyListState.requestFirstLoading(
-                pageSize: 20, args: null));
-          },
-        ),
+        (_) => SearchFilter(
+              onChange: (String? value) {
+                controller.emit(const ReadyListState.requestFirstLoading(
+                    pageSize: 20, args: null));
+              },
+            ),
         if (!sub) ...[
-          SingleOptionFilter(
-            display: 'Single option',
-            value: 1,
-            items: List.generate(
-                10,
-                (index) =>
-                    OptionFilterItem(display: 'option $index', value: index)),
-            onChange: (value) {},
-          ),
-          MultiOptionFilter(
-            display: 'Multiple options',
-            value: const {1, 8},
-            items: List.generate(
-                10,
-                (index) =>
-                    OptionFilterItem(display: 'option $index', value: index)),
-            onChange: (value) {},
-          ),
-          DateFilter(
-            value: DateTime.now(),
-            onChange: (DateTime? value) {},
-          ),
+          (_) => SingleOptionFilter(
+                display: 'Single option',
+                value: controller.value,
+                items: List.generate(
+                    10,
+                    (index) => OptionFilterItem(
+                        display: 'option $index', value: index)),
+                onChange: (value) {
+                  controller.value = value;
+                  controller.requestFirstLoading();
+                },
+              ),
+          (_) => MultiOptionFilter(
+                display: 'Multiple options',
+                value: const {1, 8},
+                items: List.generate(
+                    10,
+                    (index) => OptionFilterItem(
+                        display: 'option $index', value: index)),
+                onChange: (value) {},
+              ),
+          // (_) => DateFilter(
+          //       value: DateTime.now(),
+          //       onChange: (DateTime? value) {},
+          //     ),
+          (_) => ToggleFilter(
+                onChange: (bool? value) {},
+              ),
         ], // ),
       ],
       selectionButton: (type, selected) {
@@ -115,7 +121,7 @@ abstract class BaseController extends Cubit<ReadyListState<FakeItem, dynamic>>
 class ReadyListCubit extends BaseController with ReadyRemoteController {
   ReadyListCubit(ReadyListState<FakeItem, dynamic> initialState)
       : super(initialState);
-
+  int value = 1;
   @override
   Future<RemoteResult<FakeItem>> loadData(int skip, int? pageSize,
       [ICancelToken? cancelToken]) async {

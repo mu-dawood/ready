@@ -43,7 +43,7 @@ class _SearchFilterState extends State<SearchFilter>
   @override
   void initState() {
     super.initState();
-    controller = TextEditingController(text: widget.value);
+    controller = TextEditingController(text: '');
     node = FocusNode()
       ..addListener(() {
         if (mounted) setState(() {});
@@ -53,7 +53,8 @@ class _SearchFilterState extends State<SearchFilter>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (controller.text != widget.value) controller.text = widget.value ?? '';
+    var val = widget.value ?? '';
+    if (controller.text != val) controller.text = val;
   }
 
   void search(String v) {

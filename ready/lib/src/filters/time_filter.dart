@@ -26,7 +26,7 @@ class TimeFilter extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     final effectiveDecoration = _effectiveDecoration(context);
-
+    var val = value;
     return buildTab(
         context,
         IntrinsicWidth(
@@ -34,8 +34,8 @@ class TimeFilter extends StatelessWidget
             textAlignVertical: TextAlignVertical.center,
             textAlign: TextAlign.start,
             decoration: effectiveDecoration,
-            isEmpty: value == null,
-            child: Text(value?.format(context) ?? ""),
+            isEmpty: val == null,
+            child: Text(val?.format(context) ?? ""),
           ),
         ));
   }
@@ -54,9 +54,10 @@ class TimeFilter extends StatelessWidget
   }
 
   Future<TimeOfDay?> buildShowTimePicker(BuildContext context) {
+    var val = value;
     return showTimePicker(
       context: context,
-      initialTime: value ?? TimeOfDay.fromDateTime(DateTime.now()),
+      initialTime: val ?? TimeOfDay.fromDateTime(DateTime.now()),
     );
   }
 }

@@ -33,8 +33,9 @@ class DateFilter extends StatelessWidget
   Widget build(BuildContext context) {
     final effectiveDecoration = _effectiveDecoration(context);
     final localizations = MaterialLocalizations.of(context);
-    String? displayValue =
-        value == null ? '' : localizations.formatFullDate(value!);
+    var val = value;
+
+    String? displayValue = val == null ? '' : localizations.formatFullDate(val);
 
     return buildTab(
         context,
@@ -43,7 +44,7 @@ class DateFilter extends StatelessWidget
             textAlignVertical: TextAlignVertical.center,
             textAlign: TextAlign.start,
             decoration: effectiveDecoration,
-            isEmpty: value == null,
+            isEmpty: val == null,
             child: Text(displayValue),
           ),
         ));
@@ -64,17 +65,18 @@ class DateFilter extends StatelessWidget
     var first =
         firstDate ?? DateTime.now().subtract(const Duration(days: 3653));
     var last = lastDate ?? DateTime.now().add(const Duration(days: 3653));
+    var val = value;
+
     return showDatePicker(
       context: context,
       selectableDayPredicate: (DateTime date) {
         if (date.isAfter(first) || date.isAtSameMomentAs(first)) return true;
-        if (value != null || date.isAtSameMomentAs(value!)) return true;
+        if (val != null || date.isAtSameMomentAs(val!)) return true;
         return false;
       },
-      initialDate: value ?? DateTime.now(),
-      firstDate:
-          value == null ? first : (value!.isBefore(first) ? value! : first),
-      lastDate: value == null ? last : (value!.isAfter(last) ? value! : last),
+      initialDate: val ?? DateTime.now(),
+      firstDate: val == null ? first : (val.isBefore(first) ? val : first),
+      lastDate: val == null ? last : (val.isAfter(last) ? val : last),
     );
   }
 }

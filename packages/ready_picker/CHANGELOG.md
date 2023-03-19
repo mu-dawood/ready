@@ -65,3 +65,7 @@
 ## 1.7.1
 
 * Use ready version 1.7.1
+
+## 1.7.2
+
+* Use ready version 1.7.2

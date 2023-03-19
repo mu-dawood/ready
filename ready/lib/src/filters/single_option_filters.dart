@@ -1,5 +1,7 @@
 part of 'filters.dart';
 
+TimeOfDay? _default(BuildContext context) => null;
+
 /// single option filter
 class OptionFilterItem<T> {
   final String display;
@@ -43,7 +45,7 @@ class SingleOptionFilter<T> extends StatelessWidget
         const _DefaultInputDecoration(Icon(Icons.keyboard_arrow_down_rounded)),
   }) : super(key: key);
 
-  OptionFilterItem<T>? getSelectedItem() {
+  OptionFilterItem<T>? getSelectedItem(BuildContext context) {
     for (var element in items) {
       if (value == element.value) return element;
     }
@@ -57,7 +59,7 @@ class SingleOptionFilter<T> extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    var selected = getSelectedItem();
+    var selected = getSelectedItem(context);
 
     final effectiveDecoration = _effectiveDecoration(context);
     return buildTab(
@@ -186,7 +188,7 @@ class __SingleOptionDialogState<T> extends State<_SingleOptionDialog<T>> {
 
 class BooleanFilter extends StatelessWidget {
   final ValueChanged<bool?> onChange;
-  final bool? value;
+  final bool value;
   final bool disableNull;
   final String? trueDisplay;
   final String? falseDisplay;
@@ -195,7 +197,7 @@ class BooleanFilter extends StatelessWidget {
   const BooleanFilter({
     Key? key,
     required this.onChange,
-    this.value,
+    this.value = false,
     this.disableNull = false,
     this.trueDisplay,
     this.falseDisplay,

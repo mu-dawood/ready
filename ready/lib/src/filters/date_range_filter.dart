@@ -35,15 +35,17 @@ class DateRangeFilter extends StatelessWidget
     final effectiveDecoration = _effectiveDecoration(context);
     final localizations = MaterialLocalizations.of(context);
     String? displayValue = '';
-    if (value != null) {
-      if (value!.start.year == value!.end.year) {
-        displayValue += localizations.formatShortDate(value!.start);
+    var val = value;
+
+    if (val != null) {
+      if (val.start.year == val.end.year) {
+        displayValue += localizations.formatShortDate(val.start);
         displayValue += ' - ';
-        displayValue += localizations.formatShortDate(value!.end);
+        displayValue += localizations.formatShortDate(val.end);
       } else {
-        displayValue += localizations.formatShortMonthDay(value!.start);
+        displayValue += localizations.formatShortMonthDay(val.start);
         displayValue += ' - ';
-        displayValue += localizations.formatShortMonthDay(value!.end);
+        displayValue += localizations.formatShortMonthDay(val.end);
       }
     }
 
@@ -54,7 +56,7 @@ class DateRangeFilter extends StatelessWidget
             textAlignVertical: TextAlignVertical.center,
             textAlign: TextAlign.start,
             decoration: effectiveDecoration,
-            isEmpty: value == null,
+            isEmpty: val == null,
             child: Text(displayValue),
           ),
         ));
@@ -75,14 +77,14 @@ class DateRangeFilter extends StatelessWidget
     var first =
         firstDate ?? DateTime.now().subtract(const Duration(days: 3653));
     var last = lastDate ?? DateTime.now().add(const Duration(days: 3653));
+    var val = value;
+
     return showDateRangePicker(
       context: context,
-      initialDateRange: value,
-      firstDate: value == null
-          ? first
-          : (value!.start.isBefore(first) ? value!.start : first),
-      lastDate:
-          value == null ? last : (value!.end.isAfter(last) ? value!.end : last),
+      initialDateRange: val,
+      firstDate:
+          val == null ? first : (val.start.isBefore(first) ? val.start : first),
+      lastDate: val == null ? last : (val.end.isAfter(last) ? val.end : last),
     );
   }
 }
