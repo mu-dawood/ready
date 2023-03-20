@@ -221,18 +221,21 @@ class _DashBoardDrawerState extends State<_DashBoardDrawer> {
   ) {
     return CustomScrollView(
       slivers: [
-        SliverList(
-          delegate: SliverChildListDelegate(
-            [
-              if (options.headers != null)
-                ...options.headers!(widget.controller),
-              if (widget.collapsed)
-                for (var item in expanded)
-                  iconButton(context, item, selectedItem, expanded)
-              else
-                for (var item in items)
-                  buildTile(options, context, item, selectedItem, expanded),
-            ],
+        SliverSafeArea(
+          bottom: false,
+          sliver: SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                if (options.headers != null)
+                  ...options.headers!(widget.controller),
+                if (widget.collapsed)
+                  for (var item in expanded)
+                    iconButton(context, item, selectedItem, expanded)
+                else
+                  for (var item in items)
+                    buildTile(options, context, item, selectedItem, expanded),
+              ],
+            ),
           ),
         ),
         if (options.footer != null)

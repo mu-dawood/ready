@@ -103,9 +103,7 @@ class _DataTableState<T, Args,
   Widget _buildTable(
       ResponsiveDataTable<T, Args, TController> options, bool sliver) {
     final List<DataColumn> columns = _columns(options);
-    if (options.rowActions.isEmpty) {
-      columns.add(const DataColumn(label: SizedBox()));
-    }
+
     var responsive = _ResponsiveDataTable.of<T, Args, TController>(context);
     var child = LayoutBuilder(
       builder: (context, constrains) {
