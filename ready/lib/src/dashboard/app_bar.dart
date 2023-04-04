@@ -233,7 +233,6 @@ class _DashBoardAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var layout = ReadyDashboard.of(context);
-
     return ValueListenableBuilder(
       valueListenable: layout._currentPage,
       builder: (BuildContext context, __PageInfoState? value, Widget? child) {
@@ -309,9 +308,8 @@ class _DashBoardAppBar extends StatelessWidget {
         stretchTriggerOffset: appBar.stretchTriggerOffset ?? 100,
         onStretchTrigger: appBar.onStretchTrigger,
         forceElevated: innerBoxIsScrolled,
-        leading: info?.canPop != true
-            ? leading(context, appBar)
-            : BackButton(onPressed: info?.mayBePop),
+        leading: info?._backButton((context) => leading(context, appBar)) ??
+            leading(context, appBar),
         title:
             info == null ? const Text('') : title(context, info.widget, appBar),
       ),

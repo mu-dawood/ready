@@ -9,6 +9,7 @@
             "cwd": "ready/example",
             "request": "launch",
             "type": "dart"
+            
         },
         {
             "name": "ready (profile mode)",

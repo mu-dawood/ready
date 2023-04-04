@@ -19,7 +19,7 @@ class _PageInfo extends StatefulWidget {
 }
 
 class __PageInfoState extends State<_PageInfo> {
-  final RouteObserver<ModalRoute> _routeObserver = RouteObserver<ModalRoute>();
+  final _Observer _routeObserver = _Observer();
   late ReadyDashboardState layout;
   late TabController tabController;
   GlobalKey<NavigatorState>? _navKey;
@@ -28,6 +28,15 @@ class __PageInfoState extends State<_PageInfo> {
   NavigatorState? get _navigator => _navigatorKey.currentState;
 
   bool get canPop => _navigator?.canPop() ?? false;
+
+  Widget _backButton(WidgetBuilder defaultBuilder) {
+    return _BackButton(
+      defaultBuilder: defaultBuilder,
+      observer: _routeObserver,
+      navigator: _navigator,
+    );
+  }
+
   Future<bool> mayBePop() {
     var state = _navigator ?? Navigator.of(context);
     return state.maybePop();
@@ -36,15 +45,18 @@ class __PageInfoState extends State<_PageInfo> {
   Future<T?> pushNewPage<T>({
     required WidgetBuilder builder,
     required List<TextSpan> titleSpans,
+    bool useRoot = false,
   }) async {
     var state = _navigator ?? Navigator.of(context);
+    if (useRoot) {
+      state = Navigator.of(context);
+    }
     var result = await state.push<T>(MaterialPageRoute(
       builder: (context) {
         return PageInfo._createPage(
           state: state,
           titleSpans: titleSpans,
           builder: builder,
-          observer: _routeObserver,
           layout: layout,
           info: widget,
         );
@@ -85,7 +97,6 @@ class __PageInfoState extends State<_PageInfo> {
 
     var child = PageInfo._(
       item: item,
-      observer: _routeObserver,
       titleSpans: widget.titleSpans,
       builder: (BuildContext context) => item.builder({}),
     );
@@ -103,16 +114,61 @@ class __PageInfoState extends State<_PageInfo> {
   }
 }
 
+class _BackButton extends StatefulWidget {
+  final WidgetBuilder defaultBuilder;
+  final _Observer observer;
+  final NavigatorState? navigator;
+  const _BackButton(
+      {required this.defaultBuilder,
+      required this.observer,
+      required this.navigator});
+
+  @override
+  State<_BackButton> createState() => __BackButtonState();
+}
+
+class __BackButtonState extends State<_BackButton> with RouteAware {
+  bool canPop = false;
+  void _onchanged() {
+    var val = widget.navigator?.canPop() ?? canPop;
+    if (canPop != val) {
+      setState(() {
+        canPop = val;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    widget.observer.addListener(_onchanged);
+  }
+
+  @override
+  void dispose() {
+    widget.observer.removeListener(_onchanged);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (canPop) {
+      return BackButton(
+        onPressed: widget.navigator?.maybePop,
+      );
+    }
+    return widget.defaultBuilder(context);
+  }
+}
+
 class PageInfo extends StatefulWidget {
   final DashboardItem item;
   final List<TextSpan> titleSpans;
   final WidgetBuilder builder;
-  final RouteObserver<ModalRoute> observer;
   const PageInfo._({
     required this.item,
     required this.titleSpans,
     required this.builder,
-    required this.observer,
   });
 
   @override
@@ -135,7 +191,6 @@ class PageInfo extends StatefulWidget {
 
     return _createPage(
       layout: info.layout,
-      observer: info._routeObserver,
       info: info.widget,
       state: state,
       titleSpans: [],
@@ -145,7 +200,6 @@ class PageInfo extends StatefulWidget {
 
   static LayoutBuilder _createPage({
     required ReadyDashboardState layout,
-    required RouteObserver<ModalRoute<dynamic>> observer,
     required _PageInfo info,
     required NavigatorState state,
     required List<TextSpan> titleSpans,
@@ -155,7 +209,6 @@ class PageInfo extends StatefulWidget {
       builder: (BuildContext context, BoxConstraints constraints) {
         return layout._buildChild(
             PageInfo._(
-              observer: observer,
               item: info.item,
               titleSpans: [
                 ...info.titleSpans,
@@ -187,5 +240,39 @@ class PageInfoState extends State<PageInfo> {
   @override
   Widget build(BuildContext context) {
     return widget.builder(context);
+  }
+}
+
+class _Observer extends ChangeNotifier implements NavigatorObserver {
+  @override
+  NavigatorState? navigator;
+  @override
+  void didPop(Route<dynamic> route, Route? previousRoute) {
+    notifyListeners();
+  }
+
+  @override
+  void didPush(Route route, Route? previousRoute) {
+    notifyListeners();
+  }
+
+  @override
+  void didRemove(Route route, Route? previousRoute) {
+    notifyListeners();
+  }
+
+  @override
+  void didReplace({Route? newRoute, Route? oldRoute}) {
+    notifyListeners();
+  }
+
+  @override
+  void didStartUserGesture(Route route, Route? previousRoute) {
+    notifyListeners();
+  }
+
+  @override
+  void didStopUserGesture() {
+    notifyListeners();
   }
 }

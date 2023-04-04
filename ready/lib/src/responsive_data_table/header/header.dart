@@ -105,7 +105,6 @@ class _Child<T, Args, TController extends BaseReadyListController<T, Args>>
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (Navigator.of(context).canPop()) const BackButton(),
           if (isList) ...[
             _SelectAllCheckBox<T, Args, TController>(),
             _HeaderTitle<T, Args, TController>(controller: controller),
