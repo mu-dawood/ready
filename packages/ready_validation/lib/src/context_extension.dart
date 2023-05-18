@@ -48,13 +48,8 @@ extension ValidationExtensions on BuildContext {
   }
 
   /// create [FieldValidator] for [num] from [string]
-  FieldValidator<String?, num?> isNullOrNumber() {
-    return string().isNullOrNumber();
-  }
-
-  /// create [FieldValidator] for [num] from [string]
-  FieldValidator<String?, num> isNumber() {
-    return string().isNullOrNumber().required();
+  FieldValidator<String?, num?> isNumber() {
+    return string().isNumber();
   }
 
   /// create [FieldValidator] for [int]
@@ -67,13 +62,8 @@ extension ValidationExtensions on BuildContext {
   }
 
   /// create [FieldValidator] for [int] from [string]
-  FieldValidator<String?, int?> isNullOrInteger() {
-    return string().isNullOrInteger();
-  }
-
-  /// create [FieldValidator] for [int] from [string]
-  FieldValidator<String?, int> isInteger() {
-    return string().isNullOrInteger().required();
+  FieldValidator<String?, int?> isInteger() {
+    return string().isInteger();
   }
 
   /// create [FieldValidator] for [double]
@@ -87,13 +77,8 @@ extension ValidationExtensions on BuildContext {
   }
 
   /// create [FieldValidator] for [double] from [string]
-  FieldValidator<String?, double?> isNullOrDecimal() {
-    return string().isNullOrDecimal();
-  }
-
-  /// create [FieldValidator] for [double] from [string]
-  FieldValidator<String?, double> isDecimal() {
-    return string().isNullOrDecimal().required();
+  FieldValidator<String?, double?> isDecimal() {
+    return string().isDecimal();
   }
 
   /// create [FieldValidator] for [bool]
@@ -107,13 +92,8 @@ extension ValidationExtensions on BuildContext {
   }
 
   /// create [FieldValidator] for [bool] from [string]
-  FieldValidator<String?, bool?> isNullOrBoolean() {
-    return string().isNullOrBoolean();
-  }
-
-  /// create [FieldValidator] for [bool] from [string]
-  FieldValidator<String?, bool> isBoolean() {
-    return string().isNullOrBoolean().required();
+  FieldValidator<String?, bool?> isBoolean() {
+    return string().isBoolean();
   }
 
   /// create [FieldValidator] for [DateTime]
@@ -127,13 +107,8 @@ extension ValidationExtensions on BuildContext {
   }
 
   /// create [FieldValidator] for [DateTime] from [string]
-  FieldValidator<String?, DateTime?> isNullOrDateTime() {
-    return string().isNullOrDateTime();
-  }
-
-  /// create [FieldValidator] for [DateTime] from [string]
-  FieldValidator<String?, DateTime> isDateTime() {
-    return string().isNullOrDateTime().required();
+  FieldValidator<String?, DateTime?> isDateTime() {
+    return string().isDateTime();
   }
 
   /// create [FieldValidator] for [TimeOfDay]
@@ -147,13 +122,8 @@ extension ValidationExtensions on BuildContext {
   }
 
   /// create [FieldValidator] for [TimeOfDay] from [string]
-  FieldValidator<String?, TimeOfDay?> isNullOrTimeOfDay() {
-    return string().isNullOrTimeOfDay();
-  }
-
-  /// create [FieldValidator] for [TimeOfDay] from [string]
-  FieldValidator<String?, TimeOfDay> isTimeOfDay() {
-    return string().isNullOrTimeOfDay().required();
+  FieldValidator<String?, TimeOfDay?> isTimeOfDay() {
+    return string().isTimeOfDay();
   }
 
   /// create [FieldValidator] for [List] of type [T]

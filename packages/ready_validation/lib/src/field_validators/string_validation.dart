@@ -1,8 +1,8 @@
 part of '../context_extension.dart';
 
-extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
+extension NullStringValidationExtension on FieldValidator<String?, String?> {
   /// check if the value is email address
-  FieldValidator<T, String?> isNullOrEmail([MessageCallBack<String>? message]) {
+  FieldValidator<String?, String?> email([MessageCallBack<String>? message]) {
     return next(
       (messages, value) => value != null && !Utils.isEmail(value)
           ? message?.call(messages, value) ?? messages.isEmail
@@ -11,7 +11,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// check if the value is email address
-  FieldValidator<T, String?> isNullOrCreditCard(
+  FieldValidator<String?, String?> creditCard(
       [MessageCallBack<String>? message]) {
     return next(
       (messages, value) => value != null && !Utils.isCreditCard(value)
@@ -21,7 +21,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// check if the value starts with [pattern]
-  FieldValidator<T, String?> isNullOrStartsWithFn(ValueGetter<Pattern> pattern,
+  FieldValidator<String?, String?> startsWithFn(ValueGetter<Pattern> pattern,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       var ptr = pattern();
@@ -33,12 +33,13 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// check if the value starts with [pattern]
-  FieldValidator<T, String?> isNullOrStartsWith(Pattern pattern,
-          [MessageCallBack<String>? message]) =>
-      isNullOrStartsWithFn(() => pattern, message);
+  FieldValidator<String?, String?> startsWith(Pattern pattern,
+      [MessageCallBack<String>? message]) {
+    return startsWithFn(() => pattern, message);
+  }
 
   /// check if the value contains [pattern]
-  FieldValidator<T, String?> isNullOrContainsFn(ValueGetter<Pattern> pattern,
+  FieldValidator<String?, String?> containsFn(ValueGetter<Pattern> pattern,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       var ptr = pattern();
@@ -49,12 +50,13 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// check if the value contains [pattern]
-  FieldValidator<T, String?> isNullOrContains(Pattern pattern,
-          [MessageCallBack<String>? message]) =>
-      isNullOrContainsFn(() => pattern, message);
+  FieldValidator<String?, String?> contains(Pattern pattern,
+      [MessageCallBack<String>? message]) {
+    return containsFn(() => pattern, message);
+  }
 
   /// check if the value ends with [other]
-  FieldValidator<T, String?> isNullOrEndsWithFn(ValueGetter<String> other,
+  FieldValidator<String?, String?> endsWithFn(ValueGetter<String> other,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       var oth = other();
@@ -65,42 +67,25 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// check if the value ends with [other]
-  FieldValidator<T, String?> isNullOrEndsWith(String other,
-          [MessageCallBack<String>? message]) =>
-      isNullOrEndsWithFn(() => other, message);
-
-  /// check if the value is not empty
-  FieldValidator<T, String?> isNullOrNotEmpty(
+  FieldValidator<String?, String?> endsWith(String other,
       [MessageCallBack<String>? message]) {
-    return next(
-      (messages, value) => value != null && value.isEmpty
-          ? message?.call(messages, value) ?? messages.notEmpty
-          : null,
-    );
+    return endsWithFn(() => other, message);
   }
 
   /// check if the value is not empty
-  FieldValidator<T, String?> isNotNullAndNotEmpty(
-      [MessageCallBack<String?>? message]) {
-    return next(
-      (messages, value) => value == null || value.isEmpty
-          ? message?.call(messages, value) ?? messages.notEmpty
-          : null,
-    );
-  }
-
-  /// check if the value is not empty and not contains only white spaces
-  FieldValidator<T, String?> isNotNullAndNotEmptyNorWhiteSpace(
-      [MessageCallBack<String?>? message]) {
-    return next(
-      (messages, value) => value == null || value.isNullOrEmptyOrWhiteSpace
-          ? message?.call(messages, value) ?? messages.notEmpty
-          : null,
-    );
+  FieldValidator<String?, String> notEmpty({
+    MessageCallBack<String>? message,
+    bool allowWhiteSpace = true,
+  }) {
+    return this.required().next(
+          (messages, value) => (allowWhiteSpace ? value : value.trim()).isEmpty
+              ? message?.call(messages, value) ?? messages.notEmpty
+              : null,
+        );
   }
 
   /// check is the value matches [regExp]
-  FieldValidator<T, String?> isNullOrMatchesFn(ValueGetter<RegExp> regExp,
+  FieldValidator<String?, String?> matchesFn(ValueGetter<RegExp> regExp,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       var rgEx = regExp();
@@ -112,12 +97,12 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// check is the value matches [regExp]
-  FieldValidator<T, String?> isNullOrMatches(RegExp regExp,
+  FieldValidator<String?, String?> matches(RegExp regExp,
           [MessageCallBack<String>? message]) =>
-      isNullOrMatchesFn(() => regExp, message);
+      matchesFn(() => regExp, message);
 
   /// check is the value has  length of [length]
-  FieldValidator<T, String?> isNullOrHasLengthFn(ValueGetter<int> length,
+  FieldValidator<String?, String?> hasLengthFn(ValueGetter<int> length,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       var len = length();
@@ -129,12 +114,12 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// check is the value has  length of [length]
-  FieldValidator<T, String?> isNullOrHasLength(int length,
+  FieldValidator<String?, String?> hasLength(int length,
           [MessageCallBack<String>? message]) =>
-      isNullOrHasLengthFn(() => length, message);
+      hasLengthFn(() => length, message);
 
   /// check is the value has min length of [min]
-  FieldValidator<T, String?> isNullOrHasMinLengthFn(ValueGetter<int> min,
+  FieldValidator<String?, String?> hasMinLengthFn(ValueGetter<int> min,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       var minimum = min();
@@ -146,12 +131,12 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// check is the value has min length of [min]
-  FieldValidator<T, String?> isNullOrHasMinLength(int min,
+  FieldValidator<String?, String?> hasMinLength(int min,
           [MessageCallBack<String>? message]) =>
-      isNullOrHasMinLengthFn(() => min, message);
+      hasMinLengthFn(() => min, message);
 
   /// check is the value has max length of [max]
-  FieldValidator<T, String?> isNullOrHasMaxLengthFn(ValueGetter<int> max,
+  FieldValidator<String?, String?> hasMaxLengthFn(ValueGetter<int> max,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       var maximum = max();
@@ -163,12 +148,12 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// check is the value has max length of [max]
-  FieldValidator<T, String?> isNullOrHasMaxLength(int max,
+  FieldValidator<String?, String?> hasMaxLength(int max,
           [MessageCallBack<String>? message]) =>
-      isNullOrHasMaxLengthFn(() => max, message);
+      hasMaxLengthFn(() => max, message);
 
   /// check is the value length is between [min] and [max]
-  FieldValidator<T, String?> isNullOrHasRangeFn(
+  FieldValidator<String?, String?> hasRangeFn(
       ValueGetter<int> min, ValueGetter<int> max,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
@@ -183,12 +168,12 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// check is the value length is between [min] and [max]
-  FieldValidator<T, String?> isNullOrHasRange(int min, int max,
+  FieldValidator<String?, String?> hasRange(int min, int max,
           [MessageCallBack<String>? message]) =>
-      isNullOrHasRangeFn(() => min, () => max, message);
+      hasRangeFn(() => min, () => max, message);
 
   /// check is the value is number
-  FieldValidator<T, num?> isNullOrNumber([MessageCallBack<String>? message]) {
+  FieldValidator<String?, num?> isNumber([MessageCallBack<String>? message]) {
     return next((messages, value) {
       if (value != null && num.tryParse(value) == null) {
         return message?.call(messages, value) ?? messages.isNumber;
@@ -198,7 +183,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// check is the value is [int]
-  FieldValidator<T, int?> isNullOrInteger([MessageCallBack<String>? message]) {
+  FieldValidator<String?, int?> isInteger([MessageCallBack<String>? message]) {
     return next((messages, value) {
       if (value != null && int.tryParse(value) == null) {
         return message?.call(messages, value) ?? messages.isInteger;
@@ -208,7 +193,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// check is the value is [double]
-  FieldValidator<T, double?> isNullOrDecimal(
+  FieldValidator<String?, double?> isDecimal(
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       if (value != null && double.tryParse(value) == null) {
@@ -219,7 +204,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// check is the value is [DateTime]
-  FieldValidator<T, DateTime?> isNullOrDateTime(
+  FieldValidator<String?, DateTime?> isDateTime(
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       if (value != null && DateTime.tryParse(value) == null) {
@@ -230,7 +215,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// check is the value is [Boolean]
-  FieldValidator<T, bool?> isNullOrBoolean([MessageCallBack<String>? message]) {
+  FieldValidator<String?, bool?> isBoolean([MessageCallBack<String>? message]) {
     return next((messages, value) {
       if (value != null &&
           value.toLowerCase() != 'true' &&
@@ -243,7 +228,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// check is the value is [TimeOfDay]
-  FieldValidator<T, TimeOfDay?> isNullOrTimeOfDay(
+  FieldValidator<String?, TimeOfDay?> isTimeOfDay(
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       if (value != null && !value.isTimeOfDay) {
@@ -253,8 +238,22 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
     }).transform((value) => value.toTimeOfDay()!);
   }
 
+  /// check string is valid url
+  FieldValidator<String?, String?> isValidUrl({
+    MessageCallBack<String>? message,
+    String? company,
+  }) {
+    return next((messages, value) {
+      if (value != null && !value.isAngelCompany(company)) {
+        return message?.call(messages, value) ??
+            messages.invalidAngelCompanyUrl(company ?? 'empty');
+      }
+      return null;
+    });
+  }
+
   /// check string is angel company valid url
-  FieldValidator<T, String?> isNullOrAngelCompany({
+  FieldValidator<String?, String?> isAngelCompany({
     MessageCallBack<String>? message,
     String? company,
   }) {
@@ -268,7 +267,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// check string is angel job valid url
-  FieldValidator<T, String?> isNullOrAngelJob({
+  FieldValidator<String?, String?> isAngelJob({
     MessageCallBack<String>? message,
     String? jobId,
   }) {
@@ -282,7 +281,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// check string is crunchbase organization url
-  FieldValidator<T, String?> isNullOrCrunchbaseOrganization({
+  FieldValidator<String?, String?> isCrunchbaseOrganization({
     MessageCallBack<String>? message,
     String? organization,
   }) {
@@ -296,7 +295,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// check string is crunchbase person url
-  FieldValidator<T, String?> isNullOrCrunchbasePerson({
+  FieldValidator<String?, String?> isCrunchbasePerson({
     MessageCallBack<String>? message,
     String? person,
   }) {
@@ -310,7 +309,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is facebook url
-  FieldValidator<T, String?> isNullOrFacebookUrl({
+  FieldValidator<String?, String?> isFacebookUrl({
     MessageCallBack<String>? message,
     String? name,
     String? id,
@@ -332,7 +331,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is github url
-  FieldValidator<T, String?> isNullOrGitHubUrl({
+  FieldValidator<String?, String?> isGitHubUrl({
     MessageCallBack<String>? message,
     String? user,
     String? repository,
@@ -354,7 +353,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is google plus url
-  FieldValidator<T, String?> isNullOrGooglePlusUrl({
+  FieldValidator<String?, String?> isGooglePlusUrl({
     MessageCallBack<String>? message,
     String? userName,
     String? id,
@@ -376,7 +375,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is hacker news user url
-  FieldValidator<T, String?> isNullOrHackerNewsUserUrl({
+  FieldValidator<String?, String?> isHackerNewsUserUrl({
     MessageCallBack<String>? message,
     String? id,
   }) {
@@ -390,7 +389,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is hacker news url
-  FieldValidator<T, String?> isNullOrHackerNewsItemUrl({
+  FieldValidator<String?, String?> isHackerNewsItemUrl({
     MessageCallBack<String>? message,
     String? id,
   }) {
@@ -404,7 +403,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is instagram url
-  FieldValidator<T, String?> isNullOrInstagramUrl({
+  FieldValidator<String?, String?> isInstagramUrl({
     MessageCallBack<String>? message,
     String? user,
   }) {
@@ -418,7 +417,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is linkedin profile url
-  FieldValidator<T, String?> isNullOrLinkedInProfile({
+  FieldValidator<String?, String?> isLinkedInProfile({
     MessageCallBack<String>? message,
     String? permalink,
   }) {
@@ -432,7 +431,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is linkedin company url
-  FieldValidator<T, String?> isNullOrLinkedInCompany({
+  FieldValidator<String?, String?> isLinkedInCompany({
     MessageCallBack<String>? message,
     String? permalink,
   }) {
@@ -446,7 +445,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is linkedin post url
-  FieldValidator<T, String?> isNullOrLinkedInPost({
+  FieldValidator<String?, String?> isLinkedInPost({
     MessageCallBack<String>? message,
     String? id,
   }) {
@@ -460,7 +459,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is reddit url
-  FieldValidator<T, String?> isNullOrRedditUrl({
+  FieldValidator<String?, String?> isRedditUrl({
     MessageCallBack<String>? message,
     String? user,
   }) {
@@ -474,7 +473,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is snapchat url
-  FieldValidator<T, String?> isNullOrSnapchatUrl({
+  FieldValidator<String?, String?> isSnapchatUrl({
     MessageCallBack<String>? message,
     String? user,
   }) {
@@ -488,7 +487,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is stack exchange url
-  FieldValidator<T, String?> isNullOrStackexchangeUrl({
+  FieldValidator<String?, String?> isStackexchangeUrl({
     MessageCallBack<String>? message,
     String? user,
     String? id,
@@ -505,7 +504,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is stackoverflow question url
-  FieldValidator<T, String?> isNullOrStackoverflowQuestionUrl({
+  FieldValidator<String?, String?> isStackoverflowQuestionUrl({
     MessageCallBack<String>? message,
     String? id,
   }) {
@@ -519,7 +518,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is stackoverflow user url
-  FieldValidator<T, String?> isNullOrStackoverflowUserUrl({
+  FieldValidator<String?, String?> isStackoverflowUserUrl({
     MessageCallBack<String>? message,
     String? id,
   }) {
@@ -533,7 +532,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is telegram profile  url
-  FieldValidator<T, String?> isNullOrTelegramProfileUrl({
+  FieldValidator<String?, String?> isTelegramProfileUrl({
     MessageCallBack<String>? message,
     String? userName,
   }) {
@@ -547,7 +546,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is  medium post url
-  FieldValidator<T, String?> isNullOrMediumPostUrl({
+  FieldValidator<String?, String?> isMediumPostUrl({
     MessageCallBack<String>? message,
     String? postId,
   }) {
@@ -561,7 +560,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is  medium user url
-  FieldValidator<T, String?> isNullOrMediumUserUrl({
+  FieldValidator<String?, String?> isMediumUserUrl({
     MessageCallBack<String>? message,
     String? userName,
     String? id,
@@ -583,7 +582,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is twitter status  url
-  FieldValidator<T, String?> isNullOrTwitterStatusUrl({
+  FieldValidator<String?, String?> isTwitterStatusUrl({
     MessageCallBack<String>? message,
     String? userName,
     String? tweetId,
@@ -603,7 +602,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is twitter user  url
-  FieldValidator<T, String?> isNullOrTwitterUserUrl({
+  FieldValidator<String?, String?> isTwitterUserUrl({
     MessageCallBack<String>? message,
     String? userName,
   }) {
@@ -617,7 +616,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is youtube channel  url
-  FieldValidator<T, String?> isNullOrYoutubeChannelUrl({
+  FieldValidator<String?, String?> isYoutubeChannelUrl({
     MessageCallBack<String>? message,
     String? id,
   }) {
@@ -631,7 +630,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is youtube video  url
-  FieldValidator<T, String?> isNullOrYoutubeVideoUrl({
+  FieldValidator<String?, String?> isYoutubeVideoUrl({
     MessageCallBack<String>? message,
     String? id,
   }) {
@@ -645,7 +644,7 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 
   /// Check string is youtube user  url
-  FieldValidator<T, String?> isNullOrYoutubeUserUrl({
+  FieldValidator<String?, String?> isYoutubeUserUrl({
     MessageCallBack<String>? message,
     String? username,
   }) {
@@ -659,9 +658,9 @@ extension StringNullValidationExtension<T> on FieldValidator<T, String?> {
   }
 }
 
-extension StringValidationExtension<T> on FieldValidator<T, String> {
+extension StringValidationExtension<T> on FieldValidator<String?, String> {
   /// check if the value is email address
-  FieldValidator<T, String> isEmail([MessageCallBack<String>? message]) {
+  FieldValidator<String?, String> email([MessageCallBack<String>? message]) {
     return next(
       (messages, value) => !Utils.isEmail(value)
           ? message?.call(messages, value) ?? messages.isEmail
@@ -670,7 +669,8 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check if the value is email address
-  FieldValidator<T, String> isCreditCard([MessageCallBack<String>? message]) {
+  FieldValidator<String?, String> creditCard(
+      [MessageCallBack<String>? message]) {
     return next(
       (messages, value) => !Utils.isCreditCard(value)
           ? message?.call(messages, value) ?? messages.isCreditCard
@@ -679,7 +679,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check if the value starts with [pattern]
-  FieldValidator<T, String> startsWithFn(ValueGetter<Pattern> pattern,
+  FieldValidator<String?, String> startsWithFn(ValueGetter<Pattern> pattern,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       var ptr = pattern();
@@ -691,12 +691,13 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check if the value starts with [pattern]
-  FieldValidator<T, String> startsWith(Pattern pattern,
-          [MessageCallBack<String>? message]) =>
-      startsWithFn(() => pattern, message);
+  FieldValidator<String?, String> startsWith(Pattern pattern,
+      [MessageCallBack<String>? message]) {
+    return startsWithFn(() => pattern, message);
+  }
 
   /// check if the value contains [pattern]
-  FieldValidator<T, String> containsFn(ValueGetter<Pattern> pattern,
+  FieldValidator<String?, String> containsFn(ValueGetter<Pattern> pattern,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       var ptr = pattern();
@@ -707,12 +708,13 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check if the value contains [pattern]
-  FieldValidator<T, String> contains(Pattern pattern,
-          [MessageCallBack<String>? message]) =>
-      containsFn(() => pattern, message);
+  FieldValidator<String?, String> contains(Pattern pattern,
+      [MessageCallBack<String>? message]) {
+    return containsFn(() => pattern, message);
+  }
 
   /// check if the value ends with [other]
-  FieldValidator<T, String> endsWithFn(ValueGetter<String> other,
+  FieldValidator<String?, String> endsWithFn(ValueGetter<String> other,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       var oth = other();
@@ -723,12 +725,13 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check if the value ends with [other]
-  FieldValidator<T, String> endsWith(String other,
-          [MessageCallBack<String>? message]) =>
-      endsWithFn(() => other, message);
+  FieldValidator<String?, String> endsWith(String other,
+      [MessageCallBack<String>? message]) {
+    return endsWithFn(() => other, message);
+  }
 
   /// check if the value is not empty
-  FieldValidator<T, String> notEmpty([MessageCallBack<String>? message]) {
+  FieldValidator<String?, String> notEmpty([MessageCallBack<String>? message]) {
     return next(
       (messages, value) => value.isEmpty
           ? message?.call(messages, value) ?? messages.notEmpty
@@ -737,7 +740,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check if the value is not empty and not contains only white spaces
-  FieldValidator<T, String> notEmptyOrWhiteSpace(
+  FieldValidator<String?, String> notEmptyOrWhiteSpace(
       [MessageCallBack<String>? message]) {
     return next(
       (messages, value) => value.isNullOrEmptyOrWhiteSpace
@@ -747,7 +750,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check is the value matches [regExp]
-  FieldValidator<T, String> matchesFn(ValueGetter<RegExp> regExp,
+  FieldValidator<String?, String> matchesFn(ValueGetter<RegExp> regExp,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       var rgEx = regExp();
@@ -759,12 +762,13 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check is the value matches [regExp]
-  FieldValidator<T, String> matches(RegExp regExp,
-          [MessageCallBack<String>? message]) =>
-      matchesFn(() => regExp, message);
+  FieldValidator<String?, String> matches(RegExp regExp,
+      [MessageCallBack<String>? message]) {
+    return matchesFn(() => regExp, message);
+  }
 
   /// check is the value has  length of [length]
-  FieldValidator<T, String> hasLengthFn(ValueGetter<int> length,
+  FieldValidator<String?, String> hasLengthFn(ValueGetter<int> length,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       var len = length();
@@ -776,12 +780,13 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check is the value has  length of [length]
-  FieldValidator<T, String> hasLength(int length,
-          [MessageCallBack<String>? message]) =>
-      hasLengthFn(() => length, message);
+  FieldValidator<String?, String> hasLength(int length,
+      [MessageCallBack<String>? message]) {
+    return hasLengthFn(() => length, message);
+  }
 
   /// check is the value has min length of [min]
-  FieldValidator<T, String> hasMinLengthFn(ValueGetter<int> min,
+  FieldValidator<String?, String> hasMinLengthFn(ValueGetter<int> min,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       var minimum = min();
@@ -793,12 +798,13 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check is the value has min length of [min]
-  FieldValidator<T, String> hasMinLength(int min,
-          [MessageCallBack<String>? message]) =>
-      hasMinLengthFn(() => min, message);
+  FieldValidator<String?, String> hasMinLength(int min,
+      [MessageCallBack<String>? message]) {
+    return hasMinLengthFn(() => min, message);
+  }
 
   /// check is the value has max length of [max]
-  FieldValidator<T, String> hasMaxLengthFn(ValueGetter<int> max,
+  FieldValidator<String?, String> hasMaxLengthFn(ValueGetter<int> max,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
       var maximum = max();
@@ -810,12 +816,13 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check is the value has max length of [max]
-  FieldValidator<T, String> hasMaxLength(int max,
-          [MessageCallBack<String>? message]) =>
-      hasMaxLengthFn(() => max, message);
+  FieldValidator<String?, String> hasMaxLength(int max,
+      [MessageCallBack<String>? message]) {
+    return hasMaxLengthFn(() => max, message);
+  }
 
   /// check is the value length is between [min] and [max]
-  FieldValidator<T, String> hasRangeFn(
+  FieldValidator<String?, String> hasRangeFn(
       ValueGetter<int> min, ValueGetter<int> max,
       [MessageCallBack<String>? message]) {
     return next((messages, value) {
@@ -830,12 +837,13 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check is the value length is between [min] and [max]
-  FieldValidator<T, String> hasRange(int min, int max,
-          [MessageCallBack<String>? message]) =>
-      hasRangeFn(() => min, () => max, message);
+  FieldValidator<String?, String> hasRange(int min, int max,
+      [MessageCallBack<String>? message]) {
+    return hasRangeFn(() => min, () => max, message);
+  }
 
   /// check is the value is number
-  FieldValidator<T, num> isNumber([MessageCallBack<String>? message]) {
+  FieldValidator<String?, num> isNumber([MessageCallBack<String>? message]) {
     return next((messages, value) {
       if (num.tryParse(value) == null) {
         return message?.call(messages, value) ?? messages.isNumber;
@@ -845,7 +853,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check is the value is [int]
-  FieldValidator<T, int> isInteger([MessageCallBack<String>? message]) {
+  FieldValidator<String?, int> isInteger([MessageCallBack<String>? message]) {
     return next((messages, value) {
       if (int.tryParse(value) == null) {
         return message?.call(messages, value) ?? messages.isInteger;
@@ -855,7 +863,8 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check is the value is [double]
-  FieldValidator<T, double> isDecimal([MessageCallBack<String>? message]) {
+  FieldValidator<String?, double> isDecimal(
+      [MessageCallBack<String>? message]) {
     return next((messages, value) {
       if (double.tryParse(value) == null) {
         return message?.call(messages, value) ?? messages.isDecimal;
@@ -865,7 +874,8 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check is the value is [DateTime]
-  FieldValidator<T, DateTime> isDateTime([MessageCallBack<String>? message]) {
+  FieldValidator<String?, DateTime> isDateTime(
+      [MessageCallBack<String>? message]) {
     return next((messages, value) {
       if (DateTime.tryParse(value) == null) {
         return message?.call(messages, value) ?? messages.isDateTime;
@@ -875,7 +885,8 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check is the value is [TimeOfDay]
-  FieldValidator<T, TimeOfDay> isTimeOfDay([MessageCallBack<String>? message]) {
+  FieldValidator<String?, TimeOfDay> isTimeOfDay(
+      [MessageCallBack<String>? message]) {
     return next((messages, value) {
       if (!value.isTimeOfDay) {
         return message?.call(messages, value) ?? messages.isTimeOfDay;
@@ -885,7 +896,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check string is angel company valid url
-  FieldValidator<T, String> isAngelCompany({
+  FieldValidator<String?, String> isAngelCompany({
     MessageCallBack<String>? message,
     String? company,
   }) {
@@ -899,7 +910,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check string is angel job valid url
-  FieldValidator<T, String> isAngelJob({
+  FieldValidator<String?, String> isAngelJob({
     MessageCallBack<String>? message,
     String? jobId,
   }) {
@@ -913,7 +924,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check string is crunchbase organization url
-  FieldValidator<T, String> isCrunchbaseOrganization({
+  FieldValidator<String?, String> isCrunchbaseOrganization({
     MessageCallBack<String>? message,
     String? organization,
   }) {
@@ -927,7 +938,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// check string is crunchbase person url
-  FieldValidator<T, String> isCrunchbasePerson({
+  FieldValidator<String?, String> isCrunchbasePerson({
     MessageCallBack<String>? message,
     String? person,
   }) {
@@ -941,7 +952,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is facebook url
-  FieldValidator<T, String> isFacebookUrl({
+  FieldValidator<String?, String> isFacebookUrl({
     MessageCallBack<String>? message,
     String? name,
     String? id,
@@ -962,7 +973,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is github url
-  FieldValidator<T, String> isGitHubUrl({
+  FieldValidator<String?, String> isGitHubUrl({
     MessageCallBack<String>? message,
     String? user,
     String? repository,
@@ -983,7 +994,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is google plus url
-  FieldValidator<T, String> isGooglePlusUrl({
+  FieldValidator<String?, String> isGooglePlusUrl({
     MessageCallBack<String>? message,
     String? userName,
     String? id,
@@ -1004,7 +1015,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is hacker news user url
-  FieldValidator<T, String> isHackerNewsUserUrl({
+  FieldValidator<String?, String> isHackerNewsUserUrl({
     MessageCallBack<String>? message,
     String? id,
   }) {
@@ -1018,7 +1029,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is hacker news url
-  FieldValidator<T, String> isHackerNewsItemUrl({
+  FieldValidator<String?, String> isHackerNewsItemUrl({
     MessageCallBack<String>? message,
     String? id,
   }) {
@@ -1032,7 +1043,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is instagram url
-  FieldValidator<T, String> isInstagramUrl({
+  FieldValidator<String?, String> isInstagramUrl({
     MessageCallBack<String>? message,
     String? user,
   }) {
@@ -1046,7 +1057,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is linkedin profile url
-  FieldValidator<T, String> isLinkedInProfile({
+  FieldValidator<String?, String> isLinkedInProfile({
     MessageCallBack<String>? message,
     String? permalink,
   }) {
@@ -1060,7 +1071,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is linkedin company url
-  FieldValidator<T, String> isLinkedInCompany({
+  FieldValidator<String?, String> isLinkedInCompany({
     MessageCallBack<String>? message,
     String? permalink,
   }) {
@@ -1074,7 +1085,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is linkedin post url
-  FieldValidator<T, String> isLinkedInPost({
+  FieldValidator<String?, String> isLinkedInPost({
     MessageCallBack<String>? message,
     String? id,
   }) {
@@ -1088,7 +1099,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is reddit url
-  FieldValidator<T, String> isRedditUrl({
+  FieldValidator<String?, String> isRedditUrl({
     MessageCallBack<String>? message,
     String? user,
   }) {
@@ -1102,7 +1113,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is snapchat url
-  FieldValidator<T, String> isSnapchatUrl({
+  FieldValidator<String?, String> isSnapchatUrl({
     MessageCallBack<String>? message,
     String? user,
   }) {
@@ -1116,7 +1127,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is stack exchange url
-  FieldValidator<T, String> isStackexchangeUrl({
+  FieldValidator<String?, String> isStackexchangeUrl({
     MessageCallBack<String>? message,
     String? user,
     String? id,
@@ -1132,7 +1143,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is stackoverflow question url
-  FieldValidator<T, String> isStackoverflowQuestionUrl({
+  FieldValidator<String?, String> isStackoverflowQuestionUrl({
     MessageCallBack<String>? message,
     String? id,
   }) {
@@ -1146,7 +1157,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is stackoverflow user url
-  FieldValidator<T, String> isStackoverflowUserUrl({
+  FieldValidator<String?, String> isStackoverflowUserUrl({
     MessageCallBack<String>? message,
     String? id,
   }) {
@@ -1160,7 +1171,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is telegram profile  url
-  FieldValidator<T, String> isTelegramProfileUrl({
+  FieldValidator<String?, String> isTelegramProfileUrl({
     MessageCallBack<String>? message,
     String? userName,
   }) {
@@ -1174,7 +1185,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is  medium post url
-  FieldValidator<T, String> isMediumPostUrl({
+  FieldValidator<String?, String> isMediumPostUrl({
     MessageCallBack<String>? message,
     String? postId,
   }) {
@@ -1188,7 +1199,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is  medium user url
-  FieldValidator<T, String> isMediumUserUrl({
+  FieldValidator<String?, String> isMediumUserUrl({
     MessageCallBack<String>? message,
     String? userName,
     String? id,
@@ -1209,7 +1220,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is twitter status  url
-  FieldValidator<T, String> isTwitterStatusUrl({
+  FieldValidator<String?, String> isTwitterStatusUrl({
     MessageCallBack<String>? message,
     String? userName,
     String? tweetId,
@@ -1230,7 +1241,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is twitter user  url
-  FieldValidator<T, String> isTwitterUserUrl({
+  FieldValidator<String?, String> isTwitterUserUrl({
     MessageCallBack<String>? message,
     String? userName,
   }) {
@@ -1244,7 +1255,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is youtube channel  url
-  FieldValidator<T, String> isYoutubeChannelUrl({
+  FieldValidator<String?, String> isYoutubeChannelUrl({
     MessageCallBack<String>? message,
     String? id,
   }) {
@@ -1258,7 +1269,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is youtube video  url
-  FieldValidator<T, String> isYoutubeVideoUrl({
+  FieldValidator<String?, String> isYoutubeVideoUrl({
     MessageCallBack<String>? message,
     String? id,
   }) {
@@ -1272,7 +1283,7 @@ extension StringValidationExtension<T> on FieldValidator<T, String> {
   }
 
   /// Check string is youtube user  url
-  FieldValidator<T, String> isYoutubeUserUrl({
+  FieldValidator<String?, String> isYoutubeUserUrl({
     MessageCallBack<String>? message,
     String? username,
   }) {

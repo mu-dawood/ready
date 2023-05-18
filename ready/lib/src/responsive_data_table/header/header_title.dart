@@ -48,10 +48,12 @@ class _HeaderTitle<T, Args,
     return ValueListenableBuilder(
       valueListenable: selectedIndices,
       builder: (context, Set<int> value, child) {
-        if (!hasPageInfo && !selectedIndices.hasSelection)
+        if (!hasPageInfo && !selectedIndices.hasSelection) {
           return _header(context, options);
-        if (canSelect && selectedIndices.hasSelection)
+        }
+        if (canSelect && selectedIndices.hasSelection) {
           return _selectionText(context, value);
+        }
         return const SizedBox();
       },
     );

@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:ready_extensions/ready_extensions.dart';
 import 'package:ready_validation/ready_validation.dart';
 
 void main() {
@@ -6,22 +7,22 @@ void main() {
     String? nullTest;
     expect(
         nullTest
-            .validateWith((v) => v.required().isEmail().when((value) => true))
+            .validateWith((v) => v.required().email().when((value) => true))
             .isValid(),
         false);
     String? test1 = "";
     expect(
         test1
-            .validateWith((v) => v.required().isEmail().when((value) => true))
+            .validateWith((v) => v.required().email().when((value) => true))
             .isValid(),
         false);
 
     expect(
-        test1.validateWith((v) => v.isEmail().when((value) => false)).isValid(),
+        test1.validateWith((v) => v.email().when((value) => false)).isValid(),
         true);
     expect(
         test1
-            .validateWith((v) => v.isEmail().allWhen((value) => false))
+            .validateWith((v) => v.email().allWhen((value) => false))
             .isValid(),
         true);
   });
@@ -37,13 +38,6 @@ void main() {
         test2.validateWith((v) => v.matches(RegExp(r'^te'))).isValid(), true);
     expect(
         test2.validateWith((v) => v.matches(RegExp(r'^ss'))).isValid(), false);
-  });
-
-  test('notEmptyOrWhiteSpace', () {
-    String test2 = "test";
-    expect(test2.validateWith((v) => v.notEmptyOrWhiteSpace()).isValid(), true);
-    expect(''.validateWith((v) => v.notEmptyOrWhiteSpace()).isValid(), false);
-    expect(''.validateWith((v) => v.notEmptyOrWhiteSpace()).isValid(), false);
   });
 
   test('notEmpty', () {
@@ -119,16 +113,16 @@ void main() {
   });
 
   test('isEmail', () {
-    expect('test'.validateWith((v) => v.isEmail()).isValid(), false);
-    expect('test@test'.validateWith((v) => v.isEmail()).isValid(), false);
-    expect('test@test.com'.validateWith((v) => v.isEmail()).isValid(), true);
+    expect('test'.validateWith((v) => v.email()).isValid(), false);
+    expect('test@test'.validateWith((v) => v.email()).isValid(), false);
+    expect('test@test.com'.validateWith((v) => v.email()).isValid(), true);
   });
 
   test('isCreditCard', () {
-    expect('test'.validateWith((v) => v.isCreditCard()).isValid(), false);
-    expect('76167617'.validateWith((v) => v.isCreditCard()).isValid(), false);
-    expect('4988141966577868'.validateWith((v) => v.isCreditCard()).isValid(),
-        true);
+    expect('test'.validateWith((v) => v.creditCard()).isValid(), false);
+    expect('76167617'.validateWith((v) => v.creditCard()).isValid(), false);
+    expect(
+        '4988141966577868'.validateWith((v) => v.creditCard()).isValid(), true);
   });
 
   test('isAngelCompany', () {
@@ -233,43 +227,43 @@ void main() {
   });
 
   // test('isRedditUrl', () {
-  //   expect('-555'.validateWith((v) => v.isRedditUrl()).isValid(), true);
+  //   expect('-555'.validateWith((v) => v.redditUrl()).isValid(), true);
   // });
   // test('isSnapchatUrl', () {
-  //   expect('-555'.validateWith((v) => v.isSnapchatUrl()).isValid(), true);
+  //   expect('-555'.validateWith((v) => v.snapchatUrl()).isValid(), true);
   // });
   // test('isStackexchangeUrl', () {
-  //   expect('-555'.validateWith((v) => v.isStackexchangeUrl()).isValid(), true);
+  //   expect('-555'.validateWith((v) => v.stackexchangeUrl()).isValid(), true);
   // });
   // test('isStackoverflowQuestionUrl', () {
   //   expect(
-  //       '-555'.validateWith((v) => v.isStackoverflowQuestionUrl()).isValid(), true);
+  //       '-555'.validateWith((v) => v.stackoverflowQuestionUrl()).isValid(), true);
   // });
   // test('isStackoverflowUserUrl', () {
-  //   expect('-555'.validateWith((v) => v.isStackoverflowUserUrl()).isValid(), true);
+  //   expect('-555'.validateWith((v) => v.stackoverflowUserUrl()).isValid(), true);
   // });
   // test('isTelegramProfileUrl', () {
-  //   expect('-555'.validateWith((v) => v.isTelegramProfileUrl()).isValid(), true);
+  //   expect('-555'.validateWith((v) => v.telegramProfileUrl()).isValid(), true);
   // });
   // test('isMediumPostUrl', () {
-  //   expect('-555'.validateWith((v) => v.isMediumPostUrl()).isValid(), true);
+  //   expect('-555'.validateWith((v) => v.mediumPostUrl()).isValid(), true);
   // });
   // test('isMediumUserUrl', () {
-  //   expect('-555'.validateWith((v) => v.isMediumUserUrl()).isValid(), true);
+  //   expect('-555'.validateWith((v) => v.mediumUserUrl()).isValid(), true);
   // });
   // test('isTwitterStatusUrl', () {
-  //   expect('-555'.validateWith((v) => v.isTwitterStatusUrl()).isValid(), true);
+  //   expect('-555'.validateWith((v) => v.twitterStatusUrl()).isValid(), true);
   // });
   // test('isTwitterUserUrl', () {
-  //   expect('-555'.validateWith((v) => v.isTwitterUserUrl()).isValid(), true);
+  //   expect('-555'.validateWith((v) => v.twitterUserUrl()).isValid(), true);
   // });
   // test('isYoutubeChannelUrl', () {
-  //   expect('-555'.validateWith((v) => v.isYoutubeChannelUrl()).isValid(), true);
+  //   expect('-555'.validateWith((v) => v.youtubeChannelUrl()).isValid(), true);
   // });
   // test('isYoutubeVideoUrl', () {
-  //   expect('-555'.validateWith((v) => v.isYoutubeVideoUrl()).isValid(), true);
+  //   expect('-555'.validateWith((v) => v.youtubeVideoUrl()).isValid(), true);
   // });
   // test('isYoutubeUserUrl', () {
-  //   expect('-555'.validateWith((v) => v.isYoutubeUserUrl()).isValid(), true);
+  //   expect('-555'.validateWith((v) => v.youtubeUserUrl()).isValid(), true);
   // });
 }

@@ -53,7 +53,17 @@ void main() {
     expect(list.lastOrDefault((i) => i.year == 2001), list[1]);
     expect(list.lastOrDefault((i) => i.year == 2005), null);
   });
-
+  test('Url string extensions', () {
+    expect("https://angel.co/company/twitter".isValidUrl(), true);
+    expect("http://angel.co/company/twitter".isValidUrl(), true);
+    expect("https://angel.co".isValidUrl(), true);
+    expect("https://angel".isValidUrl(), false);
+    expect("https://www.angel.com".isValidUrl(), true);
+    expect("https://".isValidUrl(), false);
+    expect("https://.".isValidUrl(), false);
+    expect("http://.".isValidUrl(), false);
+    expect("www.angel.com.".isValidUrl(), false);
+  });
   test('Angel url string extensions', () {
     expect("https://angel.co/company/twitter".angelCompany?.company, "twitter");
     expect(

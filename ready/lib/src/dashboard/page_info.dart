@@ -31,6 +31,7 @@ class __PageInfoState extends State<_PageInfo> {
 
   Widget _backButton(WidgetBuilder defaultBuilder) {
     return _BackButton(
+      key: ValueKey(this),
       defaultBuilder: defaultBuilder,
       observer: _routeObserver,
       navigator: _navigator,
@@ -118,10 +119,12 @@ class _BackButton extends StatefulWidget {
   final WidgetBuilder defaultBuilder;
   final _Observer observer;
   final NavigatorState? navigator;
-  const _BackButton(
-      {required this.defaultBuilder,
-      required this.observer,
-      required this.navigator});
+  const _BackButton({
+    required super.key,
+    required this.defaultBuilder,
+    required this.observer,
+    required this.navigator,
+  });
 
   @override
   State<_BackButton> createState() => __BackButtonState();
@@ -142,6 +145,12 @@ class __BackButtonState extends State<_BackButton> with RouteAware {
   void initState() {
     super.initState();
     widget.observer.addListener(_onchanged);
+  }
+
+  @override
+  void didChangeDependencies() {
+    canPop = widget.navigator?.canPop() ?? canPop;
+    super.didChangeDependencies();
   }
 
   @override

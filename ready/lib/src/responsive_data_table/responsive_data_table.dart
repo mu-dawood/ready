@@ -151,6 +151,14 @@ class ResponsiveDataTable<T, Args,
         keepAlive != oldWidget.keepAlive ||
         selectionButton != oldWidget.selectionButton;
   }
+
+  static SelectionController? selectionController<T, Args,
+              TController extends BaseReadyListController<T, Args>>(
+          BuildContext context) =>
+      context
+          .findAncestorStateOfType<
+              __ResponsiveDataTableState<T, Args, TController>>()
+          ?._selectedIndices;
 }
 
 class _ResponsiveDataTable<T, Args,
@@ -170,6 +178,7 @@ class _ResponsiveDataTable<T, Args,
   @override
   __ResponsiveDataTableState<T, Args, TController> createState() =>
       __ResponsiveDataTableState<T, Args, TController>();
+
   static __ResponsiveDataTableState<T, Args, TController>
       of<T, Args, TController extends BaseReadyListController<T, Args>>(
               BuildContext context) =>
@@ -452,9 +461,19 @@ class _CheckBox<T, Args, TController extends BaseReadyListController<T, Args>>
   }
 }
 
+abstract class SelectionController {
+  void selectAll();
+
+  void unSelectAll();
+
+  void selectItem(int index);
+
+  void unselectItem(int index);
+}
+
 class _SelectedIndices<T, Args,
         TController extends BaseReadyListController<T, Args>>
-    extends ValueNotifier<Set<int>> {
+    extends ValueNotifier<Set<int>> implements SelectionController {
   final TController controller;
   _SelectedIndices(super.value, this.controller);
   ReadyListState<T, Args> get state => controller.state;
@@ -472,14 +491,17 @@ class _SelectedIndices<T, Args,
     );
   }
 
+  @override
   void selectAll() {
     value = List.generate(state.length, (index) => index).toSet();
   }
 
+  @override
   void unSelectAll() {
     value = {};
   }
 
+  @override
   void selectItem(int index) {
     value = {
       ...value,
@@ -487,6 +509,7 @@ class _SelectedIndices<T, Args,
     };
   }
 
+  @override
   void unselectItem(int index) {
     value.remove(index);
     notifyListeners();

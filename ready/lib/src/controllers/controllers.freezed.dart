@@ -527,8 +527,7 @@ mixin _$ReadyListState<T, Args> {
     required TResult Function(
             Iterable<T> items, int totalCount, int? pageSize, Args args)
         isLoaded,
-    required TResult Function(
-            int? pageSize, CurrentData<T> currentData, Args args)
+    required TResult Function(int? pageSize, CurrentData<T> currentData, Args args)
         requestNext,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
             CurrentData<T> currentData, Args args)
@@ -536,9 +535,7 @@ mixin _$ReadyListState<T, Args> {
     required TResult Function(
             int? pageSize, CurrentData<T> currentData, Args args)
         requestRefresh,
-    required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, Args args)
-        isRefreshing,
+    required TResult Function(ICancelToken? cancelToken, int? pageSize, CurrentData<T> currentData, Args args) isRefreshing,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -766,8 +763,7 @@ class _$Initializing<T, Args> implements Initializing<T, Args> {
     required TResult Function(
             Iterable<T> items, int totalCount, int? pageSize, Args args)
         isLoaded,
-    required TResult Function(
-            int? pageSize, CurrentData<T> currentData, Args args)
+    required TResult Function(int? pageSize, CurrentData<T> currentData, Args args)
         requestNext,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
             CurrentData<T> currentData, Args args)
@@ -775,9 +771,7 @@ class _$Initializing<T, Args> implements Initializing<T, Args> {
     required TResult Function(
             int? pageSize, CurrentData<T> currentData, Args args)
         requestRefresh,
-    required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, Args args)
-        isRefreshing,
+    required TResult Function(ICancelToken? cancelToken, int? pageSize, CurrentData<T> currentData, Args args) isRefreshing,
   }) {
     return initializing(this.requestFirstLoading, args);
   }
@@ -1027,8 +1021,7 @@ class _$RequestFirstLoading<T, Args> implements RequestFirstLoading<T, Args> {
     required TResult Function(
             Iterable<T> items, int totalCount, int? pageSize, Args args)
         isLoaded,
-    required TResult Function(
-            int? pageSize, CurrentData<T> currentData, Args args)
+    required TResult Function(int? pageSize, CurrentData<T> currentData, Args args)
         requestNext,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
             CurrentData<T> currentData, Args args)
@@ -1036,9 +1029,7 @@ class _$RequestFirstLoading<T, Args> implements RequestFirstLoading<T, Args> {
     required TResult Function(
             int? pageSize, CurrentData<T> currentData, Args args)
         requestRefresh,
-    required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, Args args)
-        isRefreshing,
+    required TResult Function(ICancelToken? cancelToken, int? pageSize, CurrentData<T> currentData, Args args) isRefreshing,
   }) {
     return requestFirstLoading(pageSize, currentData, args);
   }
@@ -1302,8 +1293,7 @@ class _$FirstLoading<T, Args> implements FirstLoading<T, Args> {
     required TResult Function(
             Iterable<T> items, int totalCount, int? pageSize, Args args)
         isLoaded,
-    required TResult Function(
-            int? pageSize, CurrentData<T> currentData, Args args)
+    required TResult Function(int? pageSize, CurrentData<T> currentData, Args args)
         requestNext,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
             CurrentData<T> currentData, Args args)
@@ -1311,9 +1301,7 @@ class _$FirstLoading<T, Args> implements FirstLoading<T, Args> {
     required TResult Function(
             int? pageSize, CurrentData<T> currentData, Args args)
         requestRefresh,
-    required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, Args args)
-        isRefreshing,
+    required TResult Function(ICancelToken? cancelToken, int? pageSize, CurrentData<T> currentData, Args args) isRefreshing,
   }) {
     return isLoadingFirst(cancelToken, pageSize, currentData, args);
   }
@@ -1566,8 +1554,7 @@ class _$ErrorState<T, Args> implements ErrorState<T, Args> {
     required TResult Function(
             Iterable<T> items, int totalCount, int? pageSize, Args args)
         isLoaded,
-    required TResult Function(
-            int? pageSize, CurrentData<T> currentData, Args args)
+    required TResult Function(int? pageSize, CurrentData<T> currentData, Args args)
         requestNext,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
             CurrentData<T> currentData, Args args)
@@ -1575,9 +1562,7 @@ class _$ErrorState<T, Args> implements ErrorState<T, Args> {
     required TResult Function(
             int? pageSize, CurrentData<T> currentData, Args args)
         requestRefresh,
-    required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, Args args)
-        isRefreshing,
+    required TResult Function(ICancelToken? cancelToken, int? pageSize, CurrentData<T> currentData, Args args) isRefreshing,
   }) {
     return error(args, display, currentData);
   }
@@ -1828,8 +1813,7 @@ class _$Loaded<T, Args> implements Loaded<T, Args> {
     required TResult Function(
             Iterable<T> items, int totalCount, int? pageSize, Args args)
         isLoaded,
-    required TResult Function(
-            int? pageSize, CurrentData<T> currentData, Args args)
+    required TResult Function(int? pageSize, CurrentData<T> currentData, Args args)
         requestNext,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
             CurrentData<T> currentData, Args args)
@@ -1837,9 +1821,7 @@ class _$Loaded<T, Args> implements Loaded<T, Args> {
     required TResult Function(
             int? pageSize, CurrentData<T> currentData, Args args)
         requestRefresh,
-    required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, Args args)
-        isRefreshing,
+    required TResult Function(ICancelToken? cancelToken, int? pageSize, CurrentData<T> currentData, Args args) isRefreshing,
   }) {
     return isLoaded(items, totalCount, pageSize, args);
   }
@@ -2088,8 +2070,7 @@ class _$RequestNext<T, Args> implements RequestNext<T, Args> {
     required TResult Function(
             Iterable<T> items, int totalCount, int? pageSize, Args args)
         isLoaded,
-    required TResult Function(
-            int? pageSize, CurrentData<T> currentData, Args args)
+    required TResult Function(int? pageSize, CurrentData<T> currentData, Args args)
         requestNext,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
             CurrentData<T> currentData, Args args)
@@ -2097,9 +2078,7 @@ class _$RequestNext<T, Args> implements RequestNext<T, Args> {
     required TResult Function(
             int? pageSize, CurrentData<T> currentData, Args args)
         requestRefresh,
-    required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, Args args)
-        isRefreshing,
+    required TResult Function(ICancelToken? cancelToken, int? pageSize, CurrentData<T> currentData, Args args) isRefreshing,
   }) {
     return requestNext(pageSize, currentData, args);
   }
@@ -2362,8 +2341,7 @@ class _$LoadingNext<T, Args> implements LoadingNext<T, Args> {
     required TResult Function(
             Iterable<T> items, int totalCount, int? pageSize, Args args)
         isLoaded,
-    required TResult Function(
-            int? pageSize, CurrentData<T> currentData, Args args)
+    required TResult Function(int? pageSize, CurrentData<T> currentData, Args args)
         requestNext,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
             CurrentData<T> currentData, Args args)
@@ -2371,9 +2349,7 @@ class _$LoadingNext<T, Args> implements LoadingNext<T, Args> {
     required TResult Function(
             int? pageSize, CurrentData<T> currentData, Args args)
         requestRefresh,
-    required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, Args args)
-        isRefreshing,
+    required TResult Function(ICancelToken? cancelToken, int? pageSize, CurrentData<T> currentData, Args args) isRefreshing,
   }) {
     return isLoadingNext(cancelToken, pageSize, currentData, args);
   }
@@ -2623,8 +2599,7 @@ class _$RequestRefresh<T, Args> implements RequestRefresh<T, Args> {
     required TResult Function(
             Iterable<T> items, int totalCount, int? pageSize, Args args)
         isLoaded,
-    required TResult Function(
-            int? pageSize, CurrentData<T> currentData, Args args)
+    required TResult Function(int? pageSize, CurrentData<T> currentData, Args args)
         requestNext,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
             CurrentData<T> currentData, Args args)
@@ -2632,9 +2607,7 @@ class _$RequestRefresh<T, Args> implements RequestRefresh<T, Args> {
     required TResult Function(
             int? pageSize, CurrentData<T> currentData, Args args)
         requestRefresh,
-    required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, Args args)
-        isRefreshing,
+    required TResult Function(ICancelToken? cancelToken, int? pageSize, CurrentData<T> currentData, Args args) isRefreshing,
   }) {
     return requestRefresh(pageSize, currentData, args);
   }
@@ -2897,8 +2870,7 @@ class _$Refreshing<T, Args> implements Refreshing<T, Args> {
     required TResult Function(
             Iterable<T> items, int totalCount, int? pageSize, Args args)
         isLoaded,
-    required TResult Function(
-            int? pageSize, CurrentData<T> currentData, Args args)
+    required TResult Function(int? pageSize, CurrentData<T> currentData, Args args)
         requestNext,
     required TResult Function(ICancelToken? cancelToken, int? pageSize,
             CurrentData<T> currentData, Args args)
@@ -2906,9 +2878,7 @@ class _$Refreshing<T, Args> implements Refreshing<T, Args> {
     required TResult Function(
             int? pageSize, CurrentData<T> currentData, Args args)
         requestRefresh,
-    required TResult Function(ICancelToken? cancelToken, int? pageSize,
-            CurrentData<T> currentData, Args args)
-        isRefreshing,
+    required TResult Function(ICancelToken? cancelToken, int? pageSize, CurrentData<T> currentData, Args args) isRefreshing,
   }) {
     return isRefreshing(cancelToken, pageSize, currentData, args);
   }

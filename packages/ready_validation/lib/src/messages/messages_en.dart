@@ -67,6 +67,9 @@ class ReadyValidationMessagesEn extends ReadyValidationMessages {
   }
 
   @override
+  String get invalidUrl => 'Sorry! you must enter valid url';
+
+  @override
   String invalidAngelCompanyUrl(String company) {
     String _temp0 = intl.Intl.selectLogic(
       company,

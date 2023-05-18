@@ -315,6 +315,7 @@ class _ReadyListState<T, Args,
         builder: (BuildContext context, BoxConstraints constraints) {
           return CustomScrollView(
             physics: configuration.physics,
+            controller: widget.scrollController,
             scrollDirection: configuration.axis.axis,
             scrollBehavior: ScrollConfiguration.of(context)
                 .copyWith(dragDevices: PointerDeviceKind.values.toSet()),

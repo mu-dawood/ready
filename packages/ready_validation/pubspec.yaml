@@ -12,8 +12,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  ready_extensions: ^1.2.0
-  intl: ^0.17.0
+  ready_extensions: ^1.3.0
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test:

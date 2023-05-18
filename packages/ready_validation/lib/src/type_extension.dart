@@ -1,9 +1,9 @@
 part of 'context_extension.dart';
 
 extension StringValidateCreatorExtension<T> on T {
-  ValidatorOf<T, R> validateWith<R>(
-      FieldValidator<T, R> Function(FieldValidator<T, T>) callback) {
-    return ValidatorOf<T, R>._(
+  ValidatorOf<T?, R> validateWith<R>(
+      FieldValidator<T?, R> Function(FieldValidator<T?, T>) callback) {
+    return ValidatorOf<T?, R>._(
       this,
       callback(FieldValidator<T, T>._(
         messages: ReadyValidationMessagesAr(),

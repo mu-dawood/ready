@@ -1,7 +1,7 @@
 # This is a generated file; do not edit or check into version control.
-path_provider=/Users/mohamed_dawood/.pub-cache/hosted/pub.dev/path_provider-2.0.12/
-path_provider_android=/Users/mohamed_dawood/.pub-cache/hosted/pub.dev/path_provider_android-2.0.22/
-path_provider_foundation=/Users/mohamed_dawood/.pub-cache/hosted/pub.dev/path_provider_foundation-2.1.1/
-path_provider_linux=/Users/mohamed_dawood/.pub-cache/hosted/pub.dev/path_provider_linux-2.1.7/
-path_provider_windows=/Users/mohamed_dawood/.pub-cache/hosted/pub.dev/path_provider_windows-2.1.3/
-sqflite=/Users/mohamed_dawood/.pub-cache/hosted/pub.dev/sqflite-2.2.4+1/
+path_provider=/Users/mohamed_dawood/.pub-cache/hosted/pub.dev/path_provider-2.0.15/
+path_provider_android=/Users/mohamed_dawood/.pub-cache/hosted/pub.dev/path_provider_android-2.0.27/
+path_provider_foundation=/Users/mohamed_dawood/.pub-cache/hosted/pub.dev/path_provider_foundation-2.2.3/
+path_provider_linux=/Users/mohamed_dawood/.pub-cache/hosted/pub.dev/path_provider_linux-2.1.10/
+path_provider_windows=/Users/mohamed_dawood/.pub-cache/hosted/pub.dev/path_provider_windows-2.1.6/
+sqflite=/Users/mohamed_dawood/.pub-cache/hosted/pub.dev/sqflite-2.2.8+2/

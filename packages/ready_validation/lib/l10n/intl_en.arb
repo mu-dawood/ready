@@ -85,6 +85,7 @@
       }
     }
   },
+  "invalidUrl":"Sorry! you must enter valid url",
   "invalidAngelCompanyUrl": "Sorry! you have to enter a valid angel company {company, select, empty{url} other{with name: {company}}}.",
   "@invalidAngelCompanyUrl": {
     "placeholders": {

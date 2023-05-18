@@ -30,11 +30,7 @@ extension DurationExtensions on Duration {
     String? text;
     var parts = 0;
     if (years > 0) {
-      if (text == null) {
-        text = formatter.getYears(years);
-      } else {
-        text += formatter.getSeparator() + formatter.getYears(years);
-      }
+      text = formatter.getYears(years);
       parts++;
       if (parts >= maxParts) return text;
     }

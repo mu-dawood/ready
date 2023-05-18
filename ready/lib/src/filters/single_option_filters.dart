@@ -1,7 +1,5 @@
 part of 'filters.dart';
 
-TimeOfDay? _default(BuildContext context) => null;
-
 /// single option filter
 class OptionFilterItem<T> {
   final String display;

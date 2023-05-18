@@ -74,7 +74,8 @@ class FieldValidator<T, R> {
 
   /// add the next validation to the validations tree
   FieldValidator<T, R> next(
-      String? Function(ReadyValidationMessages messages, R value) next) {
+    String? Function(ReadyValidationMessages messages, R value) next,
+  ) {
     return FieldValidator<T, R>._(
       validate: (value) {
         return next(_messages, value.value);

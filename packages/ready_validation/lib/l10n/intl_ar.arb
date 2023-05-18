@@ -85,7 +85,8 @@
       }
     }
   },
-  "invalidAngelCompanyUrl": "آسف! يجب عليك إدخال رابط صحيح لشركة {company, select, empty{} other{{company}}} بموقع angel.",
+  "invalidUrl":"عذرا! يجب إدخال رابط صحيح",
+  "invalidAngelCompanyUrl": "عذرا! يجب عليك إدخال رابط صحيح لشركة {company, select, empty{} other{{company}}} بموقع angel.",
   "@invalidAngelCompanyUrl": {
     "placeholders": {
       "company": {
@@ -93,7 +94,7 @@
       }
     }
   },
-  "invalidAngelJobUrl": "آسف! عليك إدخال رابط صحيح لوظيفة {jobId, select, empty{} other{ تحمل المعرف : {jobId}}} بموقع angel.",
+  "invalidAngelJobUrl": "عذرا! عليك إدخال رابط صحيح لوظيفة {jobId, select, empty{} other{ تحمل المعرف : {jobId}}} بموقع angel.",
   "@invalidAngelJobUrl": {
     "placeholders": {
       "jobId": {
@@ -101,7 +102,7 @@
       }
     }
   },
-  "invalidCrunchbaseOrganizationUrl": "آسف! يجب عليك إدخال منظمة crunchbase صالحة {organization, select, empty{ url } other{ بالاسم: {organization}}} بموقع crunchbase.",
+  "invalidCrunchbaseOrganizationUrl": "عذرا! يجب عليك إدخال منظمة crunchbase صالحة {organization, select, empty{ url } other{ بالاسم: {organization}}} بموقع crunchbase.",
   "@invalidCrunchbaseOrganizationUrl": {
     "placeholders": {
       "organization": {
@@ -109,7 +110,7 @@
       }
     }
   },
-  "invalidCrunchbasePersonUrl": "آسف! يجب عليك إدخال شخص crunchbase صالح {person, select, empty{ url } other{ بالاسم: {person}}} بموقع crunchbase.",
+  "invalidCrunchbasePersonUrl": "عذرا! يجب عليك إدخال شخص crunchbase صالح {person, select, empty{ url } other{ بالاسم: {person}}} بموقع crunchbase.",
   "@invalidCrunchbasePersonUrl": {
     "placeholders": {
       "person": {
@@ -117,7 +118,7 @@
       }
     }
   },
-  "invalidFacebookUrl": "آسف! يجب عليك إدخال رابط {name, select, empty{{id, select, empty{ url } other{ للمستخدم الذي يحمل المعرف: {id}}}} other{ user للمستخدم: {name}}} بموقع facebook.",
+  "invalidFacebookUrl": "عذرا! يجب عليك إدخال رابط {name, select, empty{{id, select, empty{ url } other{ للمستخدم الذي يحمل المعرف: {id}}}} other{ user للمستخدم: {name}}} بموقع facebook.",
   "@invalidFacebookUrl": {
     "placeholders": {
       "name": {
@@ -128,7 +129,7 @@
       }
     }
   },
-  "invalidGitHubUrl": "آسف! يجب عليك إدخال رابط {user, select, empty{{repository, select, empty{ } other{ للمستودع: {repository}}}} other{ للمستخدم: {user} {repository, select, empty{} other{ : {repository}}}}} بموقع gitHub.",
+  "invalidGitHubUrl": "عذرا! يجب عليك إدخال رابط {user, select, empty{{repository, select, empty{ } other{ للمستودع: {repository}}}} other{ للمستخدم: {user} {repository, select, empty{} other{ : {repository}}}}} بموقع gitHub.",
   "@invalidGitHubUrl": {
     "placeholders": {
       "user": {
@@ -139,7 +140,7 @@
       }
     }
   },
-  "invalidGooglePlusUrl": "آسف! يجب عليك إدخال رابط {userName, select, empty{ لمستخدم } other{ للمستخدم: {userName}}} بموقع google.",
+  "invalidGooglePlusUrl": "عذرا! يجب عليك إدخال رابط {userName, select, empty{ لمستخدم } other{ للمستخدم: {userName}}} بموقع google.",
   "@invalidGooglePlusUrl": {
     "placeholders": {
       "userName": {
@@ -150,7 +151,7 @@
       }
     }
   },
-  "invalidHackerNewsItemUrl": "آسف! يجب عليك إدخال رابط {id, select, empty{ لخبر } other{للخبر الذي يحمل المعرف: {id}}} بموقع HackerNews.",
+  "invalidHackerNewsItemUrl": "عذرا! يجب عليك إدخال رابط {id, select, empty{ لخبر } other{للخبر الذي يحمل المعرف: {id}}} بموقع HackerNews.",
   "@invalidHackerNewsItemUrl": {
     "placeholders": {
       "id": {
@@ -158,7 +159,7 @@
       }
     }
   },
-  "invalidHackerNewsUserUrl": "آسف! يجب عليك إدخال رابط {id, select, empty{ لمستخدم } other{ للمستخدم الذي يحمل المعرف: {id}}} بموقع HackerNews.",
+  "invalidHackerNewsUserUrl": "عذرا! يجب عليك إدخال رابط {id, select, empty{ لمستخدم } other{ للمستخدم الذي يحمل المعرف: {id}}} بموقع HackerNews.",
   "@invalidHackerNewsUserUrl": {
     "placeholders": {
       "id": {
@@ -166,7 +167,7 @@
       }
     }
   },
-  "invalidInstagramUrl": "آسف! يجب عليك إدخال رابط {user, select, empty{ لمستخدم } other{ للمستخدم: {user}}} بموقع instagram.",
+  "invalidInstagramUrl": "عذرا! يجب عليك إدخال رابط {user, select, empty{ لمستخدم } other{ للمستخدم: {user}}} بموقع instagram.",
   "@invalidInstagramUrl": {
     "placeholders": {
       "user": {
@@ -174,7 +175,7 @@
       }
     }
   },
-  "invalidLinkedInCompanyUrl": "آسف! يجب عليك إدخال رابط {permalink, select, empty{لشركة} other{للشركة التي تحمل المعرف {permalink} }} بموقع linkedIn.",
+  "invalidLinkedInCompanyUrl": "عذرا! يجب عليك إدخال رابط {permalink, select, empty{لشركة} other{للشركة التي تحمل المعرف {permalink} }} بموقع linkedIn.",
   "@invalidLinkedInCompanyUrl": {
     "placeholders": {
       "permalink": {
@@ -182,7 +183,7 @@
       }
     }
   },
-  "invalidLinkedInPostUrl": "آسف! يجب عليك إدخال رابط  {id, select, empty{ لمنشور} other{ للمنشور الذي يحمل المعرف: {id}}} بموقع linkedIn.",
+  "invalidLinkedInPostUrl": "عذرا! يجب عليك إدخال رابط  {id, select, empty{ لمنشور} other{ للمنشور الذي يحمل المعرف: {id}}} بموقع linkedIn.",
   "@invalidLinkedInPostUrl": {
     "placeholders": {
       "id": {
@@ -190,7 +191,7 @@
       }
     }
   },
-  "invalidLinkedInProfileUrl": "آسف! يجب عليك إدخال رابط {permalink,select,empty{لملف شخصي} other{للملف الشخصي الذي يحمل المعرف {permalink}}} بموقع linkedIn.",
+  "invalidLinkedInProfileUrl": "عذرا! يجب عليك إدخال رابط {permalink,select,empty{لملف شخصي} other{للملف الشخصي الذي يحمل المعرف {permalink}}} بموقع linkedIn.",
   "@invalidLinkedInProfileUrl": {
     "placeholders": {
       "permalink": {
@@ -198,7 +199,7 @@
       }
     }
   },
-  "invalidMediumPostUrl": "آسف! يجب عليك إدخال رابط {postId, select, empty{ لمنشور } other{ للمنشور الذي يحمل المعرف: {postId}}} بموقع medium.",
+  "invalidMediumPostUrl": "عذرا! يجب عليك إدخال رابط {postId, select, empty{ لمنشور } other{ للمنشور الذي يحمل المعرف: {postId}}} بموقع medium.",
   "@invalidMediumPostUrl": {
     "placeholders": {
       "postId": {
@@ -206,7 +207,7 @@
       }
     }
   },
-  "invalidMediumUserUrl": "آسف! يجب عليك إدخال رابط {userName, select, empty{{id, select, empty{ url } other{ للمستخدم الذي يحمل المعرف: {id}}}} other{ للمستخدم: {userName}}}  بموقع medium.",
+  "invalidMediumUserUrl": "عذرا! يجب عليك إدخال رابط {userName, select, empty{{id, select, empty{ url } other{ للمستخدم الذي يحمل المعرف: {id}}}} other{ للمستخدم: {userName}}}  بموقع medium.",
   "@invalidMediumUserUrl": {
     "placeholders": {
       "userName": {
@@ -217,7 +218,7 @@
       }
     }
   },
-  "invalidRedditUrl": "آسف! يجب عليك إدخال رابط {user, select, empty{ } other{ للمستخدم: {user}}} بموقع reddit.",
+  "invalidRedditUrl": "عذرا! يجب عليك إدخال رابط {user, select, empty{ } other{ للمستخدم: {user}}} بموقع reddit.",
   "@invalidRedditUrl": {
     "placeholders": {
       "user": {
@@ -225,7 +226,7 @@
       }
     }
   },
-  "invalidSnapchatUrl": "آسف! يجب عليك إدخال snapchat صالح {user, select, empty{ url } other{ with user: {user}}} بموقع medium.",
+  "invalidSnapchatUrl": "عذرا! يجب عليك إدخال snapchat صالح {user, select, empty{ url } other{ with user: {user}}} بموقع medium.",
   "@invalidSnapchatUrl": {
     "placeholders": {
       "user": {
@@ -233,7 +234,7 @@
       }
     }
   },
-  "invalidStackexchangeUrl": "آسف! يجب عليك إدخال رابط {user, select, empty{{id, select, empty{ } other{ بالمعرف: {id}}}} other{ مع اسم المستخدم: {user}}} بموقع stackexchange.",
+  "invalidStackexchangeUrl": "عذرا! يجب عليك إدخال رابط {user, select, empty{{id, select, empty{ } other{ بالمعرف: {id}}}} other{ مع اسم المستخدم: {user}}} بموقع stackexchange.",
   "@invalidStackexchangeUrl": {
     "placeholders": {
       "user": {
@@ -244,7 +245,7 @@
       }
     }
   },
-  "invalidStackoverflowQuestionUrl": "آسف! يجب عليك إدخال رابط {id, select, empty{ لسؤال } other{ للسؤال الذي يحمل المعرف: {id}}} بموقع stackoverflow.",
+  "invalidStackoverflowQuestionUrl": "عذرا! يجب عليك إدخال رابط {id, select, empty{ لسؤال } other{ للسؤال الذي يحمل المعرف: {id}}} بموقع stackoverflow.",
   "@invalidStackoverflowQuestionUrl": {
     "placeholders": {
       "id": {
@@ -252,7 +253,7 @@
       }
     }
   },
-  "invalidStackoverflowUserUrl": "آسف! يجب عليك إدخال رابط {id, select, empty{ لمستخدم } other{ للمستخدم الذي يحمل المعرف: {id}}} بموقع stackoverflow.",
+  "invalidStackoverflowUserUrl": "عذرا! يجب عليك إدخال رابط {id, select, empty{ لمستخدم } other{ للمستخدم الذي يحمل المعرف: {id}}} بموقع stackoverflow.",
   "@invalidStackoverflowUserUrl": {
     "placeholders": {
       "id": {
@@ -260,7 +261,7 @@
       }
     }
   },
-  "invalidTelegramProfileUrl": "آسف! يجب عليك إدخال رابط {userName, select, empty{ لملف شخصي } other{ لملف المستخدم: {userName}}} بموقع telegram.",
+  "invalidTelegramProfileUrl": "عذرا! يجب عليك إدخال رابط {userName, select, empty{ لملف شخصي } other{ لملف المستخدم: {userName}}} بموقع telegram.",
   "@invalidTelegramProfileUrl": {
     "placeholders": {
       "userName": {
@@ -268,7 +269,7 @@
       }
     }
   },
-  "invalidTwitterStatusUrl": "آسف! يجب عليك إدخال رابط {tweetId, select, empty{ لتغريدة } other{ للتغريدة التي تحمل المعرف: {tweetId}}} {userName, select, empty{} other{ بإسم: {userName}}}  بموقع twitter.",
+  "invalidTwitterStatusUrl": "عذرا! يجب عليك إدخال رابط {tweetId, select, empty{ لتغريدة } other{ للتغريدة التي تحمل المعرف: {tweetId}}} {userName, select, empty{} other{ بإسم: {userName}}}  بموقع twitter.",
   "@invalidTwitterStatusUrl": {
     "placeholders": {
       "userName": {
@@ -279,7 +280,7 @@
       }
     }
   },
-  "invalidTwitterUserUrl": "آسف! يجب عليك إدخال رابط {userName, select, empty{ لمستخدم } other{ للمستخدم: {userName}}}   بموقع twitter.",
+  "invalidTwitterUserUrl": "عذرا! يجب عليك إدخال رابط {userName, select, empty{ لمستخدم } other{ للمستخدم: {userName}}}   بموقع twitter.",
   "@invalidTwitterUserUrl": {
     "placeholders": {
       "userName": {
@@ -287,7 +288,7 @@
       }
     }
   },
-  "invalidYoutubeChannelUrl": "آسف! عليك إدخال رابط {id, select, empty{ لقناة } other{للقناة التي تحمل المعرف: {id}}}  بموقع youtube.",
+  "invalidYoutubeChannelUrl": "عذرا! عليك إدخال رابط {id, select, empty{ لقناة } other{للقناة التي تحمل المعرف: {id}}}  بموقع youtube.",
   "@invalidYoutubeChannelUrl": {
     "placeholders": {
       "id": {
@@ -295,7 +296,7 @@
       }
     }
   },
-  "invalidYoutubeUserUrl": "آسف! عليك إدخال رابط {userName, select, empty{ لمستخدم } other{ للمستخدم: {userName}}}  بموقع youtube.",
+  "invalidYoutubeUserUrl": "عذرا! عليك إدخال رابط {userName, select, empty{ لمستخدم } other{ للمستخدم: {userName}}}  بموقع youtube.",
   "@invalidYoutubeUserUrl": {
     "placeholders": {
       "userName": {
@@ -303,7 +304,7 @@
       }
     }
   },
-  "invalidYoutubeVideoUrl": "آسف! عليك إدخال رابط {id, select, empty{لفيديو } other{ للفيديو الذي يحمل المعرف: {id}}}   بموقع youtube.",
+  "invalidYoutubeVideoUrl": "عذرا! عليك إدخال رابط {id, select, empty{لفيديو } other{ للفيديو الذي يحمل المعرف: {id}}}   بموقع youtube.",
   "@invalidYoutubeVideoUrl": {
     "placeholders": {
       "id": {

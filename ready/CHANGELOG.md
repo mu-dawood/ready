@@ -45,3 +45,8 @@
 ## 1.7.0
 
 *  use data table instead of PaginatedDataTable
+
+## 1.8.1
+
+*  Update dart sdk
+

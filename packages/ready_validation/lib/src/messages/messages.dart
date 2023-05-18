@@ -141,6 +141,12 @@ abstract class ReadyValidationMessages {
   /// **'You must enter a text of length not less than {min} and not more than {max}'**
   String hasRange(int min, int max);
 
+  /// No description provided for @invalidUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry! you must enter valid url'**
+  String get invalidUrl;
+
   /// No description provided for @invalidAngelCompanyUrl.
   ///
   /// In en, this message translates to:

@@ -67,6 +67,9 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
   }
 
   @override
+  String get invalidUrl => 'عذرا! يجب إدخال رابط صحيح';
+
+  @override
   String invalidAngelCompanyUrl(String company) {
     String _temp0 = intl.Intl.selectLogic(
       company,
@@ -75,7 +78,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': '$company',
       },
     );
-    return 'آسف! يجب عليك إدخال رابط صحيح لشركة $_temp0 بموقع angel.';
+    return 'عذرا! يجب عليك إدخال رابط صحيح لشركة $_temp0 بموقع angel.';
   }
 
   @override
@@ -87,7 +90,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': ' تحمل المعرف : $jobId',
       },
     );
-    return 'آسف! عليك إدخال رابط صحيح لوظيفة $_temp0 بموقع angel.';
+    return 'عذرا! عليك إدخال رابط صحيح لوظيفة $_temp0 بموقع angel.';
   }
 
   @override
@@ -99,7 +102,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': ' بالاسم: $organization',
       },
     );
-    return 'آسف! يجب عليك إدخال منظمة crunchbase صالحة $_temp0 بموقع crunchbase.';
+    return 'عذرا! يجب عليك إدخال منظمة crunchbase صالحة $_temp0 بموقع crunchbase.';
   }
 
   @override
@@ -111,7 +114,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': ' بالاسم: $person',
       },
     );
-    return 'آسف! يجب عليك إدخال شخص crunchbase صالح $_temp0 بموقع crunchbase.';
+    return 'عذرا! يجب عليك إدخال شخص crunchbase صالح $_temp0 بموقع crunchbase.';
   }
 
   @override
@@ -130,7 +133,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': ' user للمستخدم: $name',
       },
     );
-    return 'آسف! يجب عليك إدخال رابط $_temp1 بموقع facebook.';
+    return 'عذرا! يجب عليك إدخال رابط $_temp1 بموقع facebook.';
   }
 
   @override
@@ -156,7 +159,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': ' للمستخدم: $user $_temp1',
       },
     );
-    return 'آسف! يجب عليك إدخال رابط $_temp2 بموقع gitHub.';
+    return 'عذرا! يجب عليك إدخال رابط $_temp2 بموقع gitHub.';
   }
 
   @override
@@ -168,7 +171,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': ' للمستخدم: $userName',
       },
     );
-    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع google.';
+    return 'عذرا! يجب عليك إدخال رابط $_temp0 بموقع google.';
   }
 
   @override
@@ -180,7 +183,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': 'للخبر الذي يحمل المعرف: $id',
       },
     );
-    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع HackerNews.';
+    return 'عذرا! يجب عليك إدخال رابط $_temp0 بموقع HackerNews.';
   }
 
   @override
@@ -192,7 +195,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': ' للمستخدم الذي يحمل المعرف: $id',
       },
     );
-    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع HackerNews.';
+    return 'عذرا! يجب عليك إدخال رابط $_temp0 بموقع HackerNews.';
   }
 
   @override
@@ -204,7 +207,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': ' للمستخدم: $user',
       },
     );
-    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع instagram.';
+    return 'عذرا! يجب عليك إدخال رابط $_temp0 بموقع instagram.';
   }
 
   @override
@@ -216,7 +219,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': 'للشركة التي تحمل المعرف $permalink ',
       },
     );
-    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع linkedIn.';
+    return 'عذرا! يجب عليك إدخال رابط $_temp0 بموقع linkedIn.';
   }
 
   @override
@@ -228,7 +231,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': ' للمنشور الذي يحمل المعرف: $id',
       },
     );
-    return 'آسف! يجب عليك إدخال رابط  $_temp0 بموقع linkedIn.';
+    return 'عذرا! يجب عليك إدخال رابط  $_temp0 بموقع linkedIn.';
   }
 
   @override
@@ -240,7 +243,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': 'للملف الشخصي الذي يحمل المعرف $permalink',
       },
     );
-    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع linkedIn.';
+    return 'عذرا! يجب عليك إدخال رابط $_temp0 بموقع linkedIn.';
   }
 
   @override
@@ -252,7 +255,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': ' للمنشور الذي يحمل المعرف: $postId',
       },
     );
-    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع medium.';
+    return 'عذرا! يجب عليك إدخال رابط $_temp0 بموقع medium.';
   }
 
   @override
@@ -271,7 +274,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': ' للمستخدم: $userName',
       },
     );
-    return 'آسف! يجب عليك إدخال رابط $_temp1  بموقع medium.';
+    return 'عذرا! يجب عليك إدخال رابط $_temp1  بموقع medium.';
   }
 
   @override
@@ -283,7 +286,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': ' للمستخدم: $user',
       },
     );
-    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع reddit.';
+    return 'عذرا! يجب عليك إدخال رابط $_temp0 بموقع reddit.';
   }
 
   @override
@@ -295,7 +298,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': ' with user: $user',
       },
     );
-    return 'آسف! يجب عليك إدخال snapchat صالح $_temp0 بموقع medium.';
+    return 'عذرا! يجب عليك إدخال snapchat صالح $_temp0 بموقع medium.';
   }
 
   @override
@@ -314,7 +317,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': ' مع اسم المستخدم: $user',
       },
     );
-    return 'آسف! يجب عليك إدخال رابط $_temp1 بموقع stackexchange.';
+    return 'عذرا! يجب عليك إدخال رابط $_temp1 بموقع stackexchange.';
   }
 
   @override
@@ -326,7 +329,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': ' للسؤال الذي يحمل المعرف: $id',
       },
     );
-    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع stackoverflow.';
+    return 'عذرا! يجب عليك إدخال رابط $_temp0 بموقع stackoverflow.';
   }
 
   @override
@@ -338,7 +341,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': ' للمستخدم الذي يحمل المعرف: $id',
       },
     );
-    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع stackoverflow.';
+    return 'عذرا! يجب عليك إدخال رابط $_temp0 بموقع stackoverflow.';
   }
 
   @override
@@ -350,7 +353,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': ' لملف المستخدم: $userName',
       },
     );
-    return 'آسف! يجب عليك إدخال رابط $_temp0 بموقع telegram.';
+    return 'عذرا! يجب عليك إدخال رابط $_temp0 بموقع telegram.';
   }
 
   @override
@@ -369,7 +372,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': ' بإسم: $userName',
       },
     );
-    return 'آسف! يجب عليك إدخال رابط $_temp0 $_temp1  بموقع twitter.';
+    return 'عذرا! يجب عليك إدخال رابط $_temp0 $_temp1  بموقع twitter.';
   }
 
   @override
@@ -381,7 +384,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': ' للمستخدم: $userName',
       },
     );
-    return 'آسف! يجب عليك إدخال رابط $_temp0   بموقع twitter.';
+    return 'عذرا! يجب عليك إدخال رابط $_temp0   بموقع twitter.';
   }
 
   @override
@@ -393,7 +396,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': 'للقناة التي تحمل المعرف: $id',
       },
     );
-    return 'آسف! عليك إدخال رابط $_temp0  بموقع youtube.';
+    return 'عذرا! عليك إدخال رابط $_temp0  بموقع youtube.';
   }
 
   @override
@@ -405,7 +408,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': ' للمستخدم: $userName',
       },
     );
-    return 'آسف! عليك إدخال رابط $_temp0  بموقع youtube.';
+    return 'عذرا! عليك إدخال رابط $_temp0  بموقع youtube.';
   }
 
   @override
@@ -417,7 +420,7 @@ class ReadyValidationMessagesAr extends ReadyValidationMessages {
         'other': ' للفيديو الذي يحمل المعرف: $id',
       },
     );
-    return 'آسف! عليك إدخال رابط $_temp0   بموقع youtube.';
+    return 'عذرا! عليك إدخال رابط $_temp0   بموقع youtube.';
   }
 
   @override

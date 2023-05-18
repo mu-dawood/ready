@@ -84,19 +84,20 @@ class ProgressButton extends StatefulWidget {
 
 class _ProgressButtonState extends State<ProgressButton> {
   bool _loading = false;
-  final GlobalKey _childKey = GlobalKey();
-  double? _nextSize;
+  final GlobalKey _buttonKey = GlobalKey();
+  Size? nextSize;
   ButtonStyle style(BuildContext context) {
     var style = widget.style ??
         ProgressButtonConfig.of(context)?.style ??
         const ButtonStyle();
     var bgColor = Theme.of(context).progressIndicatorTheme.circularTrackColor;
+
     return style.copyWith(
       animationDuration: duration(context),
       backgroundColor: _loading.onTrue(MaterialStateProperty.all(bgColor)),
-      side: _loading.onTrue(MaterialStateProperty.all(BorderSide.none)),
-      fixedSize: _loading.onTrue(MaterialStateProperty.all(null)),
-      minimumSize: _loading.onTrue(MaterialStateProperty.all(Size.zero)),
+      // minimumSize: _loading.onTrue(MaterialStateProperty.all(Size.zero)),
+      padding:
+          _loading.onTrue(MaterialStateProperty.all(const EdgeInsets.all(5))),
       shape: _loading.onTrue(
         MaterialStateProperty.all(
           RoundedRectangleBorder(
@@ -180,33 +181,22 @@ class _ProgressButtonState extends State<ProgressButton> {
   }
 
   Widget _buildChild() {
-    if (_loading) {
-      if (_nextSize != null) {
-        return SizedBox(
-          width: _nextSize!,
-          height: _nextSize!,
-          child: Transform.scale(
-            scale: 1.3,
+    return Builder(
+      builder: (BuildContext context) {
+        if (_loading) {
+          return AspectRatio(
+            aspectRatio: 1,
             child: loadingIndicator(),
-          ),
+          );
+        }
+        //  key: _buttonKey,
+        //     width: buttonSize,
+        //     height: buttonSize,
+print(context.w)
+        return SizedBox(
+          child: widget.child,
         );
-      }
-      return SizedBox(
-        width: 30,
-        height: 30,
-        child: loadingIndicator(),
-      );
-    }
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await Future.delayed(duration(context));
-      var childSize = _childKey.currentContext?.size;
-      if (childSize != null) {
-        _nextSize = min(childSize.width, childSize.height);
-      }
-    });
-    return SizedBox(
-      key: _childKey,
-      child: widget.child,
+      },
     );
   }
 
@@ -220,36 +210,36 @@ class _ProgressButtonState extends State<ProgressButton> {
 
   Widget _build(BuildContext context, ProgressButtonConfig? config) {
     var type = this.type(config);
-    late Widget child;
+    Size? size = (_loading ? nextSize : null);
+    var buttonSize = size == null ? null : min(size.width, size.height);
     if (type == ButtonType.outlined) {
-      child = OutlinedButton(
+      return OutlinedButton(
         onPressed: _getCallBack(config),
         clipBehavior: widget.clipBehavior ?? config?.clipBehavior ?? Clip.none,
         style: style(context),
         child: _child(),
       );
     } else if (type == ButtonType.text) {
-      child = TextButton(
+      return TextButton(
         onPressed: _getCallBack(config),
         clipBehavior: widget.clipBehavior ?? config?.clipBehavior ?? Clip.none,
         style: style(context),
         child: _child(),
       );
     } else {
-      child = ElevatedButton(
+      return ElevatedButton(
         onPressed: _getCallBack(config),
         clipBehavior: widget.clipBehavior ?? config?.clipBehavior ?? Clip.none,
         style: style(context),
         child: _child(),
       );
     }
-
-    return child;
   }
 
   void _completeAction(
       Future<dynamic> Function() callBack, ProgressButtonConfig? config) {
     setState(() {
+      nextSize = _buttonKey.currentContext?.size;
       _loading = true;
     });
     callBack().then((d) async {
