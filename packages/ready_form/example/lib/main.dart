@@ -55,25 +55,13 @@ class FormPage extends StatelessWidget {
             TextFormField(),
             TextFormField(),
             TextFormField(),
-            Row(
-              children: [
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text("Login"),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Center(
-                  child: ProgressButton(
-                    onPressed: () async {
-                      await Future.delayed(const Duration(seconds: 3));
-                    },
-                    child: const Text("Login"),
-                  ),
-                ),
-              ],
-            ),
+            ProgressButton(
+              // type: ButtonType.outlined,
+              onPressed: () async {
+                await Future.delayed(const Duration(seconds: 3));
+              },
+              child: const Text("Login"),
+            )
           ],
         ),
       ),

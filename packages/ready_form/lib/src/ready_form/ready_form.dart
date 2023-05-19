@@ -14,7 +14,8 @@ part 'submit_error_message_for.dart';
 class ReadyFormKey implements ReadyFormState {
   final GlobalKey<_ReadyFormState> _key;
   const ReadyFormKey._(this._key);
-  factory ReadyFormKey({String? debugLabel}) => ReadyFormKey._(GlobalKey<_ReadyFormState>(debugLabel: debugLabel));
+  factory ReadyFormKey({String? debugLabel}) =>
+      ReadyFormKey._(GlobalKey<_ReadyFormState>(debugLabel: debugLabel));
 
   /// manually validate form
   @override
@@ -26,7 +27,8 @@ class ReadyFormKey implements ReadyFormState {
 
   /// get invalid fields in the current form
   @override
-  List<FormFieldState> invalidFields() => _key.currentState?.invalidFields() ?? [];
+  List<FormFieldState> invalidFields() =>
+      _key.currentState?.invalidFields() ?? [];
 
   @override
   FormSubmitState get submitState => _key.currentState!.submitState;
@@ -94,7 +96,8 @@ class ReadyForm extends StatefulWidget {
   factory ReadyForm.builder({
     ReadyFormKey? key,
     required OnPostDataCallBack onPostData,
-    required Widget Function(BuildContext context, FormSubmitState state) builder,
+    required Widget Function(BuildContext context, FormSubmitState state)
+        builder,
     RevealConfig revealConfig = const RevealConfig(),
     ValueChanged<ReadyFormState>? beforeValidate,
     Widget? cancelRequestTitle,
@@ -126,11 +129,17 @@ class ReadyForm extends StatefulWidget {
         ),
       );
 
-  static ReadyFormState? of(BuildContext context) => context.findAncestorStateOfType<_ReadyFormState>();
-  static _ReadyFormState? _of(BuildContext context) => context.findAncestorStateOfType<_ReadyFormState>();
+  static ReadyFormState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_ReadyFormState>();
+  static _ReadyFormState? _of(BuildContext context) =>
+      context.findAncestorStateOfType<_ReadyFormState>();
 
   static Set<ReadyFormState> formsOf(BuildContext context) {
-    return FocusScope.of(context).children.map((e) => e.context == null ? null : ReadyForm.of(e.context!)).whereType<_ReadyFormState>().toSet();
+    return FocusScope.of(context)
+        .children
+        .map((e) => e.context == null ? null : ReadyForm.of(e.context!))
+        .whereType<_ReadyFormState>()
+        .toSet();
   }
 
   @override
@@ -174,9 +183,11 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
     return formKey.currentState!.validate();
   }
 
-  bool get _disableEditingOnSubmit => widget.disableEditingOnSubmit ?? config?.disableEditingOnSubmit ?? false;
+  bool get _disableEditingOnSubmit =>
+      widget.disableEditingOnSubmit ?? config?.disableEditingOnSubmit ?? false;
 
-  void _visitElements(Element element, bool Function(StatefulElement element) check) {
+  void _visitElements(
+      Element element, bool Function(StatefulElement element) check) {
     element.visitChildren((element) {
       if (element is StatefulElement) {
         if (check(element)) {
@@ -233,7 +244,8 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
   }
 
   Future _makeContextVisible(BuildContext context) async {
-    var ensureVisible = context.findAncestorStateOfType<_EnsureContextVisibleState>()?.widget;
+    var ensureVisible =
+        context.findAncestorStateOfType<_EnsureContextVisibleState>()?.widget;
     if (ensureVisible != null && ensureVisible._ensureVisible != null) {
       return ensureVisible._ensureVisible!(context);
     }
@@ -245,7 +257,11 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
     if (scope.hasFocus) {
       var focus = _firstOrDefault<FocusNode>(
         scope.children,
-        (element) => element.context?.findAncestorStateOfType<FormFieldState>()?.context == context,
+        (element) =>
+            element.context
+                ?.findAncestorStateOfType<FormFieldState>()
+                ?.context ==
+            context,
       );
       if (focus != null && focus != scope.focusedChild) {
         scope.requestFocus(focus);
@@ -279,7 +295,8 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
       isSubmitting: _state.value.submitting,
     );
     if (action.isSubmitting) {
-      _state.value = _state.value.copyWith(submitActions: [..._state.value.submitActions, action]);
+      _state.value = _state.value
+          .copyWith(submitActions: [..._state.value.submitActions, action]);
       return false;
     }
     action = action.copyWith(isSubmitting: false);
@@ -290,7 +307,10 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
       var res = await _validationSuccess(action);
       return res.errors.isEmpty;
     } else {
-      _state.value = _state.value.copyWith(submitActions: [..._state.value.submitActions, action.copyWith(isValid: false)]);
+      _state.value = _state.value.copyWith(submitActions: [
+        ..._state.value.submitActions,
+        action.copyWith(isValid: false)
+      ]);
       await _moveToFirstInvalid();
       return false;
     }
@@ -307,13 +327,17 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
       var res = await widget.onPostData();
       _state.value = _state.value.copyWith(
         submitting: false,
-        submitActions: [..._state.value.submitActions, action.copyWith(isValid: res.errors.isEmpty)],
+        submitActions: [
+          ..._state.value.submitActions,
+          action.copyWith(isValid: res.errors.isEmpty)
+        ],
         submitErrors: res.errors,
       );
 
       var invalidMessages = invalidErrorMessages();
       if (invalidMessages.isNotEmpty) {
-        _makeContextVisible(invalidMessages[0].context);
+        var ctx = invalidMessages[0].context;
+        if (ctx.mounted) _makeContextVisible(invalidMessages[0].context);
       }
       if (controller != null && res.errors.isEmpty) {
         await controller!.reveal().then((value) async {
@@ -325,7 +349,10 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
     } catch (e) {
       _state.value = _state.value.copyWith(
         submitting: false,
-        submitActions: [..._state.value.submitActions, action.copyWith(isValid: false)],
+        submitActions: [
+          ..._state.value.submitActions,
+          action.copyWith(isValid: false)
+        ],
       );
       rethrow;
     }
@@ -333,7 +360,8 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
 
   @override
   Widget build(BuildContext context) {
-    var reveal = config?.revealConfig.copyWith(widget.revealConfig) ?? widget.revealConfig;
+    var reveal = config?.revealConfig.copyWith(widget.revealConfig) ??
+        widget.revealConfig;
     if (reveal.enabled == true) {
       return CircularReveal(
         revealColor: reveal.color,
@@ -358,7 +386,9 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
       case FormAutoValidateMode.onUserInteraction:
         return AutovalidateMode.onUserInteraction;
       case FormAutoValidateMode.onSubmit:
-        return state.submitActions.isEmpty ? AutovalidateMode.disabled : AutovalidateMode.always;
+        return state.submitActions.isEmpty
+            ? AutovalidateMode.disabled
+            : AutovalidateMode.always;
     }
   }
 
@@ -374,7 +404,8 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
   Widget _buildForm(BuildContext context) {
     Widget child = Builder(
       builder: (context) {
-        var unfocusOnTapOutSide = widget.unfocusOnTapOutSide ?? config?.unfocusOnTapOutSide ?? true;
+        var unfocusOnTapOutSide =
+            widget.unfocusOnTapOutSide ?? config?.unfocusOnTapOutSide ?? true;
         return GestureDetector(
           onTap: () {
             if (unfocusOnTapOutSide) {
@@ -385,7 +416,8 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
         );
       },
     );
-    var policy = widget.focusTraversalPolicy ?? config?.generateFocusTraversalPolicy?.call();
+    var policy = widget.focusTraversalPolicy ??
+        config?.generateFocusTraversalPolicy?.call();
     if (policy != null) {
       child = FocusTraversalGroup(
         policy: policy,
@@ -452,8 +484,12 @@ class CancelDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: cancelRequestTitle ?? config?.cancelRequestTitle ?? const Text("Cancel request"),
-      content: cancelRequestContent ?? config?.cancelRequestContent ?? const Text("Do you want to leave and cancel the current action?"),
+      title: cancelRequestTitle ??
+          config?.cancelRequestTitle ??
+          const Text("Cancel request"),
+      content: cancelRequestContent ??
+          config?.cancelRequestContent ??
+          const Text("Do you want to leave and cancel the current action?"),
       actions: [
         TextButton(
           onPressed: () {
@@ -466,7 +502,8 @@ class CancelDialog extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop("no");
           },
-          style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.error),
+          style: TextButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.error),
           child: no ?? config?.no ?? const Text("No"),
         )
       ],

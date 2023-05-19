@@ -42,11 +42,15 @@ class FormSubmitState {
     if (identical(this, other)) return true;
     final collectionEquals = const DeepCollectionEquality().equals;
 
-    return other is FormSubmitState && other.submitting == submitting && collectionEquals(other.submitActions, submitActions) && collectionEquals(other.submitErrors, submitErrors);
+    return other is FormSubmitState &&
+        other.submitting == submitting &&
+        collectionEquals(other.submitActions, submitActions) &&
+        collectionEquals(other.submitErrors, submitErrors);
   }
 
   @override
-  int get hashCode => submitting.hashCode ^ submitActions.hashCode ^ submitErrors.hashCode;
+  int get hashCode =>
+      submitting.hashCode ^ submitActions.hashCode ^ submitErrors.hashCode;
 }
 
 abstract class ReadyFormState {
@@ -173,7 +177,8 @@ class ReadyFormConfig extends InheritedWidget {
     return revealConfig != oldWidget.revealConfig ||
         cancelRequestTitle != oldWidget.cancelRequestTitle ||
         disableEditingOnSubmit != oldWidget.disableEditingOnSubmit ||
-        generateFocusTraversalPolicy != oldWidget.generateFocusTraversalPolicy ||
+        generateFocusTraversalPolicy !=
+            oldWidget.generateFocusTraversalPolicy ||
         unfocusOnTapOutSide != oldWidget.unfocusOnTapOutSide ||
         cancelRequestContent != oldWidget.cancelRequestContent ||
         autoValidateMode != oldWidget.autoValidateMode ||

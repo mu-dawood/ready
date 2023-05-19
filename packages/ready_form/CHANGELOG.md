@@ -32,3 +32,8 @@
 ## 1.2.2
 
 * FocusTraversalGroup
+
+
+## 1.2.3
+
+* Refactor Progress button
