@@ -93,8 +93,8 @@ class ProgressButton extends StatelessWidget {
 
   /// {@macro flutter.material.inkwell.statesController}
   final MaterialStatesController? statesController;
-
-  ProgressButton({
+  final ProgressButtonKey? _key;
+  const ProgressButton({
     ProgressButtonKey? key,
     this.onPressed,
     required this.child,
@@ -115,7 +115,8 @@ class ProgressButton extends StatelessWidget {
     this.focusNode,
     this.autofocus = true,
     this.statesController,
-  }) : super(key: key?._key);
+  })  : _key = key,
+        super(key: null);
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +126,7 @@ class ProgressButton extends StatelessWidget {
           autoSubmitForm: autoSubmitForm,
           onPressed: onPressed,
           duration: duration,
-          key: key,
+          key: _key?._key,
           builder: ({
             required BuildContext context,
             required Animation<double> loading,
