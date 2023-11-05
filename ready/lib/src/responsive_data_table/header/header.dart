@@ -1,7 +1,7 @@
 part of responsive_data_table;
 
-class _Header<T, Args, TController extends BaseReadyListController<T, Args>>
-    extends StatelessWidget {
+class _Header<T, S extends BaseReadyListState<T>,
+    TController extends ReadyListController<T, S>> extends StatelessWidget {
   final ResponsiveDataTableType type;
   final TController controller;
   final bool sliver;
@@ -15,7 +15,7 @@ class _Header<T, Args, TController extends BaseReadyListController<T, Args>>
   @override
   Widget build(BuildContext context) {
     var options = context.dependOnInheritedWidgetOfExactType<
-        ResponsiveDataTable<T, Args, TController>>()!;
+        ResponsiveDataTable<T, S, TController>>()!;
     bool hasPageInfo = PageInfo.mayBeOf(context) != null;
     if (options.actions.isEmpty &&
         options.filters.isEmpty &&
@@ -24,8 +24,8 @@ class _Header<T, Args, TController extends BaseReadyListController<T, Args>>
         hasPageInfo) return const SliverToBoxAdapter();
     if (sliver) {
       return SliverPersistentHeader(
-        delegate: _HeaderDelegate<T, Args, TController>(
-          builder: (percent) => _Child<T, Args, TController>(
+        delegate: _HeaderDelegate<T, S, TController>(
+          builder: (percent) => _Child<T, S, TController>(
               controller: controller, type: type, percent: percent),
           type: type,
         ),
@@ -33,14 +33,14 @@ class _Header<T, Args, TController extends BaseReadyListController<T, Args>>
         floating: true,
       );
     } else {
-      return _Child<T, Args, TController>(
+      return _Child<T, S, TController>(
           controller: controller, type: type, percent: 0);
     }
   }
 }
 
-class _HeaderDelegate<T, Args,
-        TController extends BaseReadyListController<T, Args>>
+class _HeaderDelegate<T, S extends BaseReadyListState<T>,
+        TController extends ReadyListController<T, S>>
     extends SliverPersistentHeaderDelegate {
   final Widget Function(double percent) builder;
   final ResponsiveDataTableType type;
@@ -65,15 +65,15 @@ class _HeaderDelegate<T, Args,
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    if (oldDelegate is _HeaderDelegate<T, Args, TController>) {
+    if (oldDelegate is _HeaderDelegate<T, S, TController>) {
       return oldDelegate.type != type;
     }
     return false;
   }
 }
 
-class _Child<T, Args, TController extends BaseReadyListController<T, Args>>
-    extends StatelessWidget {
+class _Child<T, S extends BaseReadyListState<T>,
+    TController extends ReadyListController<T, S>> extends StatelessWidget {
   final TController controller;
   final ResponsiveDataTableType type;
   final double percent;
@@ -88,7 +88,7 @@ class _Child<T, Args, TController extends BaseReadyListController<T, Args>>
   @override
   Widget build(BuildContext context) {
     var options = context.dependOnInheritedWidgetOfExactType<
-        ResponsiveDataTable<T, Args, TController>>()!;
+        ResponsiveDataTable<T, S, TController>>()!;
     var padding = type == ResponsiveDataTableType.list
         ? options.list?.padding
         : options.dataTable.padding;
@@ -106,15 +106,15 @@ class _Child<T, Args, TController extends BaseReadyListController<T, Args>>
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (isList) ...[
-            _SelectAllCheckBox<T, Args, TController>(),
-            _HeaderTitle<T, Args, TController>(controller: controller),
+            _SelectAllCheckBox<T, S, TController>(),
+            _HeaderTitle<T, S, TController>(controller: controller),
             const Spacer(),
-            _HeaderActions<T, Args, TController>(
+            _HeaderActions<T, S, TController>(
                 type: type, controller: controller),
           ] else ...[
-            _HeaderTitle<T, Args, TController>(controller: controller),
+            _HeaderTitle<T, S, TController>(controller: controller),
             Expanded(
-                child: _HeaderActions<T, Args, TController>(
+                child: _HeaderActions<T, S, TController>(
                     type: type, controller: controller)),
           ]
         ],

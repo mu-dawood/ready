@@ -37,3 +37,7 @@
 ## 1.2.3
 
 * Refactor Progress button
+
+## 1.2.6
+
+* allow nullable result

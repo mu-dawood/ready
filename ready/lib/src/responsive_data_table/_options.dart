@@ -4,8 +4,8 @@ typedef BuildItemCallBack<T> = List<Widget> Function(int index, T item);
 typedef ListItemBuilder<T> = Widget Function(
     T item, int index, LayoutType layout, List<Widget> actions);
 
-typedef DataTableActionCallBack<T, Args,
-        TController extends BaseReadyListController<T, Args>>
+typedef DataTableActionCallBack<T, S extends BaseReadyListState<T>,
+        TController extends ReadyListController<T, S>>
     = Future Function(BuildContext context, TController controller, T item);
 
 typedef DataTableActionProperty<T, Type> = Type Function(T item);
@@ -91,7 +91,8 @@ class DataTableOptions<T> {
 }
 
 /// options for [ReadyList]
-class ListOptions<T, Args> implements ReadyListConfigOptions {
+class ListOptions<T, S extends BaseReadyListState<T>>
+    implements ReadyListConfigOptions {
   /// specify the grid delegate when the visible layout is [ReadyList]
   final GridDelegateCallback? gridDelegate;
   final ListItemBuilder<T>? _builder;
@@ -103,13 +104,13 @@ class ListOptions<T, Args> implements ReadyListConfigOptions {
   final ScrollController? scrollController;
 
   /// [ReadyList.headerSlivers]
-  final ReadyListWidgetBuilder<T, Args>? headerSlivers;
+  final ReadyListWidgetBuilder<T, S>? headerSlivers;
 
   /// [ReadyList.footerSlivers]
-  final ReadyListWidgetBuilder<T, Args>? footerSlivers;
+  final ReadyListWidgetBuilder<T, S>? footerSlivers;
 
   /// [ReadyList.innerFooterSlivers]
-  final ReadyListWidgetBuilder<T, Args>? innerFooterSlivers;
+  final ReadyListWidgetBuilder<T, S>? innerFooterSlivers;
   @override
   final StateResultCallBack<bool>? handleNestedScrollViewOverlap;
   @override

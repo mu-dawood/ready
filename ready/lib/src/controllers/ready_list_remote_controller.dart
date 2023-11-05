@@ -1,143 +1,111 @@
 part of controllers;
 
-@freezed
-class RemoteResult<T> with _$RemoteResult<T> {
-  const factory RemoteResult.error(ErrorDisplayCallBack display) =
-      ErrorResult<T>;
+class RemoteResult<T> {
+  final ErrorDisplayCallBack? errorDisplay;
+  final Iterable<T> items;
+  final int totalCount;
+  RemoteResult.error(ErrorDisplayCallBack display)
+      : errorDisplay = display,
+        items = [],
+        totalCount = 0;
 
-  const factory RemoteResult.success(Iterable<T> items, int totalCount) =
-      SuccessResult<T>;
+  RemoteResult.success(this.items, this.totalCount)
+      : assert(totalCount >= items.length),
+        errorDisplay = null;
 }
 
-mixin ReadyRemoteController<T, Args> on BaseReadyListController<T, Args> {
+mixin ReadyRemoteControllerMixin<T, S extends BaseReadyListState<T>>
+    on ReadyListController<T, S> {
+  /// load data from  remote source
   Future<RemoteResult<T>> loadData(int skip, int? pageSize,
       [ICancelToken? cancelToken]);
 
   @override
-  void emit(ReadyListState<T, Args> state) {
-    state.mapOrNull(
-      requestFirstLoading: _firstLoading,
-      requestNext: _loadNext,
-      requestRefresh: _refresh,
-    );
-    super.emit(state);
+  void emit(S state) {
+    switch (state.stateType) {
+      case StateType.requestFirstLoading:
+        _firstLoading(state);
+        break;
+      case StateType.requestNextLoading:
+        _loadNext(state);
+        break;
+      case StateType.requestRefreshing:
+        _refresh(state);
+        break;
+      default:
+        break;
+    }
   }
 
   ICancelToken? generateCancelToken() => null;
-  void _firstLoading(RequestFirstLoading<T, Args> state) async {
+  void _firstLoading(S state) async {
     var cancelToken = generateCancelToken();
-    emit(ReadyListState.isLoadingFirst(
-      cancelToken: cancelToken,
-      pageSize: state.pageSize,
-      currentData: state.currentData,
-      args: state.args,
-    ));
+    isLoadingFirstTime();
     try {
       var results = await loadData(0, state.pageSize, cancelToken);
-      emit(results.map(
-        error: (ErrorResult<T> value) {
-          return ReadyListState.error(
-            display: value.display,
-            currentData: state.currentData?.copyWith(pageSize: state.pageSize),
-            args: state.args,
-          );
-        },
-        success: (SuccessResult<T> value) {
-          return ReadyListState.isLoaded(
-            items: value.items,
-            totalCount: value.totalCount,
-            pageSize: state.pageSize,
-            args: state.args,
-          );
-        },
-      ));
+      if (results.errorDisplay == null) {
+        loaded(items: results.items, totalCount: results.totalCount);
+      } else {
+        error(display: results.errorDisplay!);
+      }
     } catch (e) {
-      emit(ReadyListState.error(
-        display: (context) => e.toString(),
-        currentData: state.currentData?.copyWith(pageSize: state.pageSize),
-        args: state.args,
-      ));
+      error(display: (context) => e.toString());
     }
   }
 
-  void _loadNext(RequestNext<T, Args> state) async {
+  void _loadNext(S state) async {
     var cancelToken = generateCancelToken();
-    emit(ReadyListState.isLoadingNext(
-      cancelToken: cancelToken,
-      pageSize: state.pageSize,
-      currentData: state.currentData,
-      args: state.args,
-    ));
+    isLoadingFirstTime();
     try {
       var results = await loadData(
-        state.currentData.items.length,
+        state.items.length,
         state.pageSize,
         cancelToken,
       );
-      emit(results.map(
-        error: (ErrorResult<T> value) {
-          return ReadyListState.isLoaded(
-            items: state.currentData.items,
-            totalCount: state.currentData.totalCount,
-            pageSize: state.currentData.pageSize,
-            args: state.args,
-          );
-        },
-        success: (SuccessResult<T> value) {
-          return ReadyListState.isLoaded(
-            items: [...state.currentData.items, ...value.items],
-            totalCount: value.totalCount,
-            pageSize: state.pageSize,
-            args: state.args,
-          );
-        },
-      ));
+      if (results.errorDisplay == null) {
+        loaded(
+          items: [...state.items, ...results.items],
+          totalCount: results.totalCount,
+        );
+      } else {
+        loaded(
+          items: state.items,
+          totalCount: state.totalCount,
+        );
+      }
     } catch (e) {
-      emit(ReadyListState.isLoaded(
-        items: state.currentData.items,
-        totalCount: state.currentData.totalCount,
-        pageSize: state.currentData.pageSize,
-        args: state.args,
-      ));
+      loaded(
+        items: state.items,
+        totalCount: state.totalCount,
+      );
     }
   }
 
-  void _refresh(RequestRefresh<T, Args> state) async {
+  void _refresh(S state) async {
     var cancelToken = generateCancelToken();
-    emit(ReadyListState.isRefreshing(
-      cancelToken: cancelToken,
-      pageSize: state.pageSize,
-      currentData: state.currentData,
-      args: state.args,
-    ));
-
+    isLoadingFirstTime();
     try {
-      var results = await loadData(0, state.pageSize, cancelToken);
-      emit(results.map(
-        error: (ErrorResult<T> value) {
-          return ReadyListState.isLoaded(
-            items: state.currentData.items,
-            totalCount: state.currentData.totalCount,
-            pageSize: state.currentData.pageSize,
-            args: state.args,
-          );
-        },
-        success: (SuccessResult<T> value) {
-          return ReadyListState.isLoaded(
-            items: value.items,
-            totalCount: value.totalCount,
-            pageSize: state.pageSize,
-            args: state.args,
-          );
-        },
-      ));
+      var results = await loadData(
+        0,
+        state.items.length,
+        cancelToken,
+      );
+      if (results.errorDisplay == null) {
+        loaded(
+          items: results.items,
+          totalCount: results.totalCount,
+        );
+      } else {
+        loaded(
+          items: state.items,
+          totalCount: state.totalCount,
+        );
+      }
     } catch (e) {
-      emit(ReadyListState.isLoaded(
-        items: state.currentData.items,
-        totalCount: state.currentData.totalCount,
-        pageSize: state.currentData.pageSize,
-        args: state.args,
-      ));
+      loaded(
+        items: state.items,
+        totalCount: state.totalCount,
+      );
     }
   }
 }

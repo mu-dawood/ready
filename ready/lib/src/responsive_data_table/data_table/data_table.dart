@@ -1,18 +1,18 @@
 part of responsive_data_table;
 
-class _DataTable<T, Args, TController extends BaseReadyListController<T, Args>>
-    extends StatefulWidget {
+class _DataTable<T, S extends BaseReadyListState<T>,
+    TController extends ReadyListController<T, S>> extends StatefulWidget {
   final TController controller;
   const _DataTable({Key? key, required this.controller}) : super(key: key);
 
   @override
-  State<_DataTable<T, Args, TController>> createState() =>
-      _DataTableState<T, Args, TController>();
+  State<_DataTable<T, S, TController>> createState() =>
+      _DataTableState<T, S, TController>();
 }
 
-class _DataTableState<T, Args,
-        TController extends BaseReadyListController<T, Args>>
-    extends State<_DataTable<T, Args, TController>> {
+class _DataTableState<T, S extends BaseReadyListState<T>,
+        TController extends ReadyListController<T, S>>
+    extends State<_DataTable<T, S, TController>> {
   late ScrollController _defaultController;
 
   @override
@@ -21,7 +21,7 @@ class _DataTableState<T, Args,
     super.initState();
   }
 
-  bool canSelect(ResponsiveDataTable<T, Args, TController> options) =>
+  bool canSelect(ResponsiveDataTable<T, S, TController> options) =>
       options.selectionButton != null;
   @override
   void dispose() {
@@ -29,7 +29,7 @@ class _DataTableState<T, Args,
     super.dispose();
   }
 
-  List<DataColumn> _columns(ResponsiveDataTable<T, Args, TController> options) {
+  List<DataColumn> _columns(ResponsiveDataTable<T, S, TController> options) {
     return [
       ...options.dataTable.headers,
       if (options.rowActions.isNotEmpty)
@@ -46,23 +46,22 @@ class _DataTableState<T, Args,
       absorber = null;
     }
     var options = context.dependOnInheritedWidgetOfExactType<
-        ResponsiveDataTable<T, Args, TController>>()!;
+        ResponsiveDataTable<T, S, TController>>()!;
     Widget child;
     if (absorber != null && absorber.layoutExtent != null) {
       child = CustomScrollView(
         slivers: [
           SliverOverlapInjector(handle: absorber),
-          _Header<T, Args, TController>(
+          _Header<T, S, TController>(
             controller: widget.controller,
             sliver: true,
             type: ResponsiveDataTableType.table,
           ),
           _buildTable(options, true),
-          _Footer<T, Args, TController>(
+          _Footer<T, S, TController>(
             controller: widget.controller,
             sliver: true,
-            paging:
-                _ResponsiveDataTable.of<T, Args, TController>(context)._paging,
+            paging: _ResponsiveDataTable.of<T, S, TController>(context)._paging,
           ),
         ],
       );
@@ -70,17 +69,16 @@ class _DataTableState<T, Args,
       child = Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _Header<T, Args, TController>(
+          _Header<T, S, TController>(
             controller: widget.controller,
             sliver: false,
             type: ResponsiveDataTableType.table,
           ),
           Expanded(child: _buildTable(options, false)),
-          _Footer<T, Args, TController>(
+          _Footer<T, S, TController>(
             controller: widget.controller,
             sliver: false,
-            paging:
-                _ResponsiveDataTable.of<T, Args, TController>(context)._paging,
+            paging: _ResponsiveDataTable.of<T, S, TController>(context)._paging,
           ),
         ],
       );
@@ -101,10 +99,10 @@ class _DataTableState<T, Args,
   }
 
   Widget _buildTable(
-      ResponsiveDataTable<T, Args, TController> options, bool sliver) {
+      ResponsiveDataTable<T, S, TController> options, bool sliver) {
     final List<DataColumn> columns = _columns(options);
 
-    var responsive = _ResponsiveDataTable.of<T, Args, TController>(context);
+    var responsive = _ResponsiveDataTable.of<T, S, TController>(context);
     var child = LayoutBuilder(
       builder: (context, constrains) {
         return SingleChildScrollView(
@@ -169,25 +167,22 @@ class _DataTableState<T, Args,
   }
 
   List<DataRow> _getRows({
-    required ResponsiveDataTable<T, Args, TController> options,
+    required ResponsiveDataTable<T, S, TController> options,
     required List<DataColumn> columns,
-    required _SelectedIndices<T, Args, TController> selectedIndices,
+    required _SelectedIndices<T, S, TController> selectedIndices,
     required _DataTablePaging paging,
   }) {
     final List<DataRow> result = <DataRow>[];
     final int startIndex = (paging.currentPage - 1) * paging.rowsPerPage;
-    bool loading = widget.controller.state.maybeMap(
-      orElse: () => true,
-      error: (value) => false,
-      isLoaded: (value) => false,
-      initializing: (value) => false,
-    );
-    var length = widget.controller.state.length;
+    bool loading = ![StateType.error, StateType.loaded, StateType.intitial]
+        .contains(widget.controller.state);
+
+    var length = widget.controller.length;
     for (int index = startIndex;
         index < startIndex + paging.rowsPerPage;
         index++) {
       if (index < length) {
-        var element = widget.controller.state.elementAt(index) as T;
+        var element = widget.controller.elementAt(index);
         result.add(_buildRow(
             options: options,
             index: index,
@@ -204,10 +199,10 @@ class _DataTableState<T, Args,
   }
 
   DataRow _buildRow({
-    required ResponsiveDataTable<T, Args, TController> options,
+    required ResponsiveDataTable<T, S, TController> options,
     required int index,
     required T item,
-    required _SelectedIndices<T, Args, TController> selectedIndices,
+    required _SelectedIndices<T, S, TController> selectedIndices,
   }) {
     var items = options.dataTable.buildItem(index, item);
     var cells = <DataCell>[];
@@ -259,7 +254,7 @@ class _DataTableState<T, Args,
   }
 
   DataRow _getBlankRowFor(List<DataColumn> columns, int index,
-      _SelectedIndices<T, Args, TController> selectedIndices) {
+      _SelectedIndices<T, S, TController> selectedIndices) {
     return DataRow.byIndex(
       index: index,
       cells:
@@ -268,7 +263,7 @@ class _DataTableState<T, Args,
   }
 
   DataRow _getProgressIndicatorRowFor(List<DataColumn> columns, int index,
-      _SelectedIndices<T, Args, TController> selectedIndices) {
+      _SelectedIndices<T, S, TController> selectedIndices) {
     final List<DataCell> cells = columns.map<DataCell>((DataColumn column) {
       return const DataCell(
         CircularProgressIndicator.adaptive(),

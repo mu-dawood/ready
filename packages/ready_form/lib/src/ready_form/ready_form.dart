@@ -305,7 +305,7 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
     if (validate()) {
       formKey.currentState!.save();
       var res = await _validationSuccess(action);
-      return res.errors.isEmpty;
+      return res == null || res.errors.isEmpty;
     } else {
       _state.value = _state.value.copyWith(submitActions: [
         ..._state.value.submitActions,
@@ -316,7 +316,7 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
     }
   }
 
-  Future<OnPostDataResult> _validationSuccess(SubmitActions action) async {
+  Future<OnPostDataResult?> _validationSuccess(SubmitActions action) async {
     var currentFocus = FocusScope.of(formKey.currentContext!);
     if (!currentFocus.hasPrimaryFocus) {
       currentFocus.unfocus();
@@ -329,9 +329,9 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
         submitting: false,
         submitActions: [
           ..._state.value.submitActions,
-          action.copyWith(isValid: res.errors.isEmpty)
+          action.copyWith(isValid: res == null || res.errors.isEmpty)
         ],
-        submitErrors: res.errors,
+        submitErrors: res?.errors,
       );
 
       var invalidMessages = invalidErrorMessages();
@@ -339,7 +339,7 @@ class _ReadyFormState extends State<ReadyForm> implements ReadyFormState {
         var ctx = invalidMessages[0].context;
         if (ctx.mounted) _makeContextVisible(invalidMessages[0].context);
       }
-      if (controller != null && res.errors.isEmpty) {
+      if (controller != null && (res == null || res.errors.isEmpty)) {
         await controller!.reveal().then((value) async {
           await Future.delayed(const Duration(milliseconds: 300));
           await controller?.unReveal();

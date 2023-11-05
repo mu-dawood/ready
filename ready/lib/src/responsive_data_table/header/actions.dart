@@ -1,8 +1,7 @@
 part of responsive_data_table;
 
-class _HeaderActions<T, Args,
-        TController extends BaseReadyListController<T, Args>>
-    extends StatelessWidget {
+class _HeaderActions<T, S extends BaseReadyListState<T>,
+    TController extends ReadyListController<T, S>> extends StatelessWidget {
   final ResponsiveDataTableType type;
   final TController controller;
 
@@ -11,10 +10,10 @@ class _HeaderActions<T, Args,
 
   @override
   Widget build(BuildContext context) {
-    var parent = _ResponsiveDataTable.of<T, Args, TController>(context);
+    var parent = _ResponsiveDataTable.of<T, S, TController>(context);
     var selectedIndices = parent._selectedIndices;
     var options = context.dependOnInheritedWidgetOfExactType<
-        ResponsiveDataTable<T, Args, TController>>()!;
+        ResponsiveDataTable<T, S, TController>>()!;
 
     var canSelect = (options.selectionButton != null);
     return ValueListenableBuilder(
@@ -23,11 +22,9 @@ class _HeaderActions<T, Args,
         return StreamBuilder(
           stream: controller.stream,
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            var loading = controller.state.maybeMap(
-              orElse: () => true,
-              isLoaded: (state) => false,
-              error: (message) => false,
-            );
+            var loading =
+                ![StateType.error, StateType.loaded].contains(controller.state);
+
             if (!canSelect) {
               return Row(
                 mainAxisSize: MainAxisSize.min,
@@ -59,10 +56,10 @@ class _HeaderActions<T, Args,
 
   List<Widget> buildHeaderActions({
     required BuildContext context,
-    required ResponsiveDataTable<T, Args, TController> options,
+    required ResponsiveDataTable<T, S, TController> options,
     required Set<int> value,
     required bool loading,
-    required __ResponsiveDataTableState<T, Args, TController> parent,
+    required __ResponsiveDataTableState<T, S, TController> parent,
   }) {
     var filters = options.filters;
     var canSelect = (options.selectionButton != null);
@@ -105,7 +102,7 @@ class _HeaderActions<T, Args,
       children.addAll(options.actions.map((e) => absorber(e)));
       if (filters.isNotEmpty) {
         children.add(absorber(
-          _FiltersButton(
+          _FiltersButton<T, S, TController>(
             filters: filters.map((e) => e(context)).toList(),
             controller: controller,
           ),
@@ -116,19 +113,16 @@ class _HeaderActions<T, Args,
     return children;
   }
 
-  Widget _buildRefreshIcon(ResponsiveDataTable<T, Args, TController> options,
-      __ResponsiveDataTableState<T, Args, TController> parent, bool loading) {
+  Widget _buildRefreshIcon(ResponsiveDataTable<T, S, TController> options,
+      __ResponsiveDataTableState<T, S, TController> parent, bool loading) {
     return ValueListenableBuilder(
       valueListenable: parent._paging,
       builder: (BuildContext context, _DataTablePaging paging, Widget? child) {
         return options.dataTable.refreshButton!(
           enabled: !loading,
-          onRefresh: () => controller.requestRefresh(paging.rowsPerPage),
-          refreshing: controller.state.maybeMap(
-            orElse: () => false,
-            isRefreshing: (_) => true,
-            requestRefresh: (_) => true,
-          ),
+          onRefresh: () => controller.requestRefreshing(paging.rowsPerPage),
+          refreshing: [StateType.isRefreshing, StateType.requestRefreshing]
+              .contains(controller.state),
         );
       },
     );

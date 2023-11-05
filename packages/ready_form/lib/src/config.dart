@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
-typedef OnPostDataCallBack = Future<OnPostDataResult> Function();
+typedef OnPostDataCallBack = Future<OnPostDataResult?> Function();
 
 class OnPostDataResult {
   final Map<String, String> errors;

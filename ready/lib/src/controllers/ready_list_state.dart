@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of controllers;
 
 typedef ErrorDisplayCallBack = String Function(BuildContext context);
@@ -7,86 +8,59 @@ abstract class ICancelToken {
   void cancel([dynamic reason]);
 }
 
-@freezed
-class CurrentData<T> with _$CurrentData<T> {
-  const factory CurrentData({
-    required Iterable<T> items,
-    required int totalCount,
-    int? pageSize,
-  }) = _CurrentData<T>;
+enum StateType {
+  intitial,
+  requestFirstLoading,
+  isLoadingFirstTime,
+  loaded,
+  error,
+  requestNextLoading,
+  requestRefreshing,
+  isLoadingNext,
+  isRefreshing,
 }
 
-@freezed
-class ReadyListState<T, Args> with _$ReadyListState<T, Args> {
-  /// use this if you need to wait for something
-  /// and then use needFirstLoading to load the first state
-  const factory ReadyListState.initializing({
-    @Default(true) bool requestFirstLoading,
-    required Args args,
-  }) = Initializing<T, Args>;
+abstract class BaseReadyListState<T> extends Equatable {
+  final Iterable<T> items;
+  final int totalCount;
+  final int pageSize;
+  final ErrorDisplayCallBack? errorDisplay;
+  final StateType stateType;
+  final ICancelToken? cancelToken;
+  const BaseReadyListState({
+    required this.items,
+    required this.totalCount,
+    required this.pageSize,
+    required this.errorDisplay,
+    required this.stateType,
+    required this.cancelToken,
+  }) : assert(items.length <= totalCount);
 
-  /// this will fire first loading
-  /// *************************************************************************
-  const factory ReadyListState.requestFirstLoading({
-    int? pageSize,
-    CurrentData<T>? currentData,
-    required Args args,
-  }) = RequestFirstLoading<T, Args>;
+  @override
+  List<Object?> get props => [
+        items,
+        totalCount,
+        pageSize,
+        errorDisplay,
+        stateType,
+      ];
+}
 
-  /// loading first time
-  const factory ReadyListState.isLoadingFirst({
-    ICancelToken? cancelToken,
-    int? pageSize,
-    CurrentData<T>? currentData,
-    required Args args,
-  }) = FirstLoading<T, Args>;
+class ReadyListState<T> extends BaseReadyListState<T> {
+  const ReadyListState({
+    super.items = const [],
+    super.totalCount = 0,
+    super.pageSize = 20,
+    super.errorDisplay,
+    required super.stateType,
+    super.cancelToken,
+  });
 
-  /// when there is any error
-  /// *************************************************************************
-  const factory ReadyListState.error({
-    required Args args,
-    required ErrorDisplayCallBack display,
-    CurrentData<T>? currentData,
-  }) = ErrorState<T, Args>;
-
-  /// data loaded
-  /// *************************************************************************
-  const factory ReadyListState.isLoaded({
-    required Iterable<T> items,
-    required int totalCount,
-    int? pageSize,
-    required Args args,
-  }) = Loaded<T, Args>;
-
-  /// this will fire next loading
-  /// *************************************************************************
-  const factory ReadyListState.requestNext({
-    int? pageSize,
-    required CurrentData<T> currentData,
-    required Args args,
-  }) = RequestNext<T, Args>;
-
-  /// when loading next data
-  const factory ReadyListState.isLoadingNext({
-    ICancelToken? cancelToken,
-    int? pageSize,
-    required CurrentData<T> currentData,
-    required Args args,
-  }) = LoadingNext<T, Args>;
-
-  /// this will fire refresh
-  /// *************************************************************************
-  const factory ReadyListState.requestRefresh({
-    int? pageSize,
-    required CurrentData<T> currentData,
-    required Args args,
-  }) = RequestRefresh<T, Args>;
-
-  /// refreshing data
-  const factory ReadyListState.isRefreshing({
-    ICancelToken? cancelToken,
-    int? pageSize,
-    required CurrentData<T> currentData,
-    required Args args,
-  }) = Refreshing<T, Args>;
+  const ReadyListState.intitial({
+    super.items = const [],
+    super.totalCount = 0,
+    super.pageSize = 20,
+    super.errorDisplay,
+  })  : assert(items.length <= totalCount),
+        super(cancelToken: null, stateType: StateType.intitial);
 }

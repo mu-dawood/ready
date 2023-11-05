@@ -1,11 +1,11 @@
 part of ready_list;
 
-typedef StateResultCallBack<T> = T Function(ReadyListState controller);
-typedef ReadyListWidgetBuilder<T, Args> = List<Widget> Function(
-    ReadyListState<T, Args> state);
+typedef StateResultCallBack<T> = T Function(BaseReadyListState state);
+typedef ReadyListWidgetBuilder<T, S extends BaseReadyListState<T>>
+    = List<Widget> Function(S state);
 
-typedef ReadyListSliverBuilder<T, Args> = List<Widget> Function(
-    ReadyListState<T, Args> state, Widget? Function() defaultPlaceHolder);
+typedef ReadyListSliverBuilder<T, S extends BaseReadyListState<T>>
+    = List<Widget> Function(S state, Widget? Function() defaultPlaceHolder);
 typedef GridDelegateCallback = SliverSimpleGridDelegate Function({
   required double width,
   required int? length,

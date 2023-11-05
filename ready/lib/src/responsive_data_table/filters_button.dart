@@ -1,8 +1,7 @@
 part of responsive_data_table;
 
-class _FiltersButton<T, Args,
-        TController extends BaseReadyListController<T, Args>>
-    extends StatelessWidget {
+class _FiltersButton<T, S extends BaseReadyListState<T>,
+    TController extends ReadyListController<T, S>> extends StatelessWidget {
   final List<DataTableFilter> filters;
   final TController controller;
   const _FiltersButton({
@@ -13,38 +12,33 @@ class _FiltersButton<T, Args,
   @override
   Widget build(BuildContext context) {
     var hasValue = filters.any((element) => element.value != null);
-
+    var stateType = controller.state.stateType;
     return IconButton(
       icon: Icon(
         Icons.sort,
-        color: controller.state.maybeMap(
-          orElse: () => Theme.of(context).disabledColor,
-          isLoaded: (_) =>
-              (hasValue ? Theme.of(context).colorScheme.secondary : null),
-        ),
+        color: stateType == StateType.loaded
+            ? (hasValue ? Theme.of(context).colorScheme.secondary : null)
+            : Theme.of(context).disabledColor,
       ),
-      onPressed: controller.state.mapOrNull(
-        isLoaded: (_) {
-          return () async {
-            await showDialog(
-              context: context,
-              builder: (ctx) {
-                return _FiltersButtonSheet(
-                  controller: () => controller,
-                  filters: filters,
-                );
-              },
-            );
-          };
-        },
-      ),
+      onPressed: (stateType == StateType.loaded)
+          ? () async {
+              await showDialog(
+                context: context,
+                builder: (ctx) {
+                  return _FiltersButtonSheet<T, S, TController>(
+                    controller: () => controller,
+                    filters: filters,
+                  );
+                },
+              );
+            }
+          : null,
     );
   }
 }
 
-class _FiltersButtonSheet<T, Args,
-        TController extends BaseReadyListController<T, Args>>
-    extends StatelessWidget {
+class _FiltersButtonSheet<T, S extends BaseReadyListState<T>,
+    TController extends ReadyListController<T, S>> extends StatelessWidget {
   final List<DataTableFilter> filters;
   final TController Function() controller;
   const _FiltersButtonSheet({
@@ -56,14 +50,16 @@ class _FiltersButtonSheet<T, Args,
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: controller().stream,
-      builder: (BuildContext context,
-          AsyncSnapshot<ReadyListState<T, Args>> snapshot) {
-        var loading = controller().state.mapOrNull(
-              isLoadingFirst: (_) => const LinearProgressIndicator(),
-              requestFirstLoading: (_) => const LinearProgressIndicator(),
-              isRefreshing: (_) => const LinearProgressIndicator(),
-              requestRefresh: (_) => const LinearProgressIndicator(),
-            );
+      builder: (BuildContext context, AsyncSnapshot<S> snapshot) {
+        var states = [
+          StateType.isLoadingFirstTime,
+          StateType.requestFirstLoading,
+          StateType.isRefreshing,
+          StateType.requestRefreshing
+        ];
+        var loading = states.contains(controller().state)
+            ? const LinearProgressIndicator()
+            : null;
 
         return AlertDialog(
           content: SingleChildScrollView(

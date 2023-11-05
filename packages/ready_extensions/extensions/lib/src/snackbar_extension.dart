@@ -137,10 +137,10 @@ extension SnackBarExtension on BuildContext {
     var navigator = Navigator.of(this);
     if (waitDialogToPop) await waitForDialogToClose();
     if (waitPopupRouteToPop) await waitForPopupRouteToClose();
-
-    if (showModalSheet) {
+    var context = navigator.context;
+    if (showModalSheet && context.mounted) {
       var future = showModalBottomSheet(
-        context: navigator.context,
+        context: context,
         backgroundColor: Colors.transparent,
         isScrollControlled: true,
         builder: (ctx) => _Dismiss(
@@ -216,7 +216,7 @@ extension SnackBarExtension on BuildContext {
     }
   }
 
-  void errorSnackBar(
+  Future errorSnackBar(
     String message, {
     double? elevation,
     EdgeInsetsGeometry? margin,
@@ -231,7 +231,7 @@ extension SnackBarExtension on BuildContext {
     bool waitDialogToPop = true,
     bool waitPopupRouteToPop = false,
   }) {
-    showSnackBar(
+    return showSnackBar(
       message,
       backgroundColor: Theme.of(this).colorScheme.error,
       textColor: Theme.of(this).colorScheme.onError,
@@ -250,7 +250,7 @@ extension SnackBarExtension on BuildContext {
     );
   }
 
-  void primarySnackBar(
+  Future primarySnackBar(
     String message, {
     double? elevation,
     EdgeInsetsGeometry? margin,
@@ -265,7 +265,7 @@ extension SnackBarExtension on BuildContext {
     bool waitDialogToPop = true,
     bool waitPopupRouteToPop = false,
   }) {
-    showSnackBar(
+    return showSnackBar(
       message,
       backgroundColor: Theme.of(this).colorScheme.primary,
       textColor: Theme.of(this).colorScheme.onPrimary,
@@ -284,7 +284,7 @@ extension SnackBarExtension on BuildContext {
     );
   }
 
-  void accentSnackBar(
+  Future accentSnackBar(
     String message, {
     double? elevation,
     EdgeInsetsGeometry? margin,
@@ -299,7 +299,7 @@ extension SnackBarExtension on BuildContext {
     bool waitDialogToPop = true,
     bool waitPopupRouteToPop = false,
   }) {
-    showSnackBar(
+    return showSnackBar(
       message,
       backgroundColor: Theme.of(this).colorScheme.secondary,
       textColor: Theme.of(this).colorScheme.onSecondary,

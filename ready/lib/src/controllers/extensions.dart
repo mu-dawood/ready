@@ -1,21 +1,82 @@
 part of controllers;
 
-extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
+typedef TotalCountResolver = int Function(
+    int currentTotalCount, int difference);
+int _defaultResolver(int current, int difference) => current + difference;
+
+extension ReadyListStateExt<T, S extends BaseReadyListState<T>>
+    on ReadyListController<T, S> {
+  /// emit requestFirstLoading
+  void requestFirstLoading(int pageSize, [ICancelToken? cancelToken]) {
+    return emit(copyWith(
+      stateType: StateType.requestFirstLoading,
+      cancelToken: cancelToken,
+      pageSize: pageSize,
+    ));
+  }
+
+  /// emit isLoadingFirstTime
+  void isLoadingFirstTime() {
+    return emit(copyWith(stateType: StateType.isLoadingFirstTime));
+  }
+
+  /// emit loaded
+  void loaded({
+    required Iterable<T> items,
+    required int totalCount,
+  }) {
+    return emit(copyWith(
+      stateType: StateType.loaded,
+      items: items,
+      totalCount: totalCount,
+    ));
+  }
+
+  /// emit error
+  void error({required ErrorDisplayCallBack display}) {
+    return emit(copyWith(stateType: StateType.error, errorDisplay: display));
+  }
+
+  /// emit requestNextLoading
+  void requestNextLoading(int pageSize, [ICancelToken? cancelToken]) {
+    return emit(copyWith(
+      stateType: StateType.requestNextLoading,
+      cancelToken: cancelToken,
+      pageSize: pageSize,
+    ));
+  }
+
+  /// emit isLoadingNext
+  void isLoadingNext() {
+    return emit(copyWith(stateType: StateType.isLoadingNext));
+  }
+
+  /// emit requestRefreshing
+  void requestRefreshing(int pageSize, [ICancelToken? cancelToken]) {
+    return emit(copyWith(
+      stateType: StateType.requestRefreshing,
+      cancelToken: cancelToken,
+      pageSize: pageSize,
+    ));
+  }
+
+  /// emit isRefreshing
+  void isRefreshing() {
+    return emit(copyWith(stateType: StateType.isRefreshing));
+  }
+
+  int diff(int original, int current) {
+    return current - original;
+  }
+
   /// Adds [value] to the end of this list,
   /// extending the length by one.
   ///
   /// The list must be growable.
-  ReadyListState<T, Args> add(T value,
-      [TotalCountResolver totalCountResolver = _defaultResolver]) {
-    return _doAction(
-      action: (CurrentData<T> data) => data.add(value, totalCountResolver),
-      initializing: (Initializing<T, Args> state) {
-        return ReadyListState.isLoaded(
-          items: [value],
-          totalCount: totalCountResolver(0, 1),
-          args: state.args,
-        );
-      },
+  S add(T value, [TotalCountResolver totalCountResolver = _defaultResolver]) {
+    return copyWith(
+      items: [...state.items, value],
+      totalCount: totalCountResolver(state.totalCount, 1),
     );
   }
 
@@ -23,18 +84,11 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   ///
   /// Extends the length of the list by the number of objects in [iterable].
   /// The list must be growable.
-  ReadyListState<T, Args> addAll(Iterable<T> iterable,
+  S addAll(Iterable<T> iterable,
       [TotalCountResolver totalCountResolver = _defaultResolver]) {
-    return _doAction(
-      action: (CurrentData<T> data) =>
-          data.addAll(iterable, totalCountResolver),
-      initializing: (Initializing<T, Args> state) {
-        return ReadyListState.isLoaded(
-          items: iterable,
-          totalCount: totalCountResolver(0, iterable.length),
-          args: state.args,
-        );
-      },
+    return copyWith(
+      items: [...state.items, ...iterable],
+      totalCount: totalCountResolver(state.totalCount, iterable.length),
     );
   }
 
@@ -45,18 +99,14 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   ///
   /// The list must be growable.
   /// The [index] value must be non-negative and no greater than [length].
-  ReadyListState<T, Args> insert(int index, T element,
+  S insert(int index, T element,
       [TotalCountResolver totalCountResolver = _defaultResolver]) {
-    return _doAction(
-      action: (CurrentData<T> data) =>
-          data.insert(index, element, totalCountResolver),
-      initializing: (Initializing<T, Args> state) {
-        return ReadyListState.isLoaded(
-          items: [element],
-          totalCount: totalCountResolver(0, 1),
-          args: state.args,
-        );
-      },
+    var current = state.items;
+    List<T> data = current is List<T> ? current : current.toList();
+    data.insert(index, element);
+    return copyWith(
+      items: data,
+      totalCount: totalCountResolver(state.totalCount, 1),
     );
   }
 
@@ -67,18 +117,14 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   ///
   /// The list must be growable.
   /// The [index] value must be non-negative and no greater than [length].
-  ReadyListState<T, Args> insertAll(int index, Iterable<T> iterable,
+  S insertAll(int index, Iterable<T> iterable,
       [TotalCountResolver totalCountResolver = _defaultResolver]) {
-    return _doAction(
-      action: (CurrentData<T> data) =>
-          data.insertAll(index, iterable, totalCountResolver),
-      initializing: (Initializing<T, Args> state) {
-        return ReadyListState.isLoaded(
-          items: iterable,
-          totalCount: totalCountResolver(0, iterable.length),
-          args: state.args,
-        );
-      },
+    var current = state.items;
+    List<T> data = current is List<T> ? current : current.toList();
+    data.insertAll(index, iterable);
+    return copyWith(
+      items: data,
+      totalCount: totalCountResolver(state.totalCount, iterable.length),
     );
   }
 
@@ -91,11 +137,17 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   /// final parts = <String>['head', 'shoulders', 'knees', 'toes'];
   /// final retVal = parts.remove('head'); // true
   /// print(parts); // [shoulders, knees, toes]
-  ReadyListState<T, Args> remove(T value,
+  S remove(T value,
       [TotalCountResolver totalCountResolver = _defaultResolver]) {
-    return _doAction(
-      action: (CurrentData<T> data) => data.remove(value, totalCountResolver),
-      initializing: (Initializing<T, Args> state) => state,
+    var current = state.items;
+    List<T> data = current is List<T> ? current : current.toList();
+    var oldLength = data.length;
+    data.remove(value);
+    var newLength = data.length;
+    return copyWith(
+      items: data,
+      totalCount:
+          totalCountResolver(state.totalCount, diff(oldLength, newLength)),
     );
   }
 
@@ -110,12 +162,17 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   /// An empty range (with `end == start`) is valid.
   ///
   /// The list must be growable.
-  ReadyListState<T, Args> removeRange(int start, int end,
+  S removeRange(int start, int end,
       [TotalCountResolver totalCountResolver = _defaultResolver]) {
-    return _doAction(
-      action: (CurrentData<T> data) =>
-          data.removeRange(start, end, totalCountResolver),
-      initializing: (Initializing<T, Args> state) => state,
+    var current = state.items;
+    List<T> data = current is List<T> ? current : current.toList();
+    var oldLength = data.length;
+    data.removeRange(start, end);
+    var newLength = data.length;
+    return copyWith(
+      items: data,
+      totalCount:
+          totalCountResolver(state.totalCount, diff(oldLength, newLength)),
     );
   }
 
@@ -130,23 +187,33 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   /// An empty range (with `end == start`) is valid.
   ///
   /// The list must be growable.
-  ReadyListState<T, Args> removeWhere(bool Function(T) test,
+  S removeWhere(bool Function(T) test,
       [TotalCountResolver totalCountResolver = _defaultResolver]) {
-    return _doAction(
-      action: (CurrentData<T> data) =>
-          data.removeWhere(test, totalCountResolver),
-      initializing: (Initializing<T, Args> state) => state,
+    var current = state.items;
+    List<T> data = current is List<T> ? current : current.toList();
+    var oldLength = data.length;
+    data.removeWhere(test);
+    var newLength = data.length;
+    return copyWith(
+      items: data,
+      totalCount:
+          totalCountResolver(state.totalCount, diff(oldLength, newLength)),
     );
   }
 
   /// Removes and returns the last object in this list.
   ///
   /// The list must be growable and non-empty.
-  ReadyListState<T, Args> removeLast(
-      [TotalCountResolver totalCountResolver = _defaultResolver]) {
-    return _doAction(
-      action: (CurrentData<T> data) => data.removeLast(totalCountResolver),
-      initializing: (Initializing<T, Args> state) => state,
+  S removeLast([TotalCountResolver totalCountResolver = _defaultResolver]) {
+    var current = state.items;
+    List<T> data = current is List<T> ? current : current.toList();
+    var oldLength = data.length;
+    data.removeLast();
+    var newLength = data.length;
+    return copyWith(
+      items: data,
+      totalCount:
+          totalCountResolver(state.totalCount, diff(oldLength, newLength)),
     );
   }
 
@@ -156,11 +223,18 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   /// down by one position.
   ///
   /// The list must be growable.
-  ReadyListState<T, Args> removeAt(int index,
+  S removeAt(int index,
       [TotalCountResolver totalCountResolver = _defaultResolver]) {
-    return _doAction(
-      action: (CurrentData<T> data) => data.removeAt(index, totalCountResolver),
-      initializing: (Initializing<T, Args> state) => state,
+    if (index >= state.items.length) return state;
+    var current = state.items;
+    List<T> data = current is List<T> ? current : current.toList();
+    var oldLength = data.length;
+    data.removeAt(index);
+    var newLength = data.length;
+    return copyWith(
+      items: data,
+      totalCount:
+          totalCountResolver(state.totalCount, diff(oldLength, newLength)),
     );
   }
 
@@ -176,11 +250,17 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   /// Iterating will not cache results, and thus iterating multiple times over
   /// the returned [Iterable] may invoke the supplied
   /// function [test] multiple times on the same element.
-  ReadyListState<T, Args> where(bool Function(T) test,
+  S where(bool Function(T) test,
       [TotalCountResolver totalCountResolver = _defaultResolver]) {
-    return _doAction(
-      action: (CurrentData<T> data) => data.where(test, totalCountResolver),
-      initializing: (Initializing<T, Args> state) => state,
+    var current = state.items;
+    List<T> data = current is List<T> ? current : current.toList();
+    var oldLength = data.length;
+    var newData = data.where(test);
+    var newLength = newData.length;
+    return copyWith(
+      items: newData,
+      totalCount:
+          totalCountResolver(state.totalCount, diff(oldLength, newLength)),
     );
   }
 
@@ -196,11 +276,14 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   /// Some iterables may be able to find later elements without first iterating
   /// through earlier elements, for example when iterating a [List].
   /// Such iterables are allowed to ignore the initial skipped elements.
-  ReadyListState<T, Args> skip(int count,
+  S skip(int count,
       [TotalCountResolver totalCountResolver = _defaultResolver]) {
-    return _doAction(
-      action: (CurrentData<T> data) => data.skip(count, totalCountResolver),
-      initializing: (Initializing<T, Args> state) => state,
+    var oldLength = state.items.length;
+    var newData = state.items.skip(count);
+    return copyWith(
+      items: newData,
+      totalCount:
+          totalCountResolver(state.totalCount, diff(oldLength, newData.length)),
     );
   }
 
@@ -214,11 +297,14 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   /// true. If all elements satisfy `test` the resulting iterable is empty,
   /// otherwise it iterates the remaining elements in their original order,
   /// starting with the first element for which `test(element)` returns `false`.
-  ReadyListState<T, Args> skipWhile(bool Function(T) test,
+  S skipWhile(bool Function(T) test,
       [TotalCountResolver totalCountResolver = _defaultResolver]) {
-    return _doAction(
-      action: (CurrentData<T> data) => data.skipWhile(test, totalCountResolver),
-      initializing: (Initializing<T, Args> state) => state,
+    var oldLength = state.items.length;
+    var newData = state.items.skipWhile(test);
+    return copyWith(
+      items: newData,
+      totalCount:
+          totalCountResolver(state.totalCount, diff(oldLength, newData.length)),
     );
   }
 
@@ -231,11 +317,14 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   /// elements have been seen.
   ///
   /// The `count` must not be negative.
-  ReadyListState<T, Args> take(int count,
+  S take(int count,
       [TotalCountResolver totalCountResolver = _defaultResolver]) {
-    return _doAction(
-      action: (CurrentData<T> data) => data.take(count, totalCountResolver),
-      initializing: (Initializing<T, Args> state) => state,
+    var oldLength = state.items.length;
+    var newData = state.items.take(count);
+    return copyWith(
+      items: newData,
+      totalCount:
+          totalCountResolver(state.totalCount, diff(oldLength, newData.length)),
     );
   }
 
@@ -247,11 +336,14 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   /// The elements can be computed by stepping through [iterator] until an
   /// element is found where `test(element)` is false. At that point,
   /// the returned iterable stops (its `moveNext()` returns false).
-  ReadyListState<T, Args> takeWhile(bool Function(T) test,
+  S takeWhile(bool Function(T) test,
       [TotalCountResolver totalCountResolver = _defaultResolver]) {
-    return _doAction(
-      action: (CurrentData<T> data) => data.takeWhile(test, totalCountResolver),
-      initializing: (Initializing<T, Args> state) => state,
+    var oldLength = state.items.length;
+    var newData = state.items.takeWhile(test);
+    return copyWith(
+      items: newData,
+      totalCount:
+          totalCountResolver(state.totalCount, diff(oldLength, newData.length)),
     );
   }
 
@@ -270,12 +362,14 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   ///     yield* toElements(value);
   ///   }
   /// }
-  ReadyListState<T, Args> expand(Iterable<T> Function(T) toElements,
+  S expand(Iterable<T> Function(T) toElements,
       [TotalCountResolver totalCountResolver = _defaultResolver]) {
-    return _doAction(
-      action: (CurrentData<T> data) =>
-          data.expand(toElements, totalCountResolver),
-      initializing: (Initializing<T, Args> state) => state,
+    var oldLength = state.items.length;
+    var newData = state.items.expand(toElements);
+    return copyWith(
+      items: newData,
+      totalCount:
+          totalCountResolver(state.totalCount, diff(oldLength, newData.length)),
     );
   }
 
@@ -284,12 +378,14 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   /// The returned iterable will provide the same elements as this iterable,
   /// and, after that, the elements of [other], in the same order as in the
   /// original iterables.
-  ReadyListState<T, Args> followedBy(Iterable<T> other,
+  S followedBy(Iterable<T> other,
       [TotalCountResolver totalCountResolver = _defaultResolver]) {
-    return _doAction(
-      action: (CurrentData<T> data) =>
-          data.followedBy(other, totalCountResolver),
-      initializing: (Initializing<T, Args> state) => state,
+    var oldLength = state.items.length;
+    var newData = state.items.followedBy(other);
+    return copyWith(
+      items: newData,
+      totalCount:
+          totalCountResolver(state.totalCount, diff(oldLength, newData.length)),
     );
   }
 
@@ -318,40 +414,31 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   ///     yield toElement(value);
   ///   }
   /// }
-  ReadyListState<T, Args> mapItems(T Function(T) toElement) {
-    return _doAction(
-      action: (CurrentData<T> data) => data.map(toElement),
-      initializing: (Initializing<T, Args> state) => state,
-    );
+  S map(T Function(T) toElement) {
+    return copyWith(items: state.items.map(toElement));
   }
 
   /// replace items where test return `true`
-  ReadyListState<T, Args> replaceWhere(
-      {required bool Function(T) where, required T item}) {
-    return _doAction(
-      action: (CurrentData<T> data) =>
-          data.replaceWhere(where: where, item: item),
-      initializing: (Initializing<T, Args> state) => state,
-    );
+  S replaceWhere({required bool Function(T) where, required T item}) {
+    return copyWith(items: state.items.map((old) => where(old) ? item : old));
   }
 
   /// Whether this collection has no elements.
   ///
   /// May be computed by checking if `iterator.moveNext()` returns `false`.
-  bool get isEmpty => _doCurrentDataAction((data) => data?.isEmpty ?? true);
+  bool get isEmpty => state.items.isEmpty;
 
   /// Whether this collection has at least one element.
   ///
   /// May be computed by checking if `iterator.moveNext()` returns `true`.
-  bool get isNotEmpty =>
-      _doCurrentDataAction((data) => data?.isNotEmpty ?? false);
+  bool get isNotEmpty => state.items.isNotEmpty;
 
   /// Returns the first element.
   ///
   /// Throws a [StateError] if `this` is empty.
   /// Otherwise returns the first element in the iteration order,
   /// equivalent to `this.elementAt(0)`.
-  T? get first => _doCurrentDataAction((data) => data?.first);
+  T get first => state.items.first;
 
   /// Returns the last element.
   ///
@@ -361,30 +448,30 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   /// Some iterables may have more efficient ways to find the last element
   /// (for example a list can directly access the last element,
   /// without iterating through the previous ones).
-  T? get last => _doCurrentDataAction((data) => data?.last);
+  T get last => state.items.last;
 
   /// Returns the number of elements in [this].
   ///
   /// Counting all elements may involve iterating through all elements and can
   /// therefore be slow.
   /// Some iterables have a more efficient way to find the number of elements.
-  int get length => _doCurrentDataAction((data) => data?.length ?? 0);
-  int? get totalCount => _doCurrentDataAction((data) => data?.totalCount);
+  int get length => state.items.length;
 
   /// Checks that this iterable has only one element, and returns that element.
   ///
   /// Throws a [StateError] if `this` is empty or has more than one element.
-  T? get single => _doCurrentDataAction((data) => data?.single);
-  Iterable<T> get items => _doCurrentDataAction((data) => data?.items ?? []);
+  T get single => state.items.single;
 
   /// Invokes [action] on each element of this iterable in iteration order.
   void forEach(void Function(T) action) {
-    _doCurrentDataAction((data) => data?.forEach(action));
+    state.items.forEach(action);
   }
 
   /// Invokes [action] on each element of this iterable in iteration order.
   void forEachIndex(void Function(int i, T item) action) {
-    _doCurrentDataAction((data) => data?.forEachIndex(action));
+    for (var i = 0; i < state.items.length; i++) {
+      action(i, state.items.elementAt(i));
+    }
   }
 
   /// Checks whether any element of this iterable satisfies [test].
@@ -392,7 +479,7 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   /// Checks every element in iteration order, and returns `true` if
   /// any of them make [test] return `true`, otherwise returns false.
   bool any(bool Function(T) test) {
-    return _doCurrentDataAction((data) => data?.any(test) ?? false);
+    return state.items.any(test);
   }
 
   /// Checks whether every element of this iterable satisfies [test].
@@ -400,15 +487,14 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   /// Checks every element in iteration order, and returns `false` if
   /// any of them make [test] return `false`, otherwise returns `true`.
   bool every(bool Function(T) test) {
-    return _doCurrentDataAction((data) => data?.every(test) ?? false);
+    return state.items.every(test);
   }
 
   /// Returns the first element that satisfies the given predicate [test].
   ///
   /// Iterates through elements and returns the first to satisfy [test].
-  T? firstWhere(bool Function(T) test, {T Function()? orElse}) {
-    return _doCurrentDataAction(
-        (data) => data?.firstWhere(test, orElse: orElse));
+  T firstWhere(bool Function(T) test, {T Function()? orElse}) {
+    return state.items.firstWhere(test, orElse: orElse);
   }
 
   /// Returns the single element that satisfies [test].
@@ -418,9 +504,8 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   /// If more than one matching element is found, throws [StateError].
   /// If no matching element is found, returns the result of [orElse].
   /// If [orElse] is omitted, it defaults to throwing a [StateError].
-  T? singleWhere(bool Function(T) test, {T Function()? orElse}) {
-    return _doCurrentDataAction(
-        (data) => data?.singleWhere(test, orElse: orElse));
+  T singleWhere(bool Function(T) test, {T Function()? orElse}) {
+    return state.items.singleWhere(test, orElse: orElse);
   }
 
   /// Returns the last element that satisfies the given predicate [test].
@@ -431,9 +516,8 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   /// The default implementation iterates elements in iteration order,
   /// checks `test(element)` for each,
   /// and finally returns that last one that matched.
-  T? lastWhere(bool Function(T) test, {T Function()? orElse}) {
-    return _doCurrentDataAction(
-        (data) => data?.lastWhere(test, orElse: orElse));
+  T lastWhere(bool Function(T) test, {T Function()? orElse}) {
+    return state.items.lastWhere(test, orElse: orElse);
   }
 
   /// Whether the collection contains an element equal to [element].
@@ -451,7 +535,7 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   /// Likewise the `Iterable` returned by a [Map.keys] call
   /// should use the same equality that the `Map` uses for keys.
   bool contains(T object) {
-    return _doCurrentDataAction((data) => data?.contains(object) ?? false);
+    return state.items.contains(object);
   }
 
   /// Returns the [index]th element.
@@ -463,8 +547,8 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   /// May iterate through the elements in iteration order, ignoring the
   /// first [index] elements and then returning the next.
   /// Some iterables may have a more efficient way to find the element.
-  T? elementAt(int index) {
-    return _doCurrentDataAction((data) => data?.elementAt(index));
+  T elementAt(int index) {
+    return state.items.elementAt(index);
   }
 
   /// Reduces a collection to a single value by iteratively combining each
@@ -479,8 +563,8 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   ///   value = combine(value, element);
   /// }
   /// return value;
-  R? fold<R>(R initialValue, R Function(R, T) combine) {
-    return _doCurrentDataAction((data) => data?.fold<R>(initialValue, combine));
+  R fold<R>(R initialValue, R Function(R, T) combine) {
+    return state.items.fold(initialValue, combine);
   }
 
   /// Reduces a collection to a single value by iteratively combining elements
@@ -498,8 +582,8 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   ///   value = combine(value, element);
   /// });
   /// return value;
-  T? reduce(T Function(T, T) combine) {
-    return _doCurrentDataAction((data) => data?.reduce(combine));
+  T reduce(T Function(T, T) combine) {
+    return state.items.reduce(combine);
   }
 
   /// Creates a [Set] containing the same elements as this iterable.
@@ -510,86 +594,15 @@ extension ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
   /// The order of the elements in the set is not guaranteed to be the same
   /// as for the iterable.
   Set<T> toSet() {
-    return _doCurrentDataAction((data) => data?.toSet() ?? {});
+    return state.items.toSet();
   }
 
   /// Removes all objects from this list; the length of the list becomes zero.
-  ReadyListState<T, Args> clear(
-      [TotalCountResolver totalCountResolver = _defaultResolver]) {
-    return _doAction(
-      action: (CurrentData<T> data) => data.clear(totalCountResolver),
-      initializing: (Initializing<T, Args> state) => state,
-    );
-  }
-}
-
-extension _ReadyListStateExt<T, Args> on ReadyListState<T, Args> {
-  ReadyListState<T, Args> _doAction({
-    required CurrentData<T> Function(CurrentData<T> data) action,
-    required ReadyListState<T, Args> Function(Initializing<T, Args> state)
-        initializing,
-  }) {
-    return map(
-      isLoaded: (state) {
-        var data = action(CurrentData(
-          items: state.items,
-          totalCount: state.totalCount,
-          pageSize: state.pageSize,
-        ));
-        return state.copyWith(
-          items: data.items,
-          pageSize: data.pageSize,
-          totalCount: data.totalCount,
-        );
-      },
-      initializing: initializing,
-      requestFirstLoading: (state) {
-        var currentData = state.currentData;
-        if (currentData == null) return state;
-        return state.copyWith(currentData: action(currentData));
-      },
-      error: (ErrorState<T, Args> state) {
-        var currentData = state.currentData;
-        if (currentData == null) return state;
-        return state.copyWith(currentData: action(currentData));
-      },
-      isLoadingFirst: (FirstLoading<T, Args> state) {
-        var currentData = state.currentData;
-        if (currentData == null) return state;
-        return state.copyWith(currentData: action(currentData));
-      },
-      isLoadingNext: (LoadingNext<T, Args> state) {
-        return state.copyWith(currentData: action(state.currentData));
-      },
-      isRefreshing: (Refreshing<T, Args> state) {
-        return state.copyWith(currentData: action(state.currentData));
-      },
-      requestNext: (RequestNext<T, Args> state) {
-        return state.copyWith(currentData: action(state.currentData));
-      },
-      requestRefresh: (RequestRefresh<T, Args> state) {
-        return state.copyWith(currentData: action(state.currentData));
-      },
-    );
-  }
-
-  R _doCurrentDataAction<R>(R Function(CurrentData<T>? data) action) {
-    return map(
-      isLoaded: (state) {
-        return action(CurrentData(
-          items: state.items,
-          totalCount: state.totalCount,
-          pageSize: state.pageSize,
-        ));
-      },
-      initializing: (_) => action(null),
-      requestFirstLoading: (state) => action(state.currentData),
-      error: (state) => action(state.currentData),
-      isLoadingFirst: (state) => action(state.currentData),
-      isLoadingNext: (state) => action(state.currentData),
-      isRefreshing: (state) => action(state.currentData),
-      requestNext: (state) => action(state.currentData),
-      requestRefresh: (state) => action(state.currentData),
+  S clear([TotalCountResolver totalCountResolver = _defaultResolver]) {
+    return copyWith(
+      items: [],
+      totalCount:
+          totalCountResolver(state.totalCount, diff(state.items.length, 0)),
     );
   }
 }

@@ -1,8 +1,7 @@
 part of responsive_data_table;
 
-class _HeaderTitle<T, Args,
-        TController extends BaseReadyListController<T, Args>>
-    extends StatelessWidget {
+class _HeaderTitle<T, S extends BaseReadyListState<T>,
+    TController extends ReadyListController<T, S>> extends StatelessWidget {
   final TController controller;
   const _HeaderTitle({super.key, required this.controller});
   Text _selectionText(BuildContext context, Set<int> value) {
@@ -11,18 +10,20 @@ class _HeaderTitle<T, Args,
   }
 
   Widget _header(
-      BuildContext context, ResponsiveDataTable<T, Args, TController> options) {
+      BuildContext context, ResponsiveDataTable<T, S, TController> options) {
     var spans = PageInfo.mayBeOf(context)?.widget.titleSpans ?? [];
     return StreamBuilder(
       stream: controller.stream,
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        Widget? loading = controller.state.maybeMap(
-          orElse: () => null,
-          isLoadingFirst: (_) => const CupertinoActivityIndicator(),
-          requestFirstLoading: (_) => const CupertinoActivityIndicator(),
-          isLoadingNext: (_) => const CupertinoActivityIndicator(),
-          requestNext: (_) => const CupertinoActivityIndicator(),
-        );
+        Widget? loading = [
+          StateType.isLoadingFirstTime,
+          StateType.requestFirstLoading,
+          StateType.isLoadingNext,
+          StateType.requestNextLoading,
+        ].contains(controller.state)
+            ? const CupertinoActivityIndicator()
+            : null;
+
         return Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -40,8 +41,8 @@ class _HeaderTitle<T, Args,
   @override
   Widget build(BuildContext context) {
     var options = context.dependOnInheritedWidgetOfExactType<
-        ResponsiveDataTable<T, Args, TController>>()!;
-    var parent = _ResponsiveDataTable.of<T, Args, TController>(context);
+        ResponsiveDataTable<T, S, TController>>()!;
+    var parent = _ResponsiveDataTable.of<T, S, TController>(context);
     var selectedIndices = parent._selectedIndices;
     bool hasPageInfo = PageInfo.mayBeOf(context) != null;
     var canSelect = (options.selectionButton != null);

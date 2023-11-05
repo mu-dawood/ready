@@ -50,3 +50,7 @@
 
 *  Update dart sdk
 
+## 2.0.0
+
+*  Remove freezd and equatble instead
+

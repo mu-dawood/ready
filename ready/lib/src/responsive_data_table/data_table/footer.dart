@@ -1,7 +1,7 @@
 part of responsive_data_table;
 
-class _Footer<T, Args, TController extends BaseReadyListController<T, Args>>
-    extends StatefulWidget {
+class _Footer<T, S extends BaseReadyListState<T>,
+    TController extends ReadyListController<T, S>> extends StatefulWidget {
   final TController controller;
   final ValueNotifier<_DataTablePaging> paging;
   final bool sliver;
@@ -13,21 +13,21 @@ class _Footer<T, Args, TController extends BaseReadyListController<T, Args>>
       : super(key: key);
 
   @override
-  State<_Footer<T, Args, TController>> createState() =>
-      _FooterState<T, Args, TController>();
+  State<_Footer<T, S, TController>> createState() =>
+      _FooterState<T, S, TController>();
 }
 
-class _FooterState<T, Args,
-        TController extends BaseReadyListController<T, Args>>
-    extends State<_Footer<T, Args, TController>> {
-  late StreamSubscription<ReadyListState<T, Args>> subscription;
+class _FooterState<T, S extends BaseReadyListState<T>,
+        TController extends ReadyListController<T, S>>
+    extends State<_Footer<T, S, TController>> {
+  late StreamSubscription<S> subscription;
   _DataTablePaging get paging => widget.paging.value;
-  ReadyListState<T, Args> get state => widget.controller.state;
+  S get state => widget.controller.state;
   bool _loading = false;
 
-  int get length => state.length;
+  int get length => widget.controller.length;
 
-  int get totalCount => math.max(state.totalCount ?? 0, state.length);
+  int get totalCount => math.max(state.totalCount, widget.controller.length);
 
   bool get _canGoNext =>
       !_loading && (paging.currentPage * paging.rowsPerPage) < totalCount;
@@ -35,13 +35,7 @@ class _FooterState<T, Args,
   bool get _canGoPrev => !_loading && paging.currentPage > 1;
 
   void _handleFirstLoading() {
-    widget.controller.state.whenOrNull(
-      initializing: (value, args) {
-        if (!value) return;
-        widget.controller.emit(ReadyListState.requestFirstLoading(
-            pageSize: paging.rowsPerPage, args: args));
-      },
-    );
+    widget.controller.requestFirstLoading(paging.rowsPerPage);
   }
 
   @override
@@ -55,7 +49,7 @@ class _FooterState<T, Args,
   }
 
   @override
-  void didUpdateWidget(covariant _Footer<T, Args, TController> oldWidget) {
+  void didUpdateWidget(covariant _Footer<T, S, TController> oldWidget) {
     _handleFirstLoading();
     super.didUpdateWidget(oldWidget);
   }
@@ -71,21 +65,15 @@ class _FooterState<T, Args,
     setState(() {});
   }
 
-  void _handleDataChanged(ReadyListState<T, Args> state) {
-    state.mapOrNull(
-      requestRefresh: (state) {
-        toFirst();
-      },
-      requestFirstLoading: (state) {
-        toFirst();
-      },
-    );
-    var loading = state.maybeMap(
-      orElse: () => true,
-      error: (value) => false,
-      isLoaded: (value) => false,
-      initializing: (value) => false,
-    );
+  void _handleDataChanged(S state) {
+    if (state.stateType == StateType.requestRefreshing ||
+        state.stateType == StateType.requestFirstLoading) {
+      toFirst();
+    }
+
+    bool loading = ![StateType.error, StateType.loaded, StateType.intitial]
+        .contains(widget.controller.state);
+
     if (loading != _loading) {
       setState(() {
         _loading = loading;
@@ -98,7 +86,7 @@ class _FooterState<T, Args,
     var newPaging = paging.copyWith(rowsPerPage: v);
     var length = newPaging.currentPage * newPaging.rowsPerPage;
     if (this.length < length) {
-      widget.controller.requestNext(paging.rowsPerPage);
+      widget.controller.requestNextLoading(paging.rowsPerPage);
     }
     widget.paging.value = newPaging;
   }
@@ -109,7 +97,7 @@ class _FooterState<T, Args,
 
     var length = newPaging.currentPage * newPaging.rowsPerPage;
     if (this.length < length) {
-      widget.controller.requestNext(paging.rowsPerPage);
+      widget.controller.requestNextLoading(paging.rowsPerPage);
     }
     widget.paging.value = newPaging;
   }
@@ -129,7 +117,7 @@ class _FooterState<T, Args,
   @override
   Widget build(BuildContext context) {
     var options = context.dependOnInheritedWidgetOfExactType<
-        ResponsiveDataTable<T, Args, TController>>()!;
+        ResponsiveDataTable<T, S, TController>>()!;
     final ThemeData themeData = Theme.of(context);
     final TextStyle? footerTextStyle = themeData.textTheme.bodySmall;
     var child = DefaultTextStyle(
@@ -160,7 +148,7 @@ class _FooterState<T, Args,
   }
 
   List<Widget> _footerWidgets(BuildContext context,
-      ResponsiveDataTable<T, Args, TController> options, TextStyle textStyle) {
+      ResponsiveDataTable<T, S, TController> options, TextStyle textStyle) {
     final MaterialLocalizations localizations =
         MaterialLocalizations.of(context);
     final List<Widget> footerWidgets = <Widget>[];

@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ready_extensions/ready_extensions.dart';
 import 'package:ready_validation/ready_validation.dart';
 
 void main() {

@@ -4,8 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ready/ready.dart';
 
 class ResponsiveList extends StatelessWidget {
-  final controller =
-      ReadyListCubit(const ReadyListState.initializing(args: null));
+  final controller = ReadyListCubit(ReadyListState.intitial());
   final bool sub;
   ResponsiveList({
     Key? key,
@@ -43,8 +42,7 @@ class ResponsiveList extends StatelessWidget {
       filters: [
         (_) => SearchFilter(
               onChange: (String? value) {
-                controller.emit(const ReadyListState.requestFirstLoading(
-                    pageSize: 20, args: null));
+                controller.requestFirstLoading(20);
               },
             ),
         if (!sub) ...[
@@ -57,7 +55,7 @@ class ResponsiveList extends StatelessWidget {
                         display: 'option $index', value: index)),
                 onChange: (value) {
                   controller.value = value;
-                  controller.requestFirstLoading();
+                  controller.requestFirstLoading(20);
                 },
               ),
           (_) => MultiOptionFilter(
@@ -112,15 +110,19 @@ class ResponsiveList extends StatelessWidget {
   }
 }
 
-abstract class BaseController extends Cubit<ReadyListState<FakeItem, dynamic>>
-    implements ReadyListController<FakeItem> {
-  BaseController(ReadyListState<FakeItem, dynamic> initialState)
-      : super(initialState);
+abstract class BaseController<T, S extends ReadyListState<T>> extends Cubit<S>
+    implements ReadyListController<T, S> {
+  BaseController(S initialState) : super(initialState);
 }
 
-class ReadyListCubit extends BaseController with ReadyRemoteController {
-  ReadyListCubit(ReadyListState<FakeItem, dynamic> initialState)
-      : super(initialState);
+abstract class BaseController2<T> extends BaseController<T, ReadyListState<T>>
+    with ReadyListControllerCopyMixin {
+  BaseController2(ReadyListState<T> initialState) : super(initialState);
+}
+
+class ReadyListCubit extends BaseController2<FakeItem>
+    with ReadyRemoteControllerMixin {
+  ReadyListCubit(ReadyListState<FakeItem> initialState) : super(initialState);
   int value = 1;
   @override
   Future<RemoteResult<FakeItem>> loadData(int skip, int? pageSize,

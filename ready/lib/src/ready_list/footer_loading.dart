@@ -1,8 +1,7 @@
 part of ready_list;
 
-class _FooterLoading<T, Args,
-        TController extends BaseReadyListController<T, Args>>
-    extends StatelessWidget {
+class _FooterLoading<T, S extends BaseReadyListState<T>,
+    TController extends ReadyListController<T, S>> extends StatelessWidget {
   final bool shrinkWrap;
   final TController controller;
 
@@ -18,14 +17,13 @@ class _FooterLoading<T, Args,
   @override
   Widget build(BuildContext context) {
     var state = controller.state;
-    return state.maybeMap(
-      orElse: () => _buildNone(),
-      isLoaded: (state) {
+    switch (state.stateType) {
+      case StateType.loaded:
         if (state.items.length < state.totalCount) {
           return _buildWidget(
             TextButton(
               onPressed: () {
-                controller.requestNext(config.pageSize);
+                controller.requestNextLoading(config.pageSize);
               },
               child: Text(config.loadMoreText),
             ),
@@ -41,14 +39,14 @@ class _FooterLoading<T, Args,
         } else {
           return _buildNone();
         }
-      },
-      isLoadingNext: (state) => _buildWidget(
-        const Padding(
+      case StateType.isLoadingNext:
+        return const Padding(
           padding: EdgeInsets.only(top: 20, bottom: 20),
           child: CupertinoActivityIndicator(),
-        ),
-      ),
-    );
+        );
+      default:
+        return _buildNone();
+    }
   }
 
   Widget _buildNone() => const SliverToBoxAdapter();

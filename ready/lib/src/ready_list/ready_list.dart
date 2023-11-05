@@ -19,13 +19,14 @@ part 'footer_loading.dart';
 part 'grids.dart';
 part 'ready_screen_loader.dart';
 
-class ReadyList<T, Args, TController extends BaseReadyListController<T, Args>>
-    extends StatefulWidget implements ReadyListConfigOptions {
+class ReadyList<T, S extends BaseReadyListState<T>,
+        TController extends ReadyListController<T, S>> extends StatefulWidget
+    implements ReadyListConfigOptions {
   final ScrollController? scrollController;
-  final ReadyListWidgetBuilder<T, Args>? headerSlivers;
-  final ReadyListWidgetBuilder<T, Args>? footerSlivers;
-  final ReadyListWidgetBuilder<T, Args>? innerFooterSlivers;
-  final ReadyListSliverBuilder<T, Args>? _slivers;
+  final ReadyListWidgetBuilder<T, S>? headerSlivers;
+  final ReadyListWidgetBuilder<T, S>? footerSlivers;
+  final ReadyListWidgetBuilder<T, S>? innerFooterSlivers;
+  final ReadyListSliverBuilder<T, S>? _slivers;
   final Iterable<T> Function(Iterable<T> items)? filterItems;
   final ReadyListItemBuilder<T>? _buildItem;
   final GridDelegateCallback? _gridDelegate;
@@ -73,7 +74,7 @@ class ReadyList<T, Args, TController extends BaseReadyListController<T, Args>>
     this.headerSlivers,
     this.innerFooterSlivers,
     this.footerSlivers,
-    required ReadyListSliverBuilder<T, Args> slivers,
+    required ReadyListSliverBuilder<T, S> slivers,
     required this.controller,
     this.placeholdersConfig,
     this.showNoMoreText,
@@ -172,46 +173,39 @@ class ReadyList<T, Args, TController extends BaseReadyListController<T, Args>>
         super(key: key);
 
   @override
-  State<ReadyList<T, Args, TController>> createState() =>
-      _ReadyListState<T, Args, TController>();
+  State<ReadyList<T, S, TController>> createState() =>
+      _ReadyListState<T, S, TController>();
 }
 
-class _ReadyListState<T, Args,
-        TController extends BaseReadyListController<T, Args>>
-    extends State<ReadyList<T, Args, TController>>
+class _ReadyListState<T, S extends BaseReadyListState<T>,
+        TController extends ReadyListController<T, S>>
+    extends State<ReadyList<T, S, TController>>
     with AutomaticKeepAliveClientMixin {
   final deltaExtent = 75.0;
   StreamSubscription? _subscription;
   @override
   bool get wantKeepAlive => widget.keepAlive;
 
-  ReadyListState<T, Args> get state => widget.controller.state;
+  S get state => widget.controller.state;
 
   @override
   void didChangeDependencies() {
-    state.whenOrNull(
-      initializing: (value, args) {
-        if (!value) return;
-        var configuration =
-            _ReadyListConfigOptionsDefaults.effective(widget, context);
-        widget.controller.emit(ReadyListState.requestFirstLoading(
-            pageSize: configuration.pageSize, args: args));
-      },
-    );
+    if (state.stateType == StateType.intitial) {
+      var configuration =
+          _ReadyListConfigOptionsDefaults.effective(widget, context);
+      widget.controller.requestFirstLoading(configuration.pageSize);
+    }
+
     super.didChangeDependencies();
   }
 
   @override
-  void didUpdateWidget(covariant ReadyList<T, Args, TController> oldWidget) {
-    state.whenOrNull(
-      initializing: (value, _) {
-        if (!value) return;
-        var configuration =
-            _ReadyListConfigOptionsDefaults.effective(widget, context);
-
-        widget.controller.requestFirstLoading(configuration.pageSize);
-      },
-    );
+  void didUpdateWidget(covariant ReadyList<T, S, TController> oldWidget) {
+    if (state.stateType == StateType.intitial) {
+      var configuration =
+          _ReadyListConfigOptionsDefaults.effective(widget, context);
+      widget.controller.requestFirstLoading(configuration.pageSize);
+    }
     super.didUpdateWidget(oldWidget);
   }
 
@@ -238,29 +232,26 @@ class _ReadyListState<T, Args,
       child: StreamBuilder(
         stream: widget.controller.stream,
         initialData: widget.controller.state,
-        builder: (BuildContext context,
-            AsyncSnapshot<ReadyListState<T, Args>> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<S> snapshot) {
           var configuration =
               _ReadyListConfigOptionsDefaults.effective(widget, context);
 
           return NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
               if (configuration.allowLoadNext) {
-                state.mapOrNull(
-                  isLoaded: (state) {
-                    if (state.items.length < state.totalCount) {
-                      if (scrollInfo.metrics.pixels > 0) {
-                        if (scrollInfo.metrics.pixels >=
-                            scrollInfo.metrics.maxScrollExtent - 200) {
-                          if (configuration.allowLoadNext) {
-                            widget.controller
-                                .requestNext(configuration.pageSize);
-                          }
+                if (state.stateType == StateType.loaded) {
+                  if (state.items.length < state.totalCount) {
+                    if (scrollInfo.metrics.pixels > 0) {
+                      if (scrollInfo.metrics.pixels >=
+                          scrollInfo.metrics.maxScrollExtent - 200) {
+                        if (configuration.allowLoadNext) {
+                          widget.controller
+                              .requestNextLoading(configuration.pageSize);
                         }
                       }
                     }
-                  },
-                );
+                  }
+                }
               }
               return false;
             },
@@ -277,17 +268,14 @@ class _ReadyListState<T, Args,
   }
 
   Future _onRefresh(_ReadyListConfigOptionsDefaults configuration) {
-    return state.maybeMap<Future>(
-      orElse: () => Future.value(),
-      isLoaded: (state) {
-        var isVisible = Ready.isVisible(context);
-        if (isVisible) {
-          widget.controller.requestRefresh(configuration.pageSize);
-          return widget.controller.stream.first;
-        }
-        return Future.value();
-      },
-    );
+    if (state.stateType == StateType.loaded) {
+      var isVisible = Ready.isVisible(context);
+      if (isVisible) {
+        widget.controller.requestRefreshing(configuration.pageSize);
+        return widget.controller.stream.first;
+      }
+    }
+    return Future.value();
   }
 
   _buildRefresh(_ReadyListConfigOptionsDefaults configuration,
@@ -329,73 +317,22 @@ class _ReadyListState<T, Args,
                 ...widget.topLevelHeaderSlivers!,
               if (widget.headerSlivers != null) ...widget.headerSlivers!(state),
               if (widget._slivers != null)
-                ...state.maybeMap(
-                  error: (state) => widget._slivers!(
-                    state,
-                    () => _buildPlaceholders(shrinkWrap, configuration, false,
-                        state.display(context)),
-                  ),
-                  isLoadingFirst: (_) => widget._slivers!(
-                    state,
-                    () => !configuration.allowFakeItems
-                        ? _buildPlaceholders(
-                            shrinkWrap, configuration, true, null)
-                        : null,
-                  ),
-                  requestFirstLoading: (_) => widget._slivers!(
-                    state,
-                    () => !configuration.allowFakeItems
-                        ? _buildPlaceholders(
-                            shrinkWrap, configuration, true, null)
-                        : null,
-                  ),
-                  initializing: (_) => widget._slivers!(
-                    state,
-                    () => !configuration.allowFakeItems
-                        ? _buildPlaceholders(
-                            shrinkWrap, configuration, true, null)
-                        : null,
-                  ),
-                  orElse: () => widget._slivers!(state, () => null),
-                  isLoaded: (value) {
-                    if (value.items.isEmpty) {
-                      return widget._slivers!(
-                          state,
-                          () => _buildPlaceholders(
-                              shrinkWrap, configuration, false, null));
-                    }
-                    return widget._slivers!(state, () => null);
-                  },
+                ..._buildSlivers(
+                  context: context,
+                  shrinkWrap: shrinkWrap,
+                  configuration: configuration,
                 )
               else
-                state.maybeMap(
-                  orElse: () => !configuration.allowFakeItems
-                      ? _buildPlaceholders(
-                          shrinkWrap, configuration, true, null)
-                      : _buildBody(constraints, configuration),
-                  error: (state) => _buildPlaceholders(
-                      shrinkWrap, configuration, false, state.display(context)),
-                  isRefreshing: (state) => _buildBody(constraints,
-                      configuration, _filteredItems(state.currentData.items)),
-                  requestRefresh: (state) => _buildBody(constraints,
-                      configuration, _filteredItems(state.currentData.items)),
-                  isLoadingNext: (state) => _buildBody(constraints,
-                      configuration, _filteredItems(state.currentData.items)),
-                  requestNext: (state) => _buildBody(constraints, configuration,
-                      _filteredItems(state.currentData.items)),
-                  isLoaded: (state) {
-                    if (state.items.isEmpty) {
-                      return _buildPlaceholders(
-                          shrinkWrap, configuration, false, null);
-                    }
-                    return _buildBody(constraints, configuration,
-                        _filteredItems(state.items));
-                  },
+                _buildNonSlivers(
+                  constraints: constraints,
+                  context: context,
+                  shrinkWrap: shrinkWrap,
+                  configuration: configuration,
                 ),
               if (widget.innerFooterSlivers != null)
                 ...widget.innerFooterSlivers!(state),
               if (showFooterLoading)
-                _FooterLoading<T, Args, TController>(
+                _FooterLoading<T, S, TController>(
                   shrinkWrap: shrinkWrap,
                   config: configuration,
                   controller: widget.controller,
@@ -409,6 +346,72 @@ class _ReadyListState<T, Args,
         },
       ),
     );
+  }
+
+  Widget _buildNonSlivers({
+    required BuildContext context,
+    required bool shrinkWrap,
+    required _ReadyListConfigOptionsDefaults configuration,
+    required BoxConstraints constraints,
+  }) {
+    switch (state.stateType) {
+      case StateType.loaded:
+        if (state.items.isEmpty) {
+          return _buildPlaceholders(shrinkWrap, configuration, false, null);
+        }
+        return _buildBody(
+            constraints, configuration, _filteredItems(state.items));
+      case StateType.error:
+        return _buildPlaceholders(
+            shrinkWrap, configuration, false, state.errorDisplay!(context));
+      case StateType.isLoadingFirstTime:
+      case StateType.intitial:
+      case StateType.requestFirstLoading:
+        return !configuration.allowFakeItems
+            ? _buildPlaceholders(shrinkWrap, configuration, true, null)
+            : _buildBody(constraints, configuration);
+      case StateType.requestNextLoading:
+      case StateType.requestRefreshing:
+      case StateType.isLoadingNext:
+      case StateType.isRefreshing:
+        return _buildBody(
+            constraints, configuration, _filteredItems(state.items));
+    }
+  }
+
+  List<Widget> _buildSlivers({
+    required BuildContext context,
+    required bool shrinkWrap,
+    required _ReadyListConfigOptionsDefaults configuration,
+  }) {
+    switch (state.stateType) {
+      case StateType.loaded:
+        if (state.items.isEmpty) {
+          return widget._slivers!(state,
+              () => _buildPlaceholders(shrinkWrap, configuration, false, null));
+        }
+        return widget._slivers!(state, () => null);
+      case StateType.error:
+        return widget._slivers!(
+          state,
+          () => _buildPlaceholders(
+              shrinkWrap, configuration, false, state.errorDisplay!(context)),
+        );
+      case StateType.isLoadingFirstTime:
+      case StateType.intitial:
+      case StateType.requestFirstLoading:
+        return widget._slivers!(
+          state,
+          () => !configuration.allowFakeItems
+              ? _buildPlaceholders(shrinkWrap, configuration, true, null)
+              : null,
+        );
+      case StateType.requestNextLoading:
+      case StateType.requestRefreshing:
+      case StateType.isLoadingNext:
+      case StateType.isRefreshing:
+        return widget._slivers!(state, () => null);
+    }
   }
 
   Widget _buildBody(
@@ -484,24 +487,25 @@ class _ReadyListState<T, Args,
     String? error,
   ) {
     var ctrl = widget.controller;
+    requestFirstLoading() {
+      ctrl.requestFirstLoading(configuration.pageSize);
+    }
+
+    requestRefresh() {
+      ctrl.requestRefreshing(configuration.pageSize);
+    }
+
+    VoidCallback? callback;
+    if (state.stateType == StateType.error) {
+      callback = requestFirstLoading;
+    } else if (state.stateType == StateType.loaded) {
+      callback = state.items.isEmpty ? requestFirstLoading : requestRefresh;
+    }
     return ReadyScreenLoader(
       loading: loading,
       error: error,
       config: configuration.placeholdersConfig,
-      onReload: ctrl.state.mapOrNull(
-        error: (_) {
-          return () =>
-              widget.controller.requestFirstLoading(configuration.pageSize);
-        },
-        isLoaded: (state) {
-          if (state.items.isEmpty) {
-            return () =>
-                widget.controller.requestFirstLoading(configuration.pageSize);
-          } else {
-            return () => ctrl.requestRefresh(configuration.pageSize);
-          }
-        },
-      ),
+      onReload: callback,
     );
   }
 

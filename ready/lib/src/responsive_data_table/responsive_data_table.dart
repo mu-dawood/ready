@@ -75,9 +75,8 @@ class _DataTablePaging {
 /// if type is null then next:
 ///
 /// if width return  [LayoutType.large] or [LayoutType.xLarge] or [LayoutType.xxLarge]
-class ResponsiveDataTable<T, Args,
-        TController extends BaseReadyListController<T, Args>>
-    extends InheritedWidget {
+class ResponsiveDataTable<T, S extends BaseReadyListState<T>,
+    TController extends ReadyListController<T, S>> extends InheritedWidget {
   /// show custom filter view
   final Widget Function(Widget filters)? buildFilters;
 
@@ -90,9 +89,9 @@ class ResponsiveDataTable<T, Args,
   final List<Widget> actions;
 
   /// actions that will be assigned to each row
-  final List<Action<T, Args, TController>> rowActions;
+  final List<Action<T, S, TController>> rowActions;
 
-  /// controller that extends [BaseReadyListController]
+  /// controller that extends [ReadyListController]
   final TController controller;
 
   /// when is not empty filter button will be added to the top of [DataTable]
@@ -106,7 +105,7 @@ class ResponsiveDataTable<T, Args,
 
   /// List options
 
-  final ListOptions<T, Args>? list;
+  final ListOptions<T, S>? list;
   ResponsiveDataTable({
     Key? key,
     this.keepAlive = true,
@@ -121,27 +120,27 @@ class ResponsiveDataTable<T, Args,
     this.filters = const [],
   }) : super(
           key: key,
-          child: _builder<T, Args, TController>(controller, type),
+          child: _builder<T, S, TController>(controller, type),
         );
 
-  static LayoutBuilder
-      _builder<T, Args, TController extends BaseReadyListController<T, Args>>(
-          controller, ResponsiveDataTableType? type) {
+  static LayoutBuilder _builder<T, S extends BaseReadyListState<T>,
+          TController extends ReadyListController<T, S>>(
+      controller, ResponsiveDataTableType? type) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        return _ResponsiveDataTable<T, Args, TController>(
+        return _ResponsiveDataTable<T, S, TController>(
           controller: controller,
           type: type,
           constraints: constraints,
           options: context.dependOnInheritedWidgetOfExactType<
-              ResponsiveDataTable<T, Args, TController>>()!,
+              ResponsiveDataTable<T, S, TController>>()!,
         );
       },
     );
   }
 
   @override
-  bool updateShouldNotify(ResponsiveDataTable<T, Args, TController> oldWidget) {
+  bool updateShouldNotify(ResponsiveDataTable<T, S, TController> oldWidget) {
     return rowActions != oldWidget.rowActions ||
         dataTable != oldWidget.dataTable ||
         list != oldWidget.list ||
@@ -152,22 +151,23 @@ class ResponsiveDataTable<T, Args,
         selectionButton != oldWidget.selectionButton;
   }
 
-  static SelectionController? selectionController<T, Args,
-              TController extends BaseReadyListController<T, Args>>(
+  static SelectionController? selectionController<
+              T,
+              S extends BaseReadyListState<T>,
+              TController extends ReadyListController<T, S>>(
           BuildContext context) =>
       context
           .findAncestorStateOfType<
-              __ResponsiveDataTableState<T, Args, TController>>()
+              __ResponsiveDataTableState<T, S, TController>>()
           ?._selectedIndices;
 }
 
-class _ResponsiveDataTable<T, Args,
-        TController extends BaseReadyListController<T, Args>>
-    extends StatefulWidget {
+class _ResponsiveDataTable<T, S extends BaseReadyListState<T>,
+    TController extends ReadyListController<T, S>> extends StatefulWidget {
   final TController controller;
   final ResponsiveDataTableType? type;
   final BoxConstraints constraints;
-  final ResponsiveDataTable<T, Args, TController> options;
+  final ResponsiveDataTable<T, S, TController> options;
   const _ResponsiveDataTable({
     required this.type,
     required this.constraints,
@@ -176,26 +176,28 @@ class _ResponsiveDataTable<T, Args,
   });
 
   @override
-  __ResponsiveDataTableState<T, Args, TController> createState() =>
-      __ResponsiveDataTableState<T, Args, TController>();
+  __ResponsiveDataTableState<T, S, TController> createState() =>
+      __ResponsiveDataTableState<T, S, TController>();
 
-  static __ResponsiveDataTableState<T, Args, TController>
-      of<T, Args, TController extends BaseReadyListController<T, Args>>(
-              BuildContext context) =>
-          context.findAncestorStateOfType<
-              __ResponsiveDataTableState<T, Args, TController>>()!;
+  static __ResponsiveDataTableState<T, S, TController> of<
+              T,
+              S extends BaseReadyListState<T>,
+              TController extends ReadyListController<T, S>>(
+          BuildContext context) =>
+      context.findAncestorStateOfType<
+          __ResponsiveDataTableState<T, S, TController>>()!;
 }
 
-class __ResponsiveDataTableState<T, Args,
-        TController extends BaseReadyListController<T, Args>>
-    extends State<_ResponsiveDataTable<T, Args, TController>>
+class __ResponsiveDataTableState<T, S extends BaseReadyListState<T>,
+        TController extends ReadyListController<T, S>>
+    extends State<_ResponsiveDataTable<T, S, TController>>
     with AutomaticKeepAliveClientMixin {
   late final ValueNotifier<_DataTablePaging> _paging;
-  late final _SelectedIndices<T, Args, TController> _selectedIndices;
+  late final _SelectedIndices<T, S, TController> _selectedIndices;
   @override
   void initState() {
     _selectedIndices =
-        _SelectedIndices<T, Args, TController>({}, widget.controller);
+        _SelectedIndices<T, S, TController>({}, widget.controller);
     _paging = ValueNotifier<_DataTablePaging>(_getPaging());
     super.initState();
   }
@@ -219,7 +221,7 @@ class __ResponsiveDataTableState<T, Args,
 
   @override
   void didUpdateWidget(
-      covariant _ResponsiveDataTable<T, Args, TController> oldWidget) {
+      covariant _ResponsiveDataTable<T, S, TController> oldWidget) {
     if (widget.options.dataTable.availableRowsCount !=
         oldWidget.options.dataTable.availableRowsCount) {
       _paging.value = _getPaging(true);
@@ -265,7 +267,7 @@ class __ResponsiveDataTableState<T, Args,
   }
 
   Widget dataTable(BuildContext context) {
-    return _DataTable<T, Args, TController>(controller: widget.controller);
+    return _DataTable<T, S, TController>(controller: widget.controller);
   }
 
   Widget list(BuildContext context, LayoutType layout) {
@@ -273,7 +275,7 @@ class __ResponsiveDataTableState<T, Args,
     var listOptions = widget.options.list!;
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-      child: ReadyList<T, Args, TController>.grid(
+      child: ReadyList<T, S, TController>.grid(
         scrollController: listOptions.scrollController,
         footerSlivers: listOptions.footerSlivers,
         innerFooterSlivers: listOptions.innerFooterSlivers,
@@ -303,7 +305,7 @@ class __ResponsiveDataTableState<T, Args,
         },
         headerSlivers: (state) {
           return [
-            _Header<T, Args, TController>(
+            _Header<T, S, TController>(
               type: ResponsiveDataTableType.list,
               controller: options.controller,
             ),
@@ -331,7 +333,8 @@ class __ResponsiveDataTableState<T, Args,
               initiallyExpanded: true,
               leading: options.selectionButton == null
                   ? null
-                  : _CheckBox(index: index, placeholder: true),
+                  : _CheckBox<T, S, TController>(
+                      index: index, placeholder: true),
               children: [
                 const _Info(title: Text('....'), body: Text('........')),
                 Divider(color: Theme.of(context).dividerColor),
@@ -378,8 +381,9 @@ class __ResponsiveDataTableState<T, Args,
           title: title,
           initiallyExpanded: widgets.length < 5,
           trailing: listOptions.trailing?.call(item),
-          leading:
-              options.selectionButton == null ? null : _CheckBox(index: index),
+          leading: options.selectionButton == null
+              ? null
+              : _CheckBox<T, S, TController>(index: index),
           children: [
             for (var i = 0; i < widgets.length; i++)
               _Info(
@@ -431,8 +435,8 @@ class _Info extends StatelessWidget {
   }
 }
 
-class _CheckBox<T, Args, TController extends BaseReadyListController<T, Args>>
-    extends StatelessWidget {
+class _CheckBox<T, S extends BaseReadyListState<T>,
+    TController extends ReadyListController<T, S>> extends StatelessWidget {
   final int index;
   final bool placeholder;
   const _CheckBox({Key? key, required this.index, this.placeholder = false})
@@ -440,7 +444,7 @@ class _CheckBox<T, Args, TController extends BaseReadyListController<T, Args>>
 
   @override
   Widget build(BuildContext context) {
-    var parent = _ResponsiveDataTable.of<T, Args, TController>(context);
+    var parent = _ResponsiveDataTable.of<T, S, TController>(context);
     return ValueListenableBuilder(
       valueListenable: parent._selectedIndices,
       builder: (context, Set<int> value, child) {
@@ -471,29 +475,22 @@ abstract class SelectionController {
   void unselectItem(int index);
 }
 
-class _SelectedIndices<T, Args,
-        TController extends BaseReadyListController<T, Args>>
+class _SelectedIndices<T, S extends BaseReadyListState<T>,
+        TController extends ReadyListController<T, S>>
     extends ValueNotifier<Set<int>> implements SelectionController {
   final TController controller;
   _SelectedIndices(super.value, this.controller);
-  ReadyListState<T, Args> get state => controller.state;
+  S get state => controller.state;
 
   bool get hasSelection => value.isNotEmpty;
 
   bool get allSelected {
-    return controller.state.maybeMap(
-      orElse: () => false,
-      isLoaded: (state) => value.length >= state.items.length,
-      requestNext: (state) => value.length >= state.currentData.items.length,
-      isLoadingNext: (state) => value.length >= state.currentData.items.length,
-      requestRefresh: (state) => value.length >= state.currentData.items.length,
-      isRefreshing: (state) => value.length >= state.currentData.items.length,
-    );
+    return value.length >= state.items.length;
   }
 
   @override
   void selectAll() {
-    value = List.generate(state.length, (index) => index).toSet();
+    value = List.generate(controller.length, (index) => index).toSet();
   }
 
   @override

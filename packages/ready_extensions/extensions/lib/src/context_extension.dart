@@ -22,6 +22,9 @@ extension ContextExtensions on BuildContext {
     return dependOnInheritedWidgetOfExactType<FlexibleSpaceBarSettings>();
   }
 
+  /// get current [ThemeData]
+  ThemeData get theme => Theme.of(this);
+
   /// get textTheme property from text theme
   TextTheme get textTheme => Theme.of(this).textTheme;
 
@@ -89,4 +92,11 @@ extension ContextExtensions on BuildContext {
 
   /// Get [ColorScheme] of current context
   ColorScheme get colorScheme => Theme.of(this).colorScheme;
+
+  /// Get [Size] from [MediaQuery]
+  Size get mediaQuerySize => MediaQuery.of(this).size;
+
+  /// get [ThemeExtension] of type [T] from current [ThemeData]
+  T themeExtension<T extends ThemeExtension<T>>() =>
+      Theme.of(this).extension<T>()!;
 }
