@@ -93,3 +93,7 @@
 ## 1.8.1
 
 * Use ready version 1.8.1
+
+## 2.0.0
+
+* Use ready version 2.0.0

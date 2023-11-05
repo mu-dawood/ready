@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:ready/ready.dart';
 
 import 'controller.dart';
 import 'pickers.dart';
 import 'sheet.dart';
 
-class SingleField<T, Args, TController extends ReadyPickerController<T, Args>>
-    extends StatelessWidget {
+class SingleField<T, S extends BaseReadyListState<T>,
+    TController extends ReadyPickerController<T, S>> extends StatelessWidget {
   const SingleField({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var picker = ReadyPicker.of<T, Args, TController>(context)!;
+    var picker = ReadyPicker.of<T, S, TController>(context)!;
     return FormField<T>(
       key: key,
       initialValue: picker.initialValue,
@@ -18,7 +19,7 @@ class SingleField<T, Args, TController extends ReadyPickerController<T, Args>>
       onSaved: picker.onSaved,
       autovalidateMode: picker.autovalidateMode,
       builder: (FormFieldState<T> field) {
-        return _ReadyPicker<T, Args, TController>(
+        return _ReadyPicker<T, S, TController>(
           field: field,
           picker: picker,
         );
@@ -27,10 +28,10 @@ class SingleField<T, Args, TController extends ReadyPickerController<T, Args>>
   }
 }
 
-class _ReadyPicker<T, Args, TController extends ReadyPickerController<T, Args>>
-    extends StatefulWidget {
+class _ReadyPicker<T, S extends BaseReadyListState<T>,
+    TController extends ReadyPickerController<T, S>> extends StatefulWidget {
   final FormFieldState<T> field;
-  final ReadyPicker<T, Args, TController> picker;
+  final ReadyPicker<T, S, TController> picker;
   const _ReadyPicker({
     Key? key,
     required this.field,
@@ -38,13 +39,13 @@ class _ReadyPicker<T, Args, TController extends ReadyPickerController<T, Args>>
   }) : super(key: key);
 
   @override
-  __ReadyPickerState<T, Args, TController> createState() =>
-      __ReadyPickerState<T, Args, TController>();
+  __ReadyPickerState<T, S, TController> createState() =>
+      __ReadyPickerState<T, S, TController>();
 }
 
-class __ReadyPickerState<T, Args,
-        TController extends ReadyPickerController<T, Args>>
-    extends State<_ReadyPicker<T, Args, TController>>
+class __ReadyPickerState<T, S extends BaseReadyListState<T>,
+        TController extends ReadyPickerController<T, S>>
+    extends State<_ReadyPicker<T, S, TController>>
     with AutomaticKeepAliveClientMixin {
   FocusNode get _effectiveFocusNode =>
       widget.picker.focusNode ?? (_focusNode ??= FocusNode());
@@ -76,7 +77,7 @@ class __ReadyPickerState<T, Args,
   }
 
   @override
-  void didUpdateWidget(covariant _ReadyPicker<T, Args, TController> oldWidget) {
+  void didUpdateWidget(covariant _ReadyPicker<T, S, TController> oldWidget) {
     _effectiveFocusNode.removeListener(_handleFocusChanged);
     _effectiveFocusNode.addListener(_handleFocusChanged);
     _effectiveFocusNode.canRequestFocus = widget.picker.enabled;
@@ -172,8 +173,8 @@ class __ReadyPickerState<T, Args,
     );
   }
 
-  Widget getSheet(ReadyPicker<T, Args, TController> options) {
-    return SelectorSheet<T, Args, TController>(
+  Widget getSheet(ReadyPicker<T, S, TController> options) {
+    return SelectorSheet<T, S, TController>(
       controller: options.controller,
       allowMultiple: false,
       buildItem: options.buildItem,
@@ -186,7 +187,7 @@ class __ReadyPickerState<T, Args,
   }
 
   Future showSheet() {
-    var options = ReadyPicker.of<T, Args, TController>(context)!;
+    var options = ReadyPicker.of<T, S, TController>(context)!;
     Future future;
     if (options.showItems != null) {
       future = options.showItems!(

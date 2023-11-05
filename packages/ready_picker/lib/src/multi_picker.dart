@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:ready/ready.dart';
 
 import 'controller.dart';
 import 'pickers.dart';
 import 'sheet.dart';
 
-class MultiField<T, Args, TController extends ReadyPickerController<T, Args>>
-    extends StatelessWidget {
+class MultiField<T, S extends BaseReadyListState<T>,
+    TController extends ReadyPickerController<T, S>> extends StatelessWidget {
   const MultiField({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var picker = ReadyMultiPicker.of<T, Args, TController>(context)!;
+    var picker = ReadyMultiPicker.of<T, S, TController>(context)!;
     return FormField<List<T>>(
         key: key,
         initialValue: picker.initialValue ?? [],
@@ -18,7 +19,7 @@ class MultiField<T, Args, TController extends ReadyPickerController<T, Args>>
         onSaved: picker.onSaved,
         autovalidateMode: picker.autovalidateMode,
         builder: (FormFieldState<List<T>> field) {
-          return _ReadyMultiPicker<T, Args, TController>(
+          return _ReadyMultiPicker<T, S, TController>(
             field: field,
             picker: picker,
           );
@@ -26,10 +27,10 @@ class MultiField<T, Args, TController extends ReadyPickerController<T, Args>>
   }
 }
 
-class _ReadyMultiPicker<T, Args,
-    TController extends ReadyPickerController<T, Args>> extends StatefulWidget {
+class _ReadyMultiPicker<T, S extends BaseReadyListState<T>,
+    TController extends ReadyPickerController<T, S>> extends StatefulWidget {
   final FormFieldState<List<T>> field;
-  final ReadyMultiPicker<T, Args, TController> picker;
+  final ReadyMultiPicker<T, S, TController> picker;
 
   const _ReadyMultiPicker({
     Key? key,
@@ -38,13 +39,13 @@ class _ReadyMultiPicker<T, Args,
   }) : super(key: key);
 
   @override
-  __ReadyMultiPickerState<T, Args, TController> createState() =>
-      __ReadyMultiPickerState<T, Args, TController>();
+  __ReadyMultiPickerState<T, S, TController> createState() =>
+      __ReadyMultiPickerState<T, S, TController>();
 }
 
-class __ReadyMultiPickerState<T, Args,
-        TController extends ReadyPickerController<T, Args>>
-    extends State<_ReadyMultiPicker<T, Args, TController>>
+class __ReadyMultiPickerState<T, S extends BaseReadyListState<T>,
+        TController extends ReadyPickerController<T, S>>
+    extends State<_ReadyMultiPicker<T, S, TController>>
     with AutomaticKeepAliveClientMixin {
   FocusNode get _effectiveFocusNode =>
       widget.picker.focusNode ?? (_focusNode ??= FocusNode());
@@ -77,7 +78,7 @@ class __ReadyMultiPickerState<T, Args,
 
   @override
   void didUpdateWidget(
-      covariant _ReadyMultiPicker<T, Args, TController> oldWidget) {
+      covariant _ReadyMultiPicker<T, S, TController> oldWidget) {
     _effectiveFocusNode.removeListener(_handleFocusChanged);
     _effectiveFocusNode.addListener(_handleFocusChanged);
     _effectiveFocusNode.canRequestFocus = widget.picker.enabled;
@@ -104,7 +105,7 @@ class __ReadyMultiPickerState<T, Args,
   Widget build(BuildContext context) {
     attachment.reparent();
     super.build(context);
-    var options = ReadyMultiPicker.of<T, Args, TController>(context)!;
+    var options = ReadyMultiPicker.of<T, S, TController>(context)!;
 
     final effectiveDecoration = options.decoration
         .applyDefaults(Theme.of(context).inputDecorationTheme);
@@ -161,8 +162,8 @@ class __ReadyMultiPickerState<T, Args,
     );
   }
 
-  Widget getSheet(ReadyMultiPicker<T, Args, TController> options) {
-    return SelectorSheet<T, Args, TController>(
+  Widget getSheet(ReadyMultiPicker<T, S, TController> options) {
+    return SelectorSheet<T, S, TController>(
       controller: options.controller,
       allowMultiple: true,
       buildItem: options.buildItem,
@@ -174,7 +175,7 @@ class __ReadyMultiPickerState<T, Args,
   }
 
   Future showSheet() {
-    var options = ReadyMultiPicker.of<T, Args, TController>(context)!;
+    var options = ReadyMultiPicker.of<T, S, TController>(context)!;
     Future future;
     if (options.showItems != null) {
       future = options.showItems!(

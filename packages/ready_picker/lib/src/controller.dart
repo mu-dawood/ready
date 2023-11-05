@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ready/ready.dart';
 
-mixin ReadyPickerController<T, Args> on BaseReadyListController<T, Args> {
+mixin ReadyPickerController<T, S extends BaseReadyListState<T>>
+    on ReadyListController<T, S> {
   bool checkSelected(T left, T right);
   String getItemDisplay(BuildContext context, T item) =>
       getDisplay(context, item);
