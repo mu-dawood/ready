@@ -35,6 +35,7 @@ mixin ReadyRemoteControllerMixin<T, S extends BaseReadyListState<T>>
       default:
         break;
     }
+    super.emit(state);
   }
 
   ICancelToken? generateCancelToken() => null;
