@@ -190,7 +190,7 @@ class _ReadyListState<T, S extends BaseReadyListState<T>,
 
   @override
   void didChangeDependencies() {
-    if (state.stateType == StateType.intitial) {
+    if (state.stateType == StateType.initial) {
       var configuration =
           _ReadyListConfigOptionsDefaults.effective(widget, context);
       widget.controller.requestFirstLoading(configuration.pageSize);
@@ -201,7 +201,7 @@ class _ReadyListState<T, S extends BaseReadyListState<T>,
 
   @override
   void didUpdateWidget(covariant ReadyList<T, S, TController> oldWidget) {
-    if (state.stateType == StateType.intitial) {
+    if (state.stateType == StateType.initial) {
       var configuration =
           _ReadyListConfigOptionsDefaults.effective(widget, context);
       widget.controller.requestFirstLoading(configuration.pageSize);
@@ -365,7 +365,7 @@ class _ReadyListState<T, S extends BaseReadyListState<T>,
         return _buildPlaceholders(
             shrinkWrap, configuration, false, state.errorDisplay!(context));
       case StateType.isLoadingFirstTime:
-      case StateType.intitial:
+      case StateType.initial:
       case StateType.requestFirstLoading:
         return !configuration.allowFakeItems
             ? _buildPlaceholders(shrinkWrap, configuration, true, null)
@@ -398,7 +398,7 @@ class _ReadyListState<T, S extends BaseReadyListState<T>,
               shrinkWrap, configuration, false, state.errorDisplay!(context)),
         );
       case StateType.isLoadingFirstTime:
-      case StateType.intitial:
+      case StateType.initial:
       case StateType.requestFirstLoading:
         return widget._slivers!(
           state,

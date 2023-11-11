@@ -14,7 +14,7 @@ class RemoteResult<T> {
         errorDisplay = null;
 }
 
-mixin ReadyRemoteControllerMixin<T, S extends BaseReadyListState<T>>
+mixin ReadyRemoteControllerMixin<T, S extends ICopyWith<T, S>>
     on ReadyListController<T, S> {
   /// load data from  remote source
   Future<RemoteResult<T>> loadData(int skip, int? pageSize,
@@ -109,4 +109,9 @@ mixin ReadyRemoteControllerMixin<T, S extends BaseReadyListState<T>>
       );
     }
   }
+}
+
+abstract class DefaultReadyRemoteController<T>
+    extends DefaultReadyListController<T> with ReadyRemoteControllerMixin {
+  DefaultReadyRemoteController(super.initialState);
 }

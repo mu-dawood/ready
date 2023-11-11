@@ -25,9 +25,10 @@ class _FooterState<T, S extends BaseReadyListState<T>,
   S get state => widget.controller.state;
   bool _loading = false;
 
-  int get length => widget.controller.length;
+  int get length => widget.controller.state.items.length;
 
-  int get totalCount => math.max(state.totalCount, widget.controller.length);
+  int get totalCount =>
+      math.max(state.totalCount, widget.controller.state.items.length);
 
   bool get _canGoNext =>
       !_loading && (paging.currentPage * paging.rowsPerPage) < totalCount;
@@ -71,7 +72,7 @@ class _FooterState<T, S extends BaseReadyListState<T>,
       toFirst();
     }
 
-    bool loading = ![StateType.error, StateType.loaded, StateType.intitial]
+    bool loading = ![StateType.error, StateType.loaded, StateType.initial]
         .contains(widget.controller.state);
 
     if (loading != _loading) {

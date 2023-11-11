@@ -174,15 +174,15 @@ class _DataTableState<T, S extends BaseReadyListState<T>,
   }) {
     final List<DataRow> result = <DataRow>[];
     final int startIndex = (paging.currentPage - 1) * paging.rowsPerPage;
-    bool loading = ![StateType.error, StateType.loaded, StateType.intitial]
+    bool loading = ![StateType.error, StateType.loaded, StateType.initial]
         .contains(widget.controller.state);
 
-    var length = widget.controller.length;
+    var length = widget.controller.state.items.length;
     for (int index = startIndex;
         index < startIndex + paging.rowsPerPage;
         index++) {
       if (index < length) {
-        var element = widget.controller.elementAt(index);
+        var element = widget.controller.state.items.elementAt(index);
         result.add(_buildRow(
             options: options,
             index: index,

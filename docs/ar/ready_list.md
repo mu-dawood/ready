@@ -1,5 +1,4 @@
 # Complete list that
-
  - Handle pull to refresh
  - Infinite scroll
  - Making grids
@@ -7,58 +6,51 @@
 
 # usage
 
+
 ## First create controller
 
 ```dart
 
-class ReadyListCubit extends Cubit<ReadyListState<FakeItem>> implements ReadyListController<FakeItem> {
-  ReadyListCubit() : super(const ReadyListState.firstState());
-  /// if you don't need to use loading features you can return null
-  /// ListLoadingHandler<FakeItem>? get handler =>null
+class ReadyListCubit extends DefaultReadyRemoteCubit<FakeItem> {
+  ReadyListCubit() : super(ReadyListState.initial());
+
   @override
-  ListLoadingHandler<FakeItem>? get handler => DefaultListLoadingHandler(
-        loadData: (skip, pageSize, cancelToken) async {
-           /// Fetch your data
-        },
-        controller: this,
-      );
-  
+  Future<RemoteResult<FakeItem>> loadData(int skip, int? pageSize,
+      [ICancelToken? cancelToken]) async {
+    var list = await FakeRepo.asyncList(pageSize ?? 20);
+    return RemoteResult.success(list, 100);
+  }
 }
 
 ```
 
-# if you want to use your own class or change notifier
 
+# Some times you need to use stage-management rather than bloc
+# if so see this example of how to use ValueNotifier as statemangement
 ```dart
-class ReadyListCubit extends ChangeNotifier implements ReadyRemoteController<FakeItem> {
-  ReadyListState<FakeItem> _state = ReadyListState<FakeItem>();
-  @override
-  ReadyListState<FakeItem> get state => _state;
 
-  final StreamController<ReadyListState<FakeItem>> _controller = StreamController<ReadyListState<FakeItem>>.broadcast();
-  @override
-  Stream<ReadyListState<FakeItem>> get stream => _controller.stream;
+class OtherController<T> extends ValueNotifier<ReadyListState<FakeItem>> {
+  DefaultReadyListController controller =
+      DefaultReadyListController(ReadyListState.initial());
+
+  OtherController(ReadyListState<FakeItem> value) : super(value);
 
   @override
-  void emit(ReadyListState<FakeItem> state) {
-    _state = state;
-    _controller.add(state);
+  void notifyListeners() {
+    controller.setState(value);
+    super.notifyListeners();
   }
 
   @override
-  Future<ReadyListState<FakeItem>> loadData({
-    ICancelToken? cancelToken,
-    required int skip,
-    required int pageSize,
-  }) async {
-    /// Fetch your data
+  void dispose() {
+    controller.close();
+    super.dispose();
   }
 }
 
 ```
 
 ## List
-
 ```dart
 return ReadyList.list(
   key: Key(DateTime.now().toIso8601String()),
@@ -81,6 +73,7 @@ return ReadyList.grid(
 );
 ```
 
+
 ## Slivers
 
 ```dart
@@ -91,6 +84,7 @@ return ReadyList.slivers(
   },
 );
 ```
+
 
 Property | Description  | Nullable
 -- | ------ | -
@@ -117,6 +111,7 @@ physics | physics of the list | ✓
 topLevelFooterSlivers | The first items in the list | ✓
 topLevelHeaderSlivers | The last items in the list | ✓
 pageSize |  page size to be passed to controller loadData| ✓
+
 
 # Global config
 

@@ -4,67 +4,8 @@ typedef TotalCountResolver = int Function(
     int currentTotalCount, int difference);
 int _defaultResolver(int current, int difference) => current + difference;
 
-extension ReadyListStateExt<T, S extends BaseReadyListState<T>>
+extension ReadyListStateExt<T, S extends ICopyWith<T, S>>
     on ReadyListController<T, S> {
-  /// emit requestFirstLoading
-  void requestFirstLoading(int pageSize, [ICancelToken? cancelToken]) {
-    return emit(copyWith(
-      stateType: StateType.requestFirstLoading,
-      cancelToken: cancelToken,
-      pageSize: pageSize,
-    ));
-  }
-
-  /// emit isLoadingFirstTime
-  void isLoadingFirstTime() {
-    return emit(copyWith(stateType: StateType.isLoadingFirstTime));
-  }
-
-  /// emit loaded
-  void loaded({
-    required Iterable<T> items,
-    required int totalCount,
-  }) {
-    return emit(copyWith(
-      stateType: StateType.loaded,
-      items: items,
-      totalCount: totalCount,
-    ));
-  }
-
-  /// emit error
-  void error({required ErrorDisplayCallBack display}) {
-    return emit(copyWith(stateType: StateType.error, errorDisplay: display));
-  }
-
-  /// emit requestNextLoading
-  void requestNextLoading(int pageSize, [ICancelToken? cancelToken]) {
-    return emit(copyWith(
-      stateType: StateType.requestNextLoading,
-      cancelToken: cancelToken,
-      pageSize: pageSize,
-    ));
-  }
-
-  /// emit isLoadingNext
-  void isLoadingNext() {
-    return emit(copyWith(stateType: StateType.isLoadingNext));
-  }
-
-  /// emit requestRefreshing
-  void requestRefreshing(int pageSize, [ICancelToken? cancelToken]) {
-    return emit(copyWith(
-      stateType: StateType.requestRefreshing,
-      cancelToken: cancelToken,
-      pageSize: pageSize,
-    ));
-  }
-
-  /// emit isRefreshing
-  void isRefreshing() {
-    return emit(copyWith(stateType: StateType.isRefreshing));
-  }
-
   int diff(int original, int current) {
     return current - original;
   }
@@ -74,7 +15,7 @@ extension ReadyListStateExt<T, S extends BaseReadyListState<T>>
   ///
   /// The list must be growable.
   S add(T value, [TotalCountResolver totalCountResolver = _defaultResolver]) {
-    return copyWith(
+    return state.copyWith(
       items: [...state.items, value],
       totalCount: totalCountResolver(state.totalCount, 1),
     );
@@ -86,7 +27,7 @@ extension ReadyListStateExt<T, S extends BaseReadyListState<T>>
   /// The list must be growable.
   S addAll(Iterable<T> iterable,
       [TotalCountResolver totalCountResolver = _defaultResolver]) {
-    return copyWith(
+    return state.copyWith(
       items: [...state.items, ...iterable],
       totalCount: totalCountResolver(state.totalCount, iterable.length),
     );
@@ -104,7 +45,7 @@ extension ReadyListStateExt<T, S extends BaseReadyListState<T>>
     var current = state.items;
     List<T> data = current is List<T> ? current : current.toList();
     data.insert(index, element);
-    return copyWith(
+    return state.copyWith(
       items: data,
       totalCount: totalCountResolver(state.totalCount, 1),
     );
@@ -122,7 +63,7 @@ extension ReadyListStateExt<T, S extends BaseReadyListState<T>>
     var current = state.items;
     List<T> data = current is List<T> ? current : current.toList();
     data.insertAll(index, iterable);
-    return copyWith(
+    return state.copyWith(
       items: data,
       totalCount: totalCountResolver(state.totalCount, iterable.length),
     );
@@ -144,7 +85,7 @@ extension ReadyListStateExt<T, S extends BaseReadyListState<T>>
     var oldLength = data.length;
     data.remove(value);
     var newLength = data.length;
-    return copyWith(
+    return state.copyWith(
       items: data,
       totalCount:
           totalCountResolver(state.totalCount, diff(oldLength, newLength)),
@@ -169,7 +110,7 @@ extension ReadyListStateExt<T, S extends BaseReadyListState<T>>
     var oldLength = data.length;
     data.removeRange(start, end);
     var newLength = data.length;
-    return copyWith(
+    return state.copyWith(
       items: data,
       totalCount:
           totalCountResolver(state.totalCount, diff(oldLength, newLength)),
@@ -194,7 +135,7 @@ extension ReadyListStateExt<T, S extends BaseReadyListState<T>>
     var oldLength = data.length;
     data.removeWhere(test);
     var newLength = data.length;
-    return copyWith(
+    return state.copyWith(
       items: data,
       totalCount:
           totalCountResolver(state.totalCount, diff(oldLength, newLength)),
@@ -210,7 +151,7 @@ extension ReadyListStateExt<T, S extends BaseReadyListState<T>>
     var oldLength = data.length;
     data.removeLast();
     var newLength = data.length;
-    return copyWith(
+    return state.copyWith(
       items: data,
       totalCount:
           totalCountResolver(state.totalCount, diff(oldLength, newLength)),
@@ -231,7 +172,7 @@ extension ReadyListStateExt<T, S extends BaseReadyListState<T>>
     var oldLength = data.length;
     data.removeAt(index);
     var newLength = data.length;
-    return copyWith(
+    return state.copyWith(
       items: data,
       totalCount:
           totalCountResolver(state.totalCount, diff(oldLength, newLength)),
@@ -257,7 +198,7 @@ extension ReadyListStateExt<T, S extends BaseReadyListState<T>>
     var oldLength = data.length;
     var newData = data.where(test);
     var newLength = newData.length;
-    return copyWith(
+    return state.copyWith(
       items: newData,
       totalCount:
           totalCountResolver(state.totalCount, diff(oldLength, newLength)),
@@ -280,7 +221,7 @@ extension ReadyListStateExt<T, S extends BaseReadyListState<T>>
       [TotalCountResolver totalCountResolver = _defaultResolver]) {
     var oldLength = state.items.length;
     var newData = state.items.skip(count);
-    return copyWith(
+    return state.copyWith(
       items: newData,
       totalCount:
           totalCountResolver(state.totalCount, diff(oldLength, newData.length)),
@@ -301,7 +242,7 @@ extension ReadyListStateExt<T, S extends BaseReadyListState<T>>
       [TotalCountResolver totalCountResolver = _defaultResolver]) {
     var oldLength = state.items.length;
     var newData = state.items.skipWhile(test);
-    return copyWith(
+    return state.copyWith(
       items: newData,
       totalCount:
           totalCountResolver(state.totalCount, diff(oldLength, newData.length)),
@@ -321,7 +262,7 @@ extension ReadyListStateExt<T, S extends BaseReadyListState<T>>
       [TotalCountResolver totalCountResolver = _defaultResolver]) {
     var oldLength = state.items.length;
     var newData = state.items.take(count);
-    return copyWith(
+    return state.copyWith(
       items: newData,
       totalCount:
           totalCountResolver(state.totalCount, diff(oldLength, newData.length)),
@@ -340,7 +281,7 @@ extension ReadyListStateExt<T, S extends BaseReadyListState<T>>
       [TotalCountResolver totalCountResolver = _defaultResolver]) {
     var oldLength = state.items.length;
     var newData = state.items.takeWhile(test);
-    return copyWith(
+    return state.copyWith(
       items: newData,
       totalCount:
           totalCountResolver(state.totalCount, diff(oldLength, newData.length)),
@@ -366,7 +307,7 @@ extension ReadyListStateExt<T, S extends BaseReadyListState<T>>
       [TotalCountResolver totalCountResolver = _defaultResolver]) {
     var oldLength = state.items.length;
     var newData = state.items.expand(toElements);
-    return copyWith(
+    return state.copyWith(
       items: newData,
       totalCount:
           totalCountResolver(state.totalCount, diff(oldLength, newData.length)),
@@ -382,7 +323,7 @@ extension ReadyListStateExt<T, S extends BaseReadyListState<T>>
       [TotalCountResolver totalCountResolver = _defaultResolver]) {
     var oldLength = state.items.length;
     var newData = state.items.followedBy(other);
-    return copyWith(
+    return state.copyWith(
       items: newData,
       totalCount:
           totalCountResolver(state.totalCount, diff(oldLength, newData.length)),
@@ -415,12 +356,13 @@ extension ReadyListStateExt<T, S extends BaseReadyListState<T>>
   ///   }
   /// }
   S map(T Function(T) toElement) {
-    return copyWith(items: state.items.map(toElement));
+    return state.copyWith(items: state.items.map(toElement));
   }
 
   /// replace items where test return `true`
   S replaceWhere({required bool Function(T) where, required T item}) {
-    return copyWith(items: state.items.map((old) => where(old) ? item : old));
+    return state.copyWith(
+        items: state.items.map((old) => where(old) ? item : old));
   }
 
   /// Whether this collection has no elements.
@@ -599,7 +541,7 @@ extension ReadyListStateExt<T, S extends BaseReadyListState<T>>
 
   /// Removes all objects from this list; the length of the list becomes zero.
   S clear([TotalCountResolver totalCountResolver = _defaultResolver]) {
-    return copyWith(
+    return state.copyWith(
       items: [],
       totalCount:
           totalCountResolver(state.totalCount, diff(state.items.length, 0)),

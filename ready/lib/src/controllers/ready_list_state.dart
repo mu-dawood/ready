@@ -9,7 +9,7 @@ abstract class ICancelToken {
 }
 
 enum StateType {
-  intitial,
+  initial,
   requestFirstLoading,
   isLoadingFirstTime,
   loaded,
@@ -18,6 +18,18 @@ enum StateType {
   requestRefreshing,
   isLoadingNext,
   isRefreshing,
+}
+
+mixin ICopyWith<T, State extends BaseReadyListState<T>>
+    on BaseReadyListState<T> {
+  State copyWith({
+    Iterable<T>? items,
+    int? totalCount,
+    int? pageSize,
+    ErrorDisplayCallBack? errorDisplay,
+    StateType? stateType,
+    ICancelToken? cancelToken,
+  });
 }
 
 abstract class BaseReadyListState<T> extends Equatable {
@@ -34,7 +46,7 @@ abstract class BaseReadyListState<T> extends Equatable {
     required this.errorDisplay,
     required this.stateType,
     required this.cancelToken,
-  }) : assert(items.length <= totalCount);
+  });
 
   @override
   List<Object?> get props => [
@@ -46,7 +58,8 @@ abstract class BaseReadyListState<T> extends Equatable {
       ];
 }
 
-class ReadyListState<T> extends BaseReadyListState<T> {
+class ReadyListState<T> extends BaseReadyListState<T>
+    with ICopyWith<T, ReadyListState<T>> {
   const ReadyListState({
     super.items = const [],
     super.totalCount = 0,
@@ -56,11 +69,30 @@ class ReadyListState<T> extends BaseReadyListState<T> {
     super.cancelToken,
   });
 
-  const ReadyListState.intitial({
+  const ReadyListState.initial({
     super.items = const [],
     super.totalCount = 0,
     super.pageSize = 20,
     super.errorDisplay,
   })  : assert(items.length <= totalCount),
-        super(cancelToken: null, stateType: StateType.intitial);
+        super(cancelToken: null, stateType: StateType.initial);
+
+  @override
+  ReadyListState<T> copyWith({
+    Iterable<T>? items,
+    int? totalCount,
+    int? pageSize,
+    ErrorDisplayCallBack? errorDisplay,
+    StateType? stateType,
+    ICancelToken? cancelToken,
+  }) {
+    return ReadyListState<T>(
+      items: items ?? this.items,
+      totalCount: totalCount ?? this.totalCount,
+      pageSize: pageSize ?? this.pageSize,
+      errorDisplay: errorDisplay ?? this.errorDisplay,
+      stateType: stateType ?? this.stateType,
+      cancelToken: cancelToken ?? this.cancelToken,
+    );
+  }
 }

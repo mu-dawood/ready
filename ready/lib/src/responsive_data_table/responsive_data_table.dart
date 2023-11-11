@@ -490,7 +490,8 @@ class _SelectedIndices<T, S extends BaseReadyListState<T>,
 
   @override
   void selectAll() {
-    value = List.generate(controller.length, (index) => index).toSet();
+    value =
+        List.generate(controller.state.items.length, (index) => index).toSet();
   }
 
   @override

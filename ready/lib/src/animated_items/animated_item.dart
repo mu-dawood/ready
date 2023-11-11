@@ -145,7 +145,7 @@ class _AnimatedState extends State<Animated> with TickerProviderStateMixin {
                   .transform(t),
           child: Transform(
             transform: transform,
-            alignment:widget.alignment,
+            alignment: widget.alignment,
             child: widget.builder(t),
           ),
         );

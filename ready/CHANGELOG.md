@@ -54,3 +54,7 @@
 
 *  Remove freezd and equatble instead
 
+## 2.1.0
+
+*  Use bloc 
+

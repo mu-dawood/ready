@@ -1,6 +1,5 @@
 import 'package:example/fake_data.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ready/ready.dart';
 
 class ReadyListExample extends StatelessWidget {
@@ -20,7 +19,7 @@ class ReadyListExample extends StatelessWidget {
       buildItem: (FakeItem? item, int index) {
         return _buildItem(item, index);
       },
-      controller: ReadyListCubit(ReadyListState.intitial()),
+      controller: ReadyListCubit(ReadyListState.initial()),
     );
   }
 
@@ -55,31 +54,13 @@ class ReadyListExample extends StatelessWidget {
   }
 }
 
-abstract class BaseController<T, S extends ReadyListState<T>> extends Cubit<S>
-    implements ReadyListController<T, S> {
-  BaseController(S initialState) : super(initialState);
-}
-
-abstract class BaseController2<T> extends BaseController<T, ReadyListState<T>>
-    with ReadyListControllerCopyMixin {
-  BaseController2(ReadyListState<T> initialState) : super(initialState);
-}
-
-class ReadyListCubit extends BaseController2<FakeItem>
-    with ReadyRemoteControllerMixin {
+class ReadyListCubit extends DefaultReadyRemoteController<FakeItem> {
   ReadyListCubit(ReadyListState<FakeItem> initialState) : super(initialState);
 
   @override
   Future<RemoteResult<FakeItem>> loadData(int skip, int? pageSize,
       [ICancelToken? cancelToken]) async {
-    var list = await FakeRepo.asyncList(30, 0, const Duration(seconds: 3));
+    var list = await FakeRepo.asyncList(pageSize ?? 20);
     return RemoteResult.success(list, 100);
-  }
-
-  @override
-  void onChange(Change<ReadyListState<FakeItem>> change) {
-    // print(change.currentState);
-    // print(change.nextState);
-    super.onChange(change);
   }
 }
