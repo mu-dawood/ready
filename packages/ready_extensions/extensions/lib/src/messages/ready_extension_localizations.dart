@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'ready_extension_localizations_ar.dart';
@@ -61,18 +62,32 @@ import 'ready_extension_localizations_ur.dart';
 /// be consistent with the languages listed in the ReadyExtensionLocalizations.supportedLocales
 /// property.
 abstract class ReadyExtensionLocalizations {
-  ReadyExtensionLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  ReadyExtensionLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static ReadyExtensionLocalizations? of(BuildContext context) {
-    return Localizations.of<ReadyExtensionLocalizations>(
-        context, ReadyExtensionLocalizations);
+    return Localizations.of<ReadyExtensionLocalizations>(context, ReadyExtensionLocalizations);
   }
 
-  static const LocalizationsDelegate<ReadyExtensionLocalizations> delegate =
-      _ReadyExtensionLocalizationsDelegate();
+  static const LocalizationsDelegate<ReadyExtensionLocalizations> delegate = _ReadyExtensionLocalizationsDelegate();
+
+  /// A list of this localizations delegate along with the default localizations
+  /// delegates.
+  ///
+  /// Returns a list of localizations delegates containing this delegate along with
+  /// GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate,
+  /// and GlobalWidgetsLocalizations.delegate.
+  ///
+  /// Additional delegates can be added by appending to this list in
+  /// MaterialApp. This list does not have to be used at all if a custom list
+  /// of delegates is preferred or required.
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
@@ -137,40 +152,36 @@ abstract class ReadyExtensionLocalizations {
   String get formatSeparator;
 }
 
-class _ReadyExtensionLocalizationsDelegate
-    extends LocalizationsDelegate<ReadyExtensionLocalizations> {
+class _ReadyExtensionLocalizationsDelegate extends LocalizationsDelegate<ReadyExtensionLocalizations> {
   const _ReadyExtensionLocalizationsDelegate();
 
   @override
   Future<ReadyExtensionLocalizations> load(Locale locale) {
-    return SynchronousFuture<ReadyExtensionLocalizations>(
-        lookupReadyExtensionLocalizations(locale));
+    return SynchronousFuture<ReadyExtensionLocalizations>(lookupReadyExtensionLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['ar', 'en', 'fr', 'ur'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['ar', 'en', 'fr', 'ur'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_ReadyExtensionLocalizationsDelegate old) => false;
 }
 
 ReadyExtensionLocalizations lookupReadyExtensionLocalizations(Locale locale) {
+
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'ar':
-      return ReadyExtensionLocalizationsAr();
-    case 'en':
-      return ReadyExtensionLocalizationsEn();
-    case 'fr':
-      return ReadyExtensionLocalizationsFr();
-    case 'ur':
-      return ReadyExtensionLocalizationsUr();
+    case 'ar': return ReadyExtensionLocalizationsAr();
+    case 'en': return ReadyExtensionLocalizationsEn();
+    case 'fr': return ReadyExtensionLocalizationsFr();
+    case 'ur': return ReadyExtensionLocalizationsUr();
   }
 
   throw FlutterError(
-      'ReadyExtensionLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+    'ReadyExtensionLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.'
+  );
 }

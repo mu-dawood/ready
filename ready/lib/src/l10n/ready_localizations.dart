@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'ready_localizations_ar.dart';
@@ -65,18 +66,32 @@ import 'ready_localizations_zh.dart';
 /// be consistent with the languages listed in the ReadyListLocalizations.supportedLocales
 /// property.
 abstract class ReadyListLocalizations {
-  ReadyListLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  ReadyListLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static ReadyListLocalizations? of(BuildContext context) {
-    return Localizations.of<ReadyListLocalizations>(
-        context, ReadyListLocalizations);
+    return Localizations.of<ReadyListLocalizations>(context, ReadyListLocalizations);
   }
 
-  static const LocalizationsDelegate<ReadyListLocalizations> delegate =
-      _ReadyListLocalizationsDelegate();
+  static const LocalizationsDelegate<ReadyListLocalizations> delegate = _ReadyListLocalizationsDelegate();
+
+  /// A list of this localizations delegate along with the default localizations
+  /// delegates.
+  ///
+  /// Returns a list of localizations delegates containing this delegate along with
+  /// GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate,
+  /// and GlobalWidgetsLocalizations.delegate.
+  ///
+  /// Additional delegates can be added by appending to this list in
+  /// MaterialApp. This list does not have to be used at all if a custom list
+  /// of delegates is preferred or required.
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
@@ -205,56 +220,40 @@ abstract class ReadyListLocalizations {
   String get clear;
 }
 
-class _ReadyListLocalizationsDelegate
-    extends LocalizationsDelegate<ReadyListLocalizations> {
+class _ReadyListLocalizationsDelegate extends LocalizationsDelegate<ReadyListLocalizations> {
   const _ReadyListLocalizationsDelegate();
 
   @override
   Future<ReadyListLocalizations> load(Locale locale) {
-    return SynchronousFuture<ReadyListLocalizations>(
-        lookupReadyListLocalizations(locale));
+    return SynchronousFuture<ReadyListLocalizations>(lookupReadyListLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) => <String>[
-        'ar',
-        'de',
-        'en',
-        'fr',
-        'hi',
-        'tr',
-        'ur',
-        'zh'
-      ].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['ar', 'de', 'en', 'fr', 'hi', 'tr', 'ur', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_ReadyListLocalizationsDelegate old) => false;
 }
 
 ReadyListLocalizations lookupReadyListLocalizations(Locale locale) {
+
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'ar':
-      return ReadyListLocalizationsAr();
-    case 'de':
-      return ReadyListLocalizationsDe();
-    case 'en':
-      return ReadyListLocalizationsEn();
-    case 'fr':
-      return ReadyListLocalizationsFr();
-    case 'hi':
-      return ReadyListLocalizationsHi();
-    case 'tr':
-      return ReadyListLocalizationsTr();
-    case 'ur':
-      return ReadyListLocalizationsUr();
-    case 'zh':
-      return ReadyListLocalizationsZh();
+    case 'ar': return ReadyListLocalizationsAr();
+    case 'de': return ReadyListLocalizationsDe();
+    case 'en': return ReadyListLocalizationsEn();
+    case 'fr': return ReadyListLocalizationsFr();
+    case 'hi': return ReadyListLocalizationsHi();
+    case 'tr': return ReadyListLocalizationsTr();
+    case 'ur': return ReadyListLocalizationsUr();
+    case 'zh': return ReadyListLocalizationsZh();
   }
 
   throw FlutterError(
-      'ReadyListLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+    'ReadyListLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.'
+  );
 }
